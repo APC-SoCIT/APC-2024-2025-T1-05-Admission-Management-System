@@ -1,6 +1,6 @@
 Documentation folder for MSYADD1 
 
-Reejay Salinas https://github.com/aizy02
+Reejay Salinas https://github.com/rjsalinas
 
 James Albert David https://github.com/JamesAlbertDavid
 
