@@ -22,7 +22,7 @@
 
         <!-- Content Area -->
         <div class="flex-grow p-6">
-        
+            @yield('content')
         </div>
     </div>
 
