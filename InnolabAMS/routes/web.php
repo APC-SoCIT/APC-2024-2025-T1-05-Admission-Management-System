@@ -3,21 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
-
-$url = config('app.url');
-URL::forceRootUrl($url);
-
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/applicants/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicants.dashboard');
-
-Route::post('/applicants/update-profile', [ApplicantDashboardController::class, 'updateProfile'])->name('applicants.updateProfile');
-
-Route::get('dashboard', function () {
+Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
