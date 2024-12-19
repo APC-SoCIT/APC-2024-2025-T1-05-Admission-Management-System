@@ -21,7 +21,7 @@
 
         <!-- Content Area -->
         <div class="flex-grow p-6">
-            {{ __("You're logged in!") }}
+
             @yield('content')
         </div>
     </div>
