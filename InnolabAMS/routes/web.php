@@ -22,4 +22,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+use App\Http\Controllers\ApplicationController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
+    Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
+    Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.status');
+});
+
 require __DIR__.'/auth.php';
