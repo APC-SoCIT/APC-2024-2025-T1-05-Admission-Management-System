@@ -121,6 +121,26 @@
                         </div>
                     </div>
 
+                    <!-- In resources/views/applications/show.blade.php -->
+
+<!-- Only show Upload Document section for admission officers -->
+@if(Auth::check() && Auth::user()->role === 'admission_officer')
+<div class="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Upload New Document</h3>
+        <!-- Upload form content -->
+    </div>
+</div>
+@endif
+
+<!-- Only show Status Update form for admission officers -->
+@if(Auth::check() && Auth::user()->role === 'admission_officer')
+<div class="mt-8">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Update Status</h3>
+    <!-- Status update form content -->
+</div>
+@endif
+
                     <!-- Documents Section -->
                     <div class="mt-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Documents</h3>

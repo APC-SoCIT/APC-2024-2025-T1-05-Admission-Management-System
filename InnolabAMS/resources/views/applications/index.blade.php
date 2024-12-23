@@ -46,6 +46,11 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('applications.show', $application) }}"
                                                class="text-indigo-600 hover:text-indigo-900">View</a>
+
+                                            @if(Auth::check() && Auth::user()->role === 'admission_officer')
+                                               <!-- Admin-only actions -->
+                                               <a href="#" class="ml-2 text-gray-600 hover:text-gray-900">Edit</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
