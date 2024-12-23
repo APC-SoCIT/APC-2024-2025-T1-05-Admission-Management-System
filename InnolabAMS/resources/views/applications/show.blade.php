@@ -1,4 +1,3 @@
-<!-- resources/views/applications/show.blade.php -->
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
@@ -11,6 +10,27 @@
             </a>
         </div>
     </x-slot>
+
+    @if (session('success'))
+        <div class="py-4">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="rounded-md bg-green-50 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-green-800">
+                                {{ session('success') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -49,23 +69,35 @@
                     <!-- Documents Section -->
                     <div class="mt-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Documents</h3>
-                        <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="bg-gray-50 rounded-lg p-6">
                             @if($application->documents->count() > 0)
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     @foreach($application->documents as $document)
-                                        <div class="bg-white p-4 rounded-lg shadow">
-                                            <p class="font-medium">{{ $document->document_type }}</p>
-                                            <p class="text-sm text-gray-500">{{ $document->file_name }}</p>
-                                            <div class="mt-2">
-                                                <a href="#" class="text-indigo-600 hover:text-indigo-900 text-sm">
-                                                    View Document
-                                                </a>
+                                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                                            <div class="flex flex-col h-full">
+                                                <div class="flex items-center gap-3 mb-3">
+                                                    <div class="p-2 bg-indigo-50 rounded-lg">
+                                                        <FileText class="h-5 w-5 text-indigo-600" />
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="font-medium text-gray-900">{{ $document->document_type }}</h4>
+                                                        <p class="text-sm text-gray-500">{{ $document->file_name }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow"></div>
+                                                <div class="mt-4" id="document-viewer-{{ $document->id }}"></div>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
                             @else
-                                <p class="text-gray-500 text-center">No documents uploaded.</p>
+                                <div class="text-center py-12">
+                                    <div class="mx-auto h-12 w-12 text-gray-400">
+                                        <FileX class="h-12 w-12" />
+                                    </div>
+                                    <h3 class="mt-2 text-sm font-medium text-gray-900">No documents</h3>
+                                    <p class="mt-1 text-sm text-gray-500">No documents have been uploaded yet.</p>
+                                </div>
                             @endif
                         </div>
                     </div>

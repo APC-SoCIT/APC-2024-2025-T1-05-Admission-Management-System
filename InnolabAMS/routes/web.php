@@ -30,4 +30,10 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.status');
 });
 
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/documents/{document}', [ApplicationController::class, 'viewDocument'])
+        ->name('documents.view');
+});
+
 require __DIR__.'/auth.php';

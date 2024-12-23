@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,6 +33,30 @@ class ApplicationController extends Controller
 
         $application->update($validated);
 
-        return back()->with('status', 'Application status updated successfully.');
+        // Send notification to applicant (we'll implement this later)
+        // event(new ApplicationStatusUpdated($application));
+
+        return redirect()
+            ->route('applications.show', $application)
+            ->with('success', 'Application status updated successfully');
+    }
+
+    public function viewDocument(Document $document)
+    {
+        // Ensure the user has permission to view this document
+        if (!auth()->user()->can('view', $document)) {
+            abort(403);
+        }
+
+        // Check if file exists
+        if (!Storage::exists($document->file_path)) {
+            abort(404);
+        }
+
+        // Stream the file
+        return Storage::response($document->file_path, $document->file_name, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $document->file_name . '"'
+        ]);
     }
 }
