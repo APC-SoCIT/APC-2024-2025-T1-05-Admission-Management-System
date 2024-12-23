@@ -39,6 +39,9 @@
                                             ">
                                                 {{ ucfirst($application->status) }}
                                             </span>
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100">
+                                                {{ $application->documents->count() }} files
+                                            </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('applications.show', $application) }}"
