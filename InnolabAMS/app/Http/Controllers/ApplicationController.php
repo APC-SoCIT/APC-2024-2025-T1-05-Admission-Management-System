@@ -33,9 +33,6 @@ class ApplicationController extends Controller
 
         $application->update($validated);
 
-        // Send notification to applicant (we'll implement this later)
-        // event(new ApplicationStatusUpdated($application));
-
         return redirect()
             ->route('applications.show', $application)
             ->with('success', 'Application status updated successfully');
@@ -43,8 +40,8 @@ class ApplicationController extends Controller
 
     public function viewDocument(Document $document)
     {
-        // Ensure the user has permission to view this document
-        if (!auth()->user()->can('view', $document)) {
+        // Basic auth check from middleware
+        if (!auth()->check()) {
             abort(403);
         }
 

@@ -66,6 +66,61 @@
                         </div>
                     </div>
 
+    <div class="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Upload New Document</h3>
+                            <form action="{{ route('applications.upload-document', $application) }}"
+                                  method="POST"
+                                  enctype="multipart/form-data"
+                                  class="space-y-4">
+                                @csrf
+
+                                <div>
+                                    <label for="document_type" class="block text-sm font-medium text-gray-700">Document Type</label>
+                                    <select name="document_type"
+                                            id="document_type"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="">Select a document type</option>
+                                        <option value="Form 137">Form 137</option>
+                                        <option value="Birth Certificate">Birth Certificate</option>
+                                        <option value="Report Card">Report Card</option>
+                                        <option value="Good Moral">Good Moral Certificate</option>
+                                        <option value="Medical Certificate">Medical Certificate</option>
+                                    </select>
+                                    @error('document_type')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="document" class="block text-sm font-medium text-gray-700">Document File (PDF only)</label>
+                                    <div class="mt-1 flex items-center">
+                                        <input type="file"
+                                               id="document"
+                                               name="document"
+                                               accept=".pdf"
+                                               class="block w-full text-sm text-gray-500
+                                                      file:mr-4 file:py-2 file:px-4
+                                                      file:rounded-md file:border-0
+                                                      file:text-sm file:font-semibold
+                                                      file:bg-indigo-50 file:text-indigo-700
+                                                      hover:file:bg-indigo-100"/>
+                                    </div>
+                                    @error('document')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                            class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                        Upload Document
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                     <!-- Documents Section -->
                     <div class="mt-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Documents</h3>
