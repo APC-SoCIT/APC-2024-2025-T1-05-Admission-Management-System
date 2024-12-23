@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApplicationController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,14 +21,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-use App\Http\Controllers\ApplicationController;
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
-    Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
-    Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.status');
-    Route::post('/applications/{application}/documents', [ApplicationController::class, 'uploadDocument'])
-    ->name('applications.upload-document');
+    Route::get('/applications', [ApplicationController::class, 'index'])
+        ->middleware('role:admission_officer')  // Try this instead of group middleware
+        ->name('applications.index');
 });
 
 Route::middleware(['auth'])->group(function () {
