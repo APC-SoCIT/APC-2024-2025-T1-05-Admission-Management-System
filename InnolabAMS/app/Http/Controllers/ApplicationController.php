@@ -24,6 +24,16 @@ class ApplicationController extends Controller
         return view('applications.show', compact('application'));
     }
 
+    public function deleteDocument(Document $document)
+    {
+        if (Storage::exists($document->file_path)) {
+            Storage::delete($document->file_path);
+        }
+        $document->delete();
+
+        return back()->with('success', 'Document deleted successfully');
+    }
+
     public function updateStatus(Request $request, Application $application)
     {
         $validated = $request->validate([
