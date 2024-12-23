@@ -6,6 +6,8 @@ use App\Models\Application;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 
 class ApplicationController extends Controller
 {
@@ -95,7 +97,7 @@ class ApplicationController extends Controller
     public function viewDocument(Document $document)
     {
         // Basic auth check from middleware
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             abort(403);
         }
 
