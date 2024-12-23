@@ -137,6 +137,7 @@
                                                     <div>
                                                         <h4 class="font-medium text-gray-900">{{ $document->document_type }}</h4>
                                                         <p class="text-sm text-gray-500">{{ $document->file_name }}</p>
+                                                        <p class="text-xs text-gray-500 mt-1">Uploaded{{ $document->created_at->diffForHumans() }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow"></div>
