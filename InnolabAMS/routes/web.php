@@ -22,20 +22,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-use App\Http\Controllers\ApplicationController;
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
-    Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
-    Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.status');
-    Route::post('/applications/{application}/documents', [ApplicationController::class, 'uploadDocument'])
-    ->name('applications.upload-document');
-});
-
-Route::middleware(['auth'])->group(function () {
-
-    Route::get('/documents/{document}', [ApplicationController::class, 'viewDocument'])
-        ->name('documents.view');
-});
-
 require __DIR__.'/auth.php';
