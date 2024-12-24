@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\AdmissionOfficer; // Add this import
 
 class User extends Authenticatable
 {
@@ -45,11 +46,17 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Check if user is an admission officer
+     */
     public function isAdmissionOfficer()
     {
-        return $this->role === 'admission_officer';
+        return $this->role === 'admission_officer' && $this->admissionOfficer()->exists();
     }
 
+    /**
+     * Get the admission officer profile for this user
+     */
     public function admissionOfficer()
     {
         return $this->hasOne(AdmissionOfficer::class);
