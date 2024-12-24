@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApplicationController;
-
+use App\Http\Controllers\StatusController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +24,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:admission_officer'])->group(function () {
     Route::get('/officer/dashboard', [ApplicationController::class, 'officerDashboard'])
         ->name('officer.dashboard');
+});
+
+Route::middleware(['auth', 'role:admission_officer'])->group(function () {
+    Route::patch('/applications/{application}/status', [StatusController::class, 'update'])
+        ->name('applications.status.update');
 });
 
 Route::middleware(['auth'])->group(function () {

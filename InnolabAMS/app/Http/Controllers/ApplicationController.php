@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
 use App\Notifications\ApplicationStatusChanged;
+use App\Http\Controllers\StatusController;
+
 
 class ApplicationController extends Controller
 {
