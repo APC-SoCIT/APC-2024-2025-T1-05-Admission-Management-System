@@ -178,6 +178,45 @@
                         </div>
                     </div>
 
+                    <div class="py-12">
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <!-- Application Detail Component -->
+                            <div id="application-detail"></div>
+
+                            <!-- Status Update Component -->
+                            @if(Auth::user()->role === 'admission_officer')
+                                <div class="mt-6" id="status-update"></div>
+                            @endif
+                        </div>
+                    </div>
+
+                    @push('scripts')
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const applicationData = @json($application);
+
+                            // Render Application Detail
+                            ReactDOM.render(
+                                React.createElement(ApplicationDetail, { application: applicationData }),
+                                document.getElementById('application-detail')
+                            );
+
+                            // Render Status Update if user is admission officer
+                            @if(Auth::user()->role === 'admission_officer')
+                                ReactDOM.render(
+                                    React.createElement(ApplicationStatusUpdate, {
+                                        application: applicationData,
+                                        onStatusUpdate: (result) => {
+                                            window.location.reload();
+                                        }
+                                    }),
+                                    document.getElementById('status-update')
+                                );
+                            @endif
+                        });
+                    </script>
+                    @endpush
+
                     <!-- Status Update Form -->
                     <div class="mt-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Update Status</h3>
