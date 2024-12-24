@@ -16,15 +16,17 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+        <div class="min-h-screen bg-white">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow-sm">
+                <header class="bg-blue-600 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         <div class="flex justify-between items-center">
-                            {{ $header }}
+                            <h2 class="font-semibold text-xl text-white">
+                                {{ $header }}
+                            </h2>
                         </div>
                     </div>
                 </header>
@@ -33,7 +35,7 @@
             <!-- Page Content -->
             <main class="py-8">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-200">
                         <div class="p-6">
                             {{ $slot }}
                         </div>
