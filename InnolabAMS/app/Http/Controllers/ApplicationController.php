@@ -16,7 +16,8 @@ class ApplicationController extends Controller
 {
     public function __construct()
     {
-        #$this->middleware(['auth', 'role:admission_officer'])->except(['index', 'show']);
+
+        $this->middleware(['auth', 'role:admission_officer'])->except(['index', 'show']);
     }
 
     public function index()
@@ -39,6 +40,30 @@ class ApplicationController extends Controller
         $document->delete();
 
         return back()->with('success', 'Document deleted successfully');
+    }
+
+    public function officerDashboard()
+    {
+        if (!Auth::user()->role === 'admission_officer') {
+            abort(403);
+        }
+
+        $pendingCount = Application::where('status', 'pending')->count();
+        $approvedCount = Application::where('status', 'approved')->count();
+        $rejectedCount = Application::where('status', 'rejected')->count();
+
+        // Get recent activities
+        $recentActivities = ApplicationHistory::with(['application', 'user'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('applications.officer-dashboard', compact(
+            'pendingCount',
+            'approvedCount',
+            'rejectedCount',
+            'recentActivities'
+        ));
     }
 
     public function updateStatus(Request $request, Application $application)
@@ -76,19 +101,6 @@ class ApplicationController extends Controller
         return redirect()
             ->route('applications.show', $application)
             ->with('success', 'Application status updated successfully');
-    }
-
-    public function officerDashboard()
-    {
-        if (Auth::user()->role !== 'admission_officer') {
-            abort(403);
-        }
-
-        $pendingCount = Application::where('status', 'pending')->count();
-        $approvedCount = Application::where('status', 'approved')->count();
-        $rejectedCount = Application::where('status', 'rejected')->count();
-
-        return view('applications.officer-dashboard', compact('pendingCount', 'approvedCount', 'rejectedCount'));
     }
 
     public function uploadDocument(Request $request, Application $application)

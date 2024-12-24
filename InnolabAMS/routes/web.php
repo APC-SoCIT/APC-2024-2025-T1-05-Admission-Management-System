@@ -21,6 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware(['auth', 'role:admission_officer'])->group(function () {
+    Route::get('/officer/dashboard', [ApplicationController::class, 'officerDashboard'])
+        ->name('officer.dashboard');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/applications', [ApplicationController::class, 'index'])
