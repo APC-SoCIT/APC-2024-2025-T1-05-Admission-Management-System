@@ -1,20 +1,25 @@
 <?php
+// app/Http/Middleware/CheckRole.php
 
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;  // Add this import
 
 class CheckRole
 {
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, string $role)
     {
-        // Debug output
-        logger('User role: ' . $request->user()->role);
-        logger('Required role: ' . $role);
+        Log::info('CheckRole middleware', [
+            'user_id' => Auth::id(),
+            'user_role' => Auth::user()->role ?? 'none',
+            'required_role' => $role
+        ]);
 
-        if (!$request->user() || $request->user()->role !== $role) {
-            abort(403, 'Unauthorized action.');
+        if (!Auth::check() || Auth::user()->role !== $role) {
+            return redirect('/')->with('error', 'Unauthorized access.');
         }
 
         return $next($request);
