@@ -5,7 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>InnolabAMS</title>
+
+    <!-- Favicon -->
+       <link rel="icon" href="{{ asset('/static/images/innolab_logo3.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -903,6 +906,7 @@
             }
         }
     </style>
+</head>
 
 <body class="font-sans antialiased bg-gray-100 text-black" x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true }">
     <div class="relative w-full">
