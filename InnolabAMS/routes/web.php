@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Route;
 // Public routes
 Route::get('/', function () {
     return view('welcome');
+})->name('welcome');
+
+// Guest routes (only accessible when NOT logged in)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('auth.login');
+    })->name('login');
+
+    Route::get('/register', function () {
+        return view('auth.register');
+    })->name('register');
 });
 
 // Auth required routes
@@ -17,36 +28,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-     // User routes - add this section
-     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
     // Applications routes
     Route::middleware('role:admission_officer')->group(function () {
-        Route::get('/applications/new', [ApplicationController::class, 'newApplications'])->name('applications.new');
-        Route::get('/applications/accepted', [ApplicationController::class, 'acceptedApplications'])->name('applications.accepted');
-        Route::get('/applications/rejected', [ApplicationController::class, 'rejectedApplications'])->name('applications.rejected');
+        Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
+        Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
+        Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.status');
     });
-
-    // Scholarship routes
-    Route::get('/scholarship', function () {
-        return view('scholarship.index');
-    })->name('scholarship');
-
-    // Inquiries routes
-    Route::get('/inquiries', function () {
-        return view('inquiries.index');
-    })->name('inquiries');
-
-    // Users routes
-    Route::get('/users', function () {
-        return view('users.index');
-    })->name('users');
-
-    // Profile routes
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
