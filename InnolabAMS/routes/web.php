@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\StatusController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -18,30 +17,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // User routes
-    Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show');
+    // Applications routes
+    Route::middleware('role:admission_officer')->group(function () {
+        Route::get('/applications/new', [ApplicationController::class, 'newApplications'])->name('applications.new');
+        Route::get('/applications/accepted', [ApplicationController::class, 'acceptedApplications'])->name('applications.accepted');
+        Route::get('/applications/rejected', [ApplicationController::class, 'rejectedApplications'])->name('applications.rejected');
+    });
+
+    // Scholarship routes
+    Route::get('/scholarship', function () {
+        return view('scholarship.index');
+    })->name('scholarship');
+
+    // Inquiries routes
+    Route::get('/inquiries', function () {
+        return view('inquiries.index');
+    })->name('inquiries');
+
+    // Users routes
+    Route::get('/users', function () {
+        return view('users.index');
+    })->name('users');
 
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Document viewing (accessible by all authenticated users)
-    Route::get('/documents/{document}', [ApplicationController::class, 'viewDocument'])
-        ->name('documents.view');
-
-    // Admission Officer routes
-    Route::middleware('role:admission_officer')->group(function () {
-        // Applications
-        Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
-        Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
-        Route::patch('/applications/{application}/status', [StatusController::class, 'update'])
-            ->name('applications.status.update');
-
-        // Officer Dashboard
-        Route::get('/officer/dashboard', [ApplicationController::class, 'officerDashboard'])
-            ->name('officer.dashboard');
-    });
 });
 
 require __DIR__.'/auth.php';

@@ -135,7 +135,23 @@ class ApplicationController extends Controller
             ->withErrors(['document' => 'Failed to upload document'])
             ->withInput();
     }
+    public function newApplications()
+{
+    $applications = Application::where('status', 'pending')->paginate(10);
+    return view('applications.new', compact('applications'));
+}
 
+public function acceptedApplications()
+{
+    $applications = Application::where('status', 'approved')->paginate(10);
+    return view('applications.accepted', compact('applications'));
+}
+
+public function rejectedApplications()
+{
+    $applications = Application::where('status', 'rejected')->paginate(10);
+    return view('applications.rejected', compact('applications'));
+}
     public function formatFileSize($bytes)
     {
         if ($bytes >= 1048576) {
