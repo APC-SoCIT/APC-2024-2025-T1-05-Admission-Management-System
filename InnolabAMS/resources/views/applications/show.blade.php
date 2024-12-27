@@ -121,6 +121,26 @@
                         </div>
                     </div>
 
+                    <!-- In resources/views/applications/show.blade.php -->
+
+<!-- Only show Upload Document section for admission officers -->
+@if(Auth::check() && Auth::user()->role === 'admission_officer')
+<div class="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Upload New Document</h3>
+        <!-- Upload form content -->
+    </div>
+</div>
+@endif
+
+<!-- Only show Status Update form for admission officers -->
+@if(Auth::check() && Auth::user()->role === 'admission_officer')
+<div class="mt-8">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Update Status</h3>
+    <!-- Status update form content -->
+</div>
+@endif
+
                     <!-- Documents Section -->
                     <div class="mt-8">
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Documents</h3>
@@ -137,6 +157,7 @@
                                                     <div>
                                                         <h4 class="font-medium text-gray-900">{{ $document->document_type }}</h4>
                                                         <p class="text-sm text-gray-500">{{ $document->file_name }}</p>
+                                                        <p class="text-xs text-gray-500 mt-1">Uploaded{{ $document->created_at->diffForHumans() }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow"></div>
@@ -156,6 +177,45 @@
                             @endif
                         </div>
                     </div>
+
+                    <div class="py-12">
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <!-- Application Detail Component -->
+                            <div id="application-detail"></div>
+
+                            <!-- Status Update Component -->
+                            @if(Auth::user()->role === 'admission_officer')
+                                <div class="mt-6" id="status-update"></div>
+                            @endif
+                        </div>
+                    </div>
+
+                    @push('scripts')
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const applicationData = @json($application);
+
+                            // Render Application Detail
+                            ReactDOM.render(
+                                React.createElement(ApplicationDetail, { application: applicationData }),
+                                document.getElementById('application-detail')
+                            );
+
+                            // Render Status Update if user is admission officer
+                            @if(Auth::user()->role === 'admission_officer')
+                                ReactDOM.render(
+                                    React.createElement(ApplicationStatusUpdate, {
+                                        application: applicationData,
+                                        onStatusUpdate: (result) => {
+                                            window.location.reload();
+                                        }
+                                    }),
+                                    document.getElementById('status-update')
+                                );
+                            @endif
+                        });
+                    </script>
+                    @endpush
 
                     <!-- Status Update Form -->
                     <div class="mt-8">
