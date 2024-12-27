@@ -12,14 +12,13 @@ use Illuminate\Support\Facades\Auth;
     <div class="flex">
         <!-- Sidebar -->
         <div class="w-64 h-screen bg-white text-gray-800 border-r border-gray-300 flex-shrink-0">
-            <ul class="space-y-6 p-6"> <!-- Increased space between items -->
+            <ul class="space-y-6 p-6">
                 <li>
-                    <a href="{{ route('user.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-user mr-2"></i> <!-- Increased margin-right for the icon -->
-                        <span class="ml-2">{{ __('Users') }}</span> <!-- Added margin-left to text for better spacing -->
+                    <a href="{{ route('users.index') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                        <i class="fa-solid fa-user mr-2"></i>
+                        <span class="ml-2">{{ __('Users') }}</span>
                     </a>
                 </li>
-                <!-- Add more menu items here -->
             </ul>
         </div>
 

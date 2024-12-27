@@ -1,14 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
+
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
-    public function show(Request $request)
+    public function index()
     {
-        $users = User::all(); // Fetch all users from the database
-        return view('user.show', compact('users')); // Pass users to the view
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
+    }
+
+    public function show(User $user)
+    {
+        return view('users.show', compact('user'));
     }
 }

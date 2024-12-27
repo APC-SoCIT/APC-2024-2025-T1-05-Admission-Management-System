@@ -17,6 +17,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+     // User routes - add this section
+     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
     // Applications routes
     Route::middleware('role:admission_officer')->group(function () {
         Route::get('/applications/new', [ApplicationController::class, 'newApplications'])->name('applications.new');
