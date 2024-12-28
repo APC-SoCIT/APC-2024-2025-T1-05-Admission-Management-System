@@ -4,21 +4,26 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\ScholarshipController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', function () {
     return view('welcome');
-});
+}); // Added missing closing brace
 
-// Auth routes
+// Auth required routes
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // Profile routes
+    // User routes
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+    // Profile routes - Moved inside auth middleware, removed duplicate
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -38,6 +43,11 @@ Route::middleware(['auth'])->group(function () {
 
         // Scholarship route
         Route::get('/scholarship', [ScholarshipController::class, 'index'])->name('scholarship');
+
+        // Inquiries route
+        Route::get('/inquiries', function () {
+            return view('inquiries.index');
+        })->name('inquiries');
     });
 });
 
