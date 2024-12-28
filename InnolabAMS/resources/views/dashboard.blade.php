@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Admin Panel') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Admin Panel') }}
+            </h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('2025 - 2026') }}
+            </h2>
+        </div>
     </x-slot>
 
     <div class="flex">
