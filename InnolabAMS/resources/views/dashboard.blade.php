@@ -20,7 +20,7 @@
                         <span class="font-semibold ml-2">{{ __('Users') }}</span>
                     </a>
 
-                    <a href="" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                    <a href="{{ route('scholarship.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-graduation-cap text lg mr-2"></i>
                         <span class="font-semibold ml-1">{{ __('Scholarship') }}</span>
                     </a>
