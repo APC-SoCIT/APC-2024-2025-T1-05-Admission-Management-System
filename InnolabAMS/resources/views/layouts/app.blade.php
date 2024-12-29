@@ -1,5 +1,6 @@
 @php
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 @endphp
 
 <!DOCTYPE html>
