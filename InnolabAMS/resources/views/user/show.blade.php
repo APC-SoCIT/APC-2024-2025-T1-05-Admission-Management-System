@@ -3,27 +3,71 @@
 @section('content') <!-- Define the content section -->
 <div class="flex justify-between items-center mb-4">
     <h1 class="text-2xl font-semibold mx-4 my-4">Users</h1>
-    <button
-        id="addUserButton"
-        class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
-        + Add User
-    </button>
+
+    <div class="flex items-center space-x-4">
+        <!-- Search Icon and Bar -->
+        <div class="relative flex items-center">
+            <button
+                id="searchIcon"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <input
+                type="text"
+                id="searchBar"
+                placeholder="Search..."
+                class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
+        </div>
+
+        <!-- Sort Icon and Dropdown -->
+        <div class="relative">
+            <button
+                id="sortIcon"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div
+                id="sortDropdown"
+                class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40">
+                <button
+                    id="sortOldNew"
+                    class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                    Old - New
+                </button>
+                <button
+                    id="sortNewOld"
+                    class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                    New - Old
+                </button>
+            </div>
+        </div>
+
+        <!-- Add User Button -->
+        <button
+            id="addUserButton"
+            class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
+            + Add User
+        </button>
+    </div>
 </div>
 
+<!-- Table -->
 <table class="min-w-full bg-white border border-gray-300">
     <thead>
         <tr>
             <th class="py-2 px-4 border-b text-left">ID</th>
             <th class="py-2 px-4 border-b text-left">Name</th>
             <th class="py-2 px-4 border-b text-left">Email</th>
+            <th class="py-2 px-4 border-b text-left">Date Created</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="userTable">
         @foreach ($users as $user)
         <tr>
             <td class="py-2 px-4 border-b">{{ $user->id }}</td>
             <td class="py-2 px-4 border-b">{{ $user->name }}</td>
             <td class="py-2 px-4 border-b">{{ $user->email }}</td>
+            <td class="py-2 px-4 border-b">{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
         </tr>
         @endforeach
     </tbody>
@@ -60,13 +104,70 @@
         const modal = document.getElementById("addUserModal");
         const addUserButton = document.getElementById("addUserButton");
         const closeModalButton = document.getElementById("closeModalButton");
+        const searchIcon = document.getElementById("searchIcon");
+        const searchBar = document.getElementById("searchBar");
+        const userTable = document.getElementById("userTable");
+        const sortIcon = document.getElementById("sortIcon");
+        const sortDropdown = document.getElementById("sortDropdown");
+        const sortOldNew = document.getElementById("sortOldNew");
+        const sortNewOld = document.getElementById("sortNewOld");
 
+        let sortOrder = "asc";
+
+        // Modal Logic
         addUserButton.addEventListener("click", () => {
             modal.classList.remove("hidden");
         });
 
         closeModalButton.addEventListener("click", () => {
             modal.classList.add("hidden");
+        });
+
+        // Search Bar Logic
+        searchIcon.addEventListener("click", () => {
+            if (searchBar.classList.contains("hidden")) {
+                searchBar.classList.remove("hidden");
+                searchBar.focus();
+            } else {
+                searchBar.classList.add("hidden");
+            }
+        });
+
+        searchBar.addEventListener("input", () => {
+            const filter = searchBar.value.toLowerCase();
+            const rows = userTable.querySelectorAll("tr");
+
+            rows.forEach(row => {
+                const name = row.children[1].textContent.toLowerCase();
+                const email = row.children[2].textContent.toLowerCase();
+
+                if (name.includes(filter) || email.includes(filter)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+
+        // Sort Dropdown Logic
+        sortIcon.addEventListener("click", () => {
+            sortDropdown.classList.toggle("hidden");
+        });
+
+        // Sort Old - New
+        sortOldNew.addEventListener("click", () => {
+            const rows = Array.from(userTable.querySelectorAll("tr"));
+            rows.sort((a, b) => parseInt(a.children[0].textContent) - parseInt(b.children[0].textContent));
+            rows.forEach(row => userTable.appendChild(row));
+            sortDropdown.classList.add("hidden");
+        });
+
+        // Sort New - Old
+        sortNewOld.addEventListener("click", () => {
+            const rows = Array.from(userTable.querySelectorAll("tr"));
+            rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
+            rows.forEach(row => userTable.appendChild(row));
+            sortDropdown.classList.add("hidden");
         });
     });
 </script>
