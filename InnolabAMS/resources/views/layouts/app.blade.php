@@ -20,17 +20,17 @@ use Illuminate\Support\Facades\View;
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen">
         <!-- Top Navigation -->
-        <div class="bg-white border-b">
-            <div class="flex justify-between items-center px-4 py-3">
+        <div class="bg-white border-b shadow-sm">
+            <div class="flex justify-between items-center px-6 py-2">
                 <div class="flex items-center space-x-4">
-                    <img src="{{ asset('static/images/innolab_logo1.png') }}" class="h-10 w-auto" alt="Logo">
-                    <span class="text-xl font-semibold">Admission Management System</span>
+                    <img src="{{ asset('static/images/innolab_logo1.png') }}" class="h-8 w-8" alt="Logo">
+                    <span class="text-lg font-semibold">Admission Management System</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span>Academic Year</span>
-                    <span>{{ Auth::user()->email }}</span>
+                    <span class="text-sm text-gray-600">Academic Year</span>
+                    <span class="text-sm">{{ Auth::user()->email }}</span>
                 </div>
             </div>
         </div>
@@ -41,24 +41,35 @@ use Illuminate\Support\Facades\View;
             @include('layouts.navigation')
 
             <!-- Main Content -->
-            <div class="flex-1 ml-64 p-8 bg-gray-50">
-                @if (isset($header))
-                    <header class="mb-6">
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-xl font-semibold text-gray-800">
-                                {{ $header }}
-                            </h2>
-                            @if(View::hasSection('header_buttons'))
-                                @yield('header_buttons')
-                            @endif
+            <main class="flex-1">
+                <div class="py-4 px-6">
+                    <!-- Header with Applicants title and buttons -->
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-xl font-semibold">Applicants</h1>
+                        <div class="flex items-center space-x-3">
+                            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                                Add Applicant
+                            </button>
+                            <button class="text-gray-500 hover:text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </button>
+                            <button class="text-gray-500 hover:text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
                         </div>
-                    </header>
-                @endif
+                    </div>
 
-                <main>
+                    <!-- Main Content Area -->
                     {{ $slot }}
-                </main>
-            </div>
+                </div>
+            </main>
         </div>
     </div>
 </body>

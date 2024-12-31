@@ -4,10 +4,9 @@ use Illuminate\Support\Facades\Route;
 @endphp
 
 <nav x-data="{ open: false }" class="bg-white h-screen w-64 border-r flex flex-col">
-    <!-- Logo and Title -->
+    <!-- Title -->
     <div class="p-4 border-b">
         <div class="flex items-center space-x-3">
-            <img src="{{ asset('static/images/innolab_logo1.png') }}" class="h-8 w-8" alt="Logo">
             <span class="text-xl font-semibold text-gray-900">Admin Panel</span>
         </div>
     </div>
