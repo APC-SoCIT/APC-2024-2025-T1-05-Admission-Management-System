@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\View;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'InnolabAMS') }}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('/static/images/innolab_favicon.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -41,35 +44,19 @@ use Illuminate\Support\Facades\View;
             @include('layouts.navigation')
 
             <!-- Main Content -->
-            <main class="flex-1">
-                <div class="py-4 px-6">
-                    <!-- Header with Applicants title and buttons -->
-                    <div class="flex justify-between items-center mb-6">
-                        <h1 class="text-xl font-semibold">Applicants</h1>
-                        <div class="flex items-center space-x-3">
-                            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                                </svg>
-                                Add Applicant
-                            </button>
-                            <button class="text-gray-500 hover:text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </button>
-                            <button class="text-gray-500 hover:text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            </button>
+            <div class="flex-1">
+                @if (isset($header))
+                    <header class="bg-white shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
                         </div>
-                    </div>
+                    </header>
+                @endif
 
-                    <!-- Main Content Area -->
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
                     {{ $slot }}
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
     </div>
 </body>

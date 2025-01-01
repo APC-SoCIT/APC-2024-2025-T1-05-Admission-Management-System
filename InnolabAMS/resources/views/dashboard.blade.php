@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
         <!-- Sidebar -->
         <div class="w-64 h-screen bg-gray-100 text-gray-800 border-r border-gray-300 flex-shrink-0">
             <ul class="space-y-6 p-6">
+<<<<<<< HEAD
                 <!-- Users Tab -->
                 <li>
                     <a href="{{ route('users.index') }}"
@@ -33,10 +34,17 @@ use Illuminate\Support\Facades\Auth;
                     <a href="{{ route('applications.index') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out"
                        aria-label="Manage Applications">
+=======
+                <!-- Applications Tab -->
+                <li>
+                    <a href="{{ route('applications.index') }}" 
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+>>>>>>> 5a95af95ddeab0998c30c05872a9db06e6309c82
                         <i class="fa-solid fa-list mr-2"></i>
                         <span class="font-semibold ml-2">{{ __('Applications') }}</span>
                     </a>
                 </li>
+<<<<<<< HEAD
 
                 <!-- Scholarship Tab -->
                 <li>
@@ -55,6 +63,22 @@ use Illuminate\Support\Facades\Auth;
                        aria-label="Manage Inquiries">
                         <i class="fa-solid fa-question-circle mr-2"></i>
                         <span class="font-semibold ml-2">{{ __('Inquiries') }}</span>
+=======
+                <!-- Users Tab -->
+                <li>
+                    <a href="{{ route('user.show') }}" 
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                        <i class="fa-solid fa-user mr-2"></i>
+                        <span class="font-semibold ml-2">{{ __('Users') }}</span>
+                    </a>
+                </li>
+                <!-- Scholarship Tab -->
+                <li>
+                    <a href="{{ route('scholarship.show') }}" 
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                        <i class="fa-solid fa-graduation-cap text-lg mr-2"></i>
+                        <span class="font-semibold ml-1">{{ __('Scholarship') }}</span>
+>>>>>>> 5a95af95ddeab0998c30c05872a9db06e6309c82
                     </a>
                 </li>
             </ul>
