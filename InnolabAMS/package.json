@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@headlessui/react": "^2.2.0",
+        "@heroicons/react": "^2.2.0",
         "lucide-react": "^0.469.0"
     }
 }
