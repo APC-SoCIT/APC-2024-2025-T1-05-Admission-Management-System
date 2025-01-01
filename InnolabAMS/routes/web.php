@@ -1,24 +1,53 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController; // Added Controller
-use App\Http\Controllers\ScholarshipController; // Added Controller
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\StatusController;
+use App\Http\Controllers\ScholarshipController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+// Public routes
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Auth required routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show');
-    Route::get('/dashboard/scholarship', [ScholarshipController::class, 'show'])->name('scholarship.show');
+    // User routes
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Admission Officer routes
+    Route::middleware('role:admission_officer')->group(function () {
+        // Applications
+        Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
+        Route::get('/applications/new', [ApplicationController::class, 'newApplications'])->name('applications.new');
+        Route::get('/applications/accepted', [ApplicationController::class, 'acceptedApplications'])->name('applications.accepted');
+        Route::get('/applications/rejected', [ApplicationController::class, 'rejectedApplications'])->name('applications.rejected');
+        Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
+        Route::patch('/applications/{application}/status', [StatusController::class, 'update'])
+            ->name('applications.status.update');
+
+        // Scholarship routes
+        Route::get('/scholarship', [ScholarshipController::class, 'index'])->name('scholarship');
+        Route::get('/scholarship/show', [ScholarshipController::class, 'show'])->name('scholarship.show');
+
+        // Inquiries route
+        Route::get('/inquiries', function () {
+            return view('inquiries.index');
+        })->name('inquiries');
+    });
 });
 
 require __DIR__.'/auth.php';
