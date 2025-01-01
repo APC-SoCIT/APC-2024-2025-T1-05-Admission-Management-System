@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Scholarship;
+use Illuminate\Http\Request;
 
 class ScholarshipController extends Controller
 {
     public function index()
     {
-        return view('scholarship.index');
+        $scholarship = Scholarship::all();
+        return view('scholarship.index', compact('scholarship'));
+    }
+
+    public function show(Request $request)
+    {
+        $scholarship = Scholarship::all();
+        return view('scholarship.show', compact('scholarship'));
     }
 }
