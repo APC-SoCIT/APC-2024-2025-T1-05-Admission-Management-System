@@ -19,13 +19,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-<<<<<<< HEAD
-=======
-    // User routes
-    Route::get('/users', [UserController::class, 'index'])->name('users');
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-
->>>>>>> 5a95af95ddeab0998c30c05872a9db06e6309c82
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
