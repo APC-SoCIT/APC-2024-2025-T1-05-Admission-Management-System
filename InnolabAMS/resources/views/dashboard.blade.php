@@ -50,7 +50,7 @@ use Illuminate\Support\Facades\Auth;
 
                 <!-- Inquiries Tab -->
                 <li>
-                    <a href="{{ route('inquiries') }}"
+                    <a href="{{ route('inquiry.show') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out"
                        aria-label="Manage Inquiries">
                         <i class="fa-solid fa-question-circle mr-2"></i>
