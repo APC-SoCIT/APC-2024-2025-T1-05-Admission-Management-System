@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('add-user', [AddUserController::class, 'store']);
 
-    Route::delete('/users/{id}', [AddUserController::class, 'destroy'])->name('users.destroy');
+    Route::delete('/users/{id}', [AddUserController::class, 'destroy'])->name('users.destroy'); //Added routes
 
 
     Route::get('verify-email', EmailVerificationPromptController::class)
