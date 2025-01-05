@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('add-user', [AddUserController::class, 'store']);
 
+    Route::delete('/users/{id}', [AddUserController::class, 'destroy'])->name('users.destroy');
+
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
