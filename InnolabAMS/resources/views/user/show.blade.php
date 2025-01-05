@@ -59,6 +59,7 @@
             <th class="py-2 px-4 border-b text-left">Name</th>
             <th class="py-2 px-4 border-b text-left">Email</th>
             <th class="py-2 px-4 border-b text-left">Date Created</th>
+            <th class="py-2 px-4 border-b text-left"></th>
         </tr>
     </thead>
     <tbody id="userTable">
@@ -68,6 +69,13 @@
             <td class="py-2 px-4 border-b">{{ $user->name }}</td>
             <td class="py-2 px-4 border-b">{{ $user->email }}</td>
             <td class="py-2 px-4 border-b">{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
+            <td class="py-2 px-4 border-b">
+                <button
+                    class=" text-red-600 py-1 px-2 rounded delete-button"
+                    data-id="{{ $user->id }}">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
         </tr>
         @endforeach
     </tbody>
@@ -98,6 +106,8 @@
     </div>
 </div>
 @endsection
+
+
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -168,6 +178,39 @@
             rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
             rows.forEach(row => userTable.appendChild(row));
             sortDropdown.classList.add("hidden");
+        });
+    });
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const deleteButtons = document.querySelectorAll(".delete-button");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const userId = button.getAttribute("data-id");
+
+                // Show a confirmation dialog
+                if (confirm("Are you sure you want to delete this user?")) {
+                    // Send a delete request
+                    fetch(`/users/${userId}`, {
+                            method: "DELETE",
+                            headers: {
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                "Content-Type": "application/json",
+                            },
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Reload the page or remove the row
+                                button.closest("tr").remove();
+                            } else {
+                                alert("Failed to delete the user.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                        });
+                }
+            });
         });
     });
 </script>
