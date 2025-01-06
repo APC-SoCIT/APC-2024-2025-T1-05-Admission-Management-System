@@ -85,12 +85,12 @@ use Illuminate\Support\Facades\Auth;
 
                 <!-- Inquiries Tab -->
                 <li>
-                    <a href="{{ route('inquiries') }}"
+                    <a href="{{ route('inquiry.show', ['id' => 1]) }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
-                              {{ request()->routeIs('inquiries') ? 'bg-gray-200' : '' }}"
-                       aria-label="Manage Inquiries">
+                              {{ request()->routeIs('inquiry.*') ? 'bg-gray-200' : '' }}"
+                       aria-label="Manage Inquiry">
                         <i class="fa-solid fa-question-circle mr-2"></i>
-                        <span class="font-semibold ml-2">{{ __('Inquiries') }}</span>
+                        <span class="font-semibold ml-2">{{ __('Inquiry') }}</span>
                     </a>
                 </li>
             </ul>

@@ -45,7 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/scholarship/show', [ScholarshipController::class, 'show'])->name('scholarship.show');
 
         // Inquiries route
-        Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
+        Route::get('/inquiry', [InquiryController::class, 'index'])->name('inquiry');
+        Route::get('/inquiry/{id}', [InquiryController::class, 'show'])->name('inquiry.show');
 
     });
 });
