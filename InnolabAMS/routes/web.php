@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\ScholarshipController;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,9 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/scholarship/show', [ScholarshipController::class, 'show'])->name('scholarship.show');
 
         // Inquiries route
-        Route::get('/inquiries', function () {
-            return view('inquiries.index');
-        })->name('inquiries');
+        Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
+
     });
 });
 
