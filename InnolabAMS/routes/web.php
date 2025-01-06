@@ -32,11 +32,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
         // Applications routes
-        Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');
+        Route::resource('applications', ApplicationController::class);
         Route::get('/applications/new', [ApplicationController::class, 'newApplications'])->name('applications.new');
         Route::get('/applications/accepted', [ApplicationController::class, 'acceptedApplications'])->name('applications.accepted');
         Route::get('/applications/rejected', [ApplicationController::class, 'rejectedApplications'])->name('applications.rejected');
-        Route::get('/applications/{application}', [ApplicationController::class, 'show'])->name('applications.show');
         Route::patch('/applications/{application}/status', [StatusController::class, 'update'])
             ->name('applications.status.update');
 
@@ -45,9 +44,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/scholarship/show', [ScholarshipController::class, 'show'])->name('scholarship.show');
 
         // Inquiries route
-        Route::get('/inquiry', [InquiryController::class, 'index'])->name('inquiry');
-        Route::get('/inquiry/{id}', [InquiryController::class, 'show'])->name('inquiry.show');
-
+        Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries');
+        Route::get('/inquiries/{id}', [InquiryController::class, 'show'])->name('inquiries.show');
     });
 });
 
