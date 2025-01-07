@@ -992,7 +992,7 @@
                 class="text-gray-700 text-center">
                 <a href="{{ url('/inquiry_form.form') }}"
                     class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
-                    Create an inquiry form
+                    Submit an inquiry form
                 </a>
                 <!-- Back Button -->
                 <button
