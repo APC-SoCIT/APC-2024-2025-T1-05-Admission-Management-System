@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController; // Added Controller
-use App\Http\Controllers\ScholarshipController; // Added Controller
+use App\Http\Controllers\ApplicantScholarshipController; // Added Controller
 use App\Http\Controllers\InquiryController; // Added Controller
 use App\Http\Controllers\LeadController; // Added Controller
 use Illuminate\Support\Facades\Route;
@@ -17,7 +17,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show'); //Added Route
-    Route::get('/dashboard/scholarship', [ScholarshipController::class, 'show'])->name('scholarship.show'); //Added Route
+    Route::get('/dashboard/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show'); //Added Route
     Route::get('/dashboard/inquiry', [InquiryController::class, 'show'])->name('inquiry.show'); // Added Route
     Route::get('/dashboard/inquiry', [InquiryController::class, 'index'])->name('inquiry.index'); // Added Route
     Route::get('/inquiry_form', [LeadController::class, 'create'])->name('inquiry_form.form'); // Added Route
