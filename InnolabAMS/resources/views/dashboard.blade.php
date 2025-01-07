@@ -15,6 +15,10 @@
         <div class="w-64 h-screen bg-gray-100 text-gray-800 border-r border-gray-300 flex-shrink-0">
             <ul class="space-y-6 p-6">
                 <li>
+                    <a href="" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                        <i class="fa-solid fa-house"></i>
+                        <span class="font-semibold ml-3">{{ __('Dashboard') }}</span>
+                    </a>
                     <a href="{{ route('user.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-user mr-2"></i>
                         <span class="font-semibold ml-2">{{ __('Users') }}</span>
@@ -24,20 +28,14 @@
                         <i class="fa-solid fa-graduation-cap text lg mr-2"></i>
                         <span class="font-semibold ml-1">{{ __('Scholarship') }}</span>
                     </a>
-                    <a href="{{ route('scholarship.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-graduation-cap text lg mr-2"></i>
-                        <span class="font-semibold ml-1">{{ __('Scholarship') }}</span>
-                    </a>
 
                     <!-- Add more menu items here -->
                 </li>
-
             </ul>
         </div>
 
         <!-- Content Area -->
         <div class="flex-grow p-6">
-
             @yield('content')
         </div>
     </div>
