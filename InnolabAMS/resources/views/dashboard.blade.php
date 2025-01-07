@@ -16,24 +16,28 @@
             <ul class="space-y-6 p-6">
                 <li>
                     <a href="" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-house"></i>
-                        <span class="font-semibold ml-3">{{ __('Dashboard') }}</span>
+                        <i class="fa-solid fa-house w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Dashboard') }}</span>
                     </a>
 
+                    <a href="{{ route('scholarship.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                        <i class="fa-solid fa-file w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Admission') }}</span>
+                    </a>
 
                     <a href="{{ route('scholarship.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-graduation-cap text lg mr-2"></i>
-                        <span class="font-semibold ml-1">{{ __('Scholarship') }}</span>
+                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Scholarship') }}</span>
                     </a>
 
                     <a href="{{ route('inquiry.index') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-question-circle mr-2"></i>
-                        <span class="font-semibold ml-2">{{ __('Inquiry') }}</span>
+                        <i class="fa-solid fa-question-circle w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Inquiry') }}</span>
                     </a>
 
                     <a href="{{ route('user.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-user mr-2"></i>
-                        <span class="font-semibold ml-2">{{ __('Users') }}</span>
+                        <i class="fa-solid fa-user w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Users') }}</span>
                     </a>
                     <!-- Add more menu items here -->
                 </li>
@@ -45,4 +49,5 @@
             @yield('content')
         </div>
     </div>
+
 </x-app-layout>
