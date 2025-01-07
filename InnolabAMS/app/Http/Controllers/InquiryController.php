@@ -10,6 +10,7 @@ class InquiryController extends Controller
     // Fetch all inquiries for the index page
     public function index()
     {
+        
         $inquiries = Inquiry::all(); // Fetch all inquiries from the database
         return view('inquiry.index', compact('inquiries'));
     }
