@@ -8,7 +8,7 @@
     <title>InnolabAMS</title>
 
     <!-- Favicon -->
-       <link rel="icon" href="{{ asset('/static/images/innolab_favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('/static/images/innolab_favicon.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -990,7 +990,10 @@
                 x-transition:enter-start="opacity-0 transform scale-95"
                 x-transition:enter-end="opacity-100 transform scale-100"
                 class="text-gray-700 text-center">
-
+                <a href="{{ url('/inquiry_form.form') }}"
+                    class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
+                    Create an inquiry form
+                </a>
                 <!-- Back Button -->
                 <button
                     @click="showAuthLinks = false; activeButton = ''; buttonsVisible = true"
