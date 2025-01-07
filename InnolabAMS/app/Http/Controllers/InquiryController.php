@@ -10,7 +10,8 @@ class InquiryController extends Controller
     // Fetch all inquiries for the index page
     public function index()
     {
-        return view('inquiry.index'); // Maps to resources/views/inquiry/index.blade.php
+        $inquiries = Inquiry::all(); // Fetch all inquiries from the database
+        return view('inquiry.index', compact('inquiries'));
     }
 
     public function show($id)
