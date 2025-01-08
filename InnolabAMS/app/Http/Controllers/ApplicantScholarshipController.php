@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\ApplicantScholarship;
 use Illuminate\Http\Request;
 
@@ -36,7 +35,9 @@ class ApplicantScholarshipController extends Controller
      */
     public function show(ApplicantScholarship $applicantScholarship)
     {
-        //
+        $scholarships = ApplicantScholarship::all();
+        // Fetch all scholarship from the database
+        return view('scholarship.show', compact('scholarships'));
     }
 
     /**
