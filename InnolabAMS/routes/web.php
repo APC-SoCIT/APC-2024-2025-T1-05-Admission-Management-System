@@ -6,6 +6,10 @@ use App\Http\Controllers\ApplicantScholarshipController; // Added Controller
 use App\Http\Controllers\InquiryController; // Added Controller
 use App\Http\Controllers\LeadController; // Added Controller
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+
+$url = config('app.url');
+URL::forceRootUrl($url);
 
 Route::get('/', function () {
     return view('welcome');
