@@ -66,9 +66,70 @@
         </tr>
         @empty
         <tr>
-            <td colspan="5">No inquiries found.</td>
+            <td colspan="5">No applications found.</td>
         </tr>
         @endforelse
     </tbody>
+</table>
 
-    @endsection
+@endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+                const searchIcon = document.getElementById("searchIcon");
+                const searchBar = document.getElementById("searchBar");
+                const userTable = document.getElementById("userTable");
+                const sortIcon = document.getElementById("sortIcon");
+                const sortDropdown = document.getElementById("sortDropdown");
+                const sortOldNew = document.getElementById("sortOldNew");
+                const sortNewOld = document.getElementById("sortNewOld");
+                let sortOrder = "asc";
+
+                // Search Bar Logic
+                searchIcon.addEventListener("click", () => {
+                    if (searchBar.classList.contains("hidden")) {
+                        searchBar.classList.remove("hidden");
+                        searchBar.focus();
+                    } else {
+                        searchBar.classList.add("hidden");
+                    }
+                });
+
+                searchBar.addEventListener("input", () => {
+                    const filter = searchBar.value.toLowerCase();
+                    const rows = userTable.querySelectorAll("tr");
+
+                    rows.forEach(row => {
+                        const name = row.children[1].textContent.toLowerCase();
+                        const email = row.children[2].textContent.toLowerCase();
+
+                        if (name.includes(filter) || email.includes(filter)) {
+                            row.style.display = "";
+                        } else {
+                            row.style.display = "none";
+                        }
+                    });
+                });
+
+                // Sort Dropdown Logic
+                sortIcon.addEventListener("click", () => {
+                    sortDropdown.classList.toggle("hidden");
+                });
+
+                // Sort Old - New
+                sortOldNew.addEventListener("click", () => {
+                    const rows = Array.from(userTable.querySelectorAll("tr"));
+                    rows.sort((a, b) => parseInt(a.children[0].textContent) - parseInt(b.children[0].textContent));
+                    rows.forEach(row => userTable.appendChild(row));
+                    sortDropdown.classList.add("hidden");
+                });
+
+                // Sort New - Old
+                sortNewOld.addEventListener("click"), () => {
+                    const rows = Array.from(userTable.querySelectorAll("tr"));
+                    rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
+                    rows.forEach(row => userTable.appendChild(row));
+                    sortDropdown.classList.add("hidden");
+                }
+            });
+</script>
