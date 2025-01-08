@@ -84,9 +84,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const modal = document.getElementById("addUserModal");
-        const addUserButton = document.getElementById("addUserButton");
-        const closeModalButton = document.getElementById("closeModalButton");
         const searchIcon = document.getElementById("searchIcon");
         const searchBar = document.getElementById("searchBar");
         const userTable = document.getElementById("userTable");
@@ -94,17 +91,7 @@
         const sortDropdown = document.getElementById("sortDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
         const sortNewOld = document.getElementById("sortNewOld");
-
         let sortOrder = "asc";
-
-        // Modal Logic
-        addUserButton.addEventListener("click", () => {
-            modal.classList.remove("hidden");
-        });
-
-        closeModalButton.addEventListener("click", () => {
-            modal.classList.add("hidden");
-        });
 
         // Search Bar Logic
         searchIcon.addEventListener("click", () => {
@@ -146,44 +133,11 @@
         });
 
         // Sort New - Old
-        sortNewOld.addEventListener("click", () => {
+        sortNewOld.addEventListener("click"), () => {
             const rows = Array.from(userTable.querySelectorAll("tr"));
             rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
             rows.forEach(row => userTable.appendChild(row));
             sortDropdown.classList.add("hidden");
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const deleteButtons = document.querySelectorAll(".delete-button");
-
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", () => {
-                const userId = button.getAttribute("data-id");
-
-                // Show a confirmation dialog
-                if (confirm("Are you sure you want to delete this user?")) {
-                    // Send a delete request
-                    fetch(`/users/${userId}`, {
-                            method: "DELETE",
-                            headers: {
-                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                "Content-Type": "application/json",
-                            },
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                // Reload the page or remove the row
-                                button.closest("tr").remove();
-                            } else {
-                                alert("Failed to delete the user.");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error:", error);
-                        });
-                }
-            });
-        });
+        }
     });
 </script>
