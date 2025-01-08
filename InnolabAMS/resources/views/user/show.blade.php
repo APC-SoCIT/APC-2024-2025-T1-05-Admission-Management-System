@@ -1,3 +1,4 @@
+@section('title', 'Users | InnolabAMS')
 @extends('dashboard') <!-- Use the dashboard layout -->
 
 @section('content') <!-- Define the content section -->
