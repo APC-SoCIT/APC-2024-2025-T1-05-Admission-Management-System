@@ -34,12 +34,16 @@
             @endif
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <!-- Register and Sign in -->
+        <div class="flex items-center justify-between mt-4">
+            <!-- Register Link -->
             @if (Route::has('register'))
             <a href="{{ route('register') }}" class="underline text-sm text-black hover:text-indigo-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 {{ __('Register') }}
             </a>
             @endif
+
+            <!-- Sign in Button -->
             <x-primary-button class="ms-3">
                 {{ __('Sign in') }}
             </x-primary-button>
