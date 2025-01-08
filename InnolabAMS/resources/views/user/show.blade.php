@@ -121,7 +121,7 @@
         const sortDropdown = document.getElementById("sortDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
         const sortNewOld = document.getElementById("sortNewOld");
-
+        const deleteButtons = document.querySelectorAll(".delete-button");
         let sortOrder = "asc";
 
         // Modal Logic
@@ -179,11 +179,8 @@
             rows.forEach(row => userTable.appendChild(row));
             sortDropdown.classList.add("hidden");
         });
-    });
-    
-    document.addEventListener("DOMContentLoaded", () => {
-        const deleteButtons = document.querySelectorAll(".delete-button");
 
+        // Delete button
         deleteButtons.forEach(button => {
             button.addEventListener("click", () => {
                 const userId = button.getAttribute("data-id");
@@ -212,5 +209,5 @@
                 }
             });
         });
-    });
+    }); 
 </script>
