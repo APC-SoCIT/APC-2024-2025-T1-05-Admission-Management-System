@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ApplicantScholarship extends Model
 {
     use HasFactory;
-    protected $table = 'applicant_scholarship'; 
+    protected $table = 'applicant_scholarship';
+
 
     protected $fillable = [
         'applicant_info_id',
@@ -16,11 +17,16 @@ class ApplicantScholarship extends Model
         'annual_household_income',
         'applicant_signature',
         'parent_signature',
-        'scholarship_document',
+        'scholarship_type',
+        'discount_awarded',
     ];
 
     /**
-     * Define the relationship with the ApplicantInfo model.
+     * Get the user that owns the applicant information.
      */
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
