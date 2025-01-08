@@ -20,10 +20,42 @@
                         <span class="font-semibold ml-6">{{ __('Dashboard') }}</span>
                     </a>
 
-                    <a href="{{ route('scholarship.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-file w-6 text-center"></i>
-                        <span class="font-semibold ml-6">{{ __('Admission') }}</span>
-                    </a>
+                    <li x-data="{ open: false }">
+                    <button @click="open = !open"
+                            class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                                   {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-file  w-6 text-center"></i>
+                            <span class="font-semibold ml-6">{{ __('Applications') }}</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down w-6 text-center ml-3"></i>
+                    </button>
+
+                    <div x-show="open"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 transform scale-95"
+                         x-transition:enter-end="opacity-100 transform scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="opacity-100 transform scale-100"
+                         x-transition:leave-end="opacity-0 transform scale-95"
+                         class="pl-12 space-y-2 mt-2">
+                        <a href="#"
+                           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
+                                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+                            New Application
+                        </a>
+                        <a href="#"
+                           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
+                                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+                            Accepted Application
+                        </a>
+                        <a href="#"
+                           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
+                                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+                            Rejected Application
+                        </a>
+                    </div>
+                </li>
 
                     <a href="{{ route('scholarship.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
