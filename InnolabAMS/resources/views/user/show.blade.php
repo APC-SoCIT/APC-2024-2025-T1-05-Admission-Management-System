@@ -103,6 +103,9 @@
     </div>
 </div>
 
+<div class="mt-4">
+    {{ $users->links() }}
+</div>
 
 <!-- Modal -->
 <div id="addUserModal" class="fixed z-10 inset-0 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
