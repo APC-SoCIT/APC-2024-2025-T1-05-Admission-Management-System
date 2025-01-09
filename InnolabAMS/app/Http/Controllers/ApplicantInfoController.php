@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApplicantInfo;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ApplicantInfoController extends Controller
@@ -36,7 +37,26 @@ class ApplicantInfoController extends Controller
      */
     public function show(ApplicantInfo $applicantInfo)
     {
-        //
+       
+    }
+
+    public function new()
+    {
+        $applicants = ApplicantInfo::all();
+
+        return view('admission.new', compact('applicants'));
+    }
+
+    // Method to return accepted.blade.php
+    public function accepted()
+    {
+        return view('admission.accepted');
+    }
+
+    // Method to return rejected.blade.php
+    public function rejected()
+    {
+        return view('admission.rejected');
     }
 
     /**
