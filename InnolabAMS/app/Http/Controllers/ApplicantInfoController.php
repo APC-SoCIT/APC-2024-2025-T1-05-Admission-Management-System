@@ -50,13 +50,16 @@ class ApplicantInfoController extends Controller
     // Method to return accepted.blade.php
     public function accepted()
     {
-        return view('admission.accepted');
+        $applicants = ApplicantInfo::all();
+        return view('admission.accepted', compact('applicants'));
+        
     }
 
     // Method to return rejected.blade.php
     public function rejected()
     {
-        return view('admission.rejected');
+        $applicants = ApplicantInfo::all();
+        return view('admission.rejected', compact('applicants'));;
     }
 
     /**
