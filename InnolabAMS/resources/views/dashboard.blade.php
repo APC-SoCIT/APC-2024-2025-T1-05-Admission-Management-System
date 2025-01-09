@@ -28,7 +28,7 @@
                             {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
                         <div class="flex items-center">
                             <i class="fa-solid fa-file w-6 text-center"></i>
-                            <span class="font-semibold ml-6">{{ __('Applications') }}</span>
+                            <span class="font-semibold ml-6">{{ __('Admission') }}</span>
                         </div>
                         <i class="fa-solid fa-chevron-down w-6 text-center ml-3 transition-transform duration-200" 
                            :class="{'rotate-180': open}"></i>
