@@ -29,7 +29,7 @@
                                 {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
                         <div class="flex items-center cursor-pointer" @click="window.location.href = '{{ route('admission.new') }}'">
                             <i class="fa-solid fa-file w-6 text-center"></i>
-                            <span class="font-semibold ml-6">{{ __('Applications') }}</span>
+                            <span class="font-semibold ml-6">{{ __('Admission') }}</span>
                         </div>
                         <div class="flex items-center space-x-2">
                             <span class="text-xs bg-white-500 text-blackS px-2 py-1 rounded-full">
