@@ -44,19 +44,19 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     ID</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Name</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Scholarship Type</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Discount</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Action</th>
                                 
                             </tr>

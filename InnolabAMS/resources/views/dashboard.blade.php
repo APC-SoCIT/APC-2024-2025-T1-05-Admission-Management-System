@@ -70,13 +70,13 @@
                     <a href="{{ route('inquiry.index') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-question-circle w-6 text-center"></i>
-                        <span class="font-semibold ml-6">{{ __('Inquiry') }}</span>
+                        <span class="font-semibold ml-6">{{ __('Inquiries') }}</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('user.show') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-user w-6 text-center"></i>
+                        <i class="fa-solid fa-users w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Users') }}</span>
                     </a>
                 </li>
@@ -86,7 +86,19 @@
 
         <!-- Content Area -->
         <div class="flex-grow p-6">
-            @yield('content')
+            
+            <!-- Welcome Message -->
+             @if (Request::is('dashboard'))
+              <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-semibold mx-4 my-4">{{ __('Welcome, ') . Auth::user()->name }}</h1>
+            </div>
+            @endif
+
+            <div>
+                @yield('content')
+            </div>
         </div>
     </div>
+
+   
 </x-app-layout>

@@ -44,25 +44,43 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     ID</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Name</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Sex</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Program</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Status</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Action</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @forelse ($applicants as $applicant)
+                                <tr>
+                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $applicant->id }}</td>
+                                    <td class="w-2/12 py-2 px-4 border-b text-center">{{ $applicant->name }}</td>
+                                    <td class="w-2/12 py-2 px-4 border-b text-center">{{ $applicant->gender }}</td>
+                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $applicant->apply_program }}</td>
+                                    <!-- Add data -->
+                                
+                                </tr>
+                        @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                        No applications found.
+                                    </td>
+                                </tr>
+                         @endforelse
+                        </tbody>
                     </table>
                 </div>
             </div>

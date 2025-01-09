@@ -44,22 +44,22 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     ID</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Name</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Sex</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Program</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Status</th>
                                 <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-gray-800 uppercase tracking-wider">
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Action</th>
                             </tr>
                         </thead>
