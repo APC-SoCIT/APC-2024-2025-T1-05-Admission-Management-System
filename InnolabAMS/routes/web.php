@@ -22,13 +22,13 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     // Admission Routes - grouping related routes together
     Route::prefix('admission')->name('admission.')->group(function () {
+        Route::get('/', [ApplicantInfoController::class, 'index'])->name('index'); // Added main index route
         Route::get('/new', [ApplicantInfoController::class, 'new'])->name('new');
         Route::get('/accepted', [ApplicantInfoController::class, 'accepted'])->name('accepted');
         Route::get('/rejected', [ApplicantInfoController::class, 'rejected'])->name('rejected');
-        Route::get('/applicants', [ApplicantInfoController::class, 'index'])->name('index');
-        Route::get('/applicants/create', [ApplicantInfoController::class, 'create'])->name('create');
-        Route::post('/applicants', [ApplicantInfoController::class, 'store'])->name('store');
-        Route::get('/applicants/{id}', [ApplicantInfoController::class, 'show'])->name('show');
+        Route::get('/create', [ApplicantInfoController::class, 'create'])->name('create');
+        Route::post('/', [ApplicantInfoController::class, 'store'])->name('store');
+        Route::get('/{id}', [ApplicantInfoController::class, 'show'])->name('show');
     });
 
     // Scholarship Routes

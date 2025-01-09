@@ -27,15 +27,15 @@
                     x-init="open = {{ request()->routeIs('admission.*') ? 'true' : 'false' }}">
                     <div class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                                 {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
-                        <div class="flex items-center cursor-pointer" @click="window.location.href = '{{ route('admission.new') }}'">
+                        <div class="flex items-center cursor-pointer" @click="window.location.href = '{{ route('admission.index') }}'">
                             <i class="fa-solid fa-file w-6 text-center"></i>
                             <span class="font-semibold ml-6">{{ __('Admission') }}</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <span class="text-xs bg-white-500 text-blackS px-2 py-1 rounded-full">
+                            <span class="text-xs bg-white-500 text-black px-2 py-1 rounded-full">
                                 {{ $newApplicationsCount ?? 0 }}
                             </span>
-                            <button @click="open = !open" class="ml-3 focus:outline-none">
+                            <button @click.stop="open = !open" class="ml-3 focus:outline-none">
                                 <i class="fa-solid fa-chevron-down w-6 text-center transition-transform duration-200"
                                    :class="{'rotate-180': open}"></i>
                             </button>
@@ -77,6 +77,7 @@
                     </div>
                 </li>
 
+                <!-- Rest of the sidebar items remain unchanged -->
                 <li>
                     <a href="{{ route('scholarship.show') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
@@ -107,12 +108,11 @@
 
         <!-- Content Area -->
         <div class="flex-grow p-6">
-            
             <!-- Welcome Message -->
-             @if (Request::is('dashboard'))
-              <div class="flex justify-between items-center mb-4">
-                <h1 class="text-2xl font-semibold mx-4 my-4">{{ __('Welcome, ') . Auth::user()->name }}</h1>
-            </div>
+            @if (Request::is('dashboard'))
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-semibold mx-4 my-4">{{ __('Welcome, ') . Auth::user()->name }}</h1>
+                </div>
             @endif
 
             <div>
@@ -120,6 +120,4 @@
             </div>
         </div>
     </div>
-
-   
 </x-app-layout>

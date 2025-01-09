@@ -9,7 +9,15 @@ class ApplicantInfoController extends Controller
 {
     public function index()
     {
-        $applicants = ApplicantInfo::with('user')->get();
+        $applicants = ApplicantInfo::select(
+            'id', 
+            'applicant_surname', 
+            'applicant_given_name', 
+            'gender', 
+            'apply_program', 
+            'applicant_mobile_number'
+        )->get();
+        
         return view('admission.index', compact('applicants'));
     }
 
@@ -50,13 +58,14 @@ class ApplicantInfoController extends Controller
 
     public function store(Request $request)
     {
-        // Add validation rules here based on your requirements
         $validated = $request->validate([
             'apply_program' => 'required',
             'apply_grade_level' => 'required',
             'applicant_surname' => 'required|max:40',
             'applicant_given_name' => 'required|max:40',
-            // Add other validation rules
+            'gender' => 'required|in:Male,Female',
+            'applicant_mobile_number' => 'required|string|max:12',
+            // Add other validation rules as needed
         ]);
 
         $applicant = ApplicantInfo::create($validated);
