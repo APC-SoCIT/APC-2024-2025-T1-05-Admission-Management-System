@@ -13,6 +13,7 @@ class ApplicantInfo extends Model
 
     protected $fillable = [
         'user_id',
+        'status',  // Add status to fillable
         'apply_program',
         'apply_grade_level',
         'apply_strand',
@@ -38,11 +39,43 @@ class ApplicantInfo extends Model
         'referral_source',
     ];
 
+    protected $casts = [
+        'applicant_date_birth' => 'date',
+    ];
+
+    // Define status constants for better code readability
+    const STATUS_NEW = 'new';
+    const STATUS_ACCEPTED = 'accepted';
+    const STATUS_REJECTED = 'rejected';
+
     /**
      * Get the user that owns the applicant information.
      */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Scope a query to only include applications with a specific status.
+     */
+    public function scopeWithStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    /**
+     * Get the full name of the applicant.
+     */
+    public function getFullNameAttribute()
+    {
+        $parts = [
+            $this->applicant_surname,
+            $this->applicant_given_name,
+            $this->applicant_middle_name,
+            $this->applicant_extension
+        ];
+
+        return implode(' ', array_filter($parts));
     }
 }

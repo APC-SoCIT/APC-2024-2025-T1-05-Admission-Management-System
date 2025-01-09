@@ -3,86 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApplicantInfo;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class ApplicantInfoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ApplicantInfo $applicantInfo)
-    {
-       
+        $applicants = ApplicantInfo::with('user')->get();
+        return view('admission.index', compact('applicants'));
     }
 
     public function new()
     {
-        $applicants = ApplicantInfo::all();
-
+        $applicants = ApplicantInfo::with('user')
+            ->where('status', 'new')
+            ->get();
         return view('admission.new', compact('applicants'));
     }
 
-    // Method to return accepted.blade.php
     public function accepted()
     {
-        $applicants = ApplicantInfo::all();
+        $applicants = ApplicantInfo::with('user')
+            ->where('status', 'accepted')
+            ->get();
         return view('admission.accepted', compact('applicants'));
-        
     }
 
-    // Method to return rejected.blade.php
     public function rejected()
     {
-        $applicants = ApplicantInfo::all();
-        return view('admission.rejected', compact('applicants'));;
+        $applicants = ApplicantInfo::with('user')
+            ->where('status', 'rejected')
+            ->get();
+        return view('admission.rejected', compact('applicants'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ApplicantInfo $applicantInfo)
+    public function show($id)
     {
-        //
+        $applicant = ApplicantInfo::with('user')->findOrFail($id);
+        return view('admission.show', compact('applicant'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ApplicantInfo $applicantInfo)
+    public function create()
     {
-        //
+        return view('admission.create');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ApplicantInfo $applicantInfo)
+    public function store(Request $request)
     {
-        //
+        // Add validation rules here based on your requirements
+        $validated = $request->validate([
+            'apply_program' => 'required',
+            'apply_grade_level' => 'required',
+            'applicant_surname' => 'required|max:40',
+            'applicant_given_name' => 'required|max:40',
+            // Add other validation rules
+        ]);
+
+        $applicant = ApplicantInfo::create($validated);
+        return redirect()->route('admission.show', $applicant->id)
+            ->with('success', 'Application created successfully');
     }
 }

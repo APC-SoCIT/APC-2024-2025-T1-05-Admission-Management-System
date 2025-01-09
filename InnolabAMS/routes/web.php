@@ -1,11 +1,10 @@
 <?php
-
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController; // Added Controller
-use App\Http\Controllers\ApplicantScholarshipController; // Added Controller
-use App\Http\Controllers\ApplicantInfoController; //Added Controller
-use App\Http\Controllers\InquiryController; // Added Controller
-use App\Http\Controllers\LeadController; // Added Controller
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApplicantScholarshipController;
+use App\Http\Controllers\ApplicantInfoController;
+use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\LeadController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -21,17 +20,35 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admission/new', [ApplicantInfoController::class, 'new'])->name('admission.new'); // Added Route
-    Route::get('/admission/accepted', [ApplicantInfoController::class, 'accepted'])->name('admission.accepted'); // Added Route
-    Route::get('/admission/rejected', [ApplicantInfoController::class, 'rejected'])->name('admission.rejected'); // Added Route
-    Route::get('/dashboard/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show'); //Added Route
-    Route::get('/dashboard/inquiry', [InquiryController::class, 'show'])->name('inquiry.show'); // Added Route
-    Route::get('/dashboard/inquiry', [InquiryController::class, 'index'])->name('inquiry.index'); // Added Route
-    Route::get('/inquiry_form', [LeadController::class, 'create'])->name('inquiry_form.form'); // Added Route
-    Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show'); //Added Route
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Admission Routes - grouping related routes together
+    Route::prefix('admission')->name('admission.')->group(function () {
+        Route::get('/new', [ApplicantInfoController::class, 'new'])->name('new');
+        Route::get('/accepted', [ApplicantInfoController::class, 'accepted'])->name('accepted');
+        Route::get('/rejected', [ApplicantInfoController::class, 'rejected'])->name('rejected');
+        Route::get('/applicants', [ApplicantInfoController::class, 'index'])->name('index');
+        Route::get('/applicants/create', [ApplicantInfoController::class, 'create'])->name('create');
+        Route::post('/applicants', [ApplicantInfoController::class, 'store'])->name('store');
+        Route::get('/applicants/{id}', [ApplicantInfoController::class, 'show'])->name('show');
+    });
+
+    // Scholarship Routes
+    Route::get('/dashboard/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show');
+
+    // Inquiry Routes
+    Route::prefix('inquiry')->name('inquiry.')->group(function () {
+        Route::get('/', [InquiryController::class, 'index'])->name('index');
+        Route::get('/form', [LeadController::class, 'create'])->name('form');
+    });
+
+    // User Routes
+    Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show');
+
+    // Profile Routes
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'edit')->name('profile.edit');
+        Route::patch('/profile', 'update')->name('profile.update');
+        Route::delete('/profile', 'destroy')->name('profile.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';
