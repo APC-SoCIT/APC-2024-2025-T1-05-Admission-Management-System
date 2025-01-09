@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use App\Models\ApplicantInfo;
+use Illuminate\Pagination\Paginator;
 use URL;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+
+        Paginator::useTailwind();
+
         if (App::environment(['staging', 'production'])) {
             URL::forceScheme('https');
         }
