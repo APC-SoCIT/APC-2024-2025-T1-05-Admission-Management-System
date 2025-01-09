@@ -21,44 +21,46 @@
                         <span class="font-semibold ml-6">{{ __('Dashboard') }}</span>
                     </a>
                 </li>
-                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }" 
-                    x-init="open = {{ request()->routeIs('admission.*') ? 'true' : 'false' }}">
-                    <button @click="open = !open"
-                            class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
-                            {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-file w-6 text-center"></i>
-                            <span class="font-semibold ml-6">{{ __('Admission') }}</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-down w-6 text-center ml-3 transition-transform duration-200" 
-                           :class="{'rotate-180': open}"></i>
-                    </button>
+                <li x-data="{ open: false }">
+    <div class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
+        <!-- 'Applications' text with redirect functionality -->
+        <div class="flex items-center cursor-pointer" @click="window.location.href = '/application'">
+            <i class="fa-solid fa-file w-6 text-center"></i>
+            <span class="font-semibold ml-6">{{ __('Applications') }}</span>
+        </div>
+        <!-- Down arrow button to toggle dropdown -->
+        <button @click="open = !open"
+                class="ml-3 focus:outline-none">
+            <i class="fa-solid fa-chevron-down w-6 text-center"></i>
+        </button>
+    </div>
 
-                    <div x-show="open"
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 transform scale-95"
-                         x-transition:enter-end="opacity-100 transform scale-100"
-                         x-transition:leave="transition ease-in duration-75"
-                         x-transition:leave-start="opacity-100 transform scale-100"
-                         x-transition:leave-end="opacity-0 transform scale-95"
-                         class="pl-12 space-y-2 mt-2">
-                        <a href="{{ route('admission.new') }}"
-                           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
-                                  {{ request()->routeIs('admission.new') ? 'bg-gray-200 text-gray-900' : '' }}">
-                            New Application
-                        </a>
-                        <a href="{{ route('admission.accepted') }}"
-                           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
-                                  {{ request()->routeIs('admission.accepted') ? 'bg-gray-200 text-gray-900' : '' }}">
-                            Accepted Application
-                        </a>
-                        <a href="{{ route('admission.rejected') }}"
-                           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
-                                  {{ request()->routeIs('admission.rejected') ? 'bg-gray-200 text-gray-900' : '' }}">
-                            Rejected Application
-                        </a>
-                    </div>
-                </li>
+    <div x-show="open"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 transform scale-95"
+         x-transition:enter-end="opacity-100 transform scale-100"
+         x-transition:leave="transition ease-in duration-75"
+         x-transition:leave-start="opacity-100 transform scale-100"
+         x-transition:leave-end="opacity-0 transform scale-95"
+         class="pl-12 space-y-2 mt-2">
+        <a href="#"
+           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
+                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+            New Application
+        </a>
+        <a href="#"
+           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
+                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+            Accepted Application
+        </a>
+        <a href="#"
+           class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
+                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+            Rejected Application
+        </a>
+    </div>
+</li>
                 <li>
                     <a href="{{ route('scholarship.show') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
