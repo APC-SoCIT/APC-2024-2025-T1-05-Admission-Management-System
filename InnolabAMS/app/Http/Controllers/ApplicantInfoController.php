@@ -9,15 +9,22 @@ class ApplicantInfoController extends Controller
 {
     public function index()
     {
-        $applicants = ApplicantInfo::select(
-            'id', 
-            'applicant_surname', 
-            'applicant_given_name', 
-            'gender', 
-            'apply_program', 
-            'applicant_mobile_number'
-        )->get();
-        
+        $applicants = ApplicantInfo::with('user')
+            ->select(
+                'id',
+                'user_id',
+                'applicant_surname',
+                'applicant_given_name',
+                'applicant_middle_name',
+                'applicant_extension',
+                'gender',
+                'apply_program',
+                'applicant_mobile_number',
+                'status'
+            )
+            ->orderBy('id', 'desc')
+            ->get();
+
         return view('admission.index', compact('applicants'));
     }
 
@@ -25,6 +32,7 @@ class ApplicantInfoController extends Controller
     {
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'new')
+            ->orderBy('id', 'desc')
             ->get();
         return view('admission.new', compact('applicants'));
     }
@@ -33,6 +41,7 @@ class ApplicantInfoController extends Controller
     {
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'accepted')
+            ->orderBy('id', 'desc')
             ->get();
         return view('admission.accepted', compact('applicants'));
     }
@@ -41,6 +50,7 @@ class ApplicantInfoController extends Controller
     {
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'rejected')
+            ->orderBy('id', 'desc')
             ->get();
         return view('admission.rejected', compact('applicants'));
     }
@@ -59,17 +69,52 @@ class ApplicantInfoController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'apply_program' => 'required',
-            'apply_grade_level' => 'required',
+            'apply_program' => 'required|in:Kindergarten,Elementary,High School,Senior High School',
+            'apply_grade_level' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
+            'apply_strand' => 'nullable|required_if:apply_program,Senior High School|in:STEM,ABM,TECHVOC,HUMSS,GAS',
             'applicant_surname' => 'required|max:40',
             'applicant_given_name' => 'required|max:40',
+            'applicant_middle_name' => 'nullable|max:40',
+            'applicant_extension' => 'nullable|max:10',
+            'applicant_date_birth' => 'required|date',
+            'applicant_place_birth' => 'required|max:255',
             'gender' => 'required|in:Male,Female',
-            'applicant_mobile_number' => 'required|string|max:12',
-            // Add other validation rules as needed
+            'applicant_address_street' => 'required|max:255',
+            'applicant_address_province' => 'required|max:255',
+            'applicant_address_city' => 'required|max:255',
+            'applicant_nationality' => 'required|max:255',
+            'applicant_religion' => 'nullable|max:255',
+            'applicant_mobile_number' => 'required|max:12',
+            'applicant_photo' => 'nullable|image|max:2048',
         ]);
 
+        $validated['user_id'] = auth()->id();
+        $validated['status'] = 'new';
+
+        if ($request->hasFile('applicant_photo')) {
+            $path = $request->file('applicant_photo')->store('applicant-photos', 'public');
+            $validated['applicant_photo'] = $path;
+        }
+
         $applicant = ApplicantInfo::create($validated);
-        return redirect()->route('admission.show', $applicant->id)
+
+        return redirect()
+            ->route('admission.show', $applicant->id)
             ->with('success', 'Application created successfully');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:new,accepted,rejected'
+        ]);
+
+        $applicant = ApplicantInfo::findOrFail($id);
+        $applicant->status = $request->status;
+        $applicant->save();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Application status updated successfully');
     }
 }

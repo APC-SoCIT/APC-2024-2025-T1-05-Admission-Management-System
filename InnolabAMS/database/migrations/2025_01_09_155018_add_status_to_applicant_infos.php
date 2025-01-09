@@ -9,7 +9,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('applicant_infos', function (Blueprint $table) {
-            $table->enum('status', ['new', 'accepted', 'rejected'])->default('new')->after('user_id');
+            if (!Schema::hasColumn('applicant_infos', 'status')) {
+                $table->enum('status', ['new', 'accepted', 'rejected'])->default('new')->after('user_id');
+            }
         });
     }
 

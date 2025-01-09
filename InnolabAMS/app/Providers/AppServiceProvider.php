@@ -16,7 +16,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
         Paginator::useTailwind();
 
         if (App::environment(['staging', 'production'])) {
