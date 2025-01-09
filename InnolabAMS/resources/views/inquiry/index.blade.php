@@ -8,36 +8,26 @@
     <div class="flex items-center space-x-4">
         <!-- Search Icon and Bar -->
         <div class="relative flex items-center">
-            <button
-                id="searchIcon"
+            <button id="searchIcon"
                 class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <input
-                type="text"
-                id="searchBar"
-                placeholder="Search..."
+            <input type="text" id="searchBar" placeholder="Search..."
                 class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
         </div>
 
         <!-- Sort Icon and Dropdown -->
         <div class="relative">
-            <button
-                id="sortIcon"
+            <button id="sortIcon"
                 class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
             </button>
-            <div
-                id="sortDropdown"
+            <div id="sortDropdown"
                 class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40">
-                <button
-                    id="sortOldNew"
-                    class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                <button id="sortOldNew" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
                     Old - New
                 </button>
-                <button
-                    id="sortNewOld"
-                    class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                <button id="sortNewOld" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
                     New - Old
                 </button>
             </div>
@@ -46,40 +36,57 @@
 </div>
 
 <!-- Inquiry table -->
-<div class="container mt-5">
-    <table class="min-w-full bg-white border border-gray-300">
-        <thead>
-            <tr>
-                <th class="py-2 px-4 border-b text-left">ID</th>
-                <th class="py-2 px-4 border-b text-left">Name</th>
-                <th class="py-2 px-4 border-b text-left">Email Address</th>
-                <th class="py-2 px-4 border-b text-left">Contact No.</th>
-                <th class="py-2 px-4 border-b text-left">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($inquiries as $inquiry)
-            <tr>
-                <td class="py-2 px-4 border-b">{{ $inquiry->id }}</td>
-                <td class="py-2 px-4 border-b">{{ $inquiry->lead_id }}</td> <!-- Replace with actual name if applicable -->
-                <td class="py-2 px-4 border-b">{{ $inquiry->details_sent }}</td> <!-- Replace with actual email -->
-                <td class="py-2 px-4 border-b">{{ $inquiry->response_date }}</td> <!-- Replace with actual contact number -->
-                <td class="py-2 px-4 border-b"><a href="#" class="btn btn-primary">View</a></td>
-                <td class="py-2 px-4 border-b">
-                    <button
-                        class=" text-red-600 py-1 px-2 rounded delete-button"
-                        data-id="{{ $inquiry->id }}">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="5">No inquiries found.</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+<div class="py-9">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 table-fixed">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
+                                    ID
+                                </th>
+                                <th scope="col"
+                                    class="w-2/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th scope="col"
+                                    class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
+                                    Email Address
+                                </th>
+                                <th scope="col"
+                                    class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
+                                    Contact No.
+                                </th>
+                                <th scope="col"
+                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTable">
+                            @forelse ($inquiries as $inquiry)
+                                <tr>
+                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $inquiry->id  }}</td>
+                                    <td class="w-2/12 py-2 px-4 border-b text-center">{{ $inquiry->lead_id  }}</td>
+                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $inquiry->details_sent }}</td>
+                                </tr>
+
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                        No applications found.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
