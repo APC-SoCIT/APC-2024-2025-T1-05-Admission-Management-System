@@ -15,20 +15,23 @@
         <div class="w-64 h-screen bg-gray-100 text-gray-800 border-r border-gray-300 flex-shrink-0">
             <ul class="space-y-6 p-6">
                 <li>
-                    <a href="" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                    <a href=""
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-house w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Dashboard') }}</span>
                     </a>
-
-                    <li x-data="{ open: false }">
+                </li>
+                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }" 
+                    x-init="open = {{ request()->routeIs('admission.*') ? 'true' : 'false' }}">
                     <button @click="open = !open"
                             class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
-                                   {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
+                            {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
                         <div class="flex items-center">
-                            <i class="fa-solid fa-file  w-6 text-center"></i>
+                            <i class="fa-solid fa-file w-6 text-center"></i>
                             <span class="font-semibold ml-6">{{ __('Applications') }}</span>
                         </div>
-                        <i class="fa-solid fa-chevron-down w-6 text-center ml-3"></i>
+                        <i class="fa-solid fa-chevron-down w-6 text-center ml-3 transition-transform duration-200" 
+                           :class="{'rotate-180': open}"></i>
                     </button>
 
                     <div x-show="open"
@@ -39,40 +42,45 @@
                          x-transition:leave-start="opacity-100 transform scale-100"
                          x-transition:leave-end="opacity-0 transform scale-95"
                          class="pl-12 space-y-2 mt-2">
-                        <a href="#"
+                        <a href="{{ route('admission.new') }}"
                            class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
-                                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+                                  {{ request()->routeIs('admission.new') ? 'bg-gray-200 text-gray-900' : '' }}">
                             New Application
                         </a>
-                        <a href="#"
+                        <a href="{{ route('admission.accepted') }}"
                            class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
-                                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+                                  {{ request()->routeIs('admission.accepted') ? 'bg-gray-200 text-gray-900' : '' }}">
                             Accepted Application
                         </a>
-                        <a href="#"
+                        <a href="{{ route('admission.rejected') }}"
                            class="block py-2 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition duration-200 ease-in-out
-                                  {{ request()->routeIs('#') ? 'bg-gray-200 text-gray-900' : '' }}">
+                                  {{ request()->routeIs('admission.rejected') ? 'bg-gray-200 text-gray-900' : '' }}">
                             Rejected Application
                         </a>
                     </div>
                 </li>
-
-                    <a href="{{ route('scholarship.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                <li>
+                    <a href="{{ route('scholarship.show') }}"
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Scholarship') }}</span>
                     </a>
-
-                    <a href="{{ route('inquiry.index') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                </li>
+                <li>
+                    <a href="{{ route('inquiry.index') }}"
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-question-circle w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Inquiry') }}</span>
                     </a>
-
-                    <a href="{{ route('user.show') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                </li>
+                <li>
+                    <a href="{{ route('user.show') }}"
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                         <i class="fa-solid fa-user w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Users') }}</span>
                     </a>
-                    <!-- Add more menu items here -->
                 </li>
+                <!-- Add more menu items here -->
             </ul>
         </div>
 
@@ -81,5 +89,4 @@
             @yield('content')
         </div>
     </div>
-
 </x-app-layout>
