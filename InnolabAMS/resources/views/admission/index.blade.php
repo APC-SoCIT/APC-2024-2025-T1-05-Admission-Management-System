@@ -9,11 +9,11 @@
 
 <!-- Filter and Action Buttons -->
 <div class="flex justify-between items-center mb-4">
-    <!-- Filter Options -->
-    <div class="flex space-x-6">
-        <button id="allButton" class="text-gray-600 hover:text-gray-900">All</button>
-        <button id="sortByButton" class="text-gray-600 hover:text-gray-900">Sort by</button>
-    </div>
+    <!-- Filter Options with increased spacing -->
+    <div class="flex space-x-16">
+    <button id="allButton" class="text-gray-600 hover:text-gray-900">All</button>
+    <button id="sortByButton" class="text-gray-600 hover:text-gray-900">Sort by</button>
+</div>
 
     <!-- Action Buttons -->
     <div class="flex items-center space-x-4">
@@ -28,12 +28,10 @@
         </button>
 
         <div class="relative">
-            <button id="sortIcon"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+            <button id="menuIcon" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
-            </button>
-            <div id="sortDropdown"
-                class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40 z-10">
+                </button>
+                <div id="menuDropdown" class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40 z-10">
                 <button id="sortOldNew" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
                     Old - New
                 </button>
@@ -100,8 +98,8 @@
         const searchIcon = document.getElementById("searchIcon");
         const searchBar = document.getElementById("searchBar");
         const applicantsTable = document.getElementById("applicantsTable");
-        const sortIcon = document.getElementById("sortIcon");
-        const sortDropdown = document.getElementById("sortDropdown");
+        const menuIcon = document.getElementById("menuIcon");
+        const menuDropdown = document.getElementById("menuDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
         const sortNewOld = document.getElementById("sortNewOld");
         const allButton = document.getElementById("allButton");
@@ -110,26 +108,23 @@
         // Initialize "All" as active
         allButton.classList.add('underline');
 
-        // All and Sort by button logic
-        allButton.addEventListener("click", () => {
-            allButton.classList.add('underline');
-            sortByButton.classList.remove('underline');
-            // Add filter logic here
-        });
-
+            // Sort By button functionality
         sortByButton.addEventListener("click", () => {
             sortByButton.classList.add('underline');
             allButton.classList.remove('underline');
-            // Show sort dropdown
-            sortDropdown.classList.toggle('hidden');
+            // Add your sort logic here
+        });
+
+        // All button functionality
+        allButton.addEventListener("click", () => {
+            allButton.classList.add('underline');
+            sortByButton.classList.remove('underline');
+            // Reset to default view
         });
 
         // Search Bar Logic
-        searchIcon.addEventListener("click", () => {
-            searchBar.classList.toggle("hidden");
-            if (!searchBar.classList.contains("hidden")) {
-                searchBar.focus();
-            }
+            menuIcon.addEventListener("click", () => {
+            menuDropdown.classList.toggle("hidden");
         });
 
         searchBar.addEventListener("input", () => {
@@ -150,9 +145,9 @@
         });
 
         // Sort Dropdown Logic
-        document.addEventListener("click", (e) => {
-            if (!sortIcon.contains(e.target) && !sortByButton.contains(e.target)) {
-                sortDropdown.classList.add("hidden");
+            document.addEventListener("click", (e) => {
+            if (!menuIcon.contains(e.target)) {
+                menuDropdown.classList.add("hidden");
             }
         });
 
