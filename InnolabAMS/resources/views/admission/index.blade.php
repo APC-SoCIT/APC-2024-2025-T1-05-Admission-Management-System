@@ -2,27 +2,31 @@
 @section('title', 'Applications | InnolabAMS')
 
 @section('content')
-<div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-semibold mx-4 my-4">Applications</h1>
+<!-- Title Section -->
+<div class="mb-4">
+    <h1 class="text-2xl font-semibold">Applications</h1>
+</div>
 
+<!-- Filter and Action Buttons -->
+<div class="flex justify-between items-center mb-4">
+    <!-- Filter Options -->
+    <div class="flex space-x-6">
+        <button id="allButton" class="text-gray-600 hover:text-gray-900">All</button>
+        <button id="sortByButton" class="text-gray-600 hover:text-gray-900">Sort by</button>
+    </div>
+
+    <!-- Action Buttons -->
     <div class="flex items-center space-x-4">
-        <!-- Add Applicant Button -->
         <a href="{{ route('admission.create') }}" 
            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
             <i class="fa-solid fa-plus mr-2"></i>Add Applicant
         </a>
 
-        <!-- Search Icon and Bar -->
-        <div class="relative flex items-center">
-            <button id="searchIcon"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <input type="text" id="searchBar" placeholder="Search..."
-                class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
-        </div>
+        <button id="searchIcon"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
 
-        <!-- Sort Icon and Dropdown -->
         <div class="relative">
             <button id="sortIcon"
                 class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
@@ -41,51 +45,52 @@
     </div>
 </div>
 
-<div class="py-6">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200" id="applicantsTable">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">ID</th>
-                                <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Name</th>
-                                <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Sex</th>
-                                <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Program</th>
-                                <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Email Address</th>
-                                <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Contact No.</th>
-                                <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @forelse ($applicants as $applicant)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->id }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->full_name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->gender }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->apply_program }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->user->email }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->applicant_mobile_number }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <a href="{{ route('admission.show', $applicant->id) }}" 
-                                    class="text-blue-600 hover:text-blue-800 underline">
-                                        View
-                                    </a>
-                                </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                                        No applications found.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+<!-- Search Bar (Hidden by default) -->
+<div class="relative mb-4">
+    <input type="text" id="searchBar" placeholder="Search..."
+        class="hidden w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+</div>
+
+<!-- Table Section -->
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200" id="applicantsTable">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">ID</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Name</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Sex</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Program</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Email Address</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Contact No.</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Action</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse ($applicants as $applicant)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->full_name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->gender }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->apply_program }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->user->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->applicant_mobile_number }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <a href="{{ route('admission.show', $applicant->id) }}" 
+                               class="text-blue-600 hover:text-blue-800 underline">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                            No applications found.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -99,6 +104,25 @@
         const sortDropdown = document.getElementById("sortDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
         const sortNewOld = document.getElementById("sortNewOld");
+        const allButton = document.getElementById("allButton");
+        const sortByButton = document.getElementById("sortByButton");
+
+        // Initialize "All" as active
+        allButton.classList.add('underline');
+
+        // All and Sort by button logic
+        allButton.addEventListener("click", () => {
+            allButton.classList.add('underline');
+            sortByButton.classList.remove('underline');
+            // Add filter logic here
+        });
+
+        sortByButton.addEventListener("click", () => {
+            sortByButton.classList.add('underline');
+            allButton.classList.remove('underline');
+            // Show sort dropdown
+            sortDropdown.classList.toggle('hidden');
+        });
 
         // Search Bar Logic
         searchIcon.addEventListener("click", () => {
@@ -126,13 +150,8 @@
         });
 
         // Sort Dropdown Logic
-        sortIcon.addEventListener("click", () => {
-            sortDropdown.classList.toggle("hidden");
-        });
-
-        // Close dropdown when clicking outside
         document.addEventListener("click", (e) => {
-            if (!sortIcon.contains(e.target)) {
+            if (!sortIcon.contains(e.target) && !sortByButton.contains(e.target)) {
                 sortDropdown.classList.add("hidden");
             }
         });

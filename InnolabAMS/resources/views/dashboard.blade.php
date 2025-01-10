@@ -5,18 +5,26 @@
                 {{ __('Admin Panel') }}
             </h2>
 
-            {{-- Only show these navigation items when viewing application details --}}
-                @if(request()->routeIs('admission.show'))
-                <div class="flex space-x-12">
-                    <a href="#" class="text-blue-600 underline pb-4 font-medium">Application</a>
-                    <a href="#" class="text-gray-600 pb-4 font-medium">Attachments</a>
-                    <a href="#" class="text-gray-600 pb-4 font-medium">Additional Information</a>
-                </div>
-                @endif
-                
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('2025 - 2026') }}
-            </h2>
+           
+            @if(request()->routeIs('admission.show'))
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <nav class="flex space-x-24"> <!-- Increased spacing -->
+                    <a href="#" class="text-blue-600 pb-4 text-base underline">
+                        Application
+                    </a>
+                    <a href="#" class="text-gray-600 pb-4 text-base">
+                        Attachments
+                    </a>
+                    <a href="#" class="text-gray-600 pb-4 text-base">
+                        Additional Information
+                    </a>
+                </nav>
+            </div>
+            @endif
+
+                @unless(request()->routeIs('admission.show'))
+                <h2 class="text-base">{{ __('2025 - 2026') }}</h2>
+                @endunless
         </div>
     </x-slot>
 
