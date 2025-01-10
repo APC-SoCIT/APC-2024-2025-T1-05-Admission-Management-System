@@ -2,17 +2,6 @@
 @section('title', 'Application Details | InnolabAMS')
 
 @section('content')
-<!-- Top Panel with Admin Navigation -->
-<div class="border-b mb-6">
-    <div class="container mx-auto">
-        <div class="flex space-x-12 border-b">
-            <a href="#" class="text-blue-600 underline pb-4 font-medium">Application</a>
-            <a href="#" class="text-gray-600 pb-4 font-medium">Attachments</a>
-            <a href="#" class="text-gray-600 pb-4 font-medium">Additional Information</a>
-        </div>
-    </div>
-</div>
-
 <div class="container mx-auto px-6">
     <!-- Back Button -->
     <div class="mb-6">
