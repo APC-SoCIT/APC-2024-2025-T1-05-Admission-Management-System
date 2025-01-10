@@ -9,7 +9,7 @@ class ApplicantInfoController extends Controller
 {
     public function index()
     {
-        $applicants = ApplicantInfo::with('user')
+        $query = ApplicantInfo::with('user')
             ->select(
                 'id',
                 'user_id',
@@ -21,10 +21,29 @@ class ApplicantInfoController extends Controller
                 'apply_program',
                 'applicant_mobile_number',
                 'status'
-            )
-            ->orderBy('id', 'desc')
-            ->get();
-
+            );
+    
+        // Handle sorting
+        $sortField = request('sort', 'id');
+        $sortDirection = request('direction', 'desc');
+        $query->orderBy($sortField, $sortDirection);
+    
+        // Handle search
+        if ($search = request('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('applicant_surname', 'like', "%{$search}%")
+                  ->orWhere('applicant_given_name', 'like', "%{$search}%")
+                  ->orWhere('apply_program', 'like', "%{$search}%")
+                  ->orWhere('applicant_mobile_number', 'like', "%{$search}%");
+            });
+        }
+    
+        $applicants = $query->get();
+    
+        if (request()->wantsJson()) {
+            return response()->json($applicants);
+        }
+    
         return view('admission.index', compact('applicants'));
     }
 
