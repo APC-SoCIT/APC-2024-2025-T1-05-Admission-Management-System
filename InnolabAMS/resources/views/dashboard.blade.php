@@ -4,6 +4,16 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Admin Panel') }}
             </h2>
+
+            {{-- Only show these navigation items when viewing application details --}}
+                @if(request()->routeIs('admission.show'))
+                <div class="flex space-x-12">
+                    <a href="#" class="text-blue-600 underline pb-4 font-medium">Application</a>
+                    <a href="#" class="text-gray-600 pb-4 font-medium">Attachments</a>
+                    <a href="#" class="text-gray-600 pb-4 font-medium">Additional Information</a>
+                </div>
+                @endif
+                
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('2025 - 2026') }}
             </h2>
