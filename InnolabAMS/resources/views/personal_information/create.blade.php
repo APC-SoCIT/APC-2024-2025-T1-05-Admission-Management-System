@@ -99,7 +99,7 @@
         </div>
         <!-- Contact Information -->
         <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
+            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Address</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-gray-700">Street Address</label>
