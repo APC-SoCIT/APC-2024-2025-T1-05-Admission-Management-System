@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class ApplicantInfoController extends Controller
 {
+    // Index method to list applicants
     public function index()
     {
         $query = ApplicantInfo::with('user')
@@ -40,6 +41,7 @@ class ApplicantInfoController extends Controller
 
         $applicants = $query->get();
 
+        // Handle JSON response
         if (request()->wantsJson()) {
             return response()->json($applicants);
         }
@@ -47,58 +49,27 @@ class ApplicantInfoController extends Controller
         return view('admission.index', compact('applicants'));
     }
 
-    public function new()
-    {
-        $applicants = ApplicantInfo::with('user')
-            ->where('status', 'new')
-            ->orderBy('id', 'desc')
-            ->get();
-        return view('admission.new', compact('applicants'));
-    }
-
-    public function accepted()
-    {
-        $applicants = ApplicantInfo::with('user')
-            ->where('status', 'accepted')
-            ->orderBy('id', 'desc')
-            ->get();
-        return view('admission.accepted', compact('applicants'));
-    }
-
-    public function rejected()
-    {
-        $applicants = ApplicantInfo::with('user')
-            ->where('status', 'rejected')
-            ->orderBy('id', 'desc')
-            ->get();
-        return view('admission.rejected', compact('applicants'));
-    }
-
-    public function show($id)
-    {
-        $applicant = ApplicantInfo::with('user')->findOrFail($id);
-        return view('admission.show', compact('applicant'));
-    }
-
-    public function create()
-    {
-        return view('admission.create');
-    }
-
+    // Store method for handling form submissions
     public function store(Request $request)
     {
         try {
             $validated = $request->validate([
+                // Program Information
+                'classification' => 'nullable|string',
                 'apply_program' => 'required|in:Kindergarten,Elementary,High School,Senior High School',
                 'apply_grade_level' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
                 'apply_strand' => 'nullable|required_if:apply_program,Senior High School|in:STEM,ABM,TECHVOC,HUMSS,GAS',
+
+                // Personal Information
                 'applicant_surname' => 'required|max:40',
                 'applicant_given_name' => 'required|max:40',
                 'applicant_middle_name' => 'nullable|max:40',
                 'applicant_extension' => 'nullable|max:10',
                 'applicant_date_birth' => 'required|date',
+                'age' => 'nullable|numeric|min:0|max:100',
                 'applicant_place_birth' => 'required|max:255',
                 'gender' => 'required|in:Male,Female',
+                'applicant_tel_no' => 'nullable|string|max:20',
                 'applicant_address_street' => 'required|max:255',
                 'applicant_address_province' => 'required|max:255',
                 'applicant_address_city' => 'required|max:255',
@@ -106,6 +77,36 @@ class ApplicantInfoController extends Controller
                 'applicant_religion' => 'nullable|max:255',
                 'applicant_mobile_number' => 'required|max:12',
                 'applicant_photo' => 'nullable|image|max:2048',
+
+                // Educational Background
+                'lrn' => 'nullable|string|max:12',
+                'school_name' => 'nullable|string|max:255',
+                'school_address' => 'nullable|string|max:255',
+                'previous_program' => 'nullable|string|max:255',
+                'year_of_graduation' => 'nullable|string|max:4',
+                'awards_honors' => 'nullable|string|max:255',
+                'gwa' => 'nullable|numeric|between:0,100',
+
+                // Family Information
+                'father_name' => 'nullable|string|max:255',
+                'father_occupation' => 'nullable|string|max:255',
+                'father_contact' => 'nullable|string|max:255',
+                'mother_name' => 'nullable|string|max:255',
+                'mother_occupation' => 'nullable|string|max:255',
+                'mother_contact' => 'nullable|string|max:255',
+                'siblings' => 'nullable|array',
+                'siblings.*.full_name' => 'nullable|string|max:255',
+                'siblings.*.date_of_birth' => 'nullable|date',
+                'siblings.*.age' => 'nullable|numeric|min:0|max:100',
+                'siblings.*.grade_level' => 'nullable|string|max:255',
+                'siblings.*.school_attended' => 'nullable|string|max:255',
+
+                // Emergency Contact
+                'emergency_contact_name' => 'nullable|string|max:255',
+                'emergency_contact_address' => 'nullable|string|max:255',
+                'emergency_contact_tel' => 'nullable|string|max:20',
+                'emergency_contact_mobile' => 'nullable|string|max:20',
+                'emergency_contact_email' => 'nullable|email|max:255',
             ]);
 
             // Debug log
@@ -115,6 +116,14 @@ class ApplicantInfoController extends Controller
             $validated['user_id'] = auth()->id() ?? 1; // Fallback to ID 1 if no auth user
             $validated['status'] = 'new';
 
+            // Handle siblings data - convert to JSON
+            if (isset($validated['siblings'])) {
+                $validated['siblings'] = json_encode(array_values(array_filter($validated['siblings'], function ($sibling) {
+                    return !empty($sibling['full_name']);
+                })));
+            }
+
+            // Handle photo upload
             if ($request->hasFile('applicant_photo')) {
                 $path = $request->file('applicant_photo')->store('applicant-photos', 'public');
                 $validated['applicant_photo'] = $path;
@@ -126,14 +135,13 @@ class ApplicantInfoController extends Controller
             \Log::info('Application created:', ['id' => $applicant->id]);
 
             return redirect()
-                ->route('admission.index') // Changed to redirect to index instead of show
+                ->route('admission.index')
                 ->with('success', 'Application created successfully');
-
         } catch (\Exception $e) {
             // Debug log
             \Log::error('Application creation failed:', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return back()
@@ -147,5 +155,17 @@ class ApplicantInfoController extends Controller
     public function showForm()
     {
         return view('personal_information.create');
+    }
+
+            // Add these methods to your existing ApplicantInfoController class
+        public function create()
+        {
+            return view('admission.create');
+        }
+
+        public function show($id)
+        {
+            $applicant = ApplicantInfo::with('user')->findOrFail($id);
+            return view('admission.show', compact('applicant'));
     }
 }
