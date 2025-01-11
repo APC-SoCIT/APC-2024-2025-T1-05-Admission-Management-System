@@ -78,7 +78,7 @@
                                     </td>
                                     <td class="w-1/12 py-2 px-4 border-b text-center">
                                         <!-- Action buttons can go here (e.g., Edit, Delete) -->
-                                        <a href="{{ route('leads.show', $leadInfo->id) }}" class="text-blue-600">View</a>
+                                        <a href="{{ route('inquiry.show', $leadInfo->id) }}" class="text-blue-600">View</a>
                                     </td>
                                 </tr>
                             @empty
