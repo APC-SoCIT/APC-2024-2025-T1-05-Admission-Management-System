@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class LeadController extends Controller
 {
     // Show the form
-    public function create()
+    public function show()
     {
         return view('inquiry_form.form', compact("inquiry_form")); // Blade file for the form
     }
@@ -29,8 +29,8 @@ class LeadController extends Controller
             'lead_message' => 'nullable|string',
         ]);
 
-        // Save the data to the database
-        LeadInfo::submit([
+        // Save the data to the database    
+        LeadInfo::create([
             'lead_given_name' => $validated['lead_given_name'],
             'lead_surname' => $validated['lead_surname'],
             'lead_middle_name' => $validated['lead_middle_name'],

@@ -69,19 +69,26 @@
                         <tbody id="userTable">
                             @forelse ($inquiries as $inquiry)
                                 <tr>
-                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $inquiry->id  }}</td>
-                                    <td class="w-2/12 py-2 px-4 border-b text-center">{{ $inquiry->lead_id  }}</td>
-                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $inquiry->details_sent }}</td>
+                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $inquiry->inquiry_id }}</td>
+                                    <td class="w-2/12 py-2 px-4 border-b text-center">
+                                        {{ $inquiry->lead_surname }} {{ $inquiry->lead_given_name }}
+                                    </td>
+                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $inquiry->lead_email }}</td>
+                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $inquiry->lead_mobile_number }}
+                                    </td>
+                                    <td class="w-1/12 py-2 px-4 border-b text-center">
+                                        <!-- Add action buttons here -->
+                                    </td>
                                 </tr>
-
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
                                         No inquiries found.
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
+
                     </table>
                 </div>
             </div>

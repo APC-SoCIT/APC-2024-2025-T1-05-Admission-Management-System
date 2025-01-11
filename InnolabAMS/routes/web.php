@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function () {
 
     // Lead routes
     Route::prefix('inquiry_form')->group(function () {
-        Route::get('/form', [LeadController::class, 'submit'])->name('inquiry_form.form'); // Display the inquiry form
-        Route::post('/form', [LeadController::class, 'store'])->name('inquiry_form.store'); // Handle form submission
+        Route::get('/inquiry_form/form', [LeadController::class, 'show'])->name('inquiry_form.form'); // Display the inquiry form
+        Route::post('/inquiry_form/form', [LeadController::class, 'store'])->name('inquiry_form.store'); // Handle form submission
     });
 
     // User Routes
