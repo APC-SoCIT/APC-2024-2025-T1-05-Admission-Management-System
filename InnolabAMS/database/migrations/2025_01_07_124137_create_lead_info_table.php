@@ -13,21 +13,30 @@ class CreateLeadInfoTable extends Migration
      */
     public function up()
     {
+
+        // Create the new lead_info table
         Schema::create('lead_info', function (Blueprint $table) {
-            $table->id('lead_id'); // Creates an auto-incrementing 'lead_id' column
-            $table->unsignedBigInteger('lead_additional_info_id');
+            $table->id(); // Auto-incrementing ID
+            // Lead information columns
             $table->string('lead_surname', 225);
             $table->string('lead_given_name', 225);
             $table->string('lead_middle_name', 225)->nullable();
             $table->string('lead_extension', 10)->nullable();
             $table->string('lead_address_city', 225)->nullable();
-            $table->string('lead_mobile_number', 13)->nullable(); // no. example " +639123456789 "
+            $table->string('lead_mobile_number', 13)->nullable(); // Example: +639123456789
             $table->string('lead_email', 225);
-            $table->enum('inquired_details', ['OPTION_1', 'OPTION_2', 'OPTION_3']); // Replace with actual ENUM values
+            $table->enum('inquired_details', ['OPTION_1', 'OPTION_2', 'OPTION_3']);
             $table->text('lead_message')->nullable();
             $table->string('extracurricular_interest_lead', 225)->nullable();
-            $table->enum('skills_lead', ['SKILL_1', 'SKILL_2', 'SKILL_3'])->nullable(); // Replace with actual ENUM values
-            $table->enum('desired_career', ['CAREER_1', 'CAREER_2', 'CAREER_3'])->nullable(); // Replace with actual ENUM values
+            $table->enum('skills_lead', ['SKILL_1', 'SKILL_2', 'SKILL_3'])->nullable();
+            $table->enum('desired_career', ['CAREER_1', 'CAREER_2', 'CAREER_3'])->nullable();
+
+            // Inquiry columns
+            $table->timestamp('inquiry_submitted')->nullable();
+            $table->string('details_sent', 225)->nullable();
+            $table->timestamp('response_date')->nullable(); // Nullable to allow for no response date initially
+            $table->enum('inquiry_status', ['New', 'Responded'])->default('New'); // Default to 'New'
+
             $table->timestamps(); // Adds created_at and updated_at columns
         });
     }
@@ -39,6 +48,7 @@ class CreateLeadInfoTable extends Migration
      */
     public function down()
     {
+        // Drop the newly created lead_info table
         Schema::dropIfExists('lead_info');
     }
 }

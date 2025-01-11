@@ -3,8 +3,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
-use App\Http\Controllers\InquiryController;
-use App\Http\Controllers\LeadController;
+use App\Http\Controllers\LeadInfoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -37,14 +36,26 @@ Route::middleware('auth')->group(function () {
 
     // Inquiry routes
     Route::prefix('inquiries')->group(function () {
-        Route::get('/', [InquiryController::class, 'index'])->name('inquiry.index'); // List all inquiries
-        Route::get('/{id}', [InquiryController::class, 'show'])->name('inquiry.show'); // Show single inquiry details
+        Route::get('/', [LeadInfoController::class, 'index'])->name('inquiry.index'); // List all inquiries
+        Route::get('/{id}', [LeadInfoController::class, 'show'])->name('inquiry.show'); // Show single inquiry details
     });
-
-    // Lead routes
-    Route::prefix('inquiry_form')->group(function () {
-        Route::get('/inquiry_form/form', [LeadController::class, 'show'])->name('inquiry_form.form'); // Display the inquiry form
-        Route::post('/inquiry_form/form', [LeadController::class, 'store'])->name('inquiry_form.store'); // Handle form submission
+    // Inquiry and Lead_Info routes
+    Route::prefix('leads')->name('leads.')->group(function() {
+    
+        // Route to display the inquiry form (create)
+        Route::get('/create', [LeadInfoController::class, 'create'])->name('create');
+    
+        // Route to store a new inquiry
+        Route::post('/', [LeadInfoController::class, 'store'])->name('store');
+    
+        // Route to display the edit form for an inquiry
+        Route::get('/{id}/edit', [LeadInfoController::class, 'edit'])->name('edit');
+    
+        // Route to update the inquiry
+        Route::put('/{id}', [LeadInfoController::class, 'update'])->name('update');
+    
+        // Route to delete an inquiry
+        Route::delete('/{id}', [LeadInfoController::class, 'destroy'])->name('destroy');
     });
 
     // User Routes

@@ -67,24 +67,23 @@
                             </tr>
                         </thead>
                         <tbody id="userTable">
-                            @forelse ($inquiries as $inquiry)
+                            @forelse ($leadInfos as $leadInfo)
                                 <tr>
-                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $inquiry->inquiry_id }}</td>
+                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $leadInfo->id }}</td>
                                     <td class="w-2/12 py-2 px-4 border-b text-center">
-                                        {{ $inquiry->lead_surname }} {{ $inquiry->lead_given_name }}
+                                        {{ $leadInfo->lead_surname }} {{ $leadInfo->lead_given_name }}
                                     </td>
-                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $inquiry->lead_email }}</td>
-                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $inquiry->lead_mobile_number }}
+                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->lead_email }}</td>
+                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->lead_mobile_number }}
                                     </td>
                                     <td class="w-1/12 py-2 px-4 border-b text-center">
-                                        <!-- Add action buttons here -->
+                                        <!-- Action buttons can go here (e.g., Edit, Delete) -->
+                                        <a href="{{ route('leads.show', $leadInfo->id) }}" class="text-blue-600">View</a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                                        No inquiries found.
-                                    </td>
+                                    <td colspan="5" class="text-center py-4 text-gray-500">No inquiries found.</td>
                                 </tr>
                             @endforelse
                         </tbody>

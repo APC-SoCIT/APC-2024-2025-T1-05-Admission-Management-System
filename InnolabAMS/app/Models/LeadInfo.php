@@ -9,19 +9,31 @@ class LeadInfo extends Model
 {
     use HasFactory;
 
+    // Define the table associated with the model
     protected $table = 'lead_info';
 
-    // Mass assignable attributes
+    // Define the fillable properties for mass assignment
     protected $fillable = [
+        'lead_surname', 
         'lead_given_name',
-        'lead_surname',
         'lead_middle_name',
         'lead_extension',
-        'lead_email',
-        'lead_mobile_number',
         'lead_address_city',
+        'lead_mobile_number',
+        'lead_email',
         'inquired_details',
         'lead_message',
         'extracurricular_interest_lead',
+        'skills_lead',
+        'desired_career',
+        'inquiry_submitted',
+        'details_sent',
+        'response_date',
+        'inquiry_status',
+    ];
+
+    // Define default values for the inquiry_status (if not explicitly set)
+    protected $attributes = [
+        'inquiry_status' => 'New',
     ];
 }
