@@ -7,8 +7,7 @@
 
            
             @if(request()->routeIs('admission.show'))
-            <div class="absolute left-1/2 transform -translate-x-1/2">
-                <nav class="flex space-x-24"> <!-- Increased spacing -->
+            <div class="flex space-x-8 justify-start">
                     <a href="#" class="text-blue-600 pb-4 text-base underline">
                         Application
                     </a>
@@ -18,7 +17,6 @@
                     <a href="#" class="text-gray-600 pb-4 text-base">
                         Additional Information
                     </a>
-                </nav>
             </div>
             @endif
 
