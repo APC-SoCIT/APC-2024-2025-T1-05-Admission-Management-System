@@ -10,7 +10,7 @@
 <!-- Filter and Action Buttons -->
 <div class="flex justify-between items-center mb-4">
     <!-- Filter Options with increased spacing -->
-    <div class="flex space-x-16">
+    <div class="flex space-x-8">
     <button id="allButton" class="text-gray-600 hover:text-gray-900">All</button>
     <button id="sortByButton" class="text-gray-600 hover:text-gray-900">Sort by</button>
 </div>
