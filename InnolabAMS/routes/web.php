@@ -14,9 +14,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+ //Admin Panel and Online Appplication Portal Routes
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/portal', function () {
+    return view('portal');
+})->middleware(['auth', 'verified'])->name('portal'); //Added Route
 
 Route::middleware('auth')->group(function () {
     // Admission Routes - grouping related routes together
@@ -62,6 +67,9 @@ Route::middleware('auth')->group(function () {
         Route::patch('/profile', 'update')->name('profile.update');
         Route::delete('/profile', 'destroy')->name('profile.destroy');
     });
+
+    //Personal Information Routes
+    Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showForm'])->name('personal_information.create');
 });
 
 require __DIR__.'/auth.php';
