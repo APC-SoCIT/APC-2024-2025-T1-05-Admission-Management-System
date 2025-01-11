@@ -19,10 +19,6 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Classification</label>
-                        <input type="text" name="classification" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
                         <label class="block text-sm font-medium text-gray-700">Program</label>
                         <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                             <option value="">Select Program</option>

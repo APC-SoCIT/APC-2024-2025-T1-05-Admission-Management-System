@@ -35,10 +35,6 @@
             <div class="bg-gray-200 px-4 py-2 font-semibold">Applying For</div>
             <table class="w-full">
                 <tr class="border-b">
-                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Classification:</td>
-                    <td class="px-4 py-2">{{ $applicant->classification ?? '' }}</td>
-                </tr>
-                <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Grade/Level:</td>
                     <td class="px-4 py-2">{{ $applicant->apply_grade_level }}</td>
                 </tr>

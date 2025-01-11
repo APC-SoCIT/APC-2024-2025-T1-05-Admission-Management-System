@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
 
-            // Program Information
-            $table->string('classification')->nullable();
+            // Program Information  
             $table->enum('apply_program', ['Kindergarten', 'Elementary', 'High School', 'Senior High School']);
             $table->enum('apply_grade_level', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
             $table->enum('apply_strand', ['STEM', 'ABM', 'TECHVOC', 'HUMSS', 'GAS'])->nullable();
