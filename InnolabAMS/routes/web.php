@@ -46,19 +46,14 @@ Route::middleware('auth')->group(function () {
     });
     // Inquiry and Lead_Info routes
     Route::prefix('leads')->name('leads.')->group(function() {
-    
         // Route to display the inquiry form (create)
         Route::get('/create', [LeadInfoController::class, 'create'])->name('create');
-    
         // Route to store a new inquiry
         Route::post('/', [LeadInfoController::class, 'store'])->name('store');
-    
         // Route to display the edit form for an inquiry
         Route::get('/{id}/edit', [LeadInfoController::class, 'edit'])->name('edit');
-    
         // Route to update the inquiry
         Route::put('/{id}', [LeadInfoController::class, 'update'])->name('update');
-    
         // Route to delete an inquiry
         Route::delete('/{id}', [LeadInfoController::class, 'destroy'])->name('destroy');
     });
