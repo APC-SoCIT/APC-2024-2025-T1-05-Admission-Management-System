@@ -34,7 +34,7 @@
         </div>
 
         <!-- Add User Button -->
-        <button id="addUserButton" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
+        <button id="addUserButton" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
             + Add User
         </button>
     </div>
