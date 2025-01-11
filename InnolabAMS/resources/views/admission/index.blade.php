@@ -3,25 +3,11 @@
 
 @section('content')
 <!-- Title Section -->
-<div class="mb-4">
-    <h1 class="text-2xl font-semibold">Applications</h1>
-</div>
-
-<!-- Filter and Action Buttons -->
 <div class="flex justify-between items-center mb-4">
-    <!-- Filter Options with increased spacing -->
-    <div class="flex space-x-8">
-    <button id="allButton" class="text-gray-600 hover:text-gray-900">All</button>
-    <button id="sortByButton" class="text-gray-600 hover:text-gray-900">Sort by</button>
-</div>
+    <h1 class="text-2xl font-semibold mx-4 my-4">Applications</h1>
 
-    <!-- Action Buttons -->
     <div class="flex items-center space-x-4">
-        <a href="{{ route('admission.create') }}" 
-           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
-            <i class="fa-solid fa-plus mr-2"></i>Add Applicant
-        </a>
-
+        <!-- Search Icon and Bar -->
         <div class="relative flex items-center">
             <button id="searchIcon"
                 class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
@@ -31,6 +17,7 @@
                 class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
         </div>
 
+        <!-- Sort Icon and Dropdown -->
         <div class="relative">
             <button id="sortIcon"
                 class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
@@ -46,14 +33,15 @@
                 </button>
             </div>
         </div>
+
+        <!-- Add Applicant Button -->
+        <a href="{{ route('admission.create') }}" 
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
+        <i class="fa-solid fa-plus mr-2"></i>Add Applicant
+    </a>
     </div>
 </div>
 
-<!-- Search Bar (Hidden by default) -->
-<div class="relative mb-4">
-    <input type="text" id="searchBar" placeholder="Search..."
-        class="hidden w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-</div>
 
 <!-- Table Section -->
 <div class="bg-white rounded-lg shadow-sm overflow-hidden">

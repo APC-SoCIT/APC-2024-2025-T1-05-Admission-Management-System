@@ -1,17 +1,12 @@
-@extends('dashboard')
 @section('title', 'Accepted Applications | InnolabAMS')
+@extends('dashboard')
 
 @section('content')
+<!-- Title Section -->
 <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-semibold mx-4 my-4">Accepted Applications</h1>
+    <h1 class="text-2xl font-semibold mx-4 my-4">Applications</h1>
 
     <div class="flex items-center space-x-4">
-        <!-- Add Applicant Button -->
-        <a href="{{ route('admission.create') }}" 
-           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
-            <i class="fa-solid fa-plus mr-2"></i>Add Applicant
-        </a>
-
         <!-- Search Icon and Bar -->
         <div class="relative flex items-center">
             <button id="searchIcon"
@@ -29,7 +24,7 @@
                 <i class="fa-solid fa-bars"></i>
             </button>
             <div id="sortDropdown"
-                class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40 z-10">
+                class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40">
                 <button id="sortOldNew" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
                     Old - New
                 </button>
@@ -38,6 +33,12 @@
                 </button>
             </div>
         </div>
+
+        <!-- Add Applicant Button -->
+        <a href="{{ route('admission.create') }}" 
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
+        <i class="fa-solid fa-plus mr-2"></i>Add Applicant
+    </a>
     </div>
 </div>
 
