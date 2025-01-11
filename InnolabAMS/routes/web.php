@@ -61,6 +61,9 @@ Route::middleware('auth')->group(function () {
         Route::patch('/profile', 'update')->name('profile.update');
         Route::delete('/profile', 'destroy')->name('profile.destroy');
     });
+
+    //Personal Information Routes
+    Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showForm'])->name('personal_information.create');
 });
 
 require __DIR__.'/auth.php';

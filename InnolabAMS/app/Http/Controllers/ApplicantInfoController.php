@@ -32,9 +32,9 @@ class ApplicantInfoController extends Controller
         if ($search = request('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('applicant_surname', 'like', "%{$search}%")
-                  ->orWhere('applicant_given_name', 'like', "%{$search}%")
-                  ->orWhere('apply_program', 'like', "%{$search}%")
-                  ->orWhere('applicant_mobile_number', 'like', "%{$search}%");
+                    ->orWhere('applicant_given_name', 'like', "%{$search}%")
+                    ->orWhere('apply_program', 'like', "%{$search}%")
+                    ->orWhere('applicant_mobile_number', 'like', "%{$search}%");
             });
         }
 
@@ -140,5 +140,12 @@ class ApplicantInfoController extends Controller
                 ->withInput()
                 ->with('error', 'Failed to create application: ' . $e->getMessage());
         }
+
+
+    }
+    //Personal Information Form
+    public function showForm()
+    {
+        return view('personal_information.create');
     }
 }
