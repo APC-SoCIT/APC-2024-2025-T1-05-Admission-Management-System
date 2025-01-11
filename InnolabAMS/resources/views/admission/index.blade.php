@@ -22,16 +22,22 @@
             <i class="fa-solid fa-plus mr-2"></i>Add Applicant
         </a>
 
-        <button id="searchIcon"
-            class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+        <div class="relative flex items-center">
+            <button id="searchIcon"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <input type="text" id="searchBar" placeholder="Search..."
+                class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
+        </div>
 
         <div class="relative">
-            <button id="menuIcon" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+            <button id="sortIcon"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
-                </button>
-                <div id="menuDropdown" class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40 z-10">
+            </button>
+            <div id="sortDropdown"
+                class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40">
                 <button id="sortOldNew" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
                     Old - New
                 </button>
@@ -94,49 +100,35 @@
 
 @push('scripts')
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+   document.addEventListener("DOMContentLoaded", () => {
         const searchIcon = document.getElementById("searchIcon");
         const searchBar = document.getElementById("searchBar");
-        const applicantsTable = document.getElementById("applicantsTable");
-        const menuIcon = document.getElementById("menuIcon");
-        const menuDropdown = document.getElementById("menuDropdown");
+        const userTable = document.getElementById("userTable");
+        const sortIcon = document.getElementById("sortIcon");
+        const sortDropdown = document.getElementById("sortDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
         const sortNewOld = document.getElementById("sortNewOld");
-        const allButton = document.getElementById("allButton");
-        const sortByButton = document.getElementById("sortByButton");
-
-        // Initialize "All" as active
-        allButton.classList.add('underline');
-
-            // Sort By button functionality
-        sortByButton.addEventListener("click", () => {
-            sortByButton.classList.add('underline');
-            allButton.classList.remove('underline');
-            // Add your sort logic here
-        });
-
-        // All button functionality
-        allButton.addEventListener("click", () => {
-            allButton.classList.add('underline');
-            sortByButton.classList.remove('underline');
-            // Reset to default view
-        });
+        let sortOrder = "asc";
 
         // Search Bar Logic
-            menuIcon.addEventListener("click", () => {
-            menuDropdown.classList.toggle("hidden");
+        searchIcon.addEventListener("click", () => {
+            if (searchBar.classList.contains("hidden")) {
+                searchBar.classList.remove("hidden");
+                searchBar.focus();
+            } else {
+                searchBar.classList.add("hidden");
+            }
         });
 
         searchBar.addEventListener("input", () => {
             const filter = searchBar.value.toLowerCase();
-            const rows = applicantsTable.querySelectorAll("tbody tr");
+            const rows = userTable.querySelectorAll("tr");
 
             rows.forEach(row => {
-                const name = row.cells[1].textContent.toLowerCase();
-                const email = row.cells[4].textContent.toLowerCase();
-                const program = row.cells[3].textContent.toLowerCase();
+                const name = row.children[1].textContent.toLowerCase();
+                const email = row.children[2].textContent.toLowerCase();
 
-                if (name.includes(filter) || email.includes(filter) || program.includes(filter)) {
+                if (name.includes(filter) || email.includes(filter)) {
                     row.style.display = "";
                 } else {
                     row.style.display = "none";
@@ -145,29 +137,25 @@
         });
 
         // Sort Dropdown Logic
-            document.addEventListener("click", (e) => {
-            if (!menuIcon.contains(e.target)) {
-                menuDropdown.classList.add("hidden");
-            }
+        sortIcon.addEventListener("click", () => {
+            sortDropdown.classList.toggle("hidden");
         });
 
-        // Sorting Logic
-        const sortRows = (ascending = true) => {
-            const rows = Array.from(applicantsTable.querySelectorAll("tbody tr"));
-            const tbody = applicantsTable.querySelector("tbody");
-            
-            rows.sort((a, b) => {
-                const aId = parseInt(a.cells[0].textContent);
-                const bId = parseInt(b.cells[0].textContent);
-                return ascending ? aId - bId : bId - aId;
-            });
-
-            rows.forEach(row => tbody.appendChild(row));
+        // Sort Old - New
+        sortOldNew.addEventListener("click", () => {
+            const rows = Array.from(userTable.querySelectorAll("tr"));
+            rows.sort((a, b) => parseInt(a.children[0].textContent) - parseInt(b.children[0].textContent));
+            rows.forEach(row => userTable.appendChild(row));
             sortDropdown.classList.add("hidden");
-        };
+        });
 
-        sortOldNew.addEventListener("click", () => sortRows(true));
-        sortNewOld.addEventListener("click", () => sortRows(false));
+        // Sort New - Old
+        sortNewOld.addEventListener("click"), () => {
+            const rows = Array.from(userTable.querySelectorAll("tr"));
+            rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
+            rows.forEach(row => userTable.appendChild(row));
+            sortDropdown.classList.add("hidden");
+        }
     });
 </script>
 @endpush
