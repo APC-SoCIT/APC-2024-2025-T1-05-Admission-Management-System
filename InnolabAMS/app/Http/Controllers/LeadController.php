@@ -30,7 +30,7 @@ class LeadController extends Controller
         ]);
 
         // Save the data to the database
-        LeadInfo::create([
+        LeadInfo::submit([
             'lead_given_name' => $validated['lead_given_name'],
             'lead_surname' => $validated['lead_surname'],
             'lead_middle_name' => $validated['lead_middle_name'],

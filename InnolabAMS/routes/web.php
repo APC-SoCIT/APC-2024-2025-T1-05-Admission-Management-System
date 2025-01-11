@@ -35,10 +35,16 @@ Route::middleware('auth')->group(function () {
     // Scholarship Routes
     Route::get('/dashboard/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show');
 
-    // Inquiry Routes
-    Route::prefix('inquiry')->name('inquiry.')->group(function () {
-        Route::get('/', [InquiryController::class, 'index'])->name('index');
-        Route::get('/form', [LeadController::class, 'create'])->name('form');
+    // Inquiry routes
+    Route::prefix('inquiries')->group(function () {
+        Route::get('/', [InquiryController::class, 'index'])->name('inquiry.index'); // List all inquiries
+        Route::get('/{id}', [InquiryController::class, 'show'])->name('inquiry.show'); // Show single inquiry details
+    });
+
+    // Lead routes
+    Route::prefix('inquiry_form')->group(function () {
+        Route::get('/form', [LeadController::class, 'submit'])->name('inquiry_form.form'); // Display the inquiry form
+        Route::post('/form', [LeadController::class, 'store'])->name('inquiry_form.store'); // Handle form submission
     });
 
     // User Routes

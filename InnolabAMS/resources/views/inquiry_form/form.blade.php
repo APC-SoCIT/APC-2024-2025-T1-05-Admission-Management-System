@@ -5,16 +5,23 @@
     <h1>Inquiry Form</h1>
     <form action="{{ route('leads.store') }}" method="POST">
         @csrf
+        
         <!-- First Name -->
         <div class="form-group">
             <label for="lead_given_name">First Name</label>
             <input type="text" name="lead_given_name" class="form-control" required>
+            @error('lead_given_name')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <!-- Last Name -->
         <div class="form-group">
             <label for="lead_surname">Last Name</label>
             <input type="text" name="lead_surname" class="form-control" required>
+            @error('lead_surname')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <!-- Middle Name -->
@@ -33,12 +40,18 @@
         <div class="form-group">
             <label for="lead_email">Email</label>
             <input type="email" name="lead_email" class="form-control" required>
+            @error('lead_email')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <!-- Contact Number -->
         <div class="form-group">
             <label for="lead_mobile_number">Mobile Number</label>
             <input type="text" name="lead_mobile_number" class="form-control" maxlength="13" required>
+            @error('lead_mobile_number')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <!-- City -->
@@ -51,10 +64,14 @@
         <div class="form-group">
             <label for="inquired_details">What details would you like to know?</label>
             <select name="inquired_details" class="form-control" required>
+                <!-- Dynamic Options -->
                 <option value="Option1">Option 1</option>
                 <option value="Option2">Option 2</option>
                 <option value="Option3">Option 3</option>
             </select>
+            @error('inquired_details')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
 
         <!-- Message -->

@@ -46,7 +46,7 @@
                             <tr>
                                 <th scope="col"
                                     class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    ID
+                                    INQUIRY ID
                                 </th>
                                 <th scope="col"
                                     class="w-2/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">

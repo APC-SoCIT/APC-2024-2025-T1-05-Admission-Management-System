@@ -4,9 +4,9 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -93.8009,
-    "scrollLeft": 0,
-    "zoomLevel": 1,
+    "scrollTop": -427.9179,
+    "scrollLeft": -66.8955,
+    "zoomLevel": 0.73,
     "show": 436,
     "database": 4,
     "databaseName": "applicationdb",
@@ -1770,7 +1770,7 @@
       "S-McJMaCt4dV7nMAgFe_e": {
         "id": "S-McJMaCt4dV7nMAgFe_e",
         "tableId": "dixJWxqTfk18PMhyLZYzV",
-        "name": "id",
+        "name": "admin_id",
         "comment": "",
         "dataType": "INT(11)",
         "default": "",
@@ -1783,7 +1783,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1729865565056,
+          "updateAt": 1736550982778,
           "createAt": 1727707440582
         }
       },
@@ -2010,20 +2010,20 @@
       "rwALgmmGtePnISbnSSBQa": {
         "id": "rwALgmmGtePnISbnSSBQa",
         "tableId": "CAAIiMeOtjs07xM0Yw-YY",
-        "name": "id",
+        "name": "lead_info_id",
         "comment": "",
         "dataType": "INT(11)",
         "default": "",
         "options": 11,
         "ui": {
           "keys": 1,
-          "widthName": 60,
+          "widthName": 65,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1729865569802,
+          "updateAt": 1736550966725,
           "createAt": 1728562643125
         }
       },
@@ -2250,7 +2250,7 @@
       "VrbnuLzs9Vo9syjto6bjf": {
         "id": "VrbnuLzs9Vo9syjto6bjf",
         "tableId": "nGBkJt-vladXC9pYiXfTE",
-        "name": "id",
+        "name": "inquiry_id",
         "comment": "",
         "dataType": "INT(11)",
         "default": "",
@@ -2263,7 +2263,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1729865553788,
+          "updateAt": 1736550949349,
           "createAt": 1728568801091
         }
       },
@@ -4642,7 +4642,7 @@
       1727707440581,
       -1,
       {
-        "name": 1728562657713,
+        "name": 1736550982777,
         "dataType": 1727708684895,
         "options(notNull)": 1729765457262,
         "options(primaryKey)": 1727708412404,
@@ -4779,7 +4779,7 @@
       1728562643124,
       -1,
       {
-        "name": 1728562708073,
+        "name": 1736550966724,
         "options(primaryKey)": 1728562714154,
         "dataType": 1728718840078,
         "options(autoIncrement)": 1729865569802
@@ -4907,7 +4907,7 @@
       -1,
       {
         "options(primaryKey)": 1728568802698,
-        "name": 1728568804477,
+        "name": 1736550949348,
         "dataType": 1728718847570,
         "options(autoIncrement)": 1729865553787
       }
