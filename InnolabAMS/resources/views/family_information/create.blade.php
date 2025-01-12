@@ -12,7 +12,6 @@
         
         <!-- Father's Information -->
         <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Father's Information</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Father's Surname</label>
@@ -63,7 +62,6 @@
 
         <!-- Mother's Information -->
         <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Mother's Information</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Mother's Surname</label>
@@ -114,7 +112,6 @@
 
         <!-- Guardian's Information -->
         <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Guardian's Information</h2>
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Guardian is:</label>
                 <select name="guardian_info" 
@@ -198,7 +195,7 @@
 
         <!-- Siblings Information -->
         <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Siblings Information</h2>
+            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Sibling Information</h2>
             <div id="siblings-container">
                 <div class="sibling-entry grid grid-cols-6 gap-4 mb-4">
                     <div class="col-span-2">
@@ -232,7 +229,7 @@
                 Previous
             </a>
             <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
-                Save & Continue
+                Save
             </button>
         </div>
     </form>
