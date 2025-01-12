@@ -3,6 +3,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
+use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\LeadInfoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
