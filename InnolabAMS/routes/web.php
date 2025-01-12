@@ -14,7 +14,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
- //Admin Panel and Online Appplication Portal Routes
+//Admin Panel and Online Appplication Portal Routes
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -69,7 +69,10 @@ Route::middleware('auth')->group(function () {
     });
 
     //Personal Information Routes
-    Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showForm'])->name('personal_information.create');
+    Route::prefix('form')->name('form.')->group(function() {
+        Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showPersonalInfoForm'])->name('personal_info'); //Added Route
+        Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store'); //Added Route
+    });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
