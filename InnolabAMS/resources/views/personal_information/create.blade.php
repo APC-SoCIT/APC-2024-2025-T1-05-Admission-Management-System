@@ -9,7 +9,7 @@
 </div>
 
 <div class="bg-white rounded-lg shadow-lg p-6">
-    <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('form.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <!-- Program Information -->

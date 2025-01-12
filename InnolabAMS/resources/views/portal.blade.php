@@ -12,7 +12,7 @@
         <div class="w-70 h-screen bg-gray-100 text-gray-800 border-r border-gray-300 flex-shrink-0">
             <ul class="space-y-6 p-6">
                 <li>
-                    <a href="{{ route('personal_information.create') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                    <a href="{{ route('form.personal_info') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                     {{ request()->routeIs('personal_information.create') ? 'bg-gray-200' : '' }}">
                         <i class="fa-solid fa-user w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Personal Information') }}</span>
