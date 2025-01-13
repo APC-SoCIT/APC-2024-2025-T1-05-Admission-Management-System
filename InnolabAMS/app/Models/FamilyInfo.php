@@ -13,23 +13,21 @@ class FamilyInfo extends Model
 
     protected $fillable = [
         'applicant_id',
-        'father_surname',
-        'father_given_name',
-        'father_middle_name',
+        // Father's Information
+        'father_name',
         'father_occupation',
         'father_contact_num',
-        'mother_surname',
-        'mother_given_name',
-        'mother_middle_name',
+        // Mother's Information
+        'mother_name',
         'mother_occupation',
         'mother_contact_num',
-        'guardian_info',
-        'guardian_surname',
-        'guardian_given_name',
-        'guardian_middle_name',
-        'guardian_address_street',
-        'guardian_address_city',
-        'guardian_contact_num',
+        // Guardian's Information
+        'guardian_name',
+        'guardian_street_number',
+        'guardian_barangay',
+        'guardian_city',
+        'guardian_telephone',
+        'guardian_mobile',
         'guardian_email'
     ];
 
