@@ -13,12 +13,15 @@ class SiblingInfo extends Model
 
     protected $fillable = [
         'family_info_id',
-        'sibling_surname',
-        'sibling_given_name',
-        'sibling_age',
-        'sibling_school_name',
-        'sibling_school_address',
-        'sibling_grade_level'
+        'full_name',
+        'date_of_birth',
+        'age',
+        'grade_level',
+        'school_attended'
+    ];
+
+    protected $casts = [
+        'date_of_birth' => 'date'
     ];
 
     // Relationship with FamilyInfo
