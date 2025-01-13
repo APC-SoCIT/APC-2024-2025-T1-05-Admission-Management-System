@@ -11,12 +11,11 @@ return new class extends Migration
         Schema::create('siblings_info', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('family_info_id');
-            $table->string('sibling_surname')->nullable();
-            $table->string('sibling_given_name')->nullable();
-            $table->integer('sibling_age')->nullable();
-            $table->string('sibling_school_name')->nullable();
-            $table->string('sibling_school_address')->nullable();
-            $table->string('sibling_grade_level')->nullable();
+            $table->string('full_name');
+            $table->date('date_of_birth');
+            $table->integer('age');
+            $table->string('grade_level')->nullable();
+            $table->string('school_attended')->nullable();
             $table->timestamps();
 
             $table->foreign('family_info_id')
