@@ -11,29 +11,25 @@ return new class extends Migration
         Schema::create('family_info', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('applicant_id');
-            // Father's Information
-            $table->string('father_surname', 255)->nullable();
-            $table->string('father_given_name', 255)->nullable();
-            $table->string('father_middle_name', 255)->nullable();
-            $table->string('father_occupation', 255)->nullable();
+            
+            // Father's Information - simplified to single name field
+            $table->string('father_name')->nullable();
+            $table->string('father_occupation')->nullable();
             $table->string('father_contact_num', 12)->nullable();
             
-            // Mother's Information
-            $table->string('mother_surname', 255)->nullable();
-            $table->string('mother_given_name', 255)->nullable();
-            $table->string('mother_middle_name', 255)->nullable();
-            $table->string('mother_occupation', 255)->nullable();
+            // Mother's Information - simplified to single name field
+            $table->string('mother_name')->nullable();
+            $table->string('mother_occupation')->nullable();
             $table->string('mother_contact_num', 12)->nullable();
             
-            // Guardian's Information
-            $table->enum('guardian_info', ['Same as Father', 'Same as Mother'])->nullable();
-            $table->string('guardian_surname', 255);
-            $table->string('guardian_given_name', 255);
-            $table->string('guardian_middle_name', 255);
-            $table->string('guardian_address_street', 255)->nullable();
-            $table->string('guardian_address_city', 255)->nullable();
-            $table->string('guardian_contact_num', 255);
-            $table->string('guardian_email', 255)->nullable();
+            // Guardian's Information - restructured fields
+            $table->string('guardian_name');
+            $table->string('guardian_street_number')->nullable();
+            $table->string('guardian_barangay')->nullable();
+            $table->string('guardian_city')->nullable();
+            $table->string('guardian_telephone')->nullable();
+            $table->string('guardian_mobile')->nullable();
+            $table->string('guardian_email')->nullable();
             
             $table->timestamps();
             
