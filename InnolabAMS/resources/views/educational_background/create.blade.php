@@ -2,10 +2,6 @@
 @extends('portal')
 
 @section('content')
-<div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-semibold mx-4 my-4">Educational Background</h1>
-</div>
-
 <!-- Previous button -->
 <div class="mb-4">
     <a href="{{ route('form.personal_info') }}" 
@@ -14,9 +10,12 @@
     </a>
 </div>
 
+
 <div class="bg-white rounded-lg shadow-lg p-6">
     <form id="educationalBackgroundForm">
         <!-- LRN Section -->
+         <div class="mb-6">
+            <h2 class="text-lg font-semibold mb-6">Educational Background</h2>
         <div class="mb-6">
             <label for="lrn" class="block text-sm font-medium text-gray-700">LRN</label>
             <input type="text" name="lrn" id="lrn" 
@@ -31,11 +30,9 @@
             <div class="space-y-4">
                 <div>
                     <label for="applicant_school_name" class="block text-sm font-medium text-gray-700">School Name</label>
-                    <select name="applicant_school_name" id="applicant_school_name"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="">Select School</option>
-                        <!-- Add your school options here -->
-                    </select>
+                    <input type="text" name="applicant_school_name" id="applicant_school_name"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value="{{ $educationalBackground->applicant_school_name ?? '' }}">
                 </div>
 
                 <div>
