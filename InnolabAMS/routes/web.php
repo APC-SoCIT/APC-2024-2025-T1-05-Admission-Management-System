@@ -92,6 +92,12 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
     });
 
+    //Personal Information Routes
+    Route::prefix('form')->name('scholarship.')->group(function() {
+        Route::get('/portal/scholarship', [ApplicantInfoController::class, 'showScholarshipForm'])->name('create'); //Added Route
+        
+    });
+
 
 });
 
