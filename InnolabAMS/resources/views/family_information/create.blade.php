@@ -2,11 +2,7 @@
 @extends('portal')
 
 @section('content')
-<div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-semibold mx-4 my-4">Family Information</h1>
-</div>
-
-<!-- Previous button outside the form -->
+<!-- Previous button -->
 <div class="mb-4">
     <a href="{{ route('form.personal_info') }}" 
        class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">
@@ -14,8 +10,10 @@
     </a>
 </div>
 
-<div class="bg-white rounded-lg shadow-lg p-6">
+
     <!-- Parent Information Form -->
+     <div class="bg-white rounded-lg shadow-lg p-6">
+     <h2 class="text-xl font-semibold mb-4">Family Information</h2>
     <form id="parentForm" class="mb-8">
         <!-- Father's Section -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

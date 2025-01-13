@@ -41,6 +41,14 @@
                         <span class="font-semibold ml-6">{{ __('Additional Information') }}</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('scholarship.create') }}"
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                              {{ request()->routeIs('scholarship.create') ? 'bg-gray-200' : '' }}">
+                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Scholarship') }}</span>
+                    </a>
+                </li>
             </ul>
         </div>
 

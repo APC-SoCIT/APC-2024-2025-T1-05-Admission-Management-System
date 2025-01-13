@@ -292,5 +292,11 @@ class ApplicantInfoController extends Controller
                 ->with('error', 'Failed to create application: ' . $e->getMessage());
         }
 
+
+}
+
+public function showScholarshipForm()
+{
+    return view('scholarship.create');
 }
 }

@@ -14,7 +14,7 @@
 <div class="bg-white rounded-lg shadow-lg p-6">
     <form id="educationalBackgroundForm">
         <!-- LRN Section -->
-         <div class="mb-6">
+        <div class="mb-6">
             <h2 class="text-lg font-semibold mb-6">Educational Background</h2>
         <div class="mb-6">
             <label for="lrn" class="block text-sm font-medium text-gray-700">LRN</label>
