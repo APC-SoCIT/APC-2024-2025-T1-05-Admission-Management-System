@@ -39,7 +39,7 @@ class LeadInfoController extends Controller
             'lead_email' => 'required|email|max:225',
             'lead_mobile_number' => 'required|string|max:13',
             'lead_address_city' => 'nullable|string|max:225',
-            'inquired_details' => 'required|string',
+            'inquired_details' => 'required|in:OPTION_1,OPTION_2,OPTION_3',
             'lead_message' => 'nullable|string',
             'source' => 'nullable|array', // Validate source as an array
         ]);
