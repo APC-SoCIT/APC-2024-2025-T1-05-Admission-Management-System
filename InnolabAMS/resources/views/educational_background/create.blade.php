@@ -2,80 +2,133 @@
 @extends('portal')
 
 @section('content')
-<div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-semibold mx-4 my-4">Educational Background</h1>
+<!-- Previous button -->
+<div class="mb-4">
+    <a href="{{ route('form.personal_info') }}" 
+       class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">
+        Previous
+    </a>
 </div>
 
+
 <div class="bg-white rounded-lg shadow-lg p-6">
-    <form action="#" method="POST"> <!-- We'll update the action later when backend is ready -->
-        @csrf
-        
-        <!-- Educational Background -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Basic Information</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form id="educationalBackgroundForm">
+        <!-- LRN Section -->
+         <div class="mb-6">
+            <h2 class="text-lg font-semibold mb-6">Educational Background</h2>
+        <div class="mb-6">
+            <label for="lrn" class="block text-sm font-medium text-gray-700">LRN</label>
+            <input type="text" name="lrn" id="lrn" 
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                value="{{ $educationalBackground->lrn ?? '' }}">
+        </div>
+
+        <!-- Last School Attended Section -->
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold mb-4">Last School Attended</h2>
+            
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">LRN</label>
-                    <input type="text" name="lrn" maxlength="12" 
+                    <label for="applicant_school_name" class="block text-sm font-medium text-gray-700">School Name</label>
+                    <input type="text" name="applicant_school_name" id="applicant_school_name"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value="{{ $educationalBackground->applicant_school_name ?? '' }}">
+                </div>
+
+                <div>
+                    <label for="applicant_school_address" class="block text-sm font-medium text-gray-700">School Address</label>
+                    <input type="text" name="applicant_school_address" id="applicant_school_address"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value="{{ $educationalBackground->applicant_school_address ?? '' }}">
+                </div>
+
+                <div>
+                    <label for="applicant_last_grade_level" class="block text-sm font-medium text-gray-700">Academic Program</label>
+                    <select name="applicant_last_grade_level" id="applicant_last_grade_level"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <option value="">Select Grade Level</option>
+                        @foreach(range(1, 12) as $grade)
+                            <option value="{{ $grade }}" {{ ($educationalBackground->applicant_last_grade_level ?? '') == $grade ? 'selected' : '' }}>
+                                Grade {{ $grade }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label for="applicant_year_graduation" class="block text-sm font-medium text-gray-700">Year of Graduation</label>
+                    <input type="date" name="applicant_year_graduation" id="applicant_year_graduation"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value="{{ $educationalBackground->applicant_year_graduation ?? '' }}">
                 </div>
             </div>
         </div>
 
-        <!-- Last School Information -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Last School Attended</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">School Name</label>
-                    <input type="text" name="school_name" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">School Address</label>
-                    <input type="text" name="school_address" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
+        <!-- Academic Information Section -->
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold mb-4">Academic Information</h2>
+            
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Previous Program</label>
-                    <input type="text" name="previous_program" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <label for="applicant_gwa" class="block text-sm font-medium text-gray-700">GWA</label>
+                    <input type="number" step="0.01" name="applicant_gwa" id="applicant_gwa"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value="{{ $educationalBackground->applicant_gwa ?? '' }}">
                 </div>
+
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Year of Graduation</label>
-                    <input type="text" name="year_of_graduation" maxlength="4"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <label for="applicant_achievements" class="block text-sm font-medium text-gray-700">Awards/Honors</label>
+                    <input type="text" name="applicant_achievements" id="applicant_achievements"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value="{{ $educationalBackground->applicant_achievements ?? '' }}">
+                </div>
+
+                <div>
+                    <label for="applicant_last_grade_level" class="block text-sm font-medium text-gray-700">Last Grade/Level Attended</label>
+                    <input type="text" name="applicant_last_grade_level" id="applicant_last_grade_level"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value="{{ $educationalBackground->applicant_last_grade_level ?? '' }}">
                 </div>
             </div>
         </div>
 
-        <!-- Academic Information -->
-        <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Academic Information</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">GWA</label>
-                    <input type="number" step="0.01" name="gwa" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Awards/Honors</label>
-                    <input type="text" name="awards_honors" 
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-            </div>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between">
-            <a href="{{ route('personal-information.create') }}" 
-               class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">
-                Previous
-            </a>
-            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+        <!-- Save Button -->
+        <div class="flex justify-end">
+            <button type="submit" 
+                class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
                 Save
             </button>
         </div>
     </form>
 </div>
+
+@push('scripts')
+<script>
+document.getElementById('educationalBackgroundForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('{{ route("educational-background.store") }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Redirect to next step
+            window.location.href = data.redirect;
+        } else {
+            // Handle errors
+            console.error('Save failed:', data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+</script>
+@endpush
+
 @endsection
