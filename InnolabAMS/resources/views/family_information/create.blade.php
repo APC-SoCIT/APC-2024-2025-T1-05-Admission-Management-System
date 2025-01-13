@@ -112,18 +112,29 @@
             + Add Sibling
         </button>
 
-        <div id="siblings-container">
-            <div class="grid grid-cols-5 gap-4 mb-2 font-medium text-sm text-gray-700">
-                <div>Full Name</div>
-                <div>Date of Birth</div>
-                <div>Age</div>
-                <div>Grade Level</div>
-                <div>School Attended</div>
-            </div>
-            <!-- Siblings will be dynamically added here -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200" id="siblingsTable">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Full Name</th>
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Date of Birth</th>
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Age</th>
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Grade Level</th>
+                        <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">School Attended</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="siblings-container">
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                            No siblings added yet.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 
 <!-- Save Button Outside Forms -->
 <div class="flex justify-end mt-6">
@@ -139,25 +150,34 @@
     
     document.getElementById('add-sibling').addEventListener('click', function() {
         const container = document.getElementById('siblings-container');
-        const newEntry = document.createElement('div');
-        newEntry.className = 'grid grid-cols-5 gap-4 mb-4';
-        newEntry.innerHTML = `
-            <input type="text" name="siblings[${siblingCount}][full_name]" 
-                placeholder="Full Name" 
-                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="date" name="siblings[${siblingCount}][date_of_birth]" 
-                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="number" name="siblings[${siblingCount}][age]" 
-                placeholder="Age" 
-                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="text" name="siblings[${siblingCount}][grade_level]" 
-                placeholder="Grade Level" 
-                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="text" name="siblings[${siblingCount}][school_attended]" 
-                placeholder="School Attended" 
-                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        if (siblingCount === 0) {
+            container.innerHTML = ''; // Clear "No siblings" message
+        }
+        
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-center">
+                <input type="text" name="siblings[${siblingCount}][full_name]" 
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-center">
+                <input type="date" name="siblings[${siblingCount}][date_of_birth]" 
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-center">
+                <input type="number" name="siblings[${siblingCount}][age]" 
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-center">
+                <input type="text" name="siblings[${siblingCount}][grade_level]" 
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-center">
+                <input type="text" name="siblings[${siblingCount}][school_attended]" 
+                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </td>
         `;
-        container.appendChild(newEntry);
+        container.appendChild(newRow);
         siblingCount++;
     });
 
