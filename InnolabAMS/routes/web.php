@@ -5,6 +5,7 @@ use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
 use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\EducationalBackgroundController;
+use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -91,6 +92,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [EducationalBackgroundController::class, 'create'])->name('create');
         Route::post('/', [EducationalBackgroundController::class, 'store'])->name('store');
         Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
+    });
+
+    //Additional InfoRoutes
+    Route::prefix('additional_info')->name('additional_info.')->group(function () {
+        Route::get('/create', [AdditionalInfoController::class, 'create'])->name('create');
+        Route::post('/', [AdditionalInfoController::class, 'store'])->name('store');
     });
 
 
