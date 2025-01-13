@@ -3,6 +3,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
+use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\LeadInfoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -72,6 +73,15 @@ Route::middleware('auth')->group(function () {
     Route::prefix('form')->name('form.')->group(function() {
         Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showPersonalInfoForm'])->name('personal_info'); //Added Route
         Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store'); //Added Route
+    });
+
+
+    //Family Information Routes
+    Route::prefix('family-information')->name('family-information.')->group(function() {
+        Route::get('/create', [FamilyInformationController::class, 'create'])->name('create');
+        Route::post('/', [FamilyInformationController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [FamilyInformationController::class, 'edit'])->name('edit');
+        Route::patch('/{id}', [FamilyInformationController::class, 'update'])->name('update');
     });
 });
 
