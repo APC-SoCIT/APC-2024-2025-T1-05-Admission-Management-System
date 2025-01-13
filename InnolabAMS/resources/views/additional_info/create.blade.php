@@ -105,7 +105,7 @@ document.getElementById('additionalInfoForm').addEventListener('submit', functio
     
     const formData = new FormData(this);
     
-    fetch('{{ route("additional-info.store") }}', {
+    fetch('{{ route("additional_info.store") }}', {
         method: 'POST',
         body: formData,
         headers: {

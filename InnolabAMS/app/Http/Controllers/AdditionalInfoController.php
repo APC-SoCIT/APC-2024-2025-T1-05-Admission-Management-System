@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ApplicantInfo;
+use Illuminate\Support\Facades\Auth;
 
 class AdditionalInfoController extends Controller
 {
@@ -16,7 +17,7 @@ class AdditionalInfoController extends Controller
     {        
         // Get the authenticated user's applicant info
         $applicant = ApplicantInfo::where('user_id', Auth::id())->first();
-
+        
         // Retrieve existing additional info if available
         $additionalInfo = $applicant ? ApplicantInfo::where('user_id', auth()->id())->first() : null;
 
