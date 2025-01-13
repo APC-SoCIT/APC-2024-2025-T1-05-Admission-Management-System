@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
 use App\Http\Controllers\FamilyInformationController;
+use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\LeadInfoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -83,6 +84,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [FamilyInformationController::class, 'edit'])->name('edit');
         Route::patch('/{id}', [FamilyInformationController::class, 'update'])->name('update');
     });
+
+    //Educational Background Routes
+    Route::prefix('educational-background')->name('educational-background.')->group(function() {
+        Route::get('/create', [EducationalBackgroundController::class, 'create'])->name('create');
+        Route::post('/', [EducationalBackgroundController::class, 'store'])->name('store');
+        Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
+    });
+
+
 });
 
 require __DIR__ . '/auth.php';
