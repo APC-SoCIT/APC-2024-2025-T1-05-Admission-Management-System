@@ -25,6 +25,16 @@ Route::get('/portal', function () {
     return view('portal');
 })->middleware(['auth', 'verified'])->name('portal'); //Added Route
 
+//Lead_Info routes
+Route::prefix('lead_info')->name('lead_info.')->group(function () {
+    // Route to display the inquiry form (create)
+    Route::get('/create', [LeadInfoController::class, 'create'])->name('create');
+    // Route to store a new inquiry
+    Route::post('/store', [LeadInfoController::class, 'store'])->name('store');
+    // Route to display the edit form for an inquiry
+    // Route::get('/{id}/edit', [LeadInfoController::class, 'edit'])->name('edit');
+});
+
 Route::middleware('auth')->group(function () {
     // Admission Routes - grouping related routes together
     Route::prefix('admission')->name('admission.')->group(function () {
@@ -45,15 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix('inquiries')->group(function () {
         Route::get('/', [LeadInfoController::class, 'index'])->name('inquiry.index'); // List all inquiries
         Route::get('/{id}', [LeadInfoController::class, 'show'])->name('inquiry.show'); // Show single inquiry details
-    });
-    // Inquiry and Lead_Info routes
-    Route::prefix('leads')->name('leads.')->group(function() {
-        // Route to display the inquiry form (create)
-        Route::get('/create', [LeadInfoController::class, 'create'])->name('create');
-        // Route to store a new inquiry
-        Route::post('/', [LeadInfoController::class, 'store'])->name('store');
-        // Route to display the edit form for an inquiry
-        Route::get('/{id}/edit', [LeadInfoController::class, 'edit'])->name('edit');
         // Route to update the inquiry
         Route::put('/{id}', [LeadInfoController::class, 'update'])->name('update');
         // Route to delete an inquiry
@@ -71,14 +72,14 @@ Route::middleware('auth')->group(function () {
     });
 
     //Personal Information Routes
-    Route::prefix('form')->name('form.')->group(function() {
+    Route::prefix('form')->name('form.')->group(function () {
         Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showPersonalInfoForm'])->name('personal_info'); //Added Route
         Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store'); //Added Route
     });
 
 
     //Family Information Routes
-    Route::prefix('family-information')->name('family-information.')->group(function() {
+    Route::prefix('family-information')->name('family-information.')->group(function () {
         Route::get('/create', [FamilyInformationController::class, 'create'])->name('create');
         Route::post('/', [FamilyInformationController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [FamilyInformationController::class, 'edit'])->name('edit');
@@ -86,7 +87,7 @@ Route::middleware('auth')->group(function () {
     });
 
     //Educational Background Routes
-    Route::prefix('educational-background')->name('educational-background.')->group(function() {
+    Route::prefix('educational-background')->name('educational-background.')->group(function () {
         Route::get('/create', [EducationalBackgroundController::class, 'create'])->name('create');
         Route::post('/', [EducationalBackgroundController::class, 'store'])->name('store');
         Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
