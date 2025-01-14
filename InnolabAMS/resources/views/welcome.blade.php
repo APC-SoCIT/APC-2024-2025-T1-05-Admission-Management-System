@@ -909,7 +909,8 @@
     </style>
 </head>
 
-<body class="font-sans antialiased bg-gray-100 text-black" x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true }">
+<body class="font-sans antialiased bg-gray-100 text-black"
+    x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true }">
     <div class="relative w-full">
         <!-- Heading Section with Flexbox for Logo and Text -->
         <div class="flex items-center mt-10 ml-20">
@@ -928,83 +929,81 @@
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <h2 class=" text-xl mb-4 text-center">Welcome!</h2>
         @if (Route::has('login'))
-        <nav class="flex flex-col items-center gap-6 p-6 border border-gray-300 rounded-lg shadow-lg">
-            <img src="{{ asset('/static/images/school_logo.png') }}" alt="School Logo" class="w-16 h-16 rounded-full" />
-            <h2 class="text-lg mb-4">What would you like to do?</h2>
+            <nav class="flex flex-col items-center gap-6 p-6 border border-gray-300 rounded-lg shadow-lg">
+                <img src="{{ asset('/static/images/school_logo.png') }}" alt="School Logo" class="w-16 h-16 rounded-full" />
+                <h2 class="text-lg mb-4">What would you like to do?</h2>
 
-            <!-- Buttons Section -->
-            <div x-show="buttonsVisible" class="flex gap-4">
-                <!-- Apply Button -->
-                <button
-                    @click="showAuthLinks = true; activeButton = 'apply'; buttonsVisible = false"
-                    class="rounded-md border border-gray-300 px-4 py-2 text-white bg-blue-500 transition duration-200 hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                    Apply
-                </button>
-                <!-- Inquire Button -->
-                <button
-                    @click="showAuthLinks = true; activeButton = 'inquire'; buttonsVisible = false"
-                    class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
-                    Inquire
-                </button>
-            </div>
-
-            <!-- Apply Section -->
-            <div x-show="showAuthLinks && activeButton === 'apply'"
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-95"
-                x-transition:enter-end="opacity-100 transform scale-100"
-                class="flex flex-col items-center gap-4">
-                @auth
-                <a href="{{ url('/dashboard') }}"
-                    class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
-                    Dashboard
-                </a>
-                @else
-                <div class="flex gap-4 justify-center">
-                    <a href="{{ route('login') }}"
+                <!-- Buttons Section -->
+                <div x-show="buttonsVisible" class="flex gap-4">
+                    <!-- Apply Button -->
+                    <button @click="showAuthLinks = true; activeButton = 'apply'; buttonsVisible = false"
+                        class="rounded-md border border-gray-300 px-4 py-2 text-white bg-blue-500 transition duration-200 hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                        Apply
+                    </button>
+                    <!-- Inquire Button -->
+                    <button @click="showAuthLinks = true; activeButton = 'inquire'; buttonsVisible = false"
                         class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
-                        Sign In
-                    </a>
-                    @if (Route::has('register'))
-                    <a href="{{ route('register') }}"
-                        class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
-                        Register
-                    </a>
-                    @endif
+                        Inquire
+                    </button>
                 </div>
-                @endauth
-                <!-- Back Button -->
-                <button
-                    @click="showAuthLinks = false; activeButton = ''; buttonsVisible = true"
-                    class="mt-4 rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                    <span>Back</span>
-                </button>
-            </div>
 
-            <!-- Inquire Section -->
-            <div x-show="showAuthLinks && activeButton === 'inquire'"
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-95"
-                x-transition:enter-end="opacity-100 transform scale-100"
-                class="text-gray-700 text-center">
-                <a href="{{ url('/inquiry_form.form') }}"
-                    class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
-                    Submit an inquiry form
-                </a>
-                <!-- Back Button -->
-                <button
-                    @click="showAuthLinks = false; activeButton = ''; buttonsVisible = true"
-                    class="mt-4 rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                    <span>Back</span>
-                </button>
-            </div>
-        </nav>
+                <!-- Apply Section -->
+                <div x-show="showAuthLinks && activeButton === 'apply'"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform scale-95"
+                    x-transition:enter-end="opacity-100 transform scale-100" class="flex flex-col items-center gap-4">
+                    @auth
+                        <a href="{{ url('/dashboard') }}"
+                            class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
+                            Dashboard
+                        </a>
+                    @else
+                        <div class="flex gap-4 justify-center">
+                            <a href="{{ route('login') }}"
+                                class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
+                                Sign In
+                            </a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}"
+                                    class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
+                                    Register
+                                </a>
+                            @endif
+                        </div>
+                    @endauth
+                    <!-- Back Button -->
+                    <button @click="showAuthLinks = false; activeButton = ''; buttonsVisible = true"
+                        class="mt-4 rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                            </path>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+                </div>
+
+                <!-- Inquire Section -->
+                <div x-show="showAuthLinks && activeButton === 'inquire'"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform scale-95"
+                    x-transition:enter-end="opacity-100 transform scale-100" class="text-gray-700 text-center">
+                    <a href="{{ route('lead_info.create') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                                  {{ request()->routeIs('lead_info.create') ? 'bg-gray-200' : '' }}">
+                        <span class="font-semibold ml-6">{{ __('Inquiry Form') }}</span>
+                    </a>
+                    <!-- Back Button -->
+                    <button @click="showAuthLinks = false; activeButton = ''; buttonsVisible = true"
+                        class="mt-4 rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                            </path>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+                </div>
+            </nav>
         @endif
     </div>
 </body>
