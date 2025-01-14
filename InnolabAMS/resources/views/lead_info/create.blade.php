@@ -99,6 +99,13 @@
             </div>
         </div>
 
+        <div class="mb-4">
+            <div class="flex items-center">
+                <input type="checkbox" id="data_privacy" name="data_privacy" class="mr-2">
+                <label for="data_privacy" class="font-medium">I agree to the <a href="#" target="_blank" class="text-blue-500 underline">Data Privacy Act</a>.</label>
+            </div>
+        </div>
+
         <!-- Submit Button -->
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
             Submit
