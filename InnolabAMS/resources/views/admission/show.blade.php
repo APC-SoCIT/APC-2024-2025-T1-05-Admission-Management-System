@@ -144,7 +144,7 @@
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Siblings:</td>
                     <td class="px-4 py-2" colspan="3">
-                        <table class="w-full border">
+                        <table class="w-full border, text-center">
                             <tr class="bg-gray-50 border-b">
                                 <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Full Name</th>
                                 <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Date of Birth</th>
