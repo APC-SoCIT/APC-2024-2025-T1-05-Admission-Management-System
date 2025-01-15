@@ -55,7 +55,7 @@ class ApplicantInfoController extends Controller
         try {
             $validated = $request->validate([
                 // Program Information
-                'apply_program' => 'required|in:Kindergarten,Elementary,High School,Senior High School',
+                'apply_program' => 'required|in:Elementary,High School,Senior High School',
                 'apply_grade_level' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
                 'apply_strand' => 'nullable|required_if:apply_program,Senior High School|in:STEM,ABM,TECHVOC,HUMSS,GAS',
 
