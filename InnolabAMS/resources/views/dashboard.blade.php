@@ -5,7 +5,7 @@
                 {{ __('Admin Panel') }}
             </h2>
 
-           
+
             @if(request()->routeIs('admission.show'))
             <div class="flex space-x-8 justify-start">
                     <a href="#" class="text-blue-600 pb-4 text-base underline">
@@ -39,7 +39,7 @@
                     </a>
                 </li>
 
-                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }" 
+                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }"
                     x-init="open = {{ request()->routeIs('admission.*') ? 'true' : 'false' }}">
                     <div class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                                 {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
@@ -128,6 +128,110 @@
             @if (Request::is('dashboard'))
                 <div class="flex justify-between items-center mb-4">
                     <h1 class="text-2xl font-semibold mx-4 my-4">{{ __('Welcome, ') . Auth::user()->name }}</h1>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- Total Applications -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium">Total Submitted Applications</h3>
+                        <div class="flex items-center">
+                            <div class="flex-1">
+                                <p class="text-3xl font-bold text-gray-900">{{ $totalApplications ?? 1323 }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accepted Applications -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium">Accepted Applications</h3>
+                        <div class="flex items-center">
+                            <div class="flex-1">
+                                <p class="text-3xl font-bold text-green-600">{{ $acceptedApplications ?? 223 }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rejected Applications -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium">Rejected Applications</h3>
+                        <div class="flex items-center">
+                            <div class="flex-1">
+                                <p class="text-3xl font-bold text-red-600">{{ $rejectedApplications ?? 32 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <!-- Admission Trends Chart -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium mb-4">Admission Trends</h3>
+                        <div class="h-64">
+                            <livewire:admission-trends-chart />
+                        </div>
+                    </div>
+
+                    <!-- Acceptance Rate Chart -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium mb-4">Acceptance Rate</h3>
+                        <div class="h-64">
+                            <livewire:acceptance-rate-chart />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Statistics -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Inquiries -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium mb-4">Inquiries</h3>
+                        <p class="text-2xl font-bold mb-4">1,323 Leads</p>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span>Events</span>
+                                <span class="font-medium">800</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Campaign</span>
+                                <span class="font-medium">300</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Walk-in</span>
+                                <span class="font-medium">223</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Channels -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium mb-4">Channels</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span>Social Media</span>
+                                <span class="font-medium">450</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Website</span>
+                                <span class="font-medium">300</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Referral</span>
+                                <span class="font-medium">573</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversion Rate -->
+                <div class="mt-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium mb-4">Conversion Rate</h3>
+                        <div class="h-64">
+                            <livewire:conversion-rate-chart />
+                        </div>
+                    </div>
                 </div>
             @endif
 
