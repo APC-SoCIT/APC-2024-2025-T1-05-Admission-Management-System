@@ -4,7 +4,16 @@
         const labels = @json($chartData['labels'] ?? []);
         const applications = @json($chartData['applications'] ?? []);
         const expected = @json($chartData['expected'] ?? []);
-        const colors = @json($chartData['colors'] ?? []);
+        const colors = @json($chartData['colors']) || {
+            applications: {
+                border: '#4F46E5',
+                background: '#4F46E5'
+            },
+            expected: {
+                border: '#9333EA',
+                background: '#9333EA'
+            }
+        };
 
         this.chart = new Chart(this.$refs.canvas.getContext('2d'), {
             type: 'line',
