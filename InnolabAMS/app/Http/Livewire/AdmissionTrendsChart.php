@@ -28,6 +28,16 @@ class AdmissionTrendsChart extends Component
             'labels' => $years->toArray(),
             'applications' => $fakeApplications,
             'expected' => $fakeExpected,
+            'colors' => [
+                'applications' => [
+                    'border' => '#4F46E5',
+                    'background' => '#4F46E5'
+                ],
+                'expected' => [
+                    'border' => '#9333EA',
+                    'background' => '#9333EA'
+                ]
+            ]
         ];
     }
 

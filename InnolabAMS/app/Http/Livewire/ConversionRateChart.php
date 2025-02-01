@@ -19,7 +19,8 @@ class ConversionRateChart extends Component
         $this->chartData = [
             'labels' => ['Converted', 'Not Converted'],
             'data' => [55.6, 44.4], // 55.6% converted, 44.4% not converted
-            'colors' => ['#94A3B8', '#475569'], // Gray colors for the pie chart
+            'colors' => ['#4F46E5', '#E5E7EB'], // Indigo for converted, Light gray for not converted
+            'hoverColors' => ['#4338CA', '#D1D5DB'] // Darker shades for hover
         ];
     }
 

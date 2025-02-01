@@ -4,6 +4,7 @@
         const labels = @json($chartData['labels'] ?? []);
         const data = @json($chartData['data'] ?? []);
         const colors = @json($chartData['colors'] ?? []);
+        const hoverColors = @json($chartData['hoverColors'] ?? colors);
 
         this.chart = new Chart(this.$refs.canvas.getContext('2d'), {
             type: 'doughnut',
@@ -12,7 +13,9 @@
                 datasets: [{
                     data: data,
                     backgroundColor: colors,
-                    borderWidth: 0
+                    hoverBackgroundColor: hoverColors,
+                    borderWidth: 0,
+                    borderRadius: 4
                 }]
             },
             options: {
@@ -20,17 +23,25 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
                     },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return context.label + ': ' + context.raw + '%';
+                                return context.label + ': ' + context.raw.toFixed(1) + '%';
                             }
                         }
                     }
                 },
-                cutout: '65%'
+                cutout: '75%',
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
             }
         });
     }

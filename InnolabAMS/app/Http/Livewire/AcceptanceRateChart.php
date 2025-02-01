@@ -28,6 +28,10 @@ class AcceptanceRateChart extends Component
             'labels' => $years->toArray(),
             'accepted' => $fakeAccepted,
             'rejected' => $fakeRejected,
+            'colors' => [
+                'accepted' => '#22C55E', // Green
+                'rejected' => '#EF4444'  // Red
+            ]
         ];
     }
 
