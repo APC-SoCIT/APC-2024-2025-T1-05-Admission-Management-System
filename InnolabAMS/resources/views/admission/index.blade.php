@@ -1,10 +1,10 @@
-@extends('layouts.app')
-
-@section('title', 'Applicants | InnolabAMS')
+@extends('dashboard')
 
 @section('content')
-    <div class="container mx-auto px-4 py-6">
-        <livewire:applicants-table />
+    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6 text-gray-900">
+            <livewire:applicants-table />
+        </div>
     </div>
 @endsection
 
