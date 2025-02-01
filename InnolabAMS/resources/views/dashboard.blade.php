@@ -231,6 +231,9 @@
                         <div class="h-64">
                             <livewire:conversion-rate-chart />
                         </div>
+                        <div class="mt-4 text-center text-sm text-gray-600">
+                            <p>Total Leads to Applications Conversion Rate</p>
+                        </div>
                     </div>
                 </div>
             @endif
