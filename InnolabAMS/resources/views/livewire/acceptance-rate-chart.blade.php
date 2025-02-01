@@ -4,57 +4,31 @@
         const labels = @json($chartData['labels'] ?? []);
         const accepted = @json($chartData['accepted'] ?? []);
         const rejected = @json($chartData['rejected'] ?? []);
-        const colors = @json($chartData['colors'] ?? []);
+        const defaultColors = {
+            accepted: '#22C55E',
+            rejected: '#EF4444'
+        };
+        const colors = @json($chartData['colors'] ?? defaultColors);
+
+        // Calculate total for percentages
+        const total = accepted.reduce((a, b) => a + b, 0) + rejected.reduce((a, b) => a + b, 0);
+        const acceptedPercentage = ((accepted.reduce((a, b) => a + b, 0) / total) * 100).toFixed(1);
+        const rejectedPercentage = ((rejected.reduce((a, b) => a + b, 0) / total) * 100).toFixed(1);
 
         this.chart = new Chart(this.$refs.canvas.getContext('2d'), {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Accepted',
-                        data: accepted,
-                        backgroundColor: colors.accepted,
-                        borderRadius: 4,
-                        borderSkipped: false,
-                        barPercentage: 0.6
-                    },
-                    {
-                        label: 'Rejected',
-                        data: rejected,
-                        backgroundColor: colors.rejected,
-                        borderRadius: 4,
-                        borderSkipped: false,
-                        barPercentage: 0.6
-                    }
-                ]
+                labels: ['Accepted', 'Rejected'],
+                datasets: [{
+                    data: [acceptedPercentage, rejectedPercentage],
+                    backgroundColor: [colors.accepted, colors.rejected],
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            display: true,
-                            color: '#E2E8F0'
-                        },
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString();
-                            }
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -66,7 +40,7 @@
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return context.dataset.label + ': ' + context.raw.toLocaleString();
+                                return context.label + ': ' + context.raw + '%';
                             }
                         }
                     }
