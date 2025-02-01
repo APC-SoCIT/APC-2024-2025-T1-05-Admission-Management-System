@@ -20,14 +20,14 @@ class AdmissionTrendsChart extends Component
         // Get data for the last 5 years
         $years = collect(range(2020, Carbon::now()->year));
 
-        $applications = $years->map(function($year) {
-            return Application::whereYear('created_at', $year)->count() ?? 0;
-        })->toArray();
+        // Fake data with an increasing trend
+        $fakeApplications = [950, 1100, 1250, 1600, 1800];
+        $fakeExpected = [1000, 1200, 2000, 2000, 2500];
 
         $this->chartData = [
             'labels' => $years->toArray(),
-            'applications' => $applications,
-            'expected' => [1000, 1200, 2000, 2000, 2500], // Example expected values
+            'applications' => $fakeApplications,
+            'expected' => $fakeExpected,
         ];
     }
 

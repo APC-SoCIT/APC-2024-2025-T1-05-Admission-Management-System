@@ -187,19 +187,19 @@
                     <!-- Inquiries -->
                     <div class="bg-white rounded-lg shadow p-6">
                         <h3 class="text-gray-500 text-sm font-medium mb-4">Inquiries</h3>
-                        <p class="text-2xl font-bold mb-4">{{ $totalLeads ?? '1,323' }} Leads</p>
+                        <p class="text-2xl font-bold mb-4">1,323 Leads</p>
                         <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span>Events</span>
-                                <span class="font-medium">{{ $eventLeads ?? '800' }}</span>
+                                <span class="font-medium">800</span>
                             </div>
                             <div class="flex justify-between">
                                 <span>Campaign</span>
-                                <span class="font-medium">{{ $campaignLeads ?? '300' }}</span>
+                                <span class="font-medium">300</span>
                             </div>
                             <div class="flex justify-between">
                                 <span>Walk-in</span>
-                                <span class="font-medium">{{ $walkInLeads ?? '223' }}</span>
+                                <span class="font-medium">223</span>
                             </div>
                         </div>
                     </div>
@@ -210,16 +210,26 @@
                         <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span>Social Media</span>
-                                <span class="font-medium">{{ $socialMediaLeads ?? '450' }}</span>
+                                <span class="font-medium">450</span>
                             </div>
                             <div class="flex justify-between">
                                 <span>Website</span>
-                                <span class="font-medium">{{ $websiteLeads ?? '300' }}</span>
+                                <span class="font-medium">300</span>
                             </div>
                             <div class="flex justify-between">
                                 <span>Referral</span>
-                                <span class="font-medium">{{ $referralLeads ?? '573' }}</span>
+                                <span class="font-medium">573</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversion Rate -->
+                <div class="mt-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-gray-500 text-sm font-medium mb-4">Conversion Rate</h3>
+                        <div class="h-64">
+                            <livewire:conversion-rate-chart />
                         </div>
                     </div>
                 </div>

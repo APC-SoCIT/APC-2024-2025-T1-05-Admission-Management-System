@@ -20,22 +20,14 @@ class AcceptanceRateChart extends Component
         // Get data for the last 5 years
         $years = collect(range(2020, Carbon::now()->year));
 
-        $accepted = $years->map(function($year) {
-            return Application::whereYear('created_at', $year)
-                ->where('status', 'accepted')
-                ->count() ?? 0;
-        })->toArray();
-
-        $rejected = $years->map(function($year) {
-            return Application::whereYear('created_at', $year)
-                ->where('status', 'rejected')
-                ->count() ?? 0;
-        })->toArray();
+        // Fake data showing acceptance and rejection trends
+        $fakeAccepted = [120, 100, 130, 200, 300];
+        $fakeRejected = [20, 15, 25, 30, 20];
 
         $this->chartData = [
             'labels' => $years->toArray(),
-            'accepted' => $accepted,
-            'rejected' => $rejected,
+            'accepted' => $fakeAccepted,
+            'rejected' => $fakeRejected,
         ];
     }
 
