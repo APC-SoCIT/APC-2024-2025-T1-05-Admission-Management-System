@@ -8,7 +8,10 @@
             accepted: '#22C55E',
             rejected: '#EF4444'
         };
-        const colors = @json($chartData['colors'] ?? defaultColors);
+        const colors = {
+            accepted: @json($chartData['colors']['accepted'] ?? '#22C55E'),
+            rejected: @json($chartData['colors']['rejected'] ?? '#EF4444')
+        };
 
         // Calculate total for percentages
         const total = accepted.reduce((a, b) => a + b, 0) + rejected.reduce((a, b) => a + b, 0);
