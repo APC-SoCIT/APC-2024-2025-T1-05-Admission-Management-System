@@ -27,7 +27,7 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option value="">Select Program</option>
+                            <option disabled value="">Select Program</option>
                             <option value="Elementary">Elementary</option>
                             <option value="Junior High School">Junior High School</option>
                             <option value="Senior High School">Senior High School</option>
@@ -41,7 +41,7 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option value="">Select Grade Level</option>
+                            <option disabled value="">Select Grade Level</option>
                             <template x-for="grade in availableGrades" :key="grade">
                                 <option :value="grade" x-text="'Grade ' + grade"></option>
                             </template>
