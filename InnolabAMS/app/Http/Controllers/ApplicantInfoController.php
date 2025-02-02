@@ -156,7 +156,7 @@ class ApplicantInfoController extends Controller
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'new')
             ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        return view('admission.new', ['applicants' => $applicants]);
     }
 
     public function accepted()
@@ -164,7 +164,7 @@ class ApplicantInfoController extends Controller
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'accepted')
             ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        return view('admission.accepted', ['applicants' => $applicants]);
     }
 
     public function rejected()
@@ -172,7 +172,7 @@ class ApplicantInfoController extends Controller
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'rejected')
             ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        return view('admission.rejected', ['applicants' => $applicants]);
     }
 
     // Add these methods to your existing ApplicantInfoController class
