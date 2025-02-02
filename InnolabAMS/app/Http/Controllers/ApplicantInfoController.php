@@ -136,7 +136,7 @@ class ApplicantInfoController extends Controller
             Log::info('Application created successfully', $validated);
 
             return redirect()
-                ->route('admission.index')
+                ->route('admission.new')
                 ->with('success', 'Application created successfully');
         } catch (\Exception $e) {
             // Debug log

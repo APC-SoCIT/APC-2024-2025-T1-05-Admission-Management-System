@@ -43,7 +43,7 @@
                     x-init="open = {{ request()->routeIs('admission.*') ? 'true' : 'false' }}">
                     <div class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                                 {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
-                        <div class="flex items-center cursor-pointer" @click="window.location.href = '{{ route('admission.index') }}'">
+                        <div class="flex items-center cursor-pointer" @click="window.location.href = '{{ route('admission.new') }}'">
                             <i class="fa-solid fa-file w-6 text-center"></i>
                             <span class="font-semibold ml-6">{{ __('Admission') }}</span>
                         </div>
