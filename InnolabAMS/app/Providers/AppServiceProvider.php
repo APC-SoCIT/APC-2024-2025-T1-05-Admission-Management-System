@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        View::composer('dashboard', function ($view) {
+        View::composer('*', function ($view) {
             $view->with([
                 'newApplicationsCount' => ApplicantInfo::where('status', 'new')->count(),
                 'acceptedApplicationsCount' => ApplicantInfo::where('status', 'accepted')->count(),

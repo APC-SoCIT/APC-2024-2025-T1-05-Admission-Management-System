@@ -5,7 +5,7 @@
 <div class="container mx-auto px-6 py-4" x-data="admissionForm()">
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-semibold">Add New Applicant</h1>
-        <a href="{{ route('admission.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+        <a href="{{ route('admission.new') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
             <i class="fas fa-arrow-left mr-2"></i>Back
         </a>
     </div>
@@ -27,7 +27,7 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option value="">Select Program</option>
+                            <option disabled value="">Select Program</option>
                             <option value="Elementary">Elementary</option>
                             <option value="Junior High School">Junior High School</option>
                             <option value="Senior High School">Senior High School</option>
@@ -38,11 +38,10 @@
                         <label class="block text-sm font-medium text-gray-700">Grade Level</label>
                         <select
                             name="grade_level"
-                            x-model="selectedGrade"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option value="">Select Grade Level</option>
+                            <option disabled value="">Select Grade Level</option>
                             <template x-for="grade in availableGrades" :key="grade">
                                 <option :value="grade" x-text="'Grade ' + grade"></option>
                             </template>
@@ -269,12 +268,10 @@
     </div>
 </div>
 
-@push('scripts')
 <script>
     function admissionForm() {
         return {
             selectedProgram: '',
-            selectedGrade: '',
             availableGrades: [],
             dateOfBirth: '',
             age: '',
@@ -313,5 +310,4 @@
         }
     }
 </script>
-@endpush
 @endsection
