@@ -154,17 +154,30 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Region</label>
+                        <label class="block text-sm font-medium text-gray-700">Province</label>
                         <select
-                            name="address_region"
-                            x-model="selectedRegion"
-                            @change="updateCities"
+                            name="address_province"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option disabled value="">Please choose your region</option>
-                            <option value="NCR">NCR</option>
-                            <!-- Add other regions if needed -->
+                            <option disabled selected value="">Please choose your province</option>
+                            <option value="Metro Manila--Caloocan">Metro Manila--Caloocan</option>
+                            <option value="Metro Manila--Las Piñas">Metro Manila--Las Piñas</option>
+                            <option value="Metro Manila--Makati">Metro Manila--Makati</option>
+                            <option value="Metro Manila--Malabon">Metro Manila--Malabon</option>
+                            <option value="Metro Manila--Mandaluyong">Metro Manila--Mandaluyong</option>
+                            <option value="Metro Manila--Manila">Metro Manila--Manila</option>
+                            <option value="Metro Manila--Marikina">Metro Manila--Marikina</option>
+                            <option value="Metro Manila--Muntinlupa">Metro Manila--Muntinlupa</option>
+                            <option value="Metro Manila--Navotas">Metro Manila--Navotas</option>
+                            <option value="Metro Manila--Parañaque">Metro Manila--Parañaque</option>
+                            <option value="Metro Manila--Pasay">Metro Manila--Pasay</option>
+                            <option value="Metro Manila--Pasig">Metro Manila--Pasig</option>
+                            <option value="Metro Manila--Pateros">Metro Manila--Pateros</option>
+                            <option value="Metro Manila--Quezon City">Metro Manila--Quezon City</option>
+                            <option value="Metro Manila--San Juan">Metro Manila--San Juan</option>
+                            <option value="Metro Manila--Taguig">Metro Manila--Taguig</option>
+                            <option value="Metro Manila--Valenzuela">Metro Manila--Valenzuela</option>
                         </select>
                     </div>
 
@@ -290,7 +303,6 @@
             availableGrades: [],
             dateOfBirth: '',
             age: '',
-            selectedRegion: '',
             availableCities: [],
 
             updateGradeLevels() {
@@ -326,11 +338,8 @@
             },
 
             updateCities() {
-                if (this.selectedRegion === 'NCR') {
-                    this.availableCities = ['Manila', 'Quezon City', 'Makati']; // Example cities
-                } else {
-                    this.availableCities = [];
-                }
+                // Logic to update cities based on selected province
+                // Example: if (this.selectedProvince === 'Metro Manila--Manila') { this.availableCities = ['City1', 'City2']; }
             }
         }
     }
