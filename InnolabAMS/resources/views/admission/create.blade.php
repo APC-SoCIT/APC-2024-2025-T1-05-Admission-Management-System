@@ -153,19 +153,34 @@
                         />
                     </div>
 
-                    <x-forms.input-field
-                        name="address_city"
-                        label="City"
-                        required="true"
-                        placeholder="Enter city"
-                    />
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Region</label>
+                        <select
+                            name="address_region"
+                            x-model="selectedRegion"
+                            @change="updateCities"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        >
+                            <option disabled value="">Please choose your region</option>
+                            <option value="NCR">NCR</option>
+                            <!-- Add other regions if needed -->
+                        </select>
+                    </div>
 
-                    <x-forms.input-field
-                        name="address_province"
-                        label="Province"
-                        required="true"
-                        placeholder="Enter province"
-                    />
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">City</label>
+                        <select
+                            name="address_city"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        >
+                            <option disabled value="">Please choose your city</option>
+                            <template x-for="city in availableCities" :key="city">
+                                <option :value="city" x-text="city"></option>
+                            </template>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -275,6 +290,8 @@
             availableGrades: [],
             dateOfBirth: '',
             age: '',
+            selectedRegion: '',
+            availableCities: [],
 
             updateGradeLevels() {
                 switch(this.selectedProgram) {
@@ -305,6 +322,14 @@
                     }
 
                     this.age = age;
+                }
+            },
+
+            updateCities() {
+                if (this.selectedRegion === 'NCR') {
+                    this.availableCities = ['Manila', 'Quezon City', 'Makati']; // Example cities
+                } else {
+                    this.availableCities = [];
                 }
             }
         }
