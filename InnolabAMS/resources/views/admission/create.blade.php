@@ -157,27 +157,13 @@
                         <label class="block text-sm font-medium text-gray-700">Province</label>
                         <select
                             name="address_province"
+                            x-model="selectedProvince"
+                            @change="checkProvince"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
                             <option disabled selected value="">Please choose your province</option>
-                            <option value="Metro Manila--Caloocan">Metro Manila--Caloocan</option>
-                            <option value="Metro Manila--Las Piñas">Metro Manila--Las Piñas</option>
-                            <option value="Metro Manila--Makati">Metro Manila--Makati</option>
-                            <option value="Metro Manila--Malabon">Metro Manila--Malabon</option>
-                            <option value="Metro Manila--Mandaluyong">Metro Manila--Mandaluyong</option>
-                            <option value="Metro Manila--Manila">Metro Manila--Manila</option>
-                            <option value="Metro Manila--Marikina">Metro Manila--Marikina</option>
-                            <option value="Metro Manila--Muntinlupa">Metro Manila--Muntinlupa</option>
-                            <option value="Metro Manila--Navotas">Metro Manila--Navotas</option>
-                            <option value="Metro Manila--Parañaque">Metro Manila--Parañaque</option>
-                            <option value="Metro Manila--Pasay">Metro Manila--Pasay</option>
-                            <option value="Metro Manila--Pasig">Metro Manila--Pasig</option>
-                            <option value="Metro Manila--Pateros">Metro Manila--Pateros</option>
-                            <option value="Metro Manila--Quezon City">Metro Manila--Quezon City</option>
-                            <option value="Metro Manila--San Juan">Metro Manila--San Juan</option>
-                            <option value="Metro Manila--Taguig">Metro Manila--Taguig</option>
-                            <option value="Metro Manila--Valenzuela">Metro Manila--Valenzuela</option>
+                            <option value="Metro Manila">Metro Manila</option>
                         </select>
                     </div>
 
@@ -185,13 +171,28 @@
                         <label class="block text-sm font-medium text-gray-700">City</label>
                         <select
                             name="address_city"
+                            :disabled="!selectedProvince"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option disabled value="">Please choose your city</option>
-                            <template x-for="city in availableCities" :key="city">
-                                <option :value="city" x-text="city"></option>
-                            </template>
+                            <option disabled selected value="">City</option>
+                            <option value="Caloocan">Caloocan</option>
+                            <option value="Las Piñas">Las Piñas</option>
+                            <option value="Makati">Makati</option>
+                            <option value="Malabon">Malabon</option>
+                            <option value="Mandaluyong">Mandaluyong</option>
+                            <option value="Manila">Manila</option>
+                            <option value="Marikina">Marikina</option>
+                            <option value="Muntinlupa">Muntinlupa</option>
+                            <option value="Navotas">Navotas</option>
+                            <option value="Parañaque">Parañaque</option>
+                            <option value="Pasay">Pasay</option>
+                            <option value="Pasig">Pasig</option>
+                            <option value="Pateros">Pateros</option>
+                            <option value="Quezon City">Quezon City</option>
+                            <option value="San Juan">San Juan</option>
+                            <option value="Taguig">Taguig</option>
+                            <option value="Valenzuela">Valenzuela</option>
                         </select>
                     </div>
                 </div>
@@ -303,8 +304,8 @@
             availableGrades: [],
             dateOfBirth: '',
             age: '',
-            availableCities: [],
-
+            selectedProvince: '',
+            
             updateGradeLevels() {
                 switch(this.selectedProgram) {
                     case 'Elementary':
@@ -337,9 +338,8 @@
                 }
             },
 
-            updateCities() {
-                // Logic to update cities based on selected province
-                // Example: if (this.selectedProvince === 'Metro Manila--Manila') { this.availableCities = ['City1', 'City2']; }
+            checkProvince() {
+                // This function is triggered when the province is changed
             }
         }
     }
