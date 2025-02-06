@@ -14,12 +14,12 @@
         <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <!-- Program Selection -->
+            <!-- Program Information -->
             <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h2 class="text-xl font-semibold mb-4">Program Information</h2>
+                <div class="grid grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Program</label>
+                        <label class="block text-sm font-medium text-gray-700">Program Level</label>
                         <select
                             name="program"
                             x-model="selectedProgram"
@@ -27,7 +27,7 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option disabled value="">Select Program</option>
+                            <option value="">Select Program</option>
                             <option value="Elementary">Elementary</option>
                             <option value="Junior High School">Junior High School</option>
                             <option value="Senior High School">Senior High School</option>
@@ -41,253 +41,83 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
-                            <option disabled value="">Select Grade Level</option>
+                            <option value="">Select Grade Level</option>
                             <template x-for="grade in availableGrades" :key="grade">
                                 <option :value="grade" x-text="'Grade ' + grade"></option>
                             </template>
                         </select>
                     </div>
-
-                    <!-- Strand Selection for Senior High -->
-                    <div x-show="selectedProgram === 'Senior High School'" class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Strand</label>
-                        <select
-                            name="strand"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            :required="selectedProgram === 'Senior High School'"
-                        >
-                            <option value="">Select Strand</option>
-                            <option value="STEM">STEM (Science, Technology, Engineering, and Mathematics)</option>
-                            <option value="ABM">ABM (Accountancy, Business, and Management)</option>
-                            <option value="HUMSS">HUMSS (Humanities and Social Sciences)</option>
-                            <option value="GAS">GAS (General Academic Strand)</option>
-                            <option value="TVL">TVL (Technical-Vocational-Livelihood)</option>
-                        </select>
-                    </div>
                 </div>
             </div>
 
-            <!-- Personal Information -->
+            <!-- Student Information -->
             <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <x-forms.input-field
-                        name="first_name"
-                        label="First Name"
-                        required="true"
-                        placeholder="Enter first name"
-                    />
-
-                    <x-forms.input-field
-                        name="middle_name"
-                        label="Middle Name"
-                        placeholder="Enter middle name"
-                    />
-
-                    <x-forms.input-field
-                        name="last_name"
-                        label="Last Name"
-                        required="true"
-                        placeholder="Enter last name"
-                    />
-
-                    <x-forms.input-field
-                        type="date"
-                        name="date_of_birth"
-                        label="Date of Birth"
-                        required="true"
-                        x-model="dateOfBirth"
-                        @change="calculateAge"
-                    />
-
-                    <x-forms.input-field
-                        type="number"
-                        name="age"
-                        label="Age"
-                        required="true"
-                        x-model="age"
-                        readonly
-                    />
-
+                <h2 class="text-xl font-semibold mb-4">Student Information</h2>
+                <div class="grid grid-cols-1 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Sex</label>
-                        <select
-                            name="sex"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required
-                        >
-                            <option value="">Select Sex</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Information -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <x-forms.input-field
-                        type="tel"
-                        name="contact_number"
-                        label="Contact Number"
-                        required="true"
-                        placeholder="Enter contact number"
-                    />
-
-                    <x-forms.input-field
-                        type="email"
-                        name="email"
-                        label="Email Address"
-                        required="true"
-                        placeholder="Enter email address"
-                    />
-
-                    <div class="md:col-span-2">
-                        <x-forms.input-field
-                            name="address_street"
-                            label="Street Address"
-                            required="true"
-                            placeholder="Enter street address"
-                        />
+                        <label class="block text-sm font-medium text-gray-700">First Name*</label>
+                        <input type="text" name="first_name" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Province</label>
-                        <select
-                            name="address_province"
-                            x-model="selectedProvince"
-                            @change="checkProvince"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required
-                        >
-                            <option disabled selected value="">Please choose your province</option>
-                            <option value="Metro Manila">Metro Manila</option>
-                        </select>
+                        <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                        <input type="text" name="middle_name"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">City</label>
-                        <select
-                            name="address_city"
-                            :disabled="!selectedProvince"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required
-                        >
-                            <option disabled selected value="">City</option>
-                            <option value="Caloocan">Caloocan</option>
-                            <option value="Las Piñas">Las Piñas</option>
-                            <option value="Makati">Makati</option>
-                            <option value="Malabon">Malabon</option>
-                            <option value="Mandaluyong">Mandaluyong</option>
-                            <option value="Manila">Manila</option>
-                            <option value="Marikina">Marikina</option>
-                            <option value="Muntinlupa">Muntinlupa</option>
-                            <option value="Navotas">Navotas</option>
-                            <option value="Parañaque">Parañaque</option>
-                            <option value="Pasay">Pasay</option>
-                            <option value="Pasig">Pasig</option>
-                            <option value="Pateros">Pateros</option>
-                            <option value="Quezon City">Quezon City</option>
-                            <option value="San Juan">San Juan</option>
-                            <option value="Taguig">Taguig</option>
-                            <option value="Valenzuela">Valenzuela</option>
-                        </select>
+                        <label class="block text-sm font-medium text-gray-700">Last Name*</label>
+                        <input type="text" name="last_name" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div class="flex justify-center items-center border-2 border-dashed border-gray-300 rounded-lg p-6">
+                        <div class="text-center">
+                            <div class="text-gray-400 mb-2">
+                                <i class="fas fa-camera text-4xl"></i>
+                            </div>
+                            <p class="text-gray-600">Upload 2x2 Photo</p>
+                            <input type="file" name="photo" class="hidden" id="photo-upload">
+                            <button type="button" onclick="document.getElementById('photo-upload').click()"
+                                class="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+                                Choose File
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">LRN*</label>
+                        <input type="text" name="lrn" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Nationality*</label>
+                        <input type="text" name="nationality" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Religion</label>
+                        <input type="text" name="religion"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
             </div>
 
-            <!-- Previous School Information -->
+            <!-- Family Information -->
             <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Previous School Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <x-forms.input-field
-                        name="previous_school"
-                        label="School Name"
-                        required="true"
-                        placeholder="Enter previous school name"
-                    />
-
-                    <x-forms.input-field
-                        name="previous_school_address"
-                        label="School Address"
-                        required="true"
-                        placeholder="Enter previous school address"
-                    />
+                <h2 class="text-xl font-semibold mb-4">Family Information</h2>
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Father's Information</label>
+                        <input type="text" name="father_name" placeholder="Full Name"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
                 </div>
             </div>
 
-            <!-- Required Documents -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Required Documents</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Elementary Requirements -->
-                    <template x-if="selectedProgram === 'Elementary'">
-                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <x-forms.file-upload
-                                name="birth_certificate"
-                                label="Birth Certificate"
-                                required="true"
-                            />
-                            <x-forms.file-upload
-                                name="report_card"
-                                label="Report Card"
-                                required="true"
-                            />
-                            <x-forms.file-upload
-                                name="proof_of_residency"
-                                label="Proof of Residency"
-                                required="true"
-                            />
-                        </div>
-                    </template>
-
-                    <!-- Junior High School Requirements -->
-                    <template x-if="selectedProgram === 'Junior High School'">
-                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <x-forms.file-upload
-                                name="form_137"
-                                label="Form 137"
-                                required="true"
-                            />
-                            <x-forms.file-upload
-                                name="report_card"
-                                label="Report Card"
-                                required="true"
-                            />
-                            <x-forms.file-upload
-                                name="good_moral"
-                                label="Good Moral Certificate"
-                                required="true"
-                            />
-                        </div>
-                    </template>
-
-                    <!-- Senior High School Requirements -->
-                    <template x-if="selectedProgram === 'Senior High School'">
-                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <x-forms.file-upload
-                                name="form_137"
-                                label="Form 137"
-                                required="true"
-                            />
-                            <x-forms.file-upload
-                                name="report_card"
-                                label="Report Card"
-                                required="true"
-                            />
-                            <x-forms.file-upload
-                                name="good_moral"
-                                label="Good Moral Certificate"
-                                required="true"
-                            />
-                        </div>
-                    </template>
-                </div>
-            </div>
-
-            <!-- Submit Button -->
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
                     Submit Application
@@ -302,10 +132,7 @@
         return {
             selectedProgram: '',
             availableGrades: [],
-            dateOfBirth: '',
-            age: '',
-            selectedProvince: '',
-            
+
             updateGradeLevels() {
                 switch(this.selectedProgram) {
                     case 'Elementary':
@@ -320,26 +147,6 @@
                     default:
                         this.availableGrades = [];
                 }
-                this.selectedGrade = '';
-            },
-
-            calculateAge() {
-                if (this.dateOfBirth) {
-                    const birthDate = new Date(this.dateOfBirth);
-                    const today = new Date();
-                    let age = today.getFullYear() - birthDate.getFullYear();
-                    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                        age--;
-                    }
-
-                    this.age = age;
-                }
-            },
-
-            checkProvince() {
-                // This function is triggered when the province is changed
             }
         }
     }
