@@ -115,8 +115,8 @@
                     <h3 class="text-lg font-medium mb-4">Father's Information</h3>
                     <div class="grid grid-cols-1 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Full Name*</label>
-                            <input type="text" name="father_name" required
+                            <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="father_name"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
@@ -125,8 +125,8 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number*</label>
-                            <input type="text" name="father_contact" required
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text" name="father_contact"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -137,8 +137,8 @@
                     <h3 class="text-lg font-medium mb-4">Mother's Information</h3>
                     <div class="grid grid-cols-1 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Full Name*</label>
-                            <input type="text" name="mother_name" required
+                            <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="mother_name"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
@@ -147,8 +147,8 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number*</label>
-                            <input type="text" name="mother_contact" required
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text" name="mother_contact"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -159,8 +159,8 @@
                     <h3 class="text-lg font-medium mb-4">Guardian's Information</h3>
                     <div class="grid grid-cols-1 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Full Name*</label>
-                            <input type="text" name="guardian_name" required
+                            <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="guardian_name"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
@@ -169,11 +169,16 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number*</label>
-                            <input type="text" name="guardian_contact" required
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text" name="guardian_contact"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
+                </div>
+
+                <!-- Add a validation message -->
+                <div class="text-sm text-red-600 mt-2">
+                    * Please fill up information for at least one: Father, Mother, or Guardian
                 </div>
             </div>
 
