@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ApplicantInfo;
 
 class AdmissionController extends Controller
 {
@@ -28,5 +29,28 @@ class AdmissionController extends Controller
         ]);
 
         // ... rest of the store logic ...
+    }
+
+    public function new()
+    {
+        $applicants = ApplicantInfo::where('status', 'new')->get();
+        return view('admission.new', compact('applicants'));
+    }
+
+    public function accepted()
+    {
+        $applicants = ApplicantInfo::where('status', 'accepted')->get();
+        return view('admission.accepted', compact('applicants'));
+    }
+
+    public function rejected()
+    {
+        $applicants = ApplicantInfo::where('status', 'rejected')->get();
+        return view('admission.rejected', compact('applicants'));
+    }
+
+    public function show(ApplicantInfo $applicant)
+    {
+        return view('admission.show', compact('applicant'));
     }
 }
