@@ -119,7 +119,7 @@
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4">Family Information</h2>
                 <div class="text-sm text-red-600 mb-4">
-                    * Please fill up information for at least one: Father, Mother, or Guardian
+                    * Please fill up information for at least one
                 </div>
 
                 <!-- Father's Information -->
