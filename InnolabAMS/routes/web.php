@@ -7,6 +7,7 @@ use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
+use App\Http\Livewire\Admission\CreateApplication;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -41,14 +42,14 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admission')->name('admission.')->group(function () {
         Route::get('/', function () {
             return redirect()->route('admission.new');
-        })->name('admission');
+        })->name('index');
+        Route::get('/create', CreateApplication::class)->name('create');
         Route::get('/new', [ApplicantInfoController::class, 'new'])->name('new');
         Route::get('/accepted', [ApplicantInfoController::class, 'accepted'])->name('accepted');
         Route::get('/rejected', [ApplicantInfoController::class, 'rejected'])->name('rejected');
-        Route::get('/create', [ApplicantInfoController::class, 'create'])->name('create');
+        Route::get('/{applicant}', [ApplicantInfoController::class, 'show'])->name('show');
         Route::post('/', [ApplicantInfoController::class, 'store'])->name('store');
-        Route::get('/{id}', [ApplicantInfoController::class, 'show'])->name('show');
-        Route::patch('/{id}/status', [ApplicantInfoController::class, 'updateStatus'])->name('update-status'); // New route for updating status
+        Route::patch('/{id}/status', [ApplicantInfoController::class, 'updateStatus'])->name('update-status');
     });
 
     // Scholarship Routes
@@ -105,7 +106,7 @@ Route::middleware('auth')->group(function () {
     //Personal Information Routes
     Route::prefix('form')->name('scholarship.')->group(function() {
         Route::get('/portal/scholarship', [ApplicantInfoController::class, 'showScholarshipForm'])->name('create'); //Added Route
-        
+
     });
 
 });
