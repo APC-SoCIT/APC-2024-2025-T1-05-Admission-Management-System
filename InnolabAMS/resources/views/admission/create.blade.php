@@ -62,8 +62,17 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Middle Name</label>
-                        <input type="text" name="middle_name"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="mt-1">
+                            <input type="text" name="middle_name" id="middle_name"
+                                x-bind:disabled="noMiddleName"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <div class="mt-2">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="no_middle_name" x-model="noMiddleName" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <span class="ml-2 text-sm text-gray-600">No Middle Name</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <div>
@@ -109,6 +118,9 @@
             <!-- Family Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4">Family Information</h2>
+                <div class="text-sm text-red-600 mb-4">
+                    * Please fill up information for at least one: Father, Mother, or Guardian
+                </div>
 
                 <!-- Father's Information -->
                 <div class="mb-6">
@@ -175,17 +187,12 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Add a validation message -->
-                <div class="text-sm text-red-600 mt-2">
-                    * Please fill up information for at least one: Father, Mother, or Guardian
-                </div>
             </div>
 
             <!-- Required Documents -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4">Required Documents</h2>
-                <div class="grid grid-cols-1 gap-6">
+                <div class="grid grid-cols-2 gap-6">
                     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
                         <div class="text-center">
                             <div class="text-gray-400 mb-2">
@@ -195,6 +202,21 @@
                             <p class="text-sm text-gray-500">Click to upload</p>
                             <input type="file" name="birth_certificate" class="hidden" id="birth-certificate-upload" required>
                             <button type="button" onclick="document.getElementById('birth-certificate-upload').click()"
+                                class="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+                                Choose File
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                        <div class="text-center">
+                            <div class="text-gray-400 mb-2">
+                                <i class="fas fa-upload text-4xl"></i>
+                            </div>
+                            <p class="font-medium text-gray-700">Good Moral Certificate*</p>
+                            <p class="text-sm text-gray-500">Click to upload</p>
+                            <input type="file" name="good_moral" class="hidden" id="good-moral-upload" required>
+                            <button type="button" onclick="document.getElementById('good-moral-upload').click()"
                                 class="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
                                 Choose File
                             </button>
@@ -230,21 +252,6 @@
                             </button>
                         </div>
                     </div>
-
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
-                        <div class="text-center">
-                            <div class="text-gray-400 mb-2">
-                                <i class="fas fa-upload text-4xl"></i>
-                            </div>
-                            <p class="font-medium text-gray-700">Good Moral Certificate*</p>
-                            <p class="text-sm text-gray-500">Click to upload</p>
-                            <input type="file" name="good_moral" class="hidden" id="good-moral-upload" required>
-                            <button type="button" onclick="document.getElementById('good-moral-upload').click()"
-                                class="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
-                                Choose File
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -262,6 +269,7 @@
         return {
             selectedProgram: '',
             availableGrades: [],
+            noMiddleName: false,
 
             updateGradeLevels() {
                 switch(this.selectedProgram) {
