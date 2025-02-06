@@ -30,6 +30,20 @@ return new class extends Migration
 
             // Family Information
             $table->string('father_name')->nullable();
+            $table->string('father_occupation')->nullable();
+            $table->string('father_contact')->nullable();
+            $table->string('mother_name')->nullable();
+            $table->string('mother_occupation')->nullable();
+            $table->string('mother_contact')->nullable();
+            $table->string('guardian_name')->nullable();
+            $table->string('guardian_occupation')->nullable();
+            $table->string('guardian_contact')->nullable();
+
+            // Required Documents
+            $table->string('birth_certificate_path')->nullable();
+            $table->string('form_137_path')->nullable();
+            $table->string('form_138_path')->nullable();
+            $table->string('good_moral_path')->nullable();
 
             $table->timestamps();
         });
