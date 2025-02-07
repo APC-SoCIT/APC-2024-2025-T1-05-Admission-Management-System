@@ -43,7 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () {
             return redirect()->route('admission.new');
         })->name('index');
-        Route::get('/create', CreateApplication::class)->name('create');
+        Route::get('/create', CreateApplication::class)
+            ->name('create')
+            ->layout('layouts.app');
         Route::get('/new', [ApplicantInfoController::class, 'new'])->name('new');
         Route::get('/accepted', [ApplicantInfoController::class, 'accepted'])->name('accepted');
         Route::get('/rejected', [ApplicantInfoController::class, 'rejected'])->name('rejected');
