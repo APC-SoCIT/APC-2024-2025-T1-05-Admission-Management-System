@@ -38,9 +38,14 @@ class CreateApplication extends Component
     // Documents
     public $requirements = [];
 
+    public function mount()
+    {
+        $this->academicYear = '2024-2025'; // Set default academic year
+    }
+
     public function nextStep()
     {
-        $this->validate($this->validationRules()[$this->currentStep] ?? []);
+        $this->validateOnly($this->validationRules()[$this->currentStep] ?? []);
         $this->currentStep = min($this->currentStep + 1, $this->totalSteps);
     }
 
@@ -76,7 +81,6 @@ class CreateApplication extends Component
 
     public function render()
     {
-        return view('livewire.admission.create-application')
-            ->layout('layouts.app');
+        return view('livewire.admission.create-application');
     }
 }

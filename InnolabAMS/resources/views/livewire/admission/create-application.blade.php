@@ -31,7 +31,7 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Program</label>
-                                <select wire:model="program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                <select wire:model.defer="program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                     <option value="">Select Program</option>
                                     <option value="bsit">BS Information Technology</option>
                                     <option value="bscs">BS Computer Science</option>
@@ -41,7 +41,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Semester</label>
-                                <select wire:model="semester" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                <select wire:model.defer="semester" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                     <option value="">Select Semester</option>
                                     <option value="first">First Semester</option>
                                     <option value="second">Second Semester</option>
@@ -51,7 +51,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Academic Year</label>
-                                <input type="text" wire:model="academicYear" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="2024-2025">
+                                <input type="text" wire:model.defer="academicYear" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="2024-2025">
                                 @error('academicYear') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                             </div>
                         </div>
