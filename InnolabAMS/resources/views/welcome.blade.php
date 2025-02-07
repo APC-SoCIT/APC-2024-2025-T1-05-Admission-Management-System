@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>InnolabAMS</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('/static/images/innolab_favicon.png') }}" type="image/x-icon">
@@ -907,6 +907,7 @@
             }
         }
     </style>
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased bg-gray-100 text-black"
@@ -1006,6 +1007,7 @@
             </nav>
         @endif
     </div>
+    @livewireScripts
 </body>
 
 </html>
