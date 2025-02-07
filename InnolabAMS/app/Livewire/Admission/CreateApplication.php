@@ -8,6 +8,7 @@ class CreateApplication extends Component
 {
     public function render()
     {
-        return view('livewire.admission.create-application');
+        return view('livewire.admission.create-application')
+            ->layout('layouts.app');
     }
 }
