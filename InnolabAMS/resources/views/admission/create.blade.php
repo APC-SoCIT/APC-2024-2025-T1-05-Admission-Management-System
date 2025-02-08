@@ -468,6 +468,7 @@
                                 name="applicant_contact"
                                 x-model="contactNo"
                                 @input="validateContactNumber($event.target.value)"
+                                placeholder="08xx-xxxx / 09xx-xxx-xxxx"
                                 :class="{'border-red-500 bg-red-50': errors.contactNo}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.contactNo"
@@ -523,7 +524,8 @@
                                     name="father_contact"
                                     x-model="fatherContact"
                                     @input="validatePhoneNumber('fatherContact', $event.target.value)"
-                                    :class="{'border-red-500': errors.fatherContact}"
+                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
+                                    :class="{'border-red-500 bg-red-50': errors.fatherContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
                             </div>
@@ -550,7 +552,8 @@
                                     name="mother_contact"
                                     x-model="motherContact"
                                     @input="validatePhoneNumber('motherContact', $event.target.value)"
-                                    :class="{'border-red-500': errors.motherContact}"
+                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
+                                    :class="{'border-red-500 bg-red-50': errors.motherContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
                             </div>
@@ -577,7 +580,8 @@
                                     name="guardian_contact"
                                     x-model="guardianContact"
                                     @input="validatePhoneNumber('guardianContact', $event.target.value)"
-                                    :class="{'border-red-500': errors.guardianContact}"
+                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
+                                    :class="{'border-red-500 bg-red-50': errors.guardianContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
                             </div>
@@ -642,8 +646,8 @@
                                 name="emergency_contact_number"
                                 x-model="emergencyContact"
                                 @input="validateEmergencyContact($event.target.value)"
-                                :class="{'border-red-500': errors.emergencyContact}"
-                                required
+                                placeholder="08xx-xxxx / 09xx-xxx-xxxx"
+                                :class="{'border-red-500 bg-red-50': errors.emergencyContact}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.emergencyContact"
                                x-text="errors.emergencyContact"
