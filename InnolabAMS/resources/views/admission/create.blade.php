@@ -460,23 +460,23 @@
                 city: '',
                 barangay: '',
                 cities: [
-                    'Metro Manila--Caloocan',
-                    'Metro Manila--Las Piñas',
-                    'Metro Manila--Makati',
-                    'Metro Manila--Malabon',
-                    'Metro Manila--Mandaluyong',
-                    'Metro Manila--Manila',
-                    'Metro Manila--Marikina',
-                    'Metro Manila--Muntinlupa',
-                    'Metro Manila--Navotas',
-                    'Metro Manila--Parañaque',
-                    'Metro Manila--Pasay',
-                    'Metro Manila--Pasig',
-                    'Metro Manila--Pateros',
-                    'Metro Manila--Quezon City',
-                    'Metro Manila--San Juan',
-                    'Metro Manila--Taguig',
-                    'Metro Manila--Valenzuela'
+                    'Caloocan',
+                    'Las Piñas',
+                    'Makati',
+                    'Malabon',
+                    'Mandaluyong',
+                    'Manila',
+                    'Marikina',
+                    'Muntinlupa',
+                    'Navotas',
+                    'Parañaque',
+                    'Pasay',
+                    'Pasig',
+                    'Pateros',
+                    'Quezon City',
+                    'San Juan',
+                    'Taguig',
+                    'Valenzuela'
                 ]
             }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
@@ -515,9 +515,23 @@
                             required
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option value="">Please choose your city</option>
-                            <template x-for="cityOption in cities" :key="cityOption">
-                                <option :value="cityOption" x-text="cityOption"></option>
-                            </template>
+                            <option value="Caloocan">Caloocan</option>
+                            <option value="Las Piñas">Las Piñas</option>
+                            <option value="Makati">Makati</option>
+                            <option value="Malabon">Malabon</option>
+                            <option value="Mandaluyong">Mandaluyong</option>
+                            <option value="Manila">Manila</option>
+                            <option value="Marikina">Marikina</option>
+                            <option value="Muntinlupa">Muntinlupa</option>
+                            <option value="Navotas">Navotas</option>
+                            <option value="Parañaque">Parañaque</option>
+                            <option value="Pasay">Pasay</option>
+                            <option value="Pasig">Pasig</option>
+                            <option value="Pateros">Pateros</option>
+                            <option value="Quezon City">Quezon City</option>
+                            <option value="San Juan">San Juan</option>
+                            <option value="Taguig">Taguig</option>
+                            <option value="Valenzuela">Valenzuela</option>
                         </select>
                     </div>
 
