@@ -697,9 +697,6 @@
 
             <!-- Family Information -->
             <div class="mb-8" x-data="{
-                fatherNA: false,
-                motherNA: false,
-                guardianNA: false,
                 fatherName: '',
                 fatherContact: '',
                 motherName: '',
@@ -731,28 +728,15 @@
 
                 <!-- Father's Information -->
                 <div class="mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-medium">Father</h3>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox"
-                                x-model="fatherNA"
-                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            >
-                            <span class="text-sm text-gray-600">N/A</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" :class="{ 'opacity-50': fatherNA }">
+                    <h3 class="text-lg font-medium mb-4">Father</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Name</label>
                             <input type="text"
                                 name="father_name"
                                 x-model="fatherName"
-                                :disabled="fatherNA"
                                 @input="validateTextInput('fatherName', $event.target.value)"
-                                :class="{
-                                    'border-red-500': errors.fatherName,
-                                    'bg-gray-100': fatherNA
-                                }"
+                                :class="{'border-red-500': errors.fatherName}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.fatherName" x-text="errors.fatherName" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -761,12 +745,8 @@
                             <input type="text"
                                 name="father_contact"
                                 x-model="fatherContact"
-                                :disabled="fatherNA"
                                 @input="validatePhoneNumber('fatherContact', $event.target.value)"
-                                :class="{
-                                    'border-red-500': errors.fatherContact,
-                                    'bg-gray-100': fatherNA
-                                }"
+                                :class="{'border-red-500': errors.fatherContact}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -775,28 +755,15 @@
 
                 <!-- Mother's Information -->
                 <div class="mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-medium">Mother</h3>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox"
-                                x-model="motherNA"
-                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            >
-                            <span class="text-sm text-gray-600">N/A</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" :class="{ 'opacity-50': motherNA }">
+                    <h3 class="text-lg font-medium mb-4">Mother</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Name</label>
                             <input type="text"
                                 name="mother_name"
                                 x-model="motherName"
-                                :disabled="motherNA"
                                 @input="validateTextInput('motherName', $event.target.value)"
-                                :class="{
-                                    'border-red-500': errors.motherName,
-                                    'bg-gray-100': motherNA
-                                }"
+                                :class="{'border-red-500': errors.motherName}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.motherName" x-text="errors.motherName" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -805,12 +772,8 @@
                             <input type="text"
                                 name="mother_contact"
                                 x-model="motherContact"
-                                :disabled="motherNA"
                                 @input="validatePhoneNumber('motherContact', $event.target.value)"
-                                :class="{
-                                    'border-red-500': errors.motherContact,
-                                    'bg-gray-100': motherNA
-                                }"
+                                :class="{'border-red-500': errors.motherContact}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -819,28 +782,15 @@
 
                 <!-- Legal Guardian's Information -->
                 <div class="mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-medium">Legal Guardian</h3>
-                        <div class="flex items-center space-x-2">
-                            <input type="checkbox"
-                                x-model="guardianNA"
-                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                            >
-                            <span class="text-sm text-gray-600">N/A</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" :class="{ 'opacity-50': guardianNA }">
+                    <h3 class="text-lg font-medium mb-4">Legal Guardian</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Name</label>
                             <input type="text"
                                 name="guardian_name"
                                 x-model="guardianName"
-                                :disabled="guardianNA"
                                 @input="validateTextInput('guardianName', $event.target.value)"
-                                :class="{
-                                    'border-red-500': errors.guardianName,
-                                    'bg-gray-100': guardianNA
-                                }"
+                                :class="{'border-red-500': errors.guardianName}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.guardianName" x-text="errors.guardianName" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -849,12 +799,8 @@
                             <input type="text"
                                 name="guardian_contact"
                                 x-model="guardianContact"
-                                :disabled="guardianNA"
                                 @input="validatePhoneNumber('guardianContact', $event.target.value)"
-                                :class="{
-                                    'border-red-500': errors.guardianContact,
-                                    'bg-gray-100': guardianNA
-                                }"
+                                :class="{'border-red-500': errors.guardianContact}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
                         </div>
