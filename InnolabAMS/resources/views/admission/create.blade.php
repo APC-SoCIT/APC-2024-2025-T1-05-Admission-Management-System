@@ -222,9 +222,11 @@
                         :required="showStrand"
                     >
                         <option value="">Select Strand</option>
-                        <template x-for="strandOption in strands" :key="strandOption.value">
-                            <option :value="strandOption.value" x-text="strandOption.label"></option>
-                        </template>
+                        <option value="STEM">STEM (Science, Technology, Engineering, and Mathematics)</option>
+                        <option value="ABM">ABM (Accountancy, Business, and Management)</option>
+                        <option value="HUMSS">HUMSS (Humanities and Social Sciences)</option>
+                        <option value="GAS">GAS (General Academic Strand)</option>
+                        <option value="TVL">TVL (Technical-Vocational-Livelihood)</option>
                     </select>
                     <p x-show="errors.strand" x-text="errors.strand" class="mt-1 text-sm text-red-500"></p>
                 </div>
