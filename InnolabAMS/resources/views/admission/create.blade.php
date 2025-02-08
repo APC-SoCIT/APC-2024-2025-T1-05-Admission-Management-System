@@ -248,12 +248,12 @@
                     </div>
 
                     <!-- Student Status -->
-                    <div class="space-y-4 mt-4" x-show="showStudentStatus" x-transition>
-                        <label class="block text-sm font-medium text-gray-700">
+                    <div class="mb-6" x-show="showStudentStatus" x-transition>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
                             Student Status <span class="text-red-500">*</span>
                         </label>
-                        <div class="flex flex-col space-y-4">
-                            <div class="flex items-center">
+                        <div class="space-y-2">
+                            <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
                                     name="student_status"
                                     value="transferee"
@@ -261,9 +261,9 @@
                                     @change="validateField('studentStatus'); checkProgramComplete()"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                     required>
-                                <label class="ml-2 text-sm text-gray-700">Transferee</label>
+                                <label class="ml-3 block text-sm font-medium text-gray-700">Transferee</label>
                             </div>
-                            <div class="flex items-center">
+                            <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
                                     name="student_status"
                                     value="existing"
@@ -271,9 +271,9 @@
                                     @change="validateField('studentStatus'); checkProgramComplete()"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                     required>
-                                <label class="ml-2 text-sm text-gray-700">Existing Student</label>
+                                <label class="ml-3 block text-sm font-medium text-gray-700">Existing Student</label>
                             </div>
-                            <div class="flex items-center">
+                            <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
                                     name="student_status"
                                     value="returning"
@@ -281,10 +281,10 @@
                                     @change="validateField('studentStatus'); checkProgramComplete()"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                     required>
-                                <label class="ml-2 text-sm text-gray-700">Returning Student</label>
+                                <label class="ml-3 block text-sm font-medium text-gray-700">Returning Student</label>
                             </div>
                         </div>
-                        <p x-show="errors.studentStatus" x-text="errors.studentStatus" class="mt-1 text-sm text-red-500"></p>
+                        <p x-show="errors.studentStatus" x-text="errors.studentStatus" class="mt-2 text-sm text-red-500"></p>
                     </div>
                 </div>
             </div>
