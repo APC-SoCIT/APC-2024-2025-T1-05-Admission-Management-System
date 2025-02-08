@@ -32,7 +32,38 @@
                     { value: 'GAS', label: 'GAS (General Academic Strand)' },
                     { value: 'TVL', label: 'TVL (Technical-Vocational-Livelihood)' }
                 ],
+                errors: {},
+                validateField(field) {
+                    if (!this[field] || this[field].trim() === '') {
+                        this.errors[field] = 'Please fill up this field';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+                validateProgramSection() {
+                    let isValid = true;
 
+                    if (!this.validateField('programType')) isValid = false;
+                    if (!this.validateField('gradeLevel')) isValid = false;
+                    if (this.programType === 'Senior High School' && !this.validateField('strand')) isValid = false;
+                    if (!this.validateField('studentStatus')) isValid = false;
+
+                    return isValid;
+                },
+                checkProgramComplete() {
+                    if (!this.validateProgramSection()) return;
+
+                    if (this.programType === 'Senior High School') {
+                        if (this.programType && this.gradeLevel && this.strand && this.studentStatus) {
+                            this.currentSection = 'personal';
+                        }
+                    } else {
+                        if (this.programType && this.gradeLevel && this.studentStatus) {
+                            this.currentSection = 'personal';
+                        }
+                    }
+                },
                 init() {
                     this.$watch('gradeLevel', (value) => {
                         if (value && this.programType !== 'Senior High School') {
@@ -49,19 +80,6 @@
                         this.checkProgramComplete();
                     });
                 },
-
-                checkProgramComplete() {
-                    if (this.programType === 'Senior High School') {
-                        if (this.programType && this.gradeLevel && this.strand && this.studentStatus) {
-                            this.currentSection = 'personal';
-                        }
-                    } else {
-                        if (this.programType && this.gradeLevel && this.studentStatus) {
-                            this.currentSection = 'personal';
-                        }
-                    }
-                },
-
                 updateGradeLevels() {
                     this.gradeLevel = '';
                     this.strand = '';
@@ -83,6 +101,72 @@
                         this.showGradeLevel = false;
                         this.gradeLevels = [];
                     }
+                },
+                dateOfBirth: '',
+                age: '',
+                computeAge() {
+                    if (this.dateOfBirth) {
+                        const dob = new Date(this.dateOfBirth);
+                        const today = new Date();
+                        let calculatedAge = today.getFullYear() - dob.getFullYear();
+                        const monthDiff = today.getMonth() - dob.getMonth();
+
+                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                            calculatedAge--;
+                        }
+
+                        this.age = calculatedAge;
+                    } else {
+                        this.age = '';
+                    }
+                },
+                validateExtensionName(value) {
+                    if (/\d/.test(value)) {
+                        this.errors.extensionName = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.extensionName;
+                    return true;
+                },
+                validatePhoneNumber(field, value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors[field] = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+                validateLRN(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.lrn = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.lrn;
+                    return true;
+                },
+                validateSchoolName(value) {
+                    if (/\d/.test(value)) {
+                        this.errors.schoolName = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.schoolName;
+                    return true;
+                },
+                validateYearGraduation(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.yearGraduation = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.yearGraduation;
+                    return true;
+                },
+                validateGWA(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.gwa = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.gwa;
+                    return true;
                 }
             }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
@@ -94,6 +178,8 @@
                         name="program_type"
                         x-model="programType"
                         @change="updateGradeLevels()"
+                        @blur="validateField('programType')"
+                        :class="{'border-red-500': errors.programType}"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         required
                     >
@@ -102,6 +188,7 @@
                         <option value="Junior High School">Junior High School</option>
                         <option value="Senior High School">Senior High School</option>
                     </select>
+                    <p x-show="errors.programType" x-text="errors.programType" class="mt-1 text-sm text-red-500"></p>
                 </div>
 
                 <!-- Grade Level -->
@@ -110,6 +197,8 @@
                     <select
                         name="grade_level"
                         x-model="gradeLevel"
+                        @blur="validateField('gradeLevel')"
+                        :class="{'border-red-500': errors.gradeLevel}"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         required
                     >
@@ -118,6 +207,7 @@
                             <option :value="level" x-text="'Grade ' + level"></option>
                         </template>
                     </select>
+                    <p x-show="errors.gradeLevel" x-text="errors.gradeLevel" class="mt-1 text-sm text-red-500"></p>
                 </div>
 
                 <!-- Strand -->
@@ -126,6 +216,8 @@
                     <select
                         name="strand"
                         x-model="strand"
+                        @blur="validateField('strand')"
+                        :class="{'border-red-500': errors.strand}"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         :required="showStrand"
                     >
@@ -134,6 +226,7 @@
                             <option :value="strandOption.value" x-text="strandOption.label"></option>
                         </template>
                     </select>
+                    <p x-show="errors.strand" x-text="errors.strand" class="mt-1 text-sm text-red-500"></p>
                 </div>
 
                 <!-- Student Status -->
@@ -147,7 +240,7 @@
                                 name="student_status"
                                 value="transferee"
                                 x-model="studentStatus"
-                                @change="checkProgramComplete()"
+                                @change="validateField('studentStatus'); checkProgramComplete()"
                                 class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                 required>
                             <label class="ml-2 text-sm text-gray-700">Transferee</label>
@@ -157,7 +250,7 @@
                                 name="student_status"
                                 value="existing"
                                 x-model="studentStatus"
-                                @change="checkProgramComplete()"
+                                @change="validateField('studentStatus'); checkProgramComplete()"
                                 class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                 required>
                             <label class="ml-2 text-sm text-gray-700">Existing Student</label>
@@ -167,37 +260,128 @@
                                 name="student_status"
                                 value="returning"
                                 x-model="studentStatus"
-                                @change="checkProgramComplete()"
+                                @change="validateField('studentStatus'); checkProgramComplete()"
                                 class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                                 required>
                             <label class="ml-2 text-sm text-gray-700">Returning Student</label>
                         </div>
                     </div>
+                    <p x-show="errors.studentStatus" x-text="errors.studentStatus" class="mt-1 text-sm text-red-500"></p>
                 </div>
             </div>
 
             <!-- Personal Information -->
-            <div class="mb-8">
+            <div class="mb-8" x-data="{
+                dateOfBirth: '',
+                age: '',
+                surname: '',
+                givenName: '',
+                middleName: '',
+                placeOfBirth: '',
+                nationality: '',
+                religion: '',
+                contactNo: '',
+                errors: {},
+
+                validateTextInput(field, value) {
+                    if (/\d/.test(value)) {
+                        this.errors[field] = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+
+                validatePhoneNumber(field, value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors[field] = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+
+                computeAge() {
+                    if (this.dateOfBirth) {
+                        const dob = new Date(this.dateOfBirth);
+                        const today = new Date();
+                        let calculatedAge = today.getFullYear() - dob.getFullYear();
+                        const monthDiff = today.getMonth() - dob.getMonth();
+
+                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                            calculatedAge--;
+                        }
+
+                        this.age = calculatedAge;
+                    } else {
+                        this.age = '';
+                    }
+                }
+            }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Surname</label>
-                        <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Surname <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="applicant_surname"
+                            x-model="surname"
+                            @input="validateTextInput('surname', $event.target.value)"
+                            :class="{'border-red-500': errors.surname}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        >
+                        <p x-show="errors.surname"
+                           x-text="errors.surname"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Given Name</label>
-                        <input type="text" name="applicant_given_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Given Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="applicant_given_name"
+                            x-model="givenName"
+                            @input="validateTextInput('givenName', $event.target.value)"
+                            :class="{'border-red-500': errors.givenName}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        >
+                        <p x-show="errors.givenName"
+                           x-text="errors.givenName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Middle Name</label>
-                        <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="applicant_middle_name"
+                            x-model="middleName"
+                            @input="validateTextInput('middleName', $event.target.value)"
+                            :class="{'border-red-500': errors.middleName}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        >
+                        <p x-show="errors.middleName"
+                           x-text="errors.middleName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Extension Name</label>
-                        <input type="text" name="applicant_extension" placeholder="Jr., II, III, etc." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="applicant_extension"
+                            x-model="extensionName"
+                            @input="validateExtensionName($event.target.value)"
+                            :class="{'border-red-500': errors.extensionName}"
+                            placeholder="Jr., II, III, etc."
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.extensionName"
+                           x-text="errors.extensionName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Sex</label>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Sex <span class="text-red-500">*</span>
+                        </label>
                         <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option value="">Select Sex</option>
                             <option value="Male">Male</option>
@@ -205,28 +389,65 @@
                         </select>
                     </div>
                     <div>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Date of Birth <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="date"
+                            name="applicant_date_birth"
+                            x-model="dateOfBirth"
+                            @input="computeAge()"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        >
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium text-gray-700">Age</label>
-                        <input type="number" name="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                        <input type="date" name="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Place of Birth</label>
-                        <input type="text" name="applicant_place_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input
+                            type="number"
+                            name="age"
+                            x-model="age"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-50"
+                            readonly
+                        >
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Nationality</label>
-                        <input type="text" name="applicant_nationality" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="applicant_nationality"
+                            x-model="nationality"
+                            @input="validateTextInput('nationality', $event.target.value)"
+                            :class="{'border-red-500': errors.nationality}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        >
+                        <p x-show="errors.nationality"
+                           x-text="errors.nationality"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Religion</label>
-                        <input type="text" name="applicant_religion" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="applicant_religion"
+                            x-model="religion"
+                            @input="validateTextInput('religion', $event.target.value)"
+                            :class="{'border-red-500': errors.religion}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        >
+                        <p x-show="errors.religion"
+                           x-text="errors.religion"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <input type="text" name="applicant_tel_no" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <input type="text"
+                            name="applicant_contact"
+                            x-model="contactNo"
+                            @input="validatePhoneNumber('contactNo', $event.target.value)"
+                            :class="{'border-red-500': errors.contactNo}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.contactNo"
+                           x-text="errors.contactNo"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                 </div>
             </div>
@@ -236,76 +457,254 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Street Address</label>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Street Address <span class="text-red-500">*</span>
+                        </label>
                         <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">City</label>
+                        <label class="block text-sm font-medium text-gray-700">
+                            City <span class="text-red-500">*</span>
+                        </label>
                         <input type="text" name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Province</label>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Province <span class="text-red-500">*</span>
+                        </label>
                         <input type="text" name="applicant_address_province" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                        <input type="tel" name="applicant_mobile_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Mobile Number <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="applicant_mobile_number"
+                            x-model="mobileNo"
+                            @input="validatePhoneNumber('mobileNo', $event.target.value)"
+                            :class="{'border-red-500': errors.mobileNo}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.mobileNo"
+                           x-text="errors.mobileNo"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                 </div>
             </div>
 
             <!-- Educational Background -->
-            <div class="mb-8">
+            <div class="mb-8" x-data="{
+                lrn: '',
+                schoolName: '',
+                previousProgram: '',
+                yearGraduation: '',
+                gwa: '',
+                errors: {},
+
+                validateLRN(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.lrn = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.lrn;
+                    return true;
+                },
+
+                validateSchoolName(value) {
+                    if (/\d/.test(value)) {
+                        this.errors.schoolName = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.schoolName;
+                    return true;
+                },
+
+                validatePreviousProgram(value) {
+                    if (/\d/.test(value)) {
+                        this.errors.previousProgram = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.previousProgram;
+                    return true;
+                },
+
+                validateYearGraduation(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.yearGraduation = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.yearGraduation;
+                    return true;
+                },
+
+                validateGWA(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.gwa = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.gwa;
+                    return true;
+                }
+            }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">LRN</label>
-                        <input type="text" name="lrn" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            LRN <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="lrn"
+                            x-model="lrn"
+                            @input="validateLRN($event.target.value)"
+                            :class="{'border-red-500': errors.lrn}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.lrn"
+                           x-text="errors.lrn"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">School Name</label>
-                        <input type="text" name="school_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            School Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="school_name"
+                            x-model="schoolName"
+                            @input="validateSchoolName($event.target.value)"
+                            :class="{'border-red-500': errors.schoolName}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.schoolName"
+                           x-text="errors.schoolName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">School Address</label>
-                        <input type="text" name="school_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            School Address <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="school_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Previous Program</label>
-                        <input type="text" name="previous_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Previous Program <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="previous_program"
+                            x-model="previousProgram"
+                            @input="validatePreviousProgram($event.target.value)"
+                            :class="{'border-red-500': errors.previousProgram}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.previousProgram"
+                           x-text="errors.previousProgram"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Year of Graduation</label>
-                        <input type="text" name="year_of_graduation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Year of Graduation <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="year_of_graduation"
+                            x-model="yearGraduation"
+                            @input="validateYearGraduation($event.target.value)"
+                            :class="{'border-red-500': errors.yearGraduation}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.yearGraduation"
+                           x-text="errors.yearGraduation"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Awards/Honors</label>
                         <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">GWA</label>
-                        <input type="number" step="0.01" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            GWA <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="gwa"
+                            x-model="gwa"
+                            @input="validateGWA($event.target.value)"
+                            :class="{'border-red-500': errors.gwa}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.gwa"
+                           x-text="errors.gwa"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                 </div>
             </div>
 
             <!-- Family Information -->
-            <div class="mb-8">
+            <div class="mb-8" x-data="{
+                fatherName: '',
+                fatherContact: '',
+                motherName: '',
+                motherContact: '',
+                guardianName: '',
+                guardianContact: '',
+                guardianAddress: '',
+                guardianRelationship: '',
+                errors: {},
+
+                validateTextInput(field, value) {
+                    // Check if input contains numbers
+                    if (/\d/.test(value)) {
+                        this.errors[field] = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+
+                validateFamilyInfo() {
+                    const hasFatherInfo = this.fatherName && this.fatherContact && !this.errors.fatherName;
+                    const hasMotherInfo = this.motherName && this.motherContact && !this.errors.motherName;
+                    const hasGuardianInfo = this.guardianName && this.guardianContact &&
+                                           this.guardianAddress && this.guardianRelationship &&
+                                           !this.errors.guardianName && !this.errors.guardianRelationship;
+
+                    return hasFatherInfo || hasMotherInfo || hasGuardianInfo;
+                },
+
+                validatePhoneNumber(field, value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors[field] = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                }
+            }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
+                <p class="text-sm text-gray-600 mb-4">Please provide information for at least one guardian (Father, Mother, or Guardian)</p>
 
                 <!-- Father's Information -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Father's Name</label>
-                        <input type="text" name="father_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="father_name"
+                            x-model="fatherName"
+                            @input="validateTextInput('fatherName', $event.target.value)"
+                            :class="{'border-red-500': errors.fatherName}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.fatherName"
+                           x-text="errors.fatherName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Father's Occupation</label>
-                        <input type="text" name="father_occupation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Father's Contact Number</label>
-                        <input type="text" name="father_contact" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="father_contact"
+                            x-model="fatherContact"
+                            @input="validatePhoneNumber('fatherContact', $event.target.value)"
+                            :class="{'border-red-500': errors.fatherContact}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.fatherContact"
+                           x-text="errors.fatherContact"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                 </div>
 
@@ -313,66 +712,167 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mother's Name</label>
-                        <input type="text" name="mother_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="mother_name"
+                            x-model="motherName"
+                            @input="validateTextInput('motherName', $event.target.value)"
+                            :class="{'border-red-500': errors.motherName}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.motherName"
+                           x-text="errors.motherName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's Occupation</label>
-                        <input type="text" name="mother_occupation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Mother's Contact Number</label>
-                        <input type="text" name="mother_contact" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="mother_contact"
+                            x-model="motherContact"
+                            @input="validatePhoneNumber('motherContact', $event.target.value)"
+                            :class="{'border-red-500': errors.motherContact}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.motherContact"
+                           x-text="errors.motherContact"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                 </div>
 
-                <!-- Siblings Information -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
-                    <div id="siblings-container">
-                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
-                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="date" name="siblings[0][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="number" name="siblings[0][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="text" name="siblings[0][grade_level]" placeholder="Grade Level" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
+                <!-- Guardian's Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Guardian's Name</label>
+                        <input type="text"
+                            name="guardian_name"
+                            x-model="guardianName"
+                            @input="validateTextInput('guardianName', $event.target.value)"
+                            :class="{'border-red-500': errors.guardianName}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.guardianName"
+                           x-text="errors.guardianName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
-                    <button type="button" id="add-sibling" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                        Add Sibling
-                    </button>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Guardian's Contact Number</label>
+                        <input type="text"
+                            name="guardian_contact"
+                            x-model="guardianContact"
+                            @input="validatePhoneNumber('guardianContact', $event.target.value)"
+                            :class="{'border-red-500': errors.guardianContact}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.guardianContact"
+                           x-text="errors.guardianContact"
+                           class="mt-1 text-sm text-red-500"></p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Guardian's Address</label>
+                        <input type="text"
+                            name="guardian_address"
+                            x-model="guardianAddress"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Relationship to Student</label>
+                        <input type="text"
+                            name="guardian_relationship"
+                            x-model="guardianRelationship"
+                            @input="validateTextInput('guardianRelationship', $event.target.value)"
+                            :class="{'border-red-500': errors.guardianRelationship}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.guardianRelationship"
+                           x-text="errors.guardianRelationship"
+                           class="mt-1 text-sm text-red-500"></p>
+                    </div>
+                </div>
+
+                <!-- Validation Message -->
+                <div
+                    x-show="!validateFamilyInfo()"
+                    class="text-red-500 text-sm mt-2"
+                >
+                    Please complete either Father's, Mother's, or Guardian's information.
                 </div>
             </div>
 
             <!-- Emergency Contact -->
-            <div class="mb-8">
+            <div class="mb-8" x-data="{
+                emergencyName: '',
+                emergencyContact: '',
+                errors: {},
+
+                validateEmergencyName(value) {
+                    if (/\d/.test(value)) {
+                        this.errors.emergencyName = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.emergencyName;
+                    return true;
+                },
+
+                validateEmergencyContact(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.emergencyContact = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.emergencyContact;
+                    return true;
+                }
+            }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Complete Name</label>
-                        <input type="text" name="emergency_contact_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Complete Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="emergency_contact_name"
+                            x-model="emergencyName"
+                            @input="validateEmergencyName($event.target.value)"
+                            :class="{'border-red-500': errors.emergencyName}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.emergencyName"
+                           x-text="errors.emergencyName"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Complete Address</label>
-                        <input type="text" name="emergency_contact_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Complete Address <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="emergency_contact_address"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <input type="text" name="emergency_contact_tel" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile No.</label>
-                        <input type="text" name="emergency_contact_mobile" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Contact Number <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="emergency_contact_number"
+                            x-model="emergencyContact"
+                            @input="validateEmergencyContact($event.target.value)"
+                            :class="{'border-red-500': errors.emergencyContact}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.emergencyContact"
+                           x-text="errors.emergencyContact"
+                           class="mt-1 text-sm text-red-500"></p>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="emergency_contact_email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="email"
+                            name="emergency_contact_email"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
             </div>
 
             <!-- Submit Button -->
             <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+                <button
+                    type="submit"
+                    class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+                    @click.prevent="if(validateFamilyInfo()) $el.closest('form').submit()"
+                >
                     Create Application
                 </button>
             </div>
