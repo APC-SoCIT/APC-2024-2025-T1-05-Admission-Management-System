@@ -294,15 +294,6 @@
                     return true;
                 },
 
-                validatePhoneNumber(field, value) {
-                    if (/[a-zA-Z]/.test(value)) {
-                        this.errors[field] = 'Invalid Format';
-                        return false;
-                    }
-                    delete this.errors[field];
-                    return true;
-                },
-
                 computeAge() {
                     if (this.dateOfBirth) {
                         const dob = new Date(this.dateOfBirth);
@@ -706,34 +697,24 @@
 
             <!-- Family Information -->
             <div class="mb-8" x-data="{
+                fatherNA: false,
+                motherNA: false,
+                guardianNA: false,
                 fatherName: '',
                 fatherContact: '',
                 motherName: '',
                 motherContact: '',
                 guardianName: '',
                 guardianContact: '',
-                guardianAddress: '',
-                guardianRelationship: '',
                 errors: {},
 
                 validateTextInput(field, value) {
-                    // Check if input contains numbers
                     if (/\d/.test(value)) {
                         this.errors[field] = 'Invalid Format';
                         return false;
                     }
                     delete this.errors[field];
                     return true;
-                },
-
-                validateFamilyInfo() {
-                    const hasFatherInfo = this.fatherName && this.fatherContact && !this.errors.fatherName;
-                    const hasMotherInfo = this.motherName && this.motherContact && !this.errors.motherName;
-                    const hasGuardianInfo = this.guardianName && this.guardianContact &&
-                                           this.guardianAddress && this.guardianRelationship &&
-                                           !this.errors.guardianName && !this.errors.guardianRelationship;
-
-                    return hasFatherInfo || hasMotherInfo || hasGuardianInfo;
                 },
 
                 validatePhoneNumber(field, value) {
@@ -749,114 +730,117 @@
                 <p class="text-sm text-gray-600 mb-4">Please provide information for at least one guardian (Father, Mother, or Guardian)</p>
 
                 <!-- Father's Information -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Father's Name</label>
-                        <input type="text"
-                            name="father_name"
-                            x-model="fatherName"
-                            @input="validateTextInput('fatherName', $event.target.value)"
-                            :class="{'border-red-500': errors.fatherName}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.fatherName"
-                           x-text="errors.fatherName"
-                           class="mt-1 text-sm text-red-500"></p>
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium">Father</h3>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox"
+                                x-model="fatherNA"
+                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                            >
+                            <span class="text-sm text-gray-600">N/A</span>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Father's Contact Number</label>
-                        <input type="text"
-                            name="father_contact"
-                            x-model="fatherContact"
-                            @input="validatePhoneNumber('fatherContact', $event.target.value)"
-                            :class="{'border-red-500': errors.fatherContact}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.fatherContact"
-                           x-text="errors.fatherContact"
-                           class="mt-1 text-sm text-red-500"></p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" :class="{ 'opacity-50': fatherNA }">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text"
+                                name="father_name"
+                                x-model="fatherName"
+                                :disabled="fatherNA"
+                                @input="validateTextInput('fatherName', $event.target.value)"
+                                :class="{'border-red-500': errors.fatherName}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.fatherName" x-text="errors.fatherName" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                name="father_contact"
+                                x-model="fatherContact"
+                                :disabled="fatherNA"
+                                @input="validatePhoneNumber('fatherContact', $event.target.value)"
+                                :class="{'border-red-500': errors.fatherContact}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Mother's Information -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's Name</label>
-                        <input type="text"
-                            name="mother_name"
-                            x-model="motherName"
-                            @input="validateTextInput('motherName', $event.target.value)"
-                            :class="{'border-red-500': errors.motherName}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.motherName"
-                           x-text="errors.motherName"
-                           class="mt-1 text-sm text-red-500"></p>
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium">Mother</h3>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox"
+                                x-model="motherNA"
+                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                            >
+                            <span class="text-sm text-gray-600">N/A</span>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's Contact Number</label>
-                        <input type="text"
-                            name="mother_contact"
-                            x-model="motherContact"
-                            @input="validatePhoneNumber('motherContact', $event.target.value)"
-                            :class="{'border-red-500': errors.motherContact}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.motherContact"
-                           x-text="errors.motherContact"
-                           class="mt-1 text-sm text-red-500"></p>
-                    </div>
-                </div>
-
-                <!-- Guardian's Information -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Guardian's Name</label>
-                        <input type="text"
-                            name="guardian_name"
-                            x-model="guardianName"
-                            @input="validateTextInput('guardianName', $event.target.value)"
-                            :class="{'border-red-500': errors.guardianName}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.guardianName"
-                           x-text="errors.guardianName"
-                           class="mt-1 text-sm text-red-500"></p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Guardian's Contact Number</label>
-                        <input type="text"
-                            name="guardian_contact"
-                            x-model="guardianContact"
-                            @input="validatePhoneNumber('guardianContact', $event.target.value)"
-                            :class="{'border-red-500': errors.guardianContact}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.guardianContact"
-                           x-text="errors.guardianContact"
-                           class="mt-1 text-sm text-red-500"></p>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Guardian's Address</label>
-                        <input type="text"
-                            name="guardian_address"
-                            x-model="guardianAddress"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Relationship to Student</label>
-                        <input type="text"
-                            name="guardian_relationship"
-                            x-model="guardianRelationship"
-                            @input="validateTextInput('guardianRelationship', $event.target.value)"
-                            :class="{'border-red-500': errors.guardianRelationship}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.guardianRelationship"
-                           x-text="errors.guardianRelationship"
-                           class="mt-1 text-sm text-red-500"></p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" :class="{ 'opacity-50': motherNA }">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text"
+                                name="mother_name"
+                                x-model="motherName"
+                                :disabled="motherNA"
+                                @input="validateTextInput('motherName', $event.target.value)"
+                                :class="{'border-red-500': errors.motherName}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.motherName" x-text="errors.motherName" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                name="mother_contact"
+                                x-model="motherContact"
+                                :disabled="motherNA"
+                                @input="validatePhoneNumber('motherContact', $event.target.value)"
+                                :class="{'border-red-500': errors.motherContact}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Validation Message -->
-                <div
-                    x-show="!validateFamilyInfo()"
-                    class="text-red-500 text-sm mt-2"
-                >
-                    Please complete either Father's, Mother's, or Guardian's information.
+                <!-- Legal Guardian's Information -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium">Legal Guardian</h3>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox"
+                                x-model="guardianNA"
+                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                            >
+                            <span class="text-sm text-gray-600">N/A</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" :class="{ 'opacity-50': guardianNA }">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text"
+                                name="guardian_name"
+                                x-model="guardianName"
+                                :disabled="guardianNA"
+                                @input="validateTextInput('guardianName', $event.target.value)"
+                                :class="{'border-red-500': errors.guardianName}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.guardianName" x-text="errors.guardianName" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                name="guardian_contact"
+                                x-model="guardianContact"
+                                :disabled="guardianNA"
+                                @input="validatePhoneNumber('guardianContact', $event.target.value)"
+                                :class="{'border-red-500': errors.guardianContact}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
