@@ -13,39 +13,165 @@
     <div class="bg-white rounded-lg shadow-lg p-6">
         <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            
+
             <!-- Program Information -->
-            <div class="mb-8">
+            <div class="mb-8" x-data="{
+                currentSection: 'program',
+                programType: '',
+                gradeLevel: '',
+                strand: '',
+                studentStatus: '',
+                showGradeLevel: false,
+                showStrand: false,
+                showStudentStatus: false,
+                gradeLevels: [],
+                strands: [
+                    { value: 'STEM', label: 'STEM (Science, Technology, Engineering, and Mathematics)' },
+                    { value: 'ABM', label: 'ABM (Accountancy, Business, and Management)' },
+                    { value: 'HUMSS', label: 'HUMSS (Humanities and Social Sciences)' },
+                    { value: 'GAS', label: 'GAS (General Academic Strand)' },
+                    { value: 'TVL', label: 'TVL (Technical-Vocational-Livelihood)' }
+                ],
+
+                init() {
+                    this.$watch('gradeLevel', (value) => {
+                        if (value && this.programType !== 'Senior High School') {
+                            this.showStudentStatus = true;
+                        }
+                        this.studentStatus = '';
+                        this.checkProgramComplete();
+                    });
+                    this.$watch('strand', (value) => {
+                        if (value && this.programType === 'Senior High School') {
+                            this.showStudentStatus = true;
+                        }
+                        this.studentStatus = '';
+                        this.checkProgramComplete();
+                    });
+                },
+
+                checkProgramComplete() {
+                    if (this.programType === 'Senior High School') {
+                        if (this.programType && this.gradeLevel && this.strand && this.studentStatus) {
+                            this.currentSection = 'personal';
+                        }
+                    } else {
+                        if (this.programType && this.gradeLevel && this.studentStatus) {
+                            this.currentSection = 'personal';
+                        }
+                    }
+                },
+
+                updateGradeLevels() {
+                    this.gradeLevel = '';
+                    this.strand = '';
+                    this.studentStatus = '';
+                    this.showStrand = false;
+                    this.showStudentStatus = false;
+
+                    if (this.programType === 'Elementary') {
+                        this.gradeLevels = Array.from({length: 6}, (_, i) => i + 1);
+                        this.showGradeLevel = true;
+                    } else if (this.programType === 'Junior High School') {
+                        this.gradeLevels = Array.from({length: 4}, (_, i) => i + 7);
+                        this.showGradeLevel = true;
+                    } else if (this.programType === 'Senior High School') {
+                        this.gradeLevels = Array.from({length: 2}, (_, i) => i + 11);
+                        this.showGradeLevel = true;
+                        this.showStrand = true;
+                    } else {
+                        this.showGradeLevel = false;
+                        this.gradeLevels = [];
+                    }
+                }
+            }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Program</label>
-                        <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                            <option value="">Select Program</option>
-                            <option value="Elementary">Elementary</option>
-                            <option value="High School">High School</option>
-                            <option value="Senior High School">Senior High School</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Grade Level</label>
-                        <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                            <option value="">Select Grade Level</option>
-                            @for($i = 1; $i <= 12; $i++)
-                                <option value="{{ $i }}">Grade {{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div id="strandContainer" style="display: none;">
-                        <label class="block text-sm font-medium text-gray-700">Strand</label>
-                        <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Select Strand</option>
-                            <option value="STEM">STEM</option>
-                            <option value="ABM">ABM</option>
-                            <option value="TECHVOC">TECHVOC</option>
-                            <option value="HUMSS">HUMSS</option>
-                            <option value="GAS">GAS</option>
-                        </select>
+
+                <!-- Program Type -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700">Program Type <span class="text-red-500">*</span></label>
+                    <select
+                        name="program_type"
+                        x-model="programType"
+                        @change="updateGradeLevels()"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        required
+                    >
+                        <option value="">Select Program</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Junior High School">Junior High School</option>
+                        <option value="Senior High School">Senior High School</option>
+                    </select>
+                </div>
+
+                <!-- Grade Level -->
+                <div class="mb-6" x-show="showGradeLevel" x-transition>
+                    <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
+                    <select
+                        name="grade_level"
+                        x-model="gradeLevel"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        required
+                    >
+                        <option value="">Select Grade Level</option>
+                        <template x-for="level in gradeLevels" :key="level">
+                            <option :value="level" x-text="'Grade ' + level"></option>
+                        </template>
+                    </select>
+                </div>
+
+                <!-- Strand -->
+                <div class="mb-6" x-show="showStrand" x-transition>
+                    <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
+                    <select
+                        name="strand"
+                        x-model="strand"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        :required="showStrand"
+                    >
+                        <option value="">Select Strand</option>
+                        <template x-for="strandOption in strands" :key="strandOption.value">
+                            <option :value="strandOption.value" x-text="strandOption.label"></option>
+                        </template>
+                    </select>
+                </div>
+
+                <!-- Student Status -->
+                <div class="space-y-4 mt-4" x-show="showStudentStatus" x-transition>
+                    <label class="block text-sm font-medium text-gray-700">
+                        Student Status <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex flex-col space-y-4">
+                        <div class="flex items-center">
+                            <input type="radio"
+                                name="student_status"
+                                value="transferee"
+                                x-model="studentStatus"
+                                @change="checkProgramComplete()"
+                                class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                                required>
+                            <label class="ml-2 text-sm text-gray-700">Transferee</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio"
+                                name="student_status"
+                                value="existing"
+                                x-model="studentStatus"
+                                @change="checkProgramComplete()"
+                                class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                                required>
+                            <label class="ml-2 text-sm text-gray-700">Existing Student</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio"
+                                name="student_status"
+                                value="returning"
+                                x-model="studentStatus"
+                                @change="checkProgramComplete()"
+                                class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                                required>
+                            <label class="ml-2 text-sm text-gray-700">Returning Student</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -166,7 +292,7 @@
             <!-- Family Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
-                
+
                 <!-- Father's Information -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
