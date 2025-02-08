@@ -453,41 +453,93 @@
             </div>
 
             <!-- Contact Information -->
-            <div class="mb-8">
+            <div class="mb-8" x-data="{
+                province: 'Metro Manila',
+                city: '',
+                barangay: '',
+                cities: [
+                    'Metro Manila--Caloocan',
+                    'Metro Manila--Las Piñas',
+                    'Metro Manila--Makati',
+                    'Metro Manila--Malabon',
+                    'Metro Manila--Mandaluyong',
+                    'Metro Manila--Manila',
+                    'Metro Manila--Marikina',
+                    'Metro Manila--Muntinlupa',
+                    'Metro Manila--Navotas',
+                    'Metro Manila--Parañaque',
+                    'Metro Manila--Pasay',
+                    'Metro Manila--Pasig',
+                    'Metro Manila--Pateros',
+                    'Metro Manila--Quezon City',
+                    'Metro Manila--San Juan',
+                    'Metro Manila--Taguig',
+                    'Metro Manila--Valenzuela'
+                ]
+            }">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Street Address -->
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">
                             Street Address <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="street_address"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">
-                            City <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
+
+                    <!-- Province (Disabled, Fixed to Metro Manila) -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">
                             Province <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" name="applicant_address_province" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                            name="province"
+                            x-model="province"
+                            disabled
+                            class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
+
+                    <!-- City -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">
-                            Mobile Number <span class="text-red-500">*</span>
+                            City <span class="text-red-500">*</span>
                         </label>
-                        <input type="text"
-                            name="applicant_mobile_number"
-                            x-model="mobileNo"
-                            @input="validatePhoneNumber('mobileNo', $event.target.value)"
-                            :class="{'border-red-500': errors.mobileNo}"
+                        <select
+                            name="city"
+                            x-model="city"
                             required
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p x-show="errors.mobileNo"
-                           x-text="errors.mobileNo"
-                           class="mt-1 text-sm text-red-500"></p>
+                            <option value="">Please choose your city</option>
+                            <template x-for="cityOption in cities" :key="cityOption">
+                                <option :value="cityOption" x-text="cityOption"></option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <!-- Barangay -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Barangay <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="barangay"
+                            x-model="barangay"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <!-- Complete Address -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Complete Address <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="complete_address"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
             </div>
