@@ -5,7 +5,7 @@
                 {{ __('Admin Panel') }}
             </h2>
 
-           
+
             @if(request()->routeIs('admission.show'))
             <div class="flex space-x-8 justify-start">
                     <a href="#" class="text-blue-600 pb-4 text-base underline">
@@ -26,6 +26,11 @@
         </div>
     </x-slot>
 
+    <head>
+        <!-- Add Alpine.js -->
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    </head>
+
     <div class="flex">
         <!-- Sidebar -->
         <div class="w-64 h-screen bg-gray-100 text-gray-800 border-r border-gray-300 flex-shrink-0">
@@ -39,7 +44,7 @@
                     </a>
                 </li>
 
-                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }" 
+                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }"
                     x-init="open = {{ request()->routeIs('admission.*') ? 'true' : 'false' }}">
                     <div class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                                 {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
