@@ -749,7 +749,10 @@
                                 x-model="fatherName"
                                 :disabled="fatherNA"
                                 @input="validateTextInput('fatherName', $event.target.value)"
-                                :class="{'border-red-500': errors.fatherName}"
+                                :class="{
+                                    'border-red-500': errors.fatherName,
+                                    'bg-gray-100': fatherNA
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.fatherName" x-text="errors.fatherName" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -760,7 +763,10 @@
                                 x-model="fatherContact"
                                 :disabled="fatherNA"
                                 @input="validatePhoneNumber('fatherContact', $event.target.value)"
-                                :class="{'border-red-500': errors.fatherContact}"
+                                :class="{
+                                    'border-red-500': errors.fatherContact,
+                                    'bg-gray-100': fatherNA
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -787,7 +793,10 @@
                                 x-model="motherName"
                                 :disabled="motherNA"
                                 @input="validateTextInput('motherName', $event.target.value)"
-                                :class="{'border-red-500': errors.motherName}"
+                                :class="{
+                                    'border-red-500': errors.motherName,
+                                    'bg-gray-100': motherNA
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.motherName" x-text="errors.motherName" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -798,7 +807,10 @@
                                 x-model="motherContact"
                                 :disabled="motherNA"
                                 @input="validatePhoneNumber('motherContact', $event.target.value)"
-                                :class="{'border-red-500': errors.motherContact}"
+                                :class="{
+                                    'border-red-500': errors.motherContact,
+                                    'bg-gray-100': motherNA
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -825,7 +837,10 @@
                                 x-model="guardianName"
                                 :disabled="guardianNA"
                                 @input="validateTextInput('guardianName', $event.target.value)"
-                                :class="{'border-red-500': errors.guardianName}"
+                                :class="{
+                                    'border-red-500': errors.guardianName,
+                                    'bg-gray-100': guardianNA
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.guardianName" x-text="errors.guardianName" class="mt-1 text-sm text-red-500"></p>
                         </div>
@@ -836,7 +851,10 @@
                                 x-model="guardianContact"
                                 :disabled="guardianNA"
                                 @input="validatePhoneNumber('guardianContact', $event.target.value)"
-                                :class="{'border-red-500': errors.guardianContact}"
+                                :class="{
+                                    'border-red-500': errors.guardianContact,
+                                    'bg-gray-100': guardianNA
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
                         </div>
