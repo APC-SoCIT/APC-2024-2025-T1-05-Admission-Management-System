@@ -138,7 +138,7 @@
                     this.age = '';
                 }
             }, validateExtensionName(value) {
-                if (/\d/.test(value)) {
+                if (/[0-9]/.test(value)) {
                     this.errors.extensionName = 'Invalid Format';
                     return false;
                 }
@@ -290,7 +290,7 @@
             </div>
 
             <!-- Personal Information -->
-            <div class="mb-8" x-data="{ isOpen: true, dateOfBirth: '', age: '', surname: '', givenName: '', middleName: '', placeOfBirth: '', nationality: '', religion: '', contactNo: '', errors: {}, validateTextInput(field, value) {
+            <div class="mb-8" x-data="{ isOpen: true, dateOfBirth: '', age: '', surname: '', givenName: '', middleName: '', placeOfBirth: '', nationality: '', religion: '', contactNo: '', extensionName: '', errors: {}, validateTextInput(field, value) {
                 if (/\d/.test(value)) {
                     this.errors[field] = 'Invalid Format';
                     return false;
@@ -312,6 +312,20 @@
                 } else {
                     this.age = '';
                 }
+            }, validateExtensionName(value) {
+                if (/\d/.test(value)) {
+                    this.errors.extensionName = 'Invalid Format';
+                    return false;
+                }
+                delete this.errors.extensionName;
+                return true;
+            }, validateContactNumber(value) {
+                if (/[a-zA-Z]/.test(value)) {
+                    this.errors.contactNo = 'Invalid Format';
+                    return false;
+                }
+                delete this.errors.contactNo;
+                return true;
             } }">
                 <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
                     <h2 class="text-xl font-semibold">Personal Information</h2>
@@ -329,7 +343,9 @@
                                 name="applicant_surname"
                                 x-model="surname"
                                 @input="validateTextInput('surname', $event.target.value)"
-                                :class="{'border-red-500': errors.surname}"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.surname
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required
                             >
@@ -345,7 +361,9 @@
                                 name="applicant_given_name"
                                 x-model="givenName"
                                 @input="validateTextInput('givenName', $event.target.value)"
-                                :class="{'border-red-500': errors.givenName}"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.givenName
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required
                             >
@@ -359,7 +377,9 @@
                                 name="applicant_middle_name"
                                 x-model="middleName"
                                 @input="validateTextInput('middleName', $event.target.value)"
-                                :class="{'border-red-500': errors.middleName}"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.middleName
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             >
                             <p x-show="errors.middleName"
@@ -372,7 +392,7 @@
                                 name="applicant_extension"
                                 x-model="extensionName"
                                 @input="validateExtensionName($event.target.value)"
-                                :class="{'border-red-500': errors.extensionName}"
+                                :class="{'border-red-500 bg-red-50': errors.extensionName}"
                                 placeholder="Jr., II, III, etc."
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.extensionName"
@@ -418,7 +438,9 @@
                                 name="applicant_nationality"
                                 x-model="nationality"
                                 @input="validateTextInput('nationality', $event.target.value)"
-                                :class="{'border-red-500': errors.nationality}"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.nationality
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             >
                             <p x-show="errors.nationality"
@@ -431,7 +453,9 @@
                                 name="applicant_religion"
                                 x-model="religion"
                                 @input="validateTextInput('religion', $event.target.value)"
-                                :class="{'border-red-500': errors.religion}"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.religion
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             >
                             <p x-show="errors.religion"
@@ -443,8 +467,8 @@
                             <input type="text"
                                 name="applicant_contact"
                                 x-model="contactNo"
-                                @input="validatePhoneNumber('contactNo', $event.target.value)"
-                                :class="{'border-red-500': errors.contactNo}"
+                                @input="validateContactNumber($event.target.value)"
+                                :class="{'border-red-500 bg-red-50': errors.contactNo}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.contactNo"
                                x-text="errors.contactNo"
