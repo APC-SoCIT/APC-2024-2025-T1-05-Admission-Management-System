@@ -540,29 +540,8 @@
                     </svg>
                 </div>
                 <div x-show="isOpen" x-transition>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Surname (moved first) -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Surname <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_surname"
-                                x-model="surname"
-                                @input="validateName('surname', $event.target.value)"
-                                :disabled="studentData !== null"
-                                :class="{
-                                    'bg-gray-100': studentData !== null,
-                                    'border-red-500 bg-red-50': errors.surname
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.surname"
-                               x-text="errors.surname"
-                               class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Given Name (moved second) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Given Name (now first) -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Given Name <span class="text-red-500">*</span>
@@ -574,13 +553,30 @@
                                 :disabled="studentData !== null"
                                 :class="{
                                     'bg-gray-100': studentData !== null,
-                                    'border-red-500 bg-red-50': errors.givenName
+                                    'border-red-500': errors.givenName
                                 }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
-                            <p x-show="errors.givenName"
-                               x-text="errors.givenName"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.givenName" x-text="errors.givenName" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+
+                        <!-- Surname (now second) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Surname <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="applicant_surname"
+                                x-model="surname"
+                                @input="validateName('surname', $event.target.value)"
+                                :disabled="studentData !== null"
+                                :class="{
+                                    'bg-gray-100': studentData !== null,
+                                    'border-red-500': errors.surname
+                                }"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                required>
+                            <p x-show="errors.surname" x-text="errors.surname" class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Middle Name</label>
@@ -592,15 +588,15 @@
                                 :disabled="studentData !== null"
                                 :class="{
                                     'bg-gray-100': studentData !== null,
-                                    'border-red-500 bg-red-50': errors.middleName
+                                    'border-red-500': errors.middleName
                                 }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.middleName"
-                               x-text="errors.middleName"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.middleName" x-text="errors.middleName" class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Extension Name</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Extension Name <span class="text-red-500">*</span>
+                            </label>
                             <input type="text"
                                 name="applicant_extension"
                                 x-model="extensionName"
@@ -608,9 +604,7 @@
                                 :class="{'border-red-500': errors.extensionName}"
                                 placeholder="Jr., II, III, etc."
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.extensionName"
-                               x-text="errors.extensionName"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.extensionName" x-text="errors.extensionName" class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -646,28 +640,28 @@
                             >
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Nationality</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Nationality <span class="text-red-500">*</span>
+                            </label>
                             <input type="text"
                                 name="applicant_nationality"
                                 x-model="nationality"
                                 @input="validateName('nationality', $event.target.value)"
                                 :class="{'border-red-500': errors.nationality}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.nationality"
-                               x-text="errors.nationality"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.nationality" x-text="errors.nationality" class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Religion</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Religion <span class="text-red-500">*</span>
+                            </label>
                             <input type="text"
                                 name="applicant_religion"
                                 x-model="religion"
                                 @input="validateName('religion', $event.target.value)"
                                 :class="{'border-red-500': errors.religion}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.religion"
-                               x-text="errors.religion"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.religion" x-text="errors.religion" class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -685,12 +679,12 @@
                                 }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
-                            <p x-show="errors.lrn"
-                               x-text="errors.lrn"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.lrn" x-text="errors.lrn" class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Contact Number <span class="text-red-500">*</span>
+                            </label>
                             <input type="tel"
                                 name="applicant_mobile_number"
                                 x-model="contactNo"
@@ -701,13 +695,11 @@
                                 :class="{'border-red-500': errors.contactNo}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
-                            <p x-show="errors.contactNo"
-                               x-text="errors.contactNo"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.contactNo" x-text="errors.contactNo" class="mt-1 text-sm text-red-500"></p>
                         </div>
                     </div>
 
-                    <!-- Update the address fields inside Personal Information section -->
+                    <!-- Address fields container - remove the top margin -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"
                         x-data="{
                             province: 'Metro Manila',
@@ -804,7 +796,6 @@
                                 placeholder="Enter barangay name"
                                 required>
                             <p class="mt-1 text-sm text-red-600" x-show="errors.barangay" x-text="errors.barangay"></p>
-                            <p class="mt-1 text-xs text-gray-500">Only letters, numbers, spaces, periods, and hyphens allowed</p>
                         </div>
 
                         <!-- House Number and Street Input -->
@@ -839,7 +830,6 @@
                                     <p class="mt-1 text-sm text-red-600" x-show="errors.street" x-text="errors.street"></p>
                                 </div>
                             </div>
-                            <p class="mt-1 text-xs text-gray-500">Only letters, numbers, spaces, periods, and hyphens allowed</p>
                         </div>
                     </div>
                 </div>
@@ -856,6 +846,10 @@
                 guardianContact: '',
                 errors: {},
                 validateName(field, value) {
+                    if (!value) {
+                        delete this.errors[field];
+                        return true;
+                    }
                     const pattern = /^[a-zA-Z\s-]+$/;
                     if (!pattern.test(value)) {
                         this.errors[field] = 'Only letters, spaces, and hyphens are allowed';
@@ -865,6 +859,10 @@
                     return true;
                 },
                 validateContact(field, value) {
+                    if (!value) {
+                        delete this.errors[field];
+                        return true;
+                    }
                     const pattern = /^[0-9\s-]+$/;
                     if (!pattern.test(value)) {
                         this.errors[field] = 'Only numbers, spaces, and hyphens are allowed';
@@ -984,6 +982,10 @@
                 emergencyAddress: '',
                 errors: {},
                 validateName(field, value) {
+                    if (!value) {
+                        delete this.errors[field];
+                        return true;
+                    }
                     const pattern = /^[a-zA-Z\s-]+$/;
                     if (!pattern.test(value)) {
                         this.errors[field] = 'Only letters, spaces, and hyphens are allowed';
@@ -993,6 +995,10 @@
                     return true;
                 },
                 validateContact(field, value) {
+                    if (!value) {
+                        delete this.errors[field];
+                        return true;
+                    }
                     const pattern = /^[0-9\s-]+$/;
                     if (!pattern.test(value)) {
                         this.errors[field] = 'Only numbers, spaces, and hyphens are allowed';
@@ -1002,6 +1008,10 @@
                     return true;
                 },
                 validateAddress(value) {
+                    if (!value) {
+                        delete this.errors.address;
+                        return true;
+                    }
                     const pattern = /^[a-zA-Z0-9\s,.-]+$/;
                     if (!pattern.test(value)) {
                         this.errors.address = 'Only letters, numbers, spaces, commas, periods, and hyphens are allowed';
@@ -1015,6 +1025,10 @@
                     return true;
                 },
                 validateEmail(value) {
+                    if (!value) {
+                        delete this.errors.email;
+                        return true;
+                    }
                     if (value.length > 100) {
                         this.errors.email = 'Maximum length is 100 characters';
                         return false;
