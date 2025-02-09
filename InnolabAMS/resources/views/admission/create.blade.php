@@ -55,85 +55,33 @@
 
     <div class="bg-white rounded-lg shadow-lg p-6"
         x-data="{
-            autoSave() {
-                const formData = {};
-                const form = $el.querySelector('form');
-                const inputs = form.querySelectorAll('input, select, textarea');
+            currentSection: 'program',
+            showStudentType: false,
+            shouldShowDocument(docType) {
+                if (!this.programType || !this.studentType) return false;
 
-                inputs.forEach(input => {
-                    if (input.type === 'radio') {
-                        if (input.checked) {
-                            formData[input.name] = input.value;
-                        }
-                    } else {
-                        formData[input.name] = input.value;
+                const requirements = {
+                    transferee: {
+                        all: ['psa_birth', 'form_138', 'good_moral', 'parent_id', 'photo'],
+                    },
+                    existing: {
+                        all: ['parent_id', 'medical_records'],
+                    },
+                    returning: {
+                        all: ['psa_birth', 'form_138', 'good_moral', 'photo'],
                     }
-                });
+                };
 
-                localStorage.setItem('admission_form_data', JSON.stringify(formData));
-            },
-
-            loadSavedData() {
-                const savedData = JSON.parse(localStorage.getItem('admission_form_data'));
-                if (savedData) {
-                    const form = $el.querySelector('form');
-                    Object.keys(savedData).forEach(key => {
-                        const input = form.querySelector(`[name="${key}"]`);
-                        if (input) {
-                            if (input.type === 'radio') {
-                                const radio = form.querySelector(`[name="${key}"][value="${savedData[key]}"]`);
-                                if (radio) radio.checked = true;
-                            } else {
-                                input.value = savedData[key];
-                            }
-                        }
-                    });
-                }
-            },
-
-            showStudentType: false
+                return requirements[this.studentType]?.all.includes(docType);
+            }
         }"
-        x-init="loadSavedData()"
-        @input.debounce.500ms="autoSave()"
     >
-        <!-- Add a recovery notification at the top of the form -->
-        <div x-data="{ show: false }"
-             x-init="show = !!localStorage.getItem('admission_form_data')"
-             x-show="show"
-             class="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200"
-             role="alert">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <div class="ml-3">
-                    <p class="text-sm text-blue-700">
-                        We found your previously saved form data. It has been automatically loaded.
-                    </p>
-                </div>
-                <div class="ml-auto pl-3">
-                    <div class="-mx-1.5 -my-1.5">
-                        <button @click="show = false; localStorage.removeItem('admission_form_data')"
-                                class="inline-flex rounded-md p-1.5 text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            <span class="sr-only">Dismiss</span>
-                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Program Information -->
             <div class="mb-8" x-data="{
                 isOpen: true,
-                currentSection: 'program',
                 programType: '',
                 gradeLevel: '',
                 strand: '',
@@ -160,72 +108,43 @@
                     this.previousSchool = '';
                     this.transferReason = '';
                     this.gapPeriod = '';
-                    // Reset other type-specific fields...
                 },
 
-                validateField(field) {
-                    if (!this[field] || this[field].trim() === '') {
-                        this.errors[field] = 'Please fill up this field';
-                        return false;
-                    }
-                    delete this.errors[field];
-                    return true;
-                },
-                validateProgramSection() {
-                    let isValid = true;
-
-                    if (!this.validateField('programType')) isValid = false;
-                    if (!this.validateField('gradeLevel')) isValid = false;
-                    if (this.programType === 'Senior High School' && !this.validateField('strand')) isValid = false;
-                    if (!this.validateField('studentType')) isValid = false;
-
-                    return isValid;
-                },
-                checkProgramComplete() {
-                    if (!this.validateProgramSection()) return;
-
-                    if (this.programType === 'Senior High School') {
-                        if (this.programType && this.gradeLevel && this.strand && this.studentType) {
-                            this.currentSection = 'personal';
-                        }
-                    } else {
-                        if (this.programType && this.gradeLevel && this.studentType) {
-                            this.currentSection = 'personal';
-                        }
-                    }
-                },
                 init() {
                     this.$watch('gradeLevel', (value) => {
-                        if (value) {
-                            if (this.programType === 'Senior High School') {
-                                // For SHS, only show student type after strand is selected
-                                this.showStudentType = false;
-                            } else {
-                                // For Elementary and JHS, show student type after grade level
-                                this.showStudentType = true;
-                            }
-                        } else {
+                        if (this.programType === 'Senior High School' && value) {
+                            this.showStrand = true;
                             this.showStudentType = false;
+                        } else if (value) {
+                            this.showStudentType = true;
+                        } else {
+                            this.showStrand = false;
+                            this.showStudentType = false;
+                            this.strand = '';
                         }
-                        this.studentType = '';
-                        this.checkProgramComplete();
                     });
 
                     this.$watch('strand', (value) => {
-                        if (value && this.programType === 'Senior High School' && this.gradeLevel) {
+                        if (this.programType === 'Senior High School' && value) {
                             this.showStudentType = true;
-                        } else if (this.programType === 'Senior High School') {
-                            this.showStudentType = false;
                         }
-                        this.studentType = '';
-                        this.checkProgramComplete();
                     });
 
                     this.$watch('programType', () => {
-                        this.showStudentType = false;
+                        this.gradeLevel = '';
+                        this.strand = '';
+                        this.showStrand = false;
                         this.studentType = '';
+                        this.showStudentType = false;
+                        this.resetTypeFields();
+                    });
+
+                    this.$watch('studentType', () => {
+                        this.resetTypeFields();
+                        this.initStudentTypeFields();
                     });
                 },
+
                 updateGradeLevels() {
                     this.gradeLevel = '';
                     this.strand = '';
@@ -242,7 +161,6 @@
                     } else if (this.programType === 'Senior High School') {
                         this.gradeLevels = Array.from({length: 2}, (_, i) => i + 11);
                         this.showGradeLevel = true;
-                        this.showStrand = true;
                     } else {
                         this.showGradeLevel = false;
                         this.gradeLevels = [];
@@ -393,7 +311,6 @@
                                     name="student_type"
                                     value="transferee"
                                     x-model="studentType"
-                                    @change="initStudentTypeFields(); resetTypeFields()"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <label class="ml-3 block text-sm font-medium text-gray-700">Transferee</label>
                             </div>
@@ -402,7 +319,6 @@
                                     name="student_type"
                                     value="existing"
                                     x-model="studentType"
-                                    @change="initStudentTypeFields(); resetTypeFields()"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <label class="ml-3 block text-sm font-medium text-gray-700">Existing Student</label>
                             </div>
@@ -411,7 +327,6 @@
                                     name="student_type"
                                     value="returning"
                                     x-model="studentType"
-                                    @change="initStudentTypeFields(); resetTypeFields()"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <label class="ml-3 block text-sm font-medium text-gray-700">Returning Student</label>
                             </div>
@@ -871,12 +786,80 @@
                 </div>
             </div>
 
-            <!-- Submit and Save Draft buttons -->
-            <div class="flex justify-end space-x-4">
-                <button type="button"
-                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                    Save as Draft
-                </button>
+            <!-- Document visibility control -->
+            <div x-show="studentType" x-transition class="mb-8">
+                <h3 class="text-lg font-medium mb-4">Required Documents</h3>
+                <p class="text-sm text-gray-500 mb-4">Please upload the following documents. All files must be in PDF, JPG, or PNG format and must not exceed 10MB.</p>
+
+                <!-- Common Documents for Transferee -->
+                <div x-show="studentType === 'transferee'" class="space-y-4">
+                    <div x-show="shouldShowDocument('psa_birth')" class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            PSA Birth Certificate <span class="text-red-500">*</span>
+                        </label>
+                        <input type="file"
+                            name="psa_birth"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            x-on:change="
+                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                    $event.target.value = '';
+                                    alert('File size must not exceed 10MB');
+                                }
+                            "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                    </div>
+
+                    <div x-show="shouldShowDocument('form_138')" class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Form 138 (Report Card) <span class="text-red-500">*</span>
+                        </label>
+                        <input type="file"
+                            name="form_138"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            x-on:change="
+                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                    $event.target.value = '';
+                                    alert('File size must not exceed 10MB');
+                                }
+                            "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                    </div>
+
+                    <!-- Add similar blocks for other transferee documents -->
+                </div>
+
+                <!-- Existing Student Documents -->
+                <div x-show="studentType === 'existing'" class="space-y-4">
+                    <div x-show="shouldShowDocument('parent_id')" class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Updated Parent's/Guardian's Valid ID <span class="text-red-500">*</span>
+                        </label>
+                        <input type="file"
+                            name="parent_id"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            x-on:change="
+                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                    $event.target.value = '';
+                                    alert('File size must not exceed 10MB');
+                                }
+                            "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                    </div>
+
+                    <!-- Add medical records field -->
+                </div>
+
+                <!-- Returning Student Documents -->
+                <div x-show="studentType === 'returning'" class="space-y-4">
+                    <!-- Add returning student document fields -->
+                </div>
+            </div>
+
+            <!-- Submit button section - remove Save Draft button -->
+            <div class="flex justify-end">
                 <button type="submit"
                     class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                     Submit Application
