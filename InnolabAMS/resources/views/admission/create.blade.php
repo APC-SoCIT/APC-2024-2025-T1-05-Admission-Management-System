@@ -540,7 +540,7 @@
                     </svg>
                 </div>
                 <div x-show="isOpen" x-transition>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                         <!-- Surname (moved first) -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -600,7 +600,9 @@
                                class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Extension Name</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Extension Name <span class="text-red-500">*</span>
+                            </label>
                             <input type="text"
                                 name="applicant_extension"
                                 x-model="extensionName"
@@ -646,7 +648,9 @@
                             >
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Nationality</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Nationality <span class="text-red-500">*</span>
+                            </label>
                             <input type="text"
                                 name="applicant_nationality"
                                 x-model="nationality"
@@ -658,7 +662,9 @@
                                class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Religion</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Religion <span class="text-red-500">*</span>
+                            </label>
                             <input type="text"
                                 name="applicant_religion"
                                 x-model="religion"
@@ -690,7 +696,9 @@
                                class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Contact Number <span class="text-red-500">*</span>
+                            </label>
                             <input type="tel"
                                 name="applicant_mobile_number"
                                 x-model="contactNo"
@@ -707,7 +715,7 @@
                         </div>
                     </div>
 
-                    <!-- Update the address fields inside Personal Information section -->
+                    <!-- Address fields container - remove the top margin -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4"
                         x-data="{
                             province: 'Metro Manila',
@@ -984,6 +992,10 @@
                 emergencyAddress: '',
                 errors: {},
                 validateName(field, value) {
+                    if (!value) {
+                        delete this.errors[field];
+                        return true;
+                    }
                     const pattern = /^[a-zA-Z\s-]+$/;
                     if (!pattern.test(value)) {
                         this.errors[field] = 'Only letters, spaces, and hyphens are allowed';
@@ -993,6 +1005,10 @@
                     return true;
                 },
                 validateContact(field, value) {
+                    if (!value) {
+                        delete this.errors[field];
+                        return true;
+                    }
                     const pattern = /^[0-9\s-]+$/;
                     if (!pattern.test(value)) {
                         this.errors[field] = 'Only numbers, spaces, and hyphens are allowed';
@@ -1002,6 +1018,10 @@
                     return true;
                 },
                 validateAddress(value) {
+                    if (!value) {
+                        delete this.errors.address;
+                        return true;
+                    }
                     const pattern = /^[a-zA-Z0-9\s,.-]+$/;
                     if (!pattern.test(value)) {
                         this.errors.address = 'Only letters, numbers, spaces, commas, periods, and hyphens are allowed';
@@ -1015,6 +1035,10 @@
                     return true;
                 },
                 validateEmail(value) {
+                    if (!value) {
+                        delete this.errors.email;
+                        return true;
+                    }
                     if (value.length > 100) {
                         this.errors.email = 'Maximum length is 100 characters';
                         return false;
