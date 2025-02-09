@@ -571,7 +571,7 @@
                 </div>
                 <div x-show="isOpen" x-transition>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <!-- Given Name (now first) -->
+                        <!-- Given Name -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Given Name <span class="text-red-500">*</span>
@@ -590,7 +590,7 @@
                             <p x-show="errors.givenName" x-text="errors.givenName" class="mt-1 text-sm text-red-500"></p>
                         </div>
 
-                        <!-- Surname (now second) -->
+                        <!-- Surname -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Surname <span class="text-red-500">*</span>
@@ -608,6 +608,8 @@
                                 required>
                             <p x-show="errors.surname" x-text="errors.surname" class="mt-1 text-sm text-red-500"></p>
                         </div>
+
+                        <!-- Middle Name -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Middle Name</label>
                             <input type="text"
@@ -623,6 +625,8 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.middleName" x-text="errors.middleName" class="mt-1 text-sm text-red-500"></p>
                         </div>
+
+                        <!-- Extension Name -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Extension Name <span class="text-red-500">*</span>
@@ -636,6 +640,8 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.extensionName" x-text="errors.extensionName" class="mt-1 text-sm text-red-500"></p>
                         </div>
+
+                        <!-- Sex -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Sex <span class="text-red-500">*</span>
@@ -646,6 +652,8 @@
                                 <option value="Female">Female</option>
                             </select>
                         </div>
+
+                        <!-- Date of Birth -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Date of Birth <span class="text-red-500">*</span>
@@ -659,6 +667,8 @@
                                 required
                             >
                         </div>
+
+                        <!-- Age -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Age</label>
                             <input
@@ -669,48 +679,8 @@
                                 readonly
                             >
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Nationality <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_nationality"
-                                x-model="nationality"
-                                @input="validateName('nationality', $event.target.value)"
-                                :class="{'border-red-500': errors.nationality}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.nationality" x-text="errors.nationality" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Religion <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_religion"
-                                x-model="religion"
-                                @input="validateName('religion', $event.target.value)"
-                                :class="{'border-red-500': errors.religion}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.religion" x-text="errors.religion" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                LRN (Learner Reference Number) <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                x-ref="lrn"
-                                name="applicant_lrn"
-                                x-model="lrn"
-                                @input="validateName('lrn', $event.target.value)"
-                                :disabled="studentData !== null"
-                                :class="{
-                                    'bg-gray-100': studentData !== null,
-                                    'border-red-500': errors.lrn
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.lrn" x-text="errors.lrn" class="mt-1 text-sm text-red-500"></p>
-                        </div>
+
+                        <!-- Contact Number -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Contact Number <span class="text-red-500">*</span>
@@ -727,10 +697,38 @@
                                 required>
                             <p x-show="errors.contactNo" x-text="errors.contactNo" class="mt-1 text-sm text-red-500"></p>
                         </div>
+
+                        <!-- Nationality -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Nationality <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="applicant_nationality"
+                                x-model="nationality"
+                                @input="validateName('nationality', $event.target.value)"
+                                :class="{'border-red-500': errors.nationality}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.nationality" x-text="errors.nationality" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+
+                        <!-- Religion -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Religion <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="applicant_religion"
+                                x-model="religion"
+                                @input="validateName('religion', $event.target.value)"
+                                :class="{'border-red-500': errors.religion}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.religion" x-text="errors.religion" class="mt-1 text-sm text-red-500"></p>
+                        </div>
                     </div>
 
-                    <!-- Address fields container - remove the top margin -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    <!-- Address Information - Keep all existing functionality -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
                         x-data="{
                             province: 'Metro Manila',
                             city: '',
@@ -752,26 +750,13 @@
                                 }
                                 delete this.errors[field];
                                 return true;
-                            },
-                            validateHouseNumber(value) {
-                                const pattern = /^[a-zA-Z0-9\s.-]+$/;
-                                if (!pattern.test(value)) {
-                                    this.errors.houseNumber = 'Only letters, numbers, spaces, periods, and hyphens allowed';
-                                    return false;
-                                }
-                                if (value.length > 20) {
-                                    this.errors.houseNumber = 'Maximum length is 20 characters';
-                                    return false;
-                                }
-                                delete this.errors.houseNumber;
-                                return true;
                             }
                         }"
                         x-init="$watch('city', value => { showBarangay = value !== ''; barangay = ''; street = ''; houseNumber = ''; });
                                 $watch('barangay', value => { showStreet = value !== ''; street = ''; houseNumber = ''; })">
 
-                        <!-- Province Field (Fixed) -->
-                        <div class="relative">
+                        <!-- Province/Region -->
+                        <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 Province/Region <span class="text-red-500">*</span>
                             </label>
@@ -782,8 +767,8 @@
                                 readonly>
                         </div>
 
-                        <!-- City Dropdown -->
-                        <div class="relative">
+                        <!-- City -->
+                        <div>
                             <label class="block text-sm font-medium text-gray-700">
                                 City <span class="text-red-500">*</span>
                             </label>
