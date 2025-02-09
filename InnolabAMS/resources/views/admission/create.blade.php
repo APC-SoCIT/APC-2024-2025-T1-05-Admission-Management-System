@@ -89,7 +89,9 @@
                         }
                     });
                 }
-            }
+            },
+
+            showStudentType: false
         }"
         x-init="loadSavedData()"
         @input.debounce.500ms="autoSave()"
@@ -129,7 +131,7 @@
             @csrf
 
             <!-- Program Information -->
-            <div class="mb-8" x-data="{ 
+            <div class="mb-8" x-data="{
                 isOpen: true,
                 currentSection: 'program',
                 programType: '',
@@ -194,18 +196,34 @@
                 },
                 init() {
                     this.$watch('gradeLevel', (value) => {
-                        if (value && this.programType !== 'Senior High School') {
-                            this.showStudentStatus = true;
+                        if (value) {
+                            if (this.programType === 'Senior High School') {
+                                // For SHS, only show student type after strand is selected
+                                this.showStudentType = false;
+                            } else {
+                                // For Elementary and JHS, show student type after grade level
+                                this.showStudentType = true;
+                            }
+                        } else {
+                            this.showStudentType = false;
                         }
                         this.studentType = '';
                         this.checkProgramComplete();
                     });
+
                     this.$watch('strand', (value) => {
-                        if (value && this.programType === 'Senior High School') {
-                            this.showStudentStatus = true;
+                        if (value && this.programType === 'Senior High School' && this.gradeLevel) {
+                            this.showStudentType = true;
+                        } else if (this.programType === 'Senior High School') {
+                            this.showStudentType = false;
                         }
                         this.studentType = '';
                         this.checkProgramComplete();
+                    });
+
+                    this.$watch('programType', () => {
+                        this.showStudentType = false;
+                        this.studentType = '';
                     });
                 },
                 updateGradeLevels() {
@@ -365,7 +383,7 @@
                     </div>
 
                     <!-- Student Type -->
-                    <div class="mb-6">
+                    <div class="mb-6" x-show="showStudentType" x-transition>
                         <label class="block text-sm font-medium text-gray-700 mb-3">
                             Student Type <span class="text-red-500">*</span>
                         </label>
