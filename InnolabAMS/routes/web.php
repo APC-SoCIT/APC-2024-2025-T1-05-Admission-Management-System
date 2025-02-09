@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ApplicantInfoController::class, 'store'])->name('store');
         Route::get('/{id}', [ApplicantInfoController::class, 'show'])->name('show');
         Route::patch('/{id}/status', [ApplicantInfoController::class, 'updateStatus'])->name('update-status'); // New route for updating status
+        Route::get('/students/{studentId}', [ApplicantInfoController::class, 'lookup'])
+            ->name('student.lookup');
     });
 
     // Scholarship Routes
@@ -103,7 +105,7 @@ Route::middleware('auth')->group(function () {
     //Personal Information Routes
     Route::prefix('form')->name('scholarship.')->group(function() {
         Route::get('/portal/scholarship', [ApplicantInfoController::class, 'showScholarshipForm'])->name('create'); //Added Route
-        
+
     });
 
 });

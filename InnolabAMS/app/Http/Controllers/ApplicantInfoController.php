@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ApplicantInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicantInfoController extends Controller
 {
@@ -109,10 +111,10 @@ class ApplicantInfoController extends Controller
             ]);
 
             // Debug log
-            \Log::info('Validated data:', $validated);
+            Log::info('Validated data:', $validated);
 
-            // Ensure user_id is set
-            $validated['user_id'] = auth()->id() ?? 1; // Fallback to ID 1 if no auth user
+            // Change auth()->id() to Auth::id()
+            $validated['user_id'] = Auth::id() ?? 1;
             $validated['status'] = 'new';
 
             // Handle siblings data - convert to JSON
@@ -131,14 +133,14 @@ class ApplicantInfoController extends Controller
             $applicant = ApplicantInfo::create($validated);
 
             // Debug log
-            \Log::info('Application created:', ['id' => $applicant->id]);
+            Log::info('Application created:', ['id' => $applicant->id]);
 
             return redirect()
                 ->route('admission.index')
                 ->with('success', 'Application created successfully');
         } catch (\Exception $e) {
             // Debug log
-            \Log::error('Application creation failed:', [
+            Log::error('Application creation failed:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
@@ -147,10 +149,7 @@ class ApplicantInfoController extends Controller
                 ->withInput()
                 ->with('error', 'Failed to create application: ' . $e->getMessage());
         }
-
-
     }
-    
 
     public function new()
     {
@@ -159,7 +158,7 @@ class ApplicantInfoController extends Controller
             ->get();
         return view('admission.index', ['applicants' => $applicants]);
     }
-    
+
     public function accepted()
     {
         $applicants = ApplicantInfo::with('user')
@@ -167,7 +166,7 @@ class ApplicantInfoController extends Controller
             ->get();
         return view('admission.index', ['applicants' => $applicants]);
     }
-    
+
     public function rejected()
     {
         $applicants = ApplicantInfo::with('user')
@@ -176,18 +175,18 @@ class ApplicantInfoController extends Controller
         return view('admission.index', ['applicants' => $applicants]);
     }
 
-            // Add these methods to your existing ApplicantInfoController class
-        public function create()
-        {
-            return view('admission.create');
-        }
-
-        public function show($id)
-        {
-            $applicant = ApplicantInfo::with('user')->findOrFail($id);
-            return view('admission.show', compact('applicant'));
+    // Add these methods to your existing ApplicantInfoController class
+    public function create()
+    {
+        return view('admission.create');
     }
-    
+
+    public function show($id)
+    {
+        $applicant = ApplicantInfo::with('user')->findOrFail($id);
+        return view('admission.show', compact('applicant'));
+    }
+
     //Personal Information Form
     public function showPersonalInfoForm()
     {
@@ -253,10 +252,9 @@ class ApplicantInfoController extends Controller
             ]);
 
             // Debug log
-            \Log::info('Validated data:', $validated);
+            Log::info('Validated data:', $validated);
 
-            // Ensure user_id is set
-            $validated['user_id'] = auth()->id() ?? 1; // Fallback to ID 1 if no auth user
+            $validated['user_id'] = Auth::id() ?? 1;
             $validated['status'] = 'new';
 
             // Handle siblings data - convert to JSON
@@ -275,14 +273,14 @@ class ApplicantInfoController extends Controller
             $applicant = ApplicantInfo::create($validated);
 
             // Debug log
-            \Log::info('Application created:', ['id' => $applicant->id]);
+            Log::info('Application created:', ['id' => $applicant->id]);
 
             return redirect()
                 ->route('admission.index')
                 ->with('success', 'Application created successfully');
         } catch (\Exception $e) {
             // Debug log
-            \Log::error('Application creation failed:', [
+            Log::error('Application creation failed:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
@@ -291,12 +289,34 @@ class ApplicantInfoController extends Controller
                 ->withInput()
                 ->with('error', 'Failed to create application: ' . $e->getMessage());
         }
+    }
 
+    public function showScholarshipForm()
+    {
+        return view('scholarship.create');
+    }
 
-}
+    // Add this method to the existing controller
+    public function lookup($studentId)
+    {
+        try {
+            $student = ApplicantInfo::where('id', $studentId)
+                ->select('applicant_given_name as first_name',
+                        'applicant_middle_name as middle_name',
+                        'applicant_surname as last_name',
+                        'lrn')
+                ->firstOrFail();
 
-public function showScholarshipForm()
-{
-    return view('scholarship.create');
-}
+            return response()->json([
+                'first_name' => $student->first_name,
+                'middle_name' => $student->middle_name,
+                'last_name' => $student->last_name,
+                'lrn' => $student->lrn,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Student not found'
+            ], 404);
+        }
+    }
 }
