@@ -611,7 +611,6 @@
                             <p x-show="errors.extensionName"
                                x-text="errors.extensionName"
                                class="mt-1 text-sm text-red-500"></p>
-                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -657,7 +656,6 @@
                             <p x-show="errors.nationality"
                                x-text="errors.nationality"
                                class="mt-1 text-sm text-red-500"></p>
-                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Religion</label>
@@ -670,7 +668,6 @@
                             <p x-show="errors.religion"
                                x-text="errors.religion"
                                class="mt-1 text-sm text-red-500"></p>
-                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -691,7 +688,6 @@
                             <p x-show="errors.lrn"
                                x-text="errors.lrn"
                                class="mt-1 text-sm text-red-500"></p>
-                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Contact Number</label>
@@ -705,7 +701,6 @@
                             <p x-show="errors.contactNo"
                                x-text="errors.contactNo"
                                class="mt-1 text-sm text-red-500"></p>
-                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                     </div>
 
