@@ -106,6 +106,36 @@
                 }
                 delete this.errors[field];
                 return true;
+            },
+            validateContact(field, value) {
+                if (!value) {
+                    delete this.errors[field];
+                    return true;
+                }
+                const pattern = /^[0-9-\s]+$/;
+                if (!pattern.test(value)) {
+                    this.errors[field] = 'Only numbers, spaces, and hyphens are allowed';
+                    return false;
+                }
+                delete this.errors[field];
+                return true;
+            },
+            validateAddress(field, value) {
+                if (!value) {
+                    delete this.errors[field];
+                    return true;
+                }
+                const pattern = /^[a-zA-Z0-9\s.-]+$/;
+                if (!pattern.test(value)) {
+                    this.errors[field] = 'Only letters, numbers, spaces, periods, and hyphens are allowed';
+                    return false;
+                }
+                if (value.length > 100) {
+                    this.errors[field] = 'Maximum length is 100 characters';
+                    return false;
+                }
+                delete this.errors[field];
+                return true;
             }
         }"
     >
@@ -808,12 +838,12 @@
                                     <input type="text"
                                         name="applicant_house_number"
                                         x-model="houseNumber"
-                                        @input="validateHouseNumber($event.target.value)"
+                                        @input="validateAddress('houseNumber', $event.target.value)"
                                         :class="{'border-red-500': errors.houseNumber}"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         placeholder="Enter house/unit number"
                                         required>
-                                    <p class="mt-1 text-sm text-red-600" x-show="errors.houseNumber" x-text="errors.houseNumber"></p>
+                                    <p x-show="errors.houseNumber" x-text="errors.houseNumber" class="mt-1 text-sm text-red-500"></p>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">
@@ -827,7 +857,7 @@
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         placeholder="Enter street name"
                                         required>
-                                    <p class="mt-1 text-sm text-red-600" x-show="errors.street" x-text="errors.street"></p>
+                                    <p x-show="errors.street" x-text="errors.street" class="mt-1 text-sm text-red-500"></p>
                                 </div>
                             </div>
                         </div>
