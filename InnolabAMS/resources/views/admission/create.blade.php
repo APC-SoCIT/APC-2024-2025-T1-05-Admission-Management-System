@@ -129,128 +129,174 @@
             @csrf
 
             <!-- Program Information -->
-            <div class="mb-8" x-data="{ isOpen: true, currentSection: 'program', programType: '', gradeLevel: '', strand: '', studentStatus: '', showGradeLevel: false, showStrand: false, showStudentStatus: false, gradeLevels: [], strands: [], errors: {}, validateField(field) {
-                if (!this[field] || this[field].trim() === '') {
-                    this.errors[field] = 'Please fill up this field';
-                    return false;
-                }
-                delete this.errors[field];
-                return true;
-            }, validateProgramSection() {
-                let isValid = true;
+            <div class="mb-8" x-data="{ 
+                isOpen: true,
+                currentSection: 'program',
+                programType: '',
+                gradeLevel: '',
+                strand: '',
+                studentType: '',
+                showGradeLevel: false,
+                showStrand: false,
+                showTransfereeFields: false,
+                showExistingFields: false,
+                showReturningFields: false,
+                previousSchool: '',
+                transferReason: '',
+                gapPeriod: '',
+                errors: {},
 
-                if (!this.validateField('programType')) isValid = false;
-                if (!this.validateField('gradeLevel')) isValid = false;
-                if (this.programType === 'Senior High School' && !this.validateField('strand')) isValid = false;
-                if (!this.validateField('studentStatus')) isValid = false;
+                // Initialize student type specific fields
+                initStudentTypeFields() {
+                    this.showTransfereeFields = this.studentType === 'transferee';
+                    this.showExistingFields = this.studentType === 'existing';
+                    this.showReturningFields = this.studentType === 'returning';
+                },
 
-                return isValid;
-            }, checkProgramComplete() {
-                if (!this.validateProgramSection()) return;
+                // Reset fields when student type changes
+                resetTypeFields() {
+                    this.previousSchool = '';
+                    this.transferReason = '';
+                    this.gapPeriod = '';
+                    // Reset other type-specific fields...
+                },
 
-                if (this.programType === 'Senior High School') {
-                    if (this.programType && this.gradeLevel && this.strand && this.studentStatus) {
-                        this.currentSection = 'personal';
+                validateField(field) {
+                    if (!this[field] || this[field].trim() === '') {
+                        this.errors[field] = 'Please fill up this field';
+                        return false;
                     }
-                } else {
-                    if (this.programType && this.gradeLevel && this.studentStatus) {
-                        this.currentSection = 'personal';
-                    }
-                }
-            }, init() {
-                this.$watch('gradeLevel', (value) => {
-                    if (value && this.programType !== 'Senior High School') {
-                        this.showStudentStatus = true;
-                    }
-                    this.studentStatus = '';
-                    this.checkProgramComplete();
-                });
-                this.$watch('strand', (value) => {
-                    if (value && this.programType === 'Senior High School') {
-                        this.showStudentStatus = true;
-                    }
-                    this.studentStatus = '';
-                    this.checkProgramComplete();
-                });
-            }, updateGradeLevels() {
-                this.gradeLevel = '';
-                this.strand = '';
-                this.studentStatus = '';
-                this.showStrand = false;
-                this.showStudentStatus = false;
+                    delete this.errors[field];
+                    return true;
+                },
+                validateProgramSection() {
+                    let isValid = true;
 
-                if (this.programType === 'Elementary') {
-                    this.gradeLevels = Array.from({length: 6}, (_, i) => i + 1);
-                    this.showGradeLevel = true;
-                } else if (this.programType === 'Junior High School') {
-                    this.gradeLevels = Array.from({length: 4}, (_, i) => i + 7);
-                    this.showGradeLevel = true;
-                } else if (this.programType === 'Senior High School') {
-                    this.gradeLevels = Array.from({length: 2}, (_, i) => i + 11);
-                    this.showGradeLevel = true;
-                    this.showStrand = true;
-                } else {
-                    this.showGradeLevel = false;
-                    this.gradeLevels = [];
-                }
-            }, dateOfBirth: '', age: '', computeAge() {
-                if (this.dateOfBirth) {
-                    const dob = new Date(this.dateOfBirth);
-                    const today = new Date();
-                    let calculatedAge = today.getFullYear() - dob.getFullYear();
-                    const monthDiff = today.getMonth() - dob.getMonth();
+                    if (!this.validateField('programType')) isValid = false;
+                    if (!this.validateField('gradeLevel')) isValid = false;
+                    if (this.programType === 'Senior High School' && !this.validateField('strand')) isValid = false;
+                    if (!this.validateField('studentType')) isValid = false;
 
-                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                        calculatedAge--;
+                    return isValid;
+                },
+                checkProgramComplete() {
+                    if (!this.validateProgramSection()) return;
+
+                    if (this.programType === 'Senior High School') {
+                        if (this.programType && this.gradeLevel && this.strand && this.studentType) {
+                            this.currentSection = 'personal';
+                        }
+                    } else {
+                        if (this.programType && this.gradeLevel && this.studentType) {
+                            this.currentSection = 'personal';
+                        }
                     }
+                },
+                init() {
+                    this.$watch('gradeLevel', (value) => {
+                        if (value && this.programType !== 'Senior High School') {
+                            this.showStudentStatus = true;
+                        }
+                        this.studentType = '';
+                        this.checkProgramComplete();
+                    });
+                    this.$watch('strand', (value) => {
+                        if (value && this.programType === 'Senior High School') {
+                            this.showStudentStatus = true;
+                        }
+                        this.studentType = '';
+                        this.checkProgramComplete();
+                    });
+                },
+                updateGradeLevels() {
+                    this.gradeLevel = '';
+                    this.strand = '';
+                    this.studentType = '';
+                    this.showStrand = false;
+                    this.showStudentStatus = false;
 
-                    this.age = calculatedAge;
-                } else {
-                    this.age = '';
+                    if (this.programType === 'Elementary') {
+                        this.gradeLevels = Array.from({length: 6}, (_, i) => i + 1);
+                        this.showGradeLevel = true;
+                    } else if (this.programType === 'Junior High School') {
+                        this.gradeLevels = Array.from({length: 4}, (_, i) => i + 7);
+                        this.showGradeLevel = true;
+                    } else if (this.programType === 'Senior High School') {
+                        this.gradeLevels = Array.from({length: 2}, (_, i) => i + 11);
+                        this.showGradeLevel = true;
+                        this.showStrand = true;
+                    } else {
+                        this.showGradeLevel = false;
+                        this.gradeLevels = [];
+                    }
+                },
+                dateOfBirth: '',
+                age: '',
+                computeAge() {
+                    if (this.dateOfBirth) {
+                        const dob = new Date(this.dateOfBirth);
+                        const today = new Date();
+                        let calculatedAge = today.getFullYear() - dob.getFullYear();
+                        const monthDiff = today.getMonth() - dob.getMonth();
+
+                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                            calculatedAge--;
+                        }
+
+                        this.age = calculatedAge;
+                    } else {
+                        this.age = '';
+                    }
+                },
+                validateExtensionName(value) {
+                    if (/[0-9]/.test(value)) {
+                        this.errors.extensionName = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.extensionName;
+                    return true;
+                },
+                validatePhoneNumber(field, value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors[field] = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+                validateLRN(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.lrn = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.lrn;
+                    return true;
+                },
+                validateSchoolName(value) {
+                    if (/\d/.test(value)) {
+                        this.errors.schoolName = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.schoolName;
+                    return true;
+                },
+                validateYearGraduation(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.yearGraduation = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.yearGraduation;
+                    return true;
+                },
+                validateGWA(value) {
+                    if (/[a-zA-Z]/.test(value)) {
+                        this.errors.gwa = 'Invalid Format';
+                        return false;
+                    }
+                    delete this.errors.gwa;
+                    return true;
                 }
-            }, validateExtensionName(value) {
-                if (/[0-9]/.test(value)) {
-                    this.errors.extensionName = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors.extensionName;
-                return true;
-            }, validatePhoneNumber(field, value) {
-                if (/[a-zA-Z]/.test(value)) {
-                    this.errors[field] = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors[field];
-                return true;
-            }, validateLRN(value) {
-                if (/[a-zA-Z]/.test(value)) {
-                    this.errors.lrn = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors.lrn;
-                return true;
-            }, validateSchoolName(value) {
-                if (/\d/.test(value)) {
-                    this.errors.schoolName = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors.schoolName;
-                return true;
-            }, validateYearGraduation(value) {
-                if (/[a-zA-Z]/.test(value)) {
-                    this.errors.yearGraduation = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors.yearGraduation;
-                return true;
-            }, validateGWA(value) {
-                if (/[a-zA-Z]/.test(value)) {
-                    this.errors.gwa = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors.gwa;
-                return true;
-            } }">
+            }">
                 <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
                     <h2 class="text-xl font-semibold">Program Information</h2>
                     <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -318,44 +364,110 @@
                         <p x-show="errors.strand" x-text="errors.strand" class="mt-1 text-sm text-red-500"></p>
                     </div>
 
-                    <!-- Student Status -->
-                    <div class="mb-6" x-show="showStudentStatus" x-transition>
+                    <!-- Student Type -->
+                    <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700 mb-3">
-                            Student Status <span class="text-red-500">*</span>
+                            Student Type <span class="text-red-500">*</span>
                         </label>
                         <div class="space-y-2">
                             <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
-                                    name="student_status"
+                                    name="student_type"
                                     value="transferee"
-                                    x-model="studentStatus"
-                                    @change="validateField('studentStatus'); checkProgramComplete()"
-                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                                    required>
+                                    x-model="studentType"
+                                    @change="initStudentTypeFields(); resetTypeFields()"
+                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <label class="ml-3 block text-sm font-medium text-gray-700">Transferee</label>
                             </div>
                             <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
-                                    name="student_status"
+                                    name="student_type"
                                     value="existing"
-                                    x-model="studentStatus"
-                                    @change="validateField('studentStatus'); checkProgramComplete()"
-                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                                    required>
+                                    x-model="studentType"
+                                    @change="initStudentTypeFields(); resetTypeFields()"
+                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <label class="ml-3 block text-sm font-medium text-gray-700">Existing Student</label>
                             </div>
                             <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
-                                    name="student_status"
+                                    name="student_type"
                                     value="returning"
-                                    x-model="studentStatus"
-                                    @change="validateField('studentStatus'); checkProgramComplete()"
-                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                                    required>
+                                    x-model="studentType"
+                                    @change="initStudentTypeFields(); resetTypeFields()"
+                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
                                 <label class="ml-3 block text-sm font-medium text-gray-700">Returning Student</label>
                             </div>
                         </div>
-                        <p x-show="errors.studentStatus" x-text="errors.studentStatus" class="mt-2 text-sm text-red-500"></p>
+                    </div>
+
+                    <!-- Transferee Fields -->
+                    <div x-show="showTransfereeFields" x-transition>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Previous School</label>
+                            <input type="text"
+                                name="previous_school"
+                                x-model="previousSchool"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Transfer Reason</label>
+                            <textarea
+                                name="transfer_reason"
+                                x-model="transferReason"
+                                rows="3"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Form 137</label>
+                            <input type="file"
+                                name="form_137"
+                                accept=".pdf,.doc,.docx"
+                                class="mt-1 block w-full">
+                        </div>
+                    </div>
+
+                    <!-- Existing Student Fields -->
+                    <div x-show="showExistingFields" x-transition>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Current Grade Level</label>
+                            <input type="text"
+                                name="current_grade"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Academic Status</label>
+                            <select name="academic_status"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="">Select Status</option>
+                                <option value="regular">Regular</option>
+                                <option value="irregular">Irregular</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Returning Student Fields -->
+                    <div x-show="showReturningFields" x-transition>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Previous Enrollment Period</label>
+                            <input type="text"
+                                name="previous_enrollment"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Gap Period (in years)</label>
+                            <input type="number"
+                                name="gap_period"
+                                x-model="gapPeriod"
+                                min="0"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700">Reason for Return</label>
+                            <textarea
+                                name="return_reason"
+                                rows="3"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
