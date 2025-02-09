@@ -3,48 +3,6 @@
 
 @section('content')
 <div class="container mx-auto px-6 py-4">
-    <!-- Progress Indicator -->
-    <div class="mb-8">
-        <div class="flex justify-between items-center mb-6">
-            <div class="flex items-center w-full">
-                <div class="flex flex-col items-center flex-1">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                        :class="currentSection === 'program' ? 'bg-blue-500 text-white' : 'bg-gray-200'">
-                        1
-                    </div>
-                    <span class="text-sm mt-1">Program</span>
-                </div>
-                <div class="h-1 flex-1" :class="currentSection !== 'program' ? 'bg-blue-500' : 'bg-gray-200'"></div>
-
-                <div class="flex flex-col items-center flex-1">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                        :class="currentSection === 'personal' ? 'bg-blue-500 text-white' : 'bg-gray-200'">
-                        2
-                    </div>
-                    <span class="text-sm mt-1">Personal</span>
-                </div>
-                <div class="h-1 flex-1" :class="currentSection === 'family' || currentSection === 'emergency' ? 'bg-blue-500' : 'bg-gray-200'"></div>
-
-                <div class="flex flex-col items-center flex-1">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                        :class="currentSection === 'family' ? 'bg-blue-500 text-white' : 'bg-gray-200'">
-                        3
-                    </div>
-                    <span class="text-sm mt-1">Family</span>
-                </div>
-                <div class="h-1 flex-1" :class="currentSection === 'emergency' ? 'bg-blue-500' : 'bg-gray-200'"></div>
-
-                <div class="flex flex-col items-center flex-1">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                        :class="currentSection === 'emergency' ? 'bg-blue-500 text-white' : 'bg-gray-200'">
-                        4
-                    </div>
-                    <span class="text-sm mt-1">Emergency</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Existing back button and title -->
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-semibold">Add New Applicant</h1>
@@ -55,7 +13,6 @@
 
     <div class="bg-white rounded-lg shadow-lg p-6"
         x-data="{
-            currentSection: 'program',
             showStudentType: false,
             studentType: '',
             programType: '',
@@ -96,15 +53,15 @@
                 this.isSearching = true;
                 this.searchError = '';
                 this.studentData = null;
-                
+
                 try {
                     const response = await fetch(`/admission/students/${this.studentId}`);
                     const data = await response.json();
-                    
+
                     if (!response.ok) {
                         throw new Error(data.message || 'Student not found');
                     }
-                    
+
                     this.studentData = data;
                     this.populateFields();
                 } catch (error) {
