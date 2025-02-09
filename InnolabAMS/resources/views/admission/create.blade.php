@@ -57,6 +57,9 @@
         x-data="{
             currentSection: 'program',
             showStudentType: false,
+            studentType: '',
+            programType: '',
+            isDocumentsOpen: true,
             shouldShowDocument(docType) {
                 if (!this.programType || !this.studentType) return false;
 
@@ -82,10 +85,8 @@
             <!-- Program Information -->
             <div class="mb-8" x-data="{
                 isOpen: true,
-                programType: '',
                 gradeLevel: '',
                 strand: '',
-                studentType: '',
                 showGradeLevel: false,
                 showStrand: false,
                 showTransfereeFields: false,
@@ -786,17 +787,16 @@
                 </div>
             </div>
 
-            <!-- Required Documents Section - Place HERE -->
-            <div class="mb-8" x-data="{ isOpen: true }">
-                <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
+            <!-- Required Documents Section -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center cursor-pointer mb-4" @click="isDocumentsOpen = !isDocumentsOpen">
                     <h2 class="text-xl font-semibold">Required Documents</h2>
-                    <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isDocumentsOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </div>
 
-                <div x-show="isOpen" x-transition>
-                    <!-- Document Requirements Section -->
+                <div x-show="isDocumentsOpen" x-transition>
                     <div x-show="studentType" x-transition>
                         <p class="text-sm text-gray-500 mb-4">Please upload the following documents. All files must be in PDF, JPG, or PNG format and must not exceed 10MB.</p>
 
