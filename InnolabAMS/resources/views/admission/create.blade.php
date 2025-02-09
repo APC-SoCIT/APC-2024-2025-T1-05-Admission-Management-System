@@ -694,7 +694,7 @@
                             <input type="tel"
                                 name="applicant_mobile_number"
                                 x-model="contactNo"
-                                @input="validateName('contactNo', $event.target.value)"
+                                @input="validateContactNumber($event.target.value)"
                                 :class="{'border-red-500': errors.contactNo}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
@@ -843,21 +843,34 @@
             </div>
 
             <!-- Family Information -->
-            <div class="mb-8" x-data="{ isOpen: true, fatherName: '', fatherContact: '', motherName: '', motherContact: '', guardianName: '', guardianContact: '', errors: {}, validateTextInput(field, value) {
-                if (/\d/.test(value)) {
-                    this.errors[field] = 'Invalid Format';
-                    return false;
+            <div class="mb-8" x-data="{
+                isOpen: true,
+                fatherName: '',
+                fatherContact: '',
+                motherName: '',
+                motherContact: '',
+                guardianName: '',
+                guardianContact: '',
+                errors: {},
+                validateName(field, value) {
+                    const pattern = /^[a-zA-Z\s-]+$/;
+                    if (!pattern.test(value)) {
+                        this.errors[field] = 'Only letters, spaces, and hyphens are allowed';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+                validateContact(field, value) {
+                    const pattern = /^[0-9\s-]+$/;
+                    if (!pattern.test(value)) {
+                        this.errors[field] = 'Only numbers, spaces, and hyphens are allowed';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
                 }
-                delete this.errors[field];
-                return true;
-            }, validatePhoneNumber(field, value) {
-                if (/[a-zA-Z]/.test(value)) {
-                    this.errors[field] = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors[field];
-                return true;
-            } }">
+            }">
                 <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
                     <h2 class="text-xl font-semibold">Family Information</h2>
                     <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -876,7 +889,7 @@
                                 <input type="text"
                                     name="father_name"
                                     x-model="fatherName"
-                                    @input="validateTextInput('fatherName', $event.target.value)"
+                                    @input="validateName('fatherName', $event.target.value)"
                                     :class="{'border-red-500': errors.fatherName}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.fatherName" x-text="errors.fatherName" class="mt-1 text-sm text-red-500"></p>
@@ -886,9 +899,8 @@
                                 <input type="text"
                                     name="father_contact"
                                     x-model="fatherContact"
-                                    @input="validatePhoneNumber('fatherContact', $event.target.value)"
-                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
-                                    :class="{'border-red-500 bg-red-50': errors.fatherContact}"
+                                    @input="validateContact('fatherContact', $event.target.value)"
+                                    :class="{'border-red-500': errors.fatherContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
                             </div>
@@ -904,7 +916,7 @@
                                 <input type="text"
                                     name="mother_name"
                                     x-model="motherName"
-                                    @input="validateTextInput('motherName', $event.target.value)"
+                                    @input="validateName('motherName', $event.target.value)"
                                     :class="{'border-red-500': errors.motherName}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.motherName" x-text="errors.motherName" class="mt-1 text-sm text-red-500"></p>
@@ -914,9 +926,8 @@
                                 <input type="text"
                                     name="mother_contact"
                                     x-model="motherContact"
-                                    @input="validatePhoneNumber('motherContact', $event.target.value)"
-                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
-                                    :class="{'border-red-500 bg-red-50': errors.motherContact}"
+                                    @input="validateContact('motherContact', $event.target.value)"
+                                    :class="{'border-red-500': errors.motherContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
                             </div>
@@ -932,7 +943,7 @@
                                 <input type="text"
                                     name="guardian_name"
                                     x-model="guardianName"
-                                    @input="validateTextInput('guardianName', $event.target.value)"
+                                    @input="validateName('guardianName', $event.target.value)"
                                     :class="{'border-red-500': errors.guardianName}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.guardianName" x-text="errors.guardianName" class="mt-1 text-sm text-red-500"></p>
@@ -942,9 +953,8 @@
                                 <input type="text"
                                     name="guardian_contact"
                                     x-model="guardianContact"
-                                    @input="validatePhoneNumber('guardianContact', $event.target.value)"
-                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
-                                    :class="{'border-red-500 bg-red-50': errors.guardianContact}"
+                                    @input="validateContact('guardianContact', $event.target.value)"
+                                    :class="{'border-red-500': errors.guardianContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
                             </div>
@@ -954,21 +964,40 @@
             </div>
 
             <!-- Emergency Contact -->
-            <div class="mb-8" x-data="{ isOpen: true, emergencyName: '', emergencyContact: '', errors: {}, validateEmergencyName(value) {
-                if (/\d/.test(value)) {
-                    this.errors.emergencyName = 'Invalid Format';
-                    return false;
+            <div class="mb-8" x-data="{
+                isOpen: true,
+                emergencyName: '',
+                emergencyContact: '',
+                emergencyEmail: '',
+                errors: {},
+                validateName(field, value) {
+                    const pattern = /^[a-zA-Z\s-]+$/;
+                    if (!pattern.test(value)) {
+                        this.errors[field] = 'Only letters, spaces, and hyphens are allowed';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+                validateContact(field, value) {
+                    const pattern = /^[0-9\s-]+$/;
+                    if (!pattern.test(value)) {
+                        this.errors[field] = 'Only numbers, spaces, and hyphens are allowed';
+                        return false;
+                    }
+                    delete this.errors[field];
+                    return true;
+                },
+                validateEmail(value) {
+                    // Allow all characters for email
+                    if (value.length > 100) {
+                        this.errors.email = 'Maximum length is 100 characters';
+                        return false;
+                    }
+                    delete this.errors.email;
+                    return true;
                 }
-                delete this.errors.emergencyName;
-                return true;
-            }, validateEmergencyContact(value) {
-                if (/[a-zA-Z]/.test(value)) {
-                    this.errors.emergencyContact = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors.emergencyContact;
-                return true;
-            } }">
+            }">
                 <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
                     <h2 class="text-xl font-semibold">Emergency Contact</h2>
                     <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -984,14 +1013,13 @@
                             <input type="text"
                                 name="emergency_contact_name"
                                 x-model="emergencyName"
-                                @input="validateEmergencyName($event.target.value)"
+                                @input="validateName('emergencyName', $event.target.value)"
                                 :class="{'border-red-500': errors.emergencyName}"
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.emergencyName"
-                               x-text="errors.emergencyName"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.emergencyName" x-text="errors.emergencyName" class="mt-1 text-sm text-red-500"></p>
                         </div>
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">
                                 Complete Address <span class="text-red-500">*</span>
@@ -1001,6 +1029,7 @@
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">
                                 Contact Number <span class="text-red-500">*</span>
@@ -1008,19 +1037,22 @@
                             <input type="text"
                                 name="emergency_contact_number"
                                 x-model="emergencyContact"
-                                @input="validateEmergencyContact($event.target.value)"
-                                placeholder="8xxx-xxxx / 09xx-xxx-xxxx"
-                                :class="{'border-red-500 bg-red-50': errors.emergencyContact}"
+                                @input="validateContact('emergencyContact', $event.target.value)"
+                                :class="{'border-red-500': errors.emergencyContact}"
+                                required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.emergencyContact"
-                               x-text="errors.emergencyContact"
-                               class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.emergencyContact" x-text="errors.emergencyContact" class="mt-1 text-sm text-red-500"></p>
                         </div>
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">Email</label>
                             <input type="email"
                                 name="emergency_contact_email"
+                                x-model="emergencyEmail"
+                                @input="validateEmail($event.target.value)"
+                                :class="{'border-red-500': errors.email}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.email" x-text="errors.email" class="mt-1 text-sm text-red-500"></p>
                         </div>
                     </div>
                 </div>
