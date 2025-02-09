@@ -81,13 +81,24 @@
             isSearching: false,
             searchError: '',
             studentData: null,
+            validateStudentId() {
+                const pattern = /^\d{7}$/;  // Adjust pattern based on your student ID format
+                if (!pattern.test(this.studentId)) {
+                    this.searchError = 'Invalid student ID format';
+                    return false;
+                }
+                return true;
+            },
             async searchStudent() {
+                if (!this.validateStudentId()) {
+                    return;
+                }
                 this.isSearching = true;
                 this.searchError = '';
                 this.studentData = null;
                 
                 try {
-                    const response = await fetch(`/api/students/${this.studentId}`);
+                    const response = await fetch(`/admission/students/${this.studentId}`);
                     const data = await response.json();
                     
                     if (!response.ok) {
@@ -104,22 +115,17 @@
             },
             populateFields() {
                 if (this.studentData) {
-                    this.$refs.firstName.value = this.studentData.first_name;
-                    this.$refs.middleName.value = this.studentData.middle_name;
-                    this.$refs.lastName.value = this.studentData.last_name;
-                    this.$refs.lrn.value = this.studentData.lrn || '';
-                    
-                    this.$refs.firstName.disabled = true;
-                    this.$refs.middleName.disabled = true;
-                    this.$refs.lastName.disabled = true;
-                    this.$refs.lrn.disabled = true;
+                    this.givenName = this.studentData.first_name;
+                    this.middleName = this.studentData.middle_name;
+                    this.surname = this.studentData.last_name;
+                    this.lrn = this.studentData.lrn || '';
                 }
             },
             resetAutoFill() {
                 this.studentId = '';
                 this.studentData = null;
                 this.searchError = '';
-                
+
                 ['firstName', 'middleName', 'lastName', 'lrn'].forEach(field => {
                     this.$refs[field].disabled = false;
                     this.$refs[field].value = '';
@@ -382,6 +388,58 @@
                         </div>
                     </div>
 
+                    <!-- Add after Student Type selection and before Personal Information -->
+                    <div x-show="['transferee', 'returning'].includes(studentType)"
+                         x-transition
+                         class="mb-8">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-medium mb-4">Student Lookup</h3>
+                            <div class="flex space-x-4">
+                                <div class="flex-1">
+                                    <label class="block text-sm font-medium text-gray-700">Student ID</label>
+                                    <input type="text"
+                                        x-model="studentId"
+                                        placeholder="Enter Student ID"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <div class="flex items-end">
+                                    <button type="button"
+                                        @click="searchStudent"
+                                        :disabled="isSearching || !studentId"
+                                        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50">
+                                        <span x-show="!isSearching">Search</span>
+                                        <span x-show="isSearching" class="flex items-center">
+                                            <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            Searching...
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="flex items-end" x-show="studentData">
+                                    <button type="button"
+                                        @click="resetAutoFill"
+                                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Error Message -->
+                            <div x-show="searchError"
+                                 class="mt-2 text-sm text-red-600"
+                                 x-text="searchError">
+                            </div>
+
+                            <!-- Success Message -->
+                            <div x-show="studentData"
+                                 class="mt-2 text-sm text-green-600">
+                                Student information found and auto-filled.
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Transferee Fields -->
                     <div x-show="showTransfereeFields" x-transition>
                         <div class="mb-6">
@@ -461,56 +519,6 @@
                 </div>
             </div>
 
-            <!-- Auto-fill related properties -->
-            <div x-show="['transferee', 'returning'].includes(studentType)" 
-                 x-transition
-                 class="mb-8">
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-medium mb-4">Student Lookup</h3>
-                    <div class="flex space-x-4">
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-700">Student ID</label>
-                            <input type="text"
-                                x-model="studentId"
-                                placeholder="Enter Student ID"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                        <div class="flex items-end">
-                            <button type="button"
-                                @click="searchStudent"
-                                :disabled="isSearching || !studentId"
-                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50">
-                                <span x-show="!isSearching">Search</span>
-                                <span x-show="isSearching">
-                                    <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                        <!-- Loading spinner SVG -->
-                                    </svg>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="flex items-end" x-show="studentData">
-                            <button type="button"
-                                @click="resetAutoFill"
-                                class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                Reset
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Error Message -->
-                    <div x-show="searchError" 
-                         class="mt-2 text-sm text-red-600"
-                         x-text="searchError">
-                    </div>
-                    
-                    <!-- Success Message -->
-                    <div x-show="studentData" 
-                         class="mt-2 text-sm text-green-600">
-                        Student information found and auto-filled.
-                    </div>
-                </div>
-            </div>
-
             <!-- Personal Information -->
             <div class="mb-8" x-data="{ isOpen: true, dateOfBirth: '', age: '', surname: '', givenName: '', middleName: '', placeOfBirth: '', nationality: '', religion: '', contactNo: '', extensionName: '', errors: {}, validateTextInput(field, value) {
                 if (/\d/.test(value)) {
@@ -565,10 +573,8 @@
                                 x-ref="lastName"
                                 name="applicant_surname"
                                 x-model="surname"
-                                @input="validateTextInput('surname', $event.target.value)"
-                                :class="{
-                                    'border-red-500 bg-red-50': errors.surname
-                                }"
+                                :disabled="studentData !== null"
+                                :class="{'bg-gray-100': studentData !== null}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required
                             >
@@ -584,10 +590,8 @@
                                 x-ref="firstName"
                                 name="applicant_given_name"
                                 x-model="givenName"
-                                @input="validateTextInput('givenName', $event.target.value)"
-                                :class="{
-                                    'border-red-500 bg-red-50': errors.givenName
-                                }"
+                                :disabled="studentData !== null"
+                                :class="{'bg-gray-100': studentData !== null}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required
                             >
@@ -601,12 +605,9 @@
                                 x-ref="middleName"
                                 name="applicant_middle_name"
                                 x-model="middleName"
-                                @input="validateTextInput('middleName', $event.target.value)"
-                                :class="{
-                                    'border-red-500 bg-red-50': errors.middleName
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            >
+                                :disabled="studentData !== null"
+                                :class="{'bg-gray-100': studentData !== null}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.middleName"
                                x-text="errors.middleName"
                                class="mt-1 text-sm text-red-500"></p>
@@ -688,9 +689,24 @@
                                class="mt-1 text-sm text-red-500"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <label class="block text-sm font-medium text-gray-700">
+                                LRN (Learner Reference Number) <span class="text-red-500">*</span>
+                            </label>
                             <input type="text"
                                 x-ref="lrn"
+                                name="applicant_lrn"
+                                x-model="lrn"
+                                :disabled="studentData !== null"
+                                :class="{'bg-gray-100': studentData !== null}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                required>
+                            <p x-show="errors.lrn"
+                               x-text="errors.lrn"
+                               class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
                                 name="applicant_contact"
                                 x-model="contactNo"
                                 @input="validateContactNumber($event.target.value)"

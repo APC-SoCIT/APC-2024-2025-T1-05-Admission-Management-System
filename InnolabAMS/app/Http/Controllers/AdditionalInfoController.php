@@ -19,7 +19,7 @@ class AdditionalInfoController extends Controller
         $applicant = ApplicantInfo::where('user_id', Auth::id())->first();
         
         // Retrieve existing additional info if available
-        $additionalInfo = $applicant ? ApplicantInfo::where('user_id', auth()->id())->first() : null;
+        $additionalInfo = $applicant ? ApplicantInfo::where('user_id', Auth::id())->first() : null;
 
         return view('additional_info.create', compact('additionalInfo'));
     }
