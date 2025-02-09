@@ -786,209 +786,224 @@
                 </div>
             </div>
 
-            <!-- Document Requirements Section -->
-            <div x-show="studentType" x-transition class="mb-8">
-                <h3 class="text-lg font-medium mb-4">Required Documents</h3>
-                <p class="text-sm text-gray-500 mb-4">Please upload the following documents. All files must be in PDF, JPG, or PNG format and must not exceed 10MB.</p>
-
-                <!-- Transferee Documents -->
-                <div x-show="studentType === 'transferee'" class="space-y-4">
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            PSA Birth Certificate <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="birth_certificate"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Form 138 (Report Card) <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="form_138"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Good Moral Certificate <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="good_moral"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Parent's/Guardian's Valid ID <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="parent_id"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            2x2 Photo <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="photo_2x2"
-                            accept=".jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload JPG/PNG files only (max: 10MB)</p>
-                    </div>
+            <!-- After Emergency Contact section and before Submit button -->
+            <div class="mb-8" x-data="{
+                isOpen: true,
+                title: 'Required Documents',
+                expanded: true
+            }">
+                <div class="flex justify-between items-center cursor-pointer mb-4" @click="expanded = !expanded">
+                    <h2 class="text-xl font-semibold" x-text="title"></h2>
+                    <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !expanded}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
                 </div>
 
-                <!-- Existing Student Documents -->
-                <div x-show="studentType === 'existing'" class="space-y-4">
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Updated Parent's/Guardian's Valid ID <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="updated_parent_id"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
+                <div x-show="expanded" x-transition>
+                    <!-- Document Requirements Section -->
+                    <div x-show="studentType" x-transition class="mb-8">
+                        <p class="text-sm text-gray-500 mb-4">Please upload the following documents. All files must be in PDF, JPG, or PNG format and must not exceed 10MB.</p>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Updated Medical Records
-                        </label>
-                        <input type="file"
-                            name="medical_records"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
-                </div>
+                        <!-- Transferee Documents -->
+                        <div x-show="studentType === 'transferee'" class="space-y-4">
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    PSA Birth Certificate <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="birth_certificate"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
 
-                <!-- Returning Student Documents -->
-                <div x-show="studentType === 'returning'" class="space-y-4">
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            PSA Birth Certificate <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="returning_birth_certificate"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Form 138 (Report Card) <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="form_138"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Latest Form 138 <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="returning_form_138"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Good Moral Certificate <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="good_moral"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Good Moral Certificate <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="returning_good_moral"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                    </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Parent's/Guardian's Valid ID <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="parent_id"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            2x2 Photo <span class="text-red-500">*</span>
-                        </label>
-                        <input type="file"
-                            name="returning_photo_2x2"
-                            accept=".jpg,.jpeg,.png"
-                            x-on:change="
-                                if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                    $event.target.value = '';
-                                    alert('File size must not exceed 10MB');
-                                }
-                            "
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Upload JPG/PNG files only (max: 10MB)</p>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    2x2 Photo <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="photo_2x2"
+                                    accept=".jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload JPG/PNG files only (max: 10MB)</p>
+                            </div>
+                        </div>
+
+                        <!-- Existing Student Documents -->
+                        <div x-show="studentType === 'existing'" class="space-y-4">
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Updated Parent's/Guardian's Valid ID <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="updated_parent_id"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Updated Medical Records
+                                </label>
+                                <input type="file"
+                                    name="medical_records"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
+                        </div>
+
+                        <!-- Returning Student Documents -->
+                        <div x-show="studentType === 'returning'" class="space-y-4">
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    PSA Birth Certificate <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="returning_birth_certificate"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Latest Form 138 <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="returning_form_138"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Good Moral Certificate <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="returning_good_moral"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    2x2 Photo <span class="text-red-500">*</span>
+                                </label>
+                                <input type="file"
+                                    name="returning_photo_2x2"
+                                    accept=".jpg,.jpeg,.png"
+                                    x-on:change="
+                                        if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                            $event.target.value = '';
+                                            alert('File size must not exceed 10MB');
+                                        }
+                                    "
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <p class="mt-1 text-sm text-gray-500">Upload JPG/PNG files only (max: 10MB)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Submit button section - remove Save Draft button -->
+            <!-- Submit button section -->
             <div class="flex justify-end">
                 <button type="submit"
                     class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
