@@ -786,22 +786,18 @@
                 </div>
             </div>
 
-            <!-- After Emergency Contact section and before Submit button -->
-            <div class="mb-8" x-data="{
-                isOpen: true,
-                title: 'Required Documents',
-                expanded: true
-            }">
-                <div class="flex justify-between items-center cursor-pointer mb-4" @click="expanded = !expanded">
-                    <h2 class="text-xl font-semibold" x-text="title"></h2>
-                    <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !expanded}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <!-- Required Documents Section - Place HERE -->
+            <div class="mb-8" x-data="{ isOpen: true }">
+                <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
+                    <h2 class="text-xl font-semibold">Required Documents</h2>
+                    <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </div>
 
-                <div x-show="expanded" x-transition>
+                <div x-show="isOpen" x-transition>
                     <!-- Document Requirements Section -->
-                    <div x-show="studentType" x-transition class="mb-8">
+                    <div x-show="studentType" x-transition>
                         <p class="text-sm text-gray-500 mb-4">Please upload the following documents. All files must be in PDF, JPG, or PNG format and must not exceed 10MB.</p>
 
                         <!-- Transferee Documents -->
@@ -1003,10 +999,9 @@
                 </div>
             </div>
 
-            <!-- Submit button section -->
+            <!-- Submit button -->
             <div class="flex justify-end">
-                <button type="submit"
-                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                     Submit Application
                 </button>
             </div>
