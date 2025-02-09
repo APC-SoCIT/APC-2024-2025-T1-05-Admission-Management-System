@@ -87,6 +87,16 @@
                     this.$refs[field].disabled = false;
                     this.$refs[field].value = '';
                 });
+            },
+            streetAddress: '',
+            barangay: '',
+            city: '',
+            province: '',
+            errors: {
+                streetAddress: '',
+                barangay: '',
+                city: '',
+                province: ''
             }
         }"
     >
@@ -672,6 +682,85 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.contactNo"
                                x-text="errors.contactNo"
+                               class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                    </div>
+
+                    <!-- Inside the Personal Information section, after the street address field -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Street Address -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Street Address <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="applicant_address_street"
+                                x-model="streetAddress"
+                                @input="validateTextInput('streetAddress', $event.target.value)"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.streetAddress
+                                }"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                required>
+                            <p x-show="errors.streetAddress"
+                               x-text="errors.streetAddress"
+                               class="mt-1 text-sm text-red-500"></p>
+                        </div>
+
+                        <!-- Barangay -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Barangay <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="applicant_address_barangay"
+                                x-model="barangay"
+                                @input="validateTextInput('barangay', $event.target.value)"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.barangay
+                                }"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                required>
+                            <p x-show="errors.barangay"
+                               x-text="errors.barangay"
+                               class="mt-1 text-sm text-red-500"></p>
+                        </div>
+
+                        <!-- City -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                City <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="applicant_address_city"
+                                x-model="city"
+                                @input="validateTextInput('city', $event.target.value)"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.city
+                                }"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                required>
+                            <p x-show="errors.city"
+                               x-text="errors.city"
+                               class="mt-1 text-sm text-red-500"></p>
+                        </div>
+
+                        <!-- Region/Province -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Region/Province <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="applicant_address_province"
+                                x-model="province"
+                                @input="validateTextInput('province', $event.target.value)"
+                                :class="{
+                                    'border-red-500 bg-red-50': errors.province
+                                }"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                required>
+                            <p x-show="errors.province"
+                               x-text="errors.province"
                                class="mt-1 text-sm text-red-500"></p>
                         </div>
                     </div>
