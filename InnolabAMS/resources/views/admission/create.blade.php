@@ -436,11 +436,18 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                         </div>
                         <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Form 137</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Form 137</label>
                             <input type="file"
                                 name="form_137"
-                                accept=".pdf,.doc,.docx"
-                                class="mt-1 block w-full">
+                                accept=".pdf,.jpg,.jpeg,.png"
+                                x-on:change="
+                                    if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
+                                        $event.target.value = '';
+                                        alert('File size must not exceed 10MB');
+                                    }
+                                "
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
                         </div>
                     </div>
 
