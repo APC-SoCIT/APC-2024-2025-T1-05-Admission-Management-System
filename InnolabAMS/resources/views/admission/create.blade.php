@@ -604,13 +604,14 @@
                             <input type="text"
                                 name="applicant_extension"
                                 x-model="extensionName"
-                                @input="validateExtensionName($event.target.value)"
-                                :class="{'border-red-500 bg-red-50': errors.extensionName}"
+                                @input="validateName('extensionName', $event.target.value)"
+                                :class="{'border-red-500': errors.extensionName}"
                                 placeholder="Jr., II, III, etc."
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.extensionName"
                                x-text="errors.extensionName"
                                class="mt-1 text-sm text-red-500"></p>
+                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -650,30 +651,26 @@
                             <input type="text"
                                 name="applicant_nationality"
                                 x-model="nationality"
-                                @input="validateTextInput('nationality', $event.target.value)"
-                                :class="{
-                                    'border-red-500 bg-red-50': errors.nationality
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            >
+                                @input="validateName('nationality', $event.target.value)"
+                                :class="{'border-red-500': errors.nationality}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.nationality"
                                x-text="errors.nationality"
                                class="mt-1 text-sm text-red-500"></p>
+                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Religion</label>
                             <input type="text"
                                 name="applicant_religion"
                                 x-model="religion"
-                                @input="validateTextInput('religion', $event.target.value)"
-                                :class="{
-                                    'border-red-500 bg-red-50': errors.religion
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            >
+                                @input="validateName('religion', $event.target.value)"
+                                :class="{'border-red-500': errors.religion}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.religion"
                                x-text="errors.religion"
                                class="mt-1 text-sm text-red-500"></p>
+                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
@@ -683,20 +680,32 @@
                                 x-ref="lrn"
                                 name="applicant_lrn"
                                 x-model="lrn"
+                                @input="validateName('lrn', $event.target.value)"
                                 :disabled="studentData !== null"
-                                :class="{'bg-gray-100': studentData !== null}"
+                                :class="{
+                                    'bg-gray-100': studentData !== null,
+                                    'border-red-500': errors.lrn
+                                }"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
                             <p x-show="errors.lrn"
                                x-text="errors.lrn"
                                class="mt-1 text-sm text-red-500"></p>
+                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Contact Number</label>
                             <input type="tel"
                                 name="applicant_mobile_number"
+                                x-model="contactNo"
+                                @input="validateName('contactNo', $event.target.value)"
+                                :class="{'border-red-500': errors.contactNo}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
+                            <p x-show="errors.contactNo"
+                               x-text="errors.contactNo"
+                               class="mt-1 text-sm text-red-500"></p>
+                            <p class="mt-1 text-xs text-gray-500">Only letters, spaces, and hyphens are allowed</p>
                         </div>
                     </div>
 
