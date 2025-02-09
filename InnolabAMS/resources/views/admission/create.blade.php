@@ -694,7 +694,10 @@
                             <input type="tel"
                                 name="applicant_mobile_number"
                                 x-model="contactNo"
-                                @input="validateContactNumber($event.target.value)"
+                                @input="validateContact('contactNo', $event.target.value)"
+                                @focus="$el.placeholder = ''"
+                                @blur="$el.placeholder = '08xx-xxxx / 09xx-xxx-xxxx'"
+                                placeholder="08xx-xxxx / 09xx-xxx-xxxx"
                                 :class="{'border-red-500': errors.contactNo}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
@@ -900,6 +903,9 @@
                                     name="father_contact"
                                     x-model="fatherContact"
                                     @input="validateContact('fatherContact', $event.target.value)"
+                                    @focus="$el.placeholder = ''"
+                                    @blur="$el.placeholder = '08xx-xxxx / 09xx-xxx-xxxx'"
+                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
                                     :class="{'border-red-500': errors.fatherContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
@@ -927,6 +933,9 @@
                                     name="mother_contact"
                                     x-model="motherContact"
                                     @input="validateContact('motherContact', $event.target.value)"
+                                    @focus="$el.placeholder = ''"
+                                    @blur="$el.placeholder = '08xx-xxxx / 09xx-xxx-xxxx'"
+                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
                                     :class="{'border-red-500': errors.motherContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
@@ -954,6 +963,9 @@
                                     name="guardian_contact"
                                     x-model="guardianContact"
                                     @input="validateContact('guardianContact', $event.target.value)"
+                                    @focus="$el.placeholder = ''"
+                                    @blur="$el.placeholder = '08xx-xxxx / 09xx-xxx-xxxx'"
+                                    placeholder="08xx-xxxx / 09xx-xxx-xxxx"
                                     :class="{'border-red-500': errors.guardianContact}"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
@@ -969,6 +981,7 @@
                 emergencyName: '',
                 emergencyContact: '',
                 emergencyEmail: '',
+                emergencyAddress: '',
                 errors: {},
                 validateName(field, value) {
                     const pattern = /^[a-zA-Z\s-]+$/;
@@ -988,8 +1001,20 @@
                     delete this.errors[field];
                     return true;
                 },
+                validateAddress(value) {
+                    const pattern = /^[a-zA-Z0-9\s,.-]+$/;
+                    if (!pattern.test(value)) {
+                        this.errors.address = 'Only letters, numbers, spaces, commas, periods, and hyphens are allowed';
+                        return false;
+                    }
+                    if (value.length > 200) {
+                        this.errors.address = 'Maximum length is 200 characters';
+                        return false;
+                    }
+                    delete this.errors.address;
+                    return true;
+                },
                 validateEmail(value) {
-                    // Allow all characters for email
                     if (value.length > 100) {
                         this.errors.email = 'Maximum length is 100 characters';
                         return false;
@@ -1026,8 +1051,12 @@
                             </label>
                             <input type="text"
                                 name="emergency_contact_address"
+                                x-model="emergencyAddress"
+                                @input="validateAddress($event.target.value)"
+                                :class="{'border-red-500': errors.address}"
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.address" x-text="errors.address" class="mt-1 text-sm text-red-500"></p>
                         </div>
 
                         <div class="md:col-span-2">
@@ -1038,6 +1067,9 @@
                                 name="emergency_contact_number"
                                 x-model="emergencyContact"
                                 @input="validateContact('emergencyContact', $event.target.value)"
+                                @focus="$el.placeholder = ''"
+                                @blur="$el.placeholder = '08xx-xxxx / 09xx-xxx-xxxx'"
+                                placeholder="08xx-xxxx / 09xx-xxx-xxxx"
                                 :class="{'border-red-500': errors.emergencyContact}"
                                 required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
