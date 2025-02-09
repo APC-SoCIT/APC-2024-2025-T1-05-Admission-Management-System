@@ -739,6 +739,10 @@
                             showStreet: false,
                             errors: {},
                             validateAddress(field, value) {
+                                if (!value) {
+                                    delete this.errors[field];
+                                    return true;
+                                }
                                 const pattern = /^[a-zA-Z0-9\s.-]+$/;
                                 if (!pattern.test(value)) {
                                     this.errors[field] = 'Only letters, numbers, spaces, periods, and hyphens allowed';
@@ -752,8 +756,17 @@
                                 return true;
                             }
                         }"
-                        x-init="$watch('city', value => { showBarangay = value !== ''; barangay = ''; street = ''; houseNumber = ''; });
-                                $watch('barangay', value => { showStreet = value !== ''; street = ''; houseNumber = ''; })">
+                        x-init="$watch('city', value => {
+                            showBarangay = value !== '';
+                            barangay = '';
+                            street = '';
+                            houseNumber = '';
+                        });
+                        $watch('barangay', value => {
+                            showStreet = value !== '';
+                            street = '';
+                            houseNumber = '';
+                        })">
 
                         <!-- Province/Region -->
                         <div>
@@ -810,7 +823,7 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 placeholder="Enter barangay name"
                                 required>
-                            <p class="mt-1 text-sm text-red-600" x-show="errors.barangay" x-text="errors.barangay"></p>
+                            <p x-show="errors.barangay" x-text="errors.barangay" class="mt-1 text-sm text-red-500"></p>
                         </div>
 
                         <!-- House Number and Street Input -->
