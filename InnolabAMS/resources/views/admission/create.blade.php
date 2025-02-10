@@ -625,7 +625,13 @@
                 }
                 delete this.errors.contactNo;
                 return true;
-            } }">
+            }, sameAsPersonal: false, personalAddress: {
+                houseNumber: document.querySelector('[name=applicant_house_number]')?.value || '',
+                street: document.querySelector('[name=applicant_address_street]')?.value || '',
+                barangay: document.querySelector('[name=applicant_address_barangay]')?.value || '',
+                city: document.querySelector('[name=applicant_address_city]')?.value || '',
+                province: 'Metro Manila'
+            }, emergencyAddress: '', originalAddress: '' }">
                 <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
                     <h2 class="text-xl font-semibold">Personal Information</h2>
                     <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1307,35 +1313,66 @@
                 },
                 sameAsPersonal: false,
                 personalAddress: {
-                    houseNumber: '',
-                    street: '',
-                    barangay: '',
-                    city: '',
+                    houseNumber: document.querySelector('[name=applicant_house_number]')?.value || '',
+                    street: document.querySelector('[name=applicant_address_street]')?.value || '',
+                    barangay: document.querySelector('[name=applicant_address_barangay]')?.value || '',
+                    city: document.querySelector('[name=applicant_address_city]')?.value || '',
                     province: 'Metro Manila'
                 },
                 emergencyAddress: '',
-
-                // Track original address before auto-fill
                 originalAddress: '',
 
                 init() {
                     this.$watch('sameAsPersonal', (value) => {
                         if (value) {
-                            // Store original address before auto-fill
                             this.originalAddress = this.emergencyAddress;
 
-                            // Construct full address from personal address fields
-                            this.emergencyAddress = `${this.personalAddress.houseNumber} ${this.personalAddress.street}, ${this.personalAddress.barangay}, ${this.personalAddress.city}, ${this.personalAddress.province}`.trim();
+                            // Updated address construction with proper field binding
+                            const addressParts = [];
+
+                            // Add house number and street
+                            if (this.personalAddress.houseNumber && this.personalAddress.street) {
+                                addressParts.push(`${this.personalAddress.houseNumber} ${this.personalAddress.street} street`);
+                            }
+
+                            // Add barangay
+                            if (this.personalAddress.barangay) {
+                                addressParts.push(`Barangay ${this.personalAddress.barangay}`);
+                            }
+
+                            // Add city and province
+                            if (this.personalAddress.city) {
+                                addressParts.push(this.personalAddress.city);
+                            }
+                            if (this.personalAddress.province) {
+                                addressParts.push(this.personalAddress.province);
+                            }
+
+                            this.emergencyAddress = addressParts.join(', ');
                         } else {
-                            // Restore original address when unchecked
                             this.emergencyAddress = this.originalAddress;
                         }
                     });
 
-                    // Watch personal address changes
+                    // Same for the personalAddress watcher
                     this.$watch('personalAddress', (value) => {
                         if (this.sameAsPersonal) {
-                            this.emergencyAddress = `${value.houseNumber} ${value.street}, ${value.barangay}, ${value.city}, ${value.province}`.trim();
+                            const addressParts = [];
+
+                            if (value.houseNumber && value.street) {
+                                addressParts.push(`${value.houseNumber} ${value.street} street`);
+                            }
+                            if (value.barangay) {
+                                addressParts.push(`Barangay ${value.barangay}`);
+                            }
+                            if (value.city) {
+                                addressParts.push(value.city);
+                            }
+                            if (value.province) {
+                                addressParts.push(value.province);
+                            }
+
+                            this.emergencyAddress = addressParts.join(', ');
                         }
                     }, { deep: true });
                 }
