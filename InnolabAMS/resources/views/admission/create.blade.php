@@ -195,7 +195,7 @@
         }"
         @student-type-changed.window="resetStudentTypeFields"
     >
-        <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
+        <form @submit.prevent="handleSubmit" action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Program Information -->
@@ -1740,6 +1740,21 @@
         container.appendChild(newEntry);
         siblingCount++;
     });
+
+    function handleSubmit() {
+        // Check if at least one guardian is filled out
+        const hasFather = this.fatherFirstName || this.fatherLastName;
+        const hasMother = this.motherFirstName || this.motherLastName;
+        const hasGuardian = this.guardianFirstName || this.guardianLastName;
+
+        if (!hasFather && !hasMother && !hasGuardian) {
+            alert('Please fill out information for at least one guardian (Father, Mother, or Legal Guardian)');
+            return false;
+        }
+
+        // If validation passes, submit the form
+        this.$el.submit();
+    }
 </script>
 @endpush
 @endsection
