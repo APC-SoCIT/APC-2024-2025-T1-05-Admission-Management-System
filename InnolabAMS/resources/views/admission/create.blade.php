@@ -1077,6 +1077,7 @@
                 isOpen: true,
                 emergencyName: '',
                 emergencyContact: '',
+                emergencyTel: '',
                 emergencyEmail: '',
                 emergencyAddress: '',
                 errors: {},
@@ -1193,7 +1194,8 @@
                             <input type="tel"
                                 name="emergency_contact_tel"
                                 x-model="emergencyTel"
-                                @input="emergencyTel = maskTelephone($event.target.value)"
+                                @input="$event.target.value = $event.target.value.replace(/[^0-9]/g, '')"
+                                @input.debounce.50ms="emergencyTel = maskTelephone($event.target.value)"
                                 @blur="validatePhoneFormat('telephone', emergencyTel) ? delete errors.emergencyTel : errors.emergencyTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
                                 placeholder="(02) XXX-XXXX"
                                 :class="{'border-red-500': errors.emergencyTel}"
