@@ -1436,7 +1436,7 @@
                             <input type="checkbox"
                                 x-model="sameAsPersonal"
                                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-600">Same as Personal Address</span>
+                            <span class="ml-3 text-sm text-gray-600">Same as Personal Address</span>
                         </label>
                     </div>
 
