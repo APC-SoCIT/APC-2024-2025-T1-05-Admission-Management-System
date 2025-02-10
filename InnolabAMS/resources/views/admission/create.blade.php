@@ -136,33 +136,35 @@
                 // Remove all non-digits
                 value = value.replace(/\D/g, '');
 
-                // Ensure it starts with 02
-                if (value.length >= 2) {
-                    if (value.substring(0, 2) !== '02') {
-                        value = '02' + value.substring(Math.max(0, value.length - 7));
-                    }
-                }
-
                 // Format as (02) XXX-XXXX
                 if (value.length > 9) {
                     value = value.substring(0, 9);
                 }
 
-                if (value.length >= 2) {
-                    value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
-                }
-                if (value.length >= 6) {
-                    value = value.substring(0, 6) + '-' + value.substring(6);
+                let formattedValue = '';
+                if (value.length > 0) {
+                    // Always start with (02)
+                    formattedValue = '(02) ';
+
+                    if (value.length > 2) {
+                        // Add the next 3 digits after (02)
+                        formattedValue += value.substring(2, 5);
+
+                        if (value.length > 5) {
+                            // Add hyphen and the last 4 digits
+                            formattedValue += '-' + value.substring(5, 9);
+                        }
+                    }
                 }
 
-                return value;
+                return formattedValue;
             },
             // Updated phone format validation
             validatePhoneFormat(type, value) {
                 if (!value) return true;
 
                 if (type === 'mobile') {
-                    // Check if it's exactly in 09XX-XXX-XXXX format
+                    // Keep existing mobile validation
                     const mobilePattern = /^09\d{2}-\d{3}-\d{4}$/;
                     const isValid = mobilePattern.test(value);
                     if (!isValid) {
@@ -171,11 +173,15 @@
                     }
                     return true;
                 } else {
-                    // Check if it's exactly in (02) XXX-XXXX format
+                    // Updated telephone validation
                     const telephonePattern = /^\(02\) \d{3}-\d{4}$/;
                     const isValid = telephonePattern.test(value);
                     if (!isValid) {
-                        this.errors[type === 'mobile' ? 'contactNo' : 'contactTel'] = 'Please enter a valid telephone number ((02) XXX-XXXX)';
+                        const fieldName = value.includes('contactTel') ? 'contactTel' :
+                                        value.includes('fatherTel') ? 'fatherTel' :
+                                        value.includes('motherTel') ? 'motherTel' :
+                                        value.includes('guardianTel') ? 'guardianTel' : 'emergencyTel';
+                        this.errors[fieldName] = 'Please enter a valid telephone number ((02) XXX-XXXX)';
                         return false;
                     }
                     return true;
