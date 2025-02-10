@@ -133,12 +133,13 @@
             // Updated telephone number masking
             maskTelephone(value) {
                 if (!value) return '';
+
                 // Remove all non-digits
                 value = value.replace(/\D/g, '');
 
-                // Format as (02) XXX-XXXX
-                if (value.length > 9) {
-                    value = value.substring(0, 9);
+                // Format as (02) XXXX-XXXX
+                if (value.length > 10) {
+                    value = value.substring(0, 10);
                 }
 
                 let formattedValue = '';
@@ -147,12 +148,12 @@
                     formattedValue = '(02) ';
 
                     if (value.length > 2) {
-                        // Add the next 3 digits after (02)
-                        formattedValue += value.substring(2, 5);
+                        // Add the next 4 digits after (02)
+                        formattedValue += value.substring(2, 6);
 
-                        if (value.length > 5) {
+                        if (value.length > 6) {
                             // Add hyphen and the last 4 digits
-                            formattedValue += '-' + value.substring(5, 9);
+                            formattedValue += '-' + value.substring(6, 10);
                         }
                     }
                 }
@@ -173,15 +174,15 @@
                     }
                     return true;
                 } else {
-                    // Updated telephone validation
-                    const telephonePattern = /^\(02\) \d{3}-\d{4}$/;
+                    // Updated telephone validation to allow 4 digits before hyphen
+                    const telephonePattern = /^\(02\) \d{4}-\d{4}$/;
                     const isValid = telephonePattern.test(value);
                     if (!isValid) {
                         const fieldName = value.includes('contactTel') ? 'contactTel' :
                                         value.includes('fatherTel') ? 'fatherTel' :
                                         value.includes('motherTel') ? 'motherTel' :
                                         value.includes('guardianTel') ? 'guardianTel' : 'emergencyTel';
-                        this.errors[fieldName] = 'Please enter a valid telephone number ((02) XXX-XXXX)';
+                        this.errors[fieldName] = 'Please enter a valid telephone number ((02) XXXX-XXXX)';
                         return false;
                     }
                     return true;
@@ -823,8 +824,8 @@
                                 name="applicant_tel_no"
                                 x-model="contactTel"
                                 @input="contactTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', contactTel) ? delete errors.contactTel : errors.contactTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                placeholder="(02) XXX-XXXX"
+                                @blur="validatePhoneFormat('telephone', contactTel) ? delete errors.contactTel : errors.contactTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
+                                placeholder="(02) XXXX-XXXX"
                                 :class="{'border-red-500': errors.contactTel}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.contactTel" x-text="errors.contactTel" class="mt-1 text-sm text-red-500"></p>
@@ -1085,8 +1086,8 @@
                                 name="father_tel"
                                 x-model="fatherTel"
                                 @input="fatherTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', fatherTel) ? delete errors.fatherTel : errors.fatherTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                placeholder="(02) XXX-XXXX"
+                                @blur="validatePhoneFormat('telephone', fatherTel) ? delete errors.fatherTel : errors.fatherTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
+                                placeholder="(02) XXXX-XXXX"
                                 :class="{'border-red-500': errors.fatherTel}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.fatherTel" x-text="errors.fatherTel" class="mt-1 text-sm text-red-500"></p>
@@ -1160,8 +1161,8 @@
                                 name="mother_tel"
                                 x-model="motherTel"
                                 @input="motherTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', motherTel) ? delete errors.motherTel : errors.motherTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                placeholder="(02) XXX-XXXX"
+                                @blur="validatePhoneFormat('telephone', motherTel) ? delete errors.motherTel : errors.motherTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
+                                placeholder="(02) XXXX-XXXX"
                                 :class="{'border-red-500': errors.motherTel}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.motherTel" x-text="errors.motherTel" class="mt-1 text-sm text-red-500"></p>
@@ -1235,8 +1236,8 @@
                                 name="guardian_tel"
                                 x-model="guardianTel"
                                 @input="guardianTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', guardianTel) ? delete errors.guardianTel : errors.guardianTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                placeholder="(02) XXX-XXXX"
+                                @blur="validatePhoneFormat('telephone', guardianTel) ? delete errors.guardianTel : errors.guardianTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
+                                placeholder="(02) XXXX-XXXX"
                                 :class="{'border-red-500': errors.guardianTel}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.guardianTel" x-text="errors.guardianTel" class="mt-1 text-sm text-red-500"></p>
@@ -1435,6 +1436,7 @@
                         <label class="inline-flex items-center">
                             <input type="checkbox"
                                 x-model="sameAsPersonal"
+                                @change="handleAddressAutoFill()"
                                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                             <span class="ml-3 text-sm text-gray-600">Same as Personal Address</span>
                         </label>
@@ -1479,8 +1481,8 @@
                             name="emergency_contact_tel"
                             x-model="emergencyTel"
                             @input="emergencyTel = maskTelephone($event.target.value)"
-                            @blur="validatePhoneFormat('telephone', emergencyTel) ? delete errors.emergencyTel : errors.emergencyTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                            placeholder="(02) XXX-XXXX"
+                            @blur="validatePhoneFormat('telephone', emergencyTel) ? delete errors.emergencyTel : errors.emergencyTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
+                            placeholder="(02) XXXX-XXXX"
                             :class="{'border-red-500': errors.emergencyTel}"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <p x-show="errors.emergencyTel" x-text="errors.emergencyTel" class="mt-1 text-sm text-red-500"></p>
