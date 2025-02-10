@@ -5,7 +5,7 @@
 <div class="container mx-auto px-6 py-4">
     <!-- Existing back button and title -->
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-semibold">Add New Applicant</h1>
+        <h1 class="text-2xl font-semibold">Add Applicant</h1>
         <a href="{{ route('admission.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
             <i class="fas fa-arrow-left mr-2"></i>Back
         </a>
@@ -1304,6 +1304,40 @@
                     }
                     delete this.errors.email;
                     return true;
+                },
+                sameAsPersonal: false,
+                personalAddress: {
+                    houseNumber: '',
+                    street: '',
+                    barangay: '',
+                    city: '',
+                    province: 'Metro Manila'
+                },
+                emergencyAddress: '',
+
+                // Track original address before auto-fill
+                originalAddress: '',
+
+                init() {
+                    this.$watch('sameAsPersonal', (value) => {
+                        if (value) {
+                            // Store original address before auto-fill
+                            this.originalAddress = this.emergencyAddress;
+
+                            // Construct full address from personal address fields
+                            this.emergencyAddress = `${this.personalAddress.houseNumber} ${this.personalAddress.street}, ${this.personalAddress.barangay}, ${this.personalAddress.city}, ${this.personalAddress.province}`.trim();
+                        } else {
+                            // Restore original address when unchecked
+                            this.emergencyAddress = this.originalAddress;
+                        }
+                    });
+
+                    // Watch personal address changes
+                    this.$watch('personalAddress', (value) => {
+                        if (this.sameAsPersonal) {
+                            this.emergencyAddress = `${value.houseNumber} ${value.street}, ${value.barangay}, ${value.city}, ${value.province}`.trim();
+                        }
+                    }, { deep: true });
                 }
             }">
                 <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
@@ -1359,7 +1393,17 @@
                         </div>
                     </div>
 
-                    <!-- Keep existing address and contact fields -->
+                    <!-- Address Auto-fill Checkbox -->
+                    <div class="mb-4">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox"
+                                x-model="sameAsPersonal"
+                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <span class="ml-2 text-sm text-gray-600">Same as Personal Address</span>
+                        </label>
+                    </div>
+
+                    <!-- Emergency Contact Address -->
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">
                             Complete Address <span class="text-red-500">*</span>
@@ -1369,8 +1413,10 @@
                             x-model="emergencyAddress"
                             @input="validateAddress($event.target.value)"
                             :class="{'border-red-500': errors.address}"
-                            required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            :disabled="sameAsPersonal"
+                            :required="!sameAsPersonal"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            :class="{'bg-gray-100': sameAsPersonal}">
                         <p x-show="errors.address" x-text="errors.address" class="mt-1 text-sm text-red-500"></p>
                     </div>
 
