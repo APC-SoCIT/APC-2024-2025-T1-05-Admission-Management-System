@@ -38,65 +38,31 @@
             isSearching: false,
             searchError: '',
             studentData: null,
-            validateStudentId() {
-                const pattern = /^\d{7}$/;  // Adjust pattern based on your student ID format
-                if (!pattern.test(this.studentId)) {
-                    this.searchError = 'Invalid student ID format';
+            isReturningStudent: false,
+            previousSchool: '',
+            transferReason: '',
+            previousEnrollment: '',
+            gapPeriod: '',
+            returnReason: '',
+            errors: {},
+            resetStudentTypeFields() {
+                this.previousSchool = '';
+                this.transferReason = '';
+                this.previousEnrollment = '';
+                this.gapPeriod = '';
+                this.returnReason = '';
+                this.isReturningStudent = false;
+                this.studentData = null;
+                this.studentId = '';
+                this.searchError = '';
+            },
+            validateSchoolName(value) {
+                if (/\d/.test(value)) {
+                    this.errors.previousSchool = 'School name cannot contain numbers';
                     return false;
                 }
+                delete this.errors.previousSchool;
                 return true;
-            },
-            async searchStudent() {
-                if (!this.validateStudentId()) {
-                    return;
-                }
-                this.isSearching = true;
-                this.searchError = '';
-                this.studentData = null;
-
-                try {
-                    const response = await fetch(`/admission/students/${this.studentId}`);
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Student not found');
-                    }
-
-                    this.studentData = data;
-                    this.populateFields();
-                } catch (error) {
-                    this.searchError = error.message;
-                } finally {
-                    this.isSearching = false;
-                }
-            },
-            populateFields() {
-                if (this.studentData) {
-                    this.givenName = this.studentData.first_name;
-                    this.middleName = this.studentData.middle_name;
-                    this.surname = this.studentData.last_name;
-                    this.lrn = this.studentData.lrn || '';
-                }
-            },
-            resetAutoFill() {
-                this.studentId = '';
-                this.studentData = null;
-                this.searchError = '';
-
-                ['firstName', 'middleName', 'lastName', 'lrn'].forEach(field => {
-                    this.$refs[field].disabled = false;
-                    this.$refs[field].value = '';
-                });
-            },
-            streetAddress: '',
-            barangay: '',
-            city: '',
-            province: '',
-            errors: {
-                streetAddress: '',
-                barangay: '',
-                city: '',
-                province: ''
             },
             validateName(field, value) {
                 // Allow only letters, spaces, and hyphens
@@ -138,6 +104,7 @@
                 return true;
             }
         }"
+        @student-type-changed.window="resetStudentTypeFields"
     >
         <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -159,7 +126,7 @@
 
                 // Initialize student type specific fields
                 initStudentTypeFields() {
-                    this.showTransfereeFields = this.studentType === 'transferee';
+                    this.showTransfereeFields = this.studentType === 'transferee_new';
                     this.showExistingFields = this.studentType === 'existing';
                     this.showReturningFields = this.studentType === 'returning';
                 },
@@ -269,14 +236,6 @@
                     delete this.errors.lrn;
                     return true;
                 },
-                validateSchoolName(value) {
-                    if (/\d/.test(value)) {
-                        this.errors.schoolName = 'Invalid Format';
-                        return false;
-                    }
-                    delete this.errors.schoolName;
-                    return true;
-                },
                 validateYearGraduation(value) {
                     if (/[a-zA-Z]/.test(value)) {
                         this.errors.yearGraduation = 'Invalid Format';
@@ -366,14 +325,16 @@
                         <label class="block text-sm font-medium text-gray-700 mb-3">
                             Student Type <span class="text-red-500">*</span>
                         </label>
+
+                        <!-- Main Student Type Selection -->
                         <div class="space-y-2">
                             <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
                                     name="student_type"
-                                    value="transferee"
+                                    value="transferee_new"
                                     x-model="studentType"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <label class="ml-3 block text-sm font-medium text-gray-700">Transferee</label>
+                                <label class="ml-3 block text-sm font-medium text-gray-700">Transferee / New Student</label>
                             </div>
                             <div class="flex items-center p-2 rounded hover:bg-gray-50">
                                 <input type="radio"
@@ -381,145 +342,121 @@
                                     value="existing"
                                     x-model="studentType"
                                     class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <label class="ml-3 block text-sm font-medium text-gray-700">Existing Student</label>
-                            </div>
-                            <div class="flex items-center p-2 rounded hover:bg-gray-50">
-                                <input type="radio"
-                                    name="student_type"
-                                    value="returning"
-                                    x-model="studentType"
-                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <label class="ml-3 block text-sm font-medium text-gray-700">Returning Student</label>
+                                <label class="ml-3 block text-sm font-medium text-gray-700">Existing / Returning Student</label>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Add after Student Type selection and before Personal Information -->
-                    <div x-show="['transferee', 'returning'].includes(studentType)"
-                         x-transition
-                         class="mb-8">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h3 class="text-lg font-medium mb-4">Student Lookup</h3>
-                            <div class="flex space-x-4">
-                                <div class="flex-1">
-                                    <label class="block text-sm font-medium text-gray-700">Student ID</label>
+                        <!-- Transferee/New Student Fields -->
+                        <div x-show="studentType === 'transferee_new'"
+                             x-transition
+                             class="mt-4 space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Previous School <span class="text-red-500">*</span></label>
                                     <input type="text"
-                                        x-model="studentId"
-                                        placeholder="Enter Student ID"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        name="previous_school"
+                                        x-model="previousSchool"
+                                        @input="validateSchoolName($event.target.value)"
+                                        :class="{'border-red-500': errors.previousSchool}"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required>
+                                    <p x-show="errors.previousSchool" x-text="errors.previousSchool" class="mt-1 text-sm text-red-500"></p>
                                 </div>
-                                <div class="flex items-end">
-                                    <button type="button"
-                                        @click="searchStudent"
-                                        :disabled="isSearching || !studentId"
-                                        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50">
-                                        <span x-show="!isSearching">Search</span>
-                                        <span x-show="isSearching" class="flex items-center">
-                                            <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            Searching...
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="flex items-end" x-show="studentData">
-                                    <button type="button"
-                                        @click="resetAutoFill"
-                                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                        Reset
-                                    </button>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Transfer Reason <span class="text-red-500">*</span></label>
+                                    <textarea name="transfer_reason"
+                                        x-model="transferReason"
+                                        rows="3"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required></textarea>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Error Message -->
-                            <div x-show="searchError"
-                                 class="mt-2 text-sm text-red-600"
-                                 x-text="searchError">
+                        <!-- Existing/Returning Student Fields -->
+                        <div x-show="studentType === 'existing'"
+                             x-transition
+                             class="mt-4">
+                            <div class="mb-4">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox"
+                                           x-model="isReturningStudent"
+                                           name="is_returning"
+                                           class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                    <span class="ml-2 text-sm text-gray-700">Returning Student</span>
+                                </label>
                             </div>
 
-                            <!-- Success Message -->
-                            <div x-show="studentData"
-                                 class="mt-2 text-sm text-green-600">
-                                Student information found and auto-filled.
+                            <!-- Student Lookup for Both Existing and Returning -->
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h3 class="text-lg font-medium mb-4">Student Lookup</h3>
+                                <div class="flex space-x-4">
+                                    <div class="flex-1">
+                                        <label class="block text-sm font-medium text-gray-700">Student ID</label>
+                                        <input type="text"
+                                            x-model="studentId"
+                                            placeholder="Enter Student ID"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    </div>
+                                    <div class="flex items-end space-x-2">
+                                        <button type="button"
+                                            @click="searchStudent"
+                                            :disabled="isSearching || !studentId"
+                                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50">
+                                            <span x-show="!isSearching">Search</span>
+                                            <span x-show="isSearching">
+                                                <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                        <button type="button"
+                                            x-show="studentData"
+                                            @click="resetStudentTypeFields"
+                                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                            Reset
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div x-show="searchError" class="mt-2 text-sm text-red-600" x-text="searchError"></div>
+                                <div x-show="studentData" class="mt-2 text-sm text-green-600">Student information found and auto-filled.</div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Transferee Fields -->
-                    <div x-show="showTransfereeFields" x-transition>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Previous School</label>
-                            <input type="text"
-                                name="previous_school"
-                                x-model="previousSchool"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Transfer Reason</label>
-                            <textarea
-                                name="transfer_reason"
-                                x-model="transferReason"
-                                rows="3"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Form 137</label>
-                            <input type="file"
-                                name="form_137"
-                                accept=".pdf,.jpg,.jpeg,.png"
-                                x-on:change="
-                                    if ($event.target.files[0]?.size > 10 * 1024 * 1024) {
-                                        $event.target.value = '';
-                                        alert('File size must not exceed 10MB');
-                                    }
-                                "
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p class="mt-1 text-sm text-gray-500">Upload PDF/JPG/PNG files only (max: 10MB)</p>
-                        </div>
-                    </div>
+                            <!-- Additional Fields for Returning Students -->
+                            <div x-show="isReturningStudent" x-transition>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Previous Enrollment Period <span class="text-red-500">*</span></label>
+                                        <input type="text"
+                                            name="previous_enrollment"
+                                            x-model="previousEnrollment"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            required>
+                                    </div>
 
-                    <!-- Existing Student Fields -->
-                    <div x-show="showExistingFields" x-transition>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Current Grade Level</label>
-                            <input type="text"
-                                name="current_grade"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Academic Status</label>
-                            <select name="academic_status"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">Select Status</option>
-                                <option value="regular">Regular</option>
-                                <option value="irregular">Irregular</option>
-                            </select>
-                        </div>
-                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Gap Period (in years) <span class="text-red-500">*</span></label>
+                                        <input type="number"
+                                            name="gap_period"
+                                            x-model="gapPeriod"
+                                            min="0"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            required>
+                                    </div>
 
-                    <!-- Returning Student Fields -->
-                    <div x-show="showReturningFields" x-transition>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Previous Enrollment Period</label>
-                            <input type="text"
-                                name="previous_enrollment"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Gap Period (in years)</label>
-                            <input type="number"
-                                name="gap_period"
-                                x-model="gapPeriod"
-                                min="0"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Reason for Return</label>
-                            <textarea
-                                name="return_reason"
-                                rows="3"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                                    <div class="md:col-span-2">
+                                        <label class="block text-sm font-medium text-gray-700">Reason for Return <span class="text-red-500">*</span></label>
+                                        <textarea name="return_reason"
+                                            x-model="returnReason"
+                                            rows="3"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            required></textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1146,7 +1083,7 @@
                         <p class="text-sm text-gray-500 mb-4">Please upload the following documents. All files must be in PDF, JPG, or PNG format and must not exceed 10MB.</p>
 
                         <!-- Transferee Documents -->
-                        <div x-show="studentType === 'transferee'" class="space-y-4">
+                        <div x-show="studentType === 'transferee_new'" class="space-y-4">
                             <div class="mb-6">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">
                                     PSA Birth Certificate <span class="text-red-500">*</span>
