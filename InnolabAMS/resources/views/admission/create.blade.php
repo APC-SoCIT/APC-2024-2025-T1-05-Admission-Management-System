@@ -904,11 +904,17 @@
             <!-- Family Information -->
             <div class="mb-8" x-data="{
                 isOpen: true,
-                fatherName: '',
+                fatherFirstName: '',
+                fatherMiddleName: '',
+                fatherLastName: '',
                 fatherContact: '',
-                motherName: '',
+                motherFirstName: '',
+                motherMiddleName: '',
+                motherLastName: '',
                 motherContact: '',
-                guardianName: '',
+                guardianFirstName: '',
+                guardianMiddleName: '',
+                guardianLastName: '',
                 guardianContact: '',
                 errors: {},
                 validateName(field, value) {
@@ -950,123 +956,224 @@
                     <!-- Father's Information -->
                     <div class="mb-6">
                         <h3 class="text-lg font-medium mb-4">Father</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Name</label>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    First Name <span class="text-red-500">*</span>
+                                </label>
                                 <input type="text"
-                                    name="father_name"
-                                    x-model="fatherName"
-                                    @input="validateName('fatherName', $event.target.value)"
-                                    :class="{'border-red-500': errors.fatherName}"
+                                    name="father_first_name"
+                                    x-model="fatherFirstName"
+                                    @input="validateName('fatherFirstName', $event.target.value)"
+                                    :class="{'border-red-500': errors.fatherFirstName}"
+                                    placeholder="Enter first name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.fatherName" x-text="errors.fatherName" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.fatherFirstName" x-text="errors.fatherFirstName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                                <input type="tel"
-                                    name="father_contact"
-                                    x-model="fatherContact"
-                                    @input="fatherContact = maskMobile($event.target.value)"
-                                    @blur="validatePhoneFormat('mobile', fatherContact) ? delete errors.fatherContact : errors.fatherContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                    placeholder="09XX-XXX-XXXX"
-                                    :class="{'border-red-500': errors.fatherContact}"
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Middle Name
+                                </label>
+                                <input type="text"
+                                    name="father_middle_name"
+                                    x-model="fatherMiddleName"
+                                    @input="validateName('fatherMiddleName', $event.target.value)"
+                                    :class="{'border-red-500': errors.fatherMiddleName}"
+                                    placeholder="Enter middle name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.fatherMiddleName" x-text="errors.fatherMiddleName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                                <input type="tel"
-                                    name="father_tel"
-                                    x-model="fatherTel"
-                                    @input="fatherTel = maskTelephone($event.target.value)"
-                                    @blur="validatePhoneFormat('telephone', fatherTel) ? delete errors.fatherTel : errors.fatherTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                    placeholder="(02) XXX-XXXX"
-                                    :class="{'border-red-500': errors.fatherTel}"
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Last Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text"
+                                    name="father_last_name"
+                                    x-model="fatherLastName"
+                                    @input="validateName('fatherLastName', $event.target.value)"
+                                    :class="{'border-red-500': errors.fatherLastName}"
+                                    placeholder="Enter last name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.fatherTel" x-text="errors.fatherTel" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.fatherLastName" x-text="errors.fatherLastName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+                        </div>
+
+                        <!-- Keep existing contact fields -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                            <input type="tel"
+                                name="father_contact"
+                                x-model="fatherContact"
+                                @input="fatherContact = maskMobile($event.target.value)"
+                                @blur="validatePhoneFormat('mobile', fatherContact) ? delete errors.fatherContact : errors.fatherContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
+                                placeholder="09XX-XXX-XXXX"
+                                :class="{'border-red-500': errors.fatherContact}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
+                            <input type="tel"
+                                name="father_tel"
+                                x-model="fatherTel"
+                                @input="fatherTel = maskTelephone($event.target.value)"
+                                @blur="validatePhoneFormat('telephone', fatherTel) ? delete errors.fatherTel : errors.fatherTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
+                                placeholder="(02) XXX-XXXX"
+                                :class="{'border-red-500': errors.fatherTel}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.fatherTel" x-text="errors.fatherTel" class="mt-1 text-sm text-red-500"></p>
                         </div>
                     </div>
 
                     <!-- Mother's Information -->
                     <div class="mb-6">
                         <h3 class="text-lg font-medium mb-4">Mother</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <!-- Similar structure for mother's name fields -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Name</label>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    First Name <span class="text-red-500">*</span>
+                                </label>
                                 <input type="text"
-                                    name="mother_name"
-                                    x-model="motherName"
-                                    @input="validateName('motherName', $event.target.value)"
-                                    :class="{'border-red-500': errors.motherName}"
+                                    name="mother_first_name"
+                                    x-model="motherFirstName"
+                                    @input="validateName('motherFirstName', $event.target.value)"
+                                    :class="{'border-red-500': errors.motherFirstName}"
+                                    placeholder="Enter first name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.motherName" x-text="errors.motherName" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.motherFirstName" x-text="errors.motherFirstName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                                <input type="tel"
-                                    name="mother_contact"
-                                    x-model="motherContact"
-                                    @input="motherContact = maskMobile($event.target.value)"
-                                    @blur="validatePhoneFormat('mobile', motherContact) ? delete errors.motherContact : errors.motherContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                    placeholder="09XX-XXX-XXXX"
-                                    :class="{'border-red-500': errors.motherContact}"
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Middle Name
+                                </label>
+                                <input type="text"
+                                    name="mother_middle_name"
+                                    x-model="motherMiddleName"
+                                    @input="validateName('motherMiddleName', $event.target.value)"
+                                    :class="{'border-red-500': errors.motherMiddleName}"
+                                    placeholder="Enter middle name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.motherMiddleName" x-text="errors.motherMiddleName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                                <input type="tel"
-                                    name="mother_tel"
-                                    x-model="motherTel"
-                                    @input="motherTel = maskTelephone($event.target.value)"
-                                    @blur="validatePhoneFormat('telephone', motherTel) ? delete errors.motherTel : errors.motherTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                    placeholder="(02) XXX-XXXX"
-                                    :class="{'border-red-500': errors.motherTel}"
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Last Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text"
+                                    name="mother_last_name"
+                                    x-model="motherLastName"
+                                    @input="validateName('motherLastName', $event.target.value)"
+                                    :class="{'border-red-500': errors.motherLastName}"
+                                    placeholder="Enter last name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.motherTel" x-text="errors.motherTel" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.motherLastName" x-text="errors.motherLastName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+                        </div>
+
+                        <!-- Keep existing contact fields -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                            <input type="tel"
+                                name="mother_contact"
+                                x-model="motherContact"
+                                @input="motherContact = maskMobile($event.target.value)"
+                                @blur="validatePhoneFormat('mobile', motherContact) ? delete errors.motherContact : errors.motherContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
+                                placeholder="09XX-XXX-XXXX"
+                                :class="{'border-red-500': errors.motherContact}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
+                            <input type="tel"
+                                name="mother_tel"
+                                x-model="motherTel"
+                                @input="motherTel = maskTelephone($event.target.value)"
+                                @blur="validatePhoneFormat('telephone', motherTel) ? delete errors.motherTel : errors.motherTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
+                                placeholder="(02) XXX-XXXX"
+                                :class="{'border-red-500': errors.motherTel}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.motherTel" x-text="errors.motherTel" class="mt-1 text-sm text-red-500"></p>
                         </div>
                     </div>
 
-                    <!-- Legal Guardian's Information -->
+                    <!-- Guardian's Information -->
                     <div class="mb-6">
                         <h3 class="text-lg font-medium mb-4">Legal Guardian</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <!-- Similar structure for guardian's name fields -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Name</label>
+                                <label class="block text-sm font-medium text-gray-700">
+                                    First Name <span class="text-red-500">*</span>
+                                </label>
                                 <input type="text"
-                                    name="guardian_name"
-                                    x-model="guardianName"
-                                    @input="validateName('guardianName', $event.target.value)"
-                                    :class="{'border-red-500': errors.guardianName}"
+                                    name="guardian_first_name"
+                                    x-model="guardianFirstName"
+                                    @input="validateName('guardianFirstName', $event.target.value)"
+                                    :class="{'border-red-500': errors.guardianFirstName}"
+                                    placeholder="Enter first name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.guardianName" x-text="errors.guardianName" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.guardianFirstName" x-text="errors.guardianFirstName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                                <input type="tel"
-                                    name="guardian_contact"
-                                    x-model="guardianContact"
-                                    @input="guardianContact = maskMobile($event.target.value)"
-                                    @blur="validatePhoneFormat('mobile', guardianContact) ? delete errors.guardianContact : errors.guardianContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                    placeholder="09XX-XXX-XXXX"
-                                    :class="{'border-red-500': errors.guardianContact}"
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Middle Name
+                                </label>
+                                <input type="text"
+                                    name="guardian_middle_name"
+                                    x-model="guardianMiddleName"
+                                    @input="validateName('guardianMiddleName', $event.target.value)"
+                                    :class="{'border-red-500': errors.guardianMiddleName}"
+                                    placeholder="Enter middle name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.guardianMiddleName" x-text="errors.guardianMiddleName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                                <input type="tel"
-                                    name="guardian_tel"
-                                    x-model="guardianTel"
-                                    @input="guardianTel = maskTelephone($event.target.value)"
-                                    @blur="validatePhoneFormat('telephone', guardianTel) ? delete errors.guardianTel : errors.guardianTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                    placeholder="(02) XXX-XXXX"
-                                    :class="{'border-red-500': errors.guardianTel}"
+                                <label class="block text-sm font-medium text-gray-700">
+                                    Last Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text"
+                                    name="guardian_last_name"
+                                    x-model="guardianLastName"
+                                    @input="validateName('guardianLastName', $event.target.value)"
+                                    :class="{'border-red-500': errors.guardianLastName}"
+                                    placeholder="Enter last name"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.guardianTel" x-text="errors.guardianTel" class="mt-1 text-sm text-red-500"></p>
+                                <p x-show="errors.guardianLastName" x-text="errors.guardianLastName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+                        </div>
+
+                        <!-- Keep existing contact fields -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                            <input type="tel"
+                                name="guardian_contact"
+                                x-model="guardianContact"
+                                @input="guardianContact = maskMobile($event.target.value)"
+                                @blur="validatePhoneFormat('mobile', guardianContact) ? delete errors.guardianContact : errors.guardianContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
+                                placeholder="09XX-XXX-XXXX"
+                                :class="{'border-red-500': errors.guardianContact}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.guardianContact" x-text="errors.guardianContact" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
+                            <input type="tel"
+                                name="guardian_tel"
+                                x-model="guardianTel"
+                                @input="guardianTel = maskTelephone($event.target.value)"
+                                @blur="validatePhoneFormat('telephone', guardianTel) ? delete errors.guardianTel : errors.guardianTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
+                                placeholder="(02) XXX-XXXX"
+                                :class="{'border-red-500': errors.guardianTel}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <p x-show="errors.guardianTel" x-text="errors.guardianTel" class="mt-1 text-sm text-red-500"></p>
                         </div>
                     </div>
                 </div>
@@ -1075,7 +1182,9 @@
             <!-- Emergency Contact -->
             <div class="mb-8" x-data="{
                 isOpen: true,
-                emergencyName: '',
+                emergencyFirstName: '',
+                emergencyMiddleName: '',
+                emergencyLastName: '',
                 emergencyContact: '',
                 emergencyTel: '',
                 emergencyEmail: '',
@@ -1144,64 +1253,94 @@
                     </svg>
                 </div>
                 <div x-show="isOpen" x-transition>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
                             <label class="block text-sm font-medium text-gray-700">
-                                Complete Name <span class="text-red-500">*</span>
+                                First Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text"
-                                name="emergency_contact_name"
-                                x-model="emergencyName"
-                                @input="validateName('emergencyName', $event.target.value)"
-                                :class="{'border-red-500': errors.emergencyName}"
-                                required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.emergencyName" x-text="errors.emergencyName" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Complete Address <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="emergency_contact_address"
-                                x-model="emergencyAddress"
-                                @input="validateAddress($event.target.value)"
-                                :class="{'border-red-500': errors.address}"
-                                required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.address" x-text="errors.address" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Mobile Number <span class="text-red-500">*</span>
-                            </label>
-                            <input type="tel"
-                                name="emergency_contact_number"
-                                x-model="emergencyContact"
-                                @input="emergencyContact = maskMobile($event.target.value)"
-                                @blur="validatePhoneFormat('mobile', emergencyContact) ? delete errors.emergencyContact : errors.emergencyContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                placeholder="09XX-XXX-XXXX"
-                                :class="{'border-red-500': errors.emergencyContact}"
+                                name="emergency_first_name"
+                                x-model="emergencyFirstName"
+                                @input="validateName('emergencyFirstName', $event.target.value)"
+                                :class="{'border-red-500': errors.emergencyFirstName}"
+                                placeholder="Enter first name"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
-                            <p x-show="errors.emergencyContact" x-text="errors.emergencyContact" class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.emergencyFirstName" x-text="errors.emergencyFirstName" class="mt-1 text-sm text-red-500"></p>
                         </div>
 
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                            <input type="tel"
-                                name="emergency_contact_tel"
-                                x-model="emergencyTel"
-                                @input="$event.target.value = $event.target.value.replace(/[^0-9]/g, '')"
-                                @input.debounce.50ms="emergencyTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', emergencyTel) ? delete errors.emergencyTel : errors.emergencyTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
-                                placeholder="(02) XXX-XXXX"
-                                :class="{'border-red-500': errors.emergencyTel}"
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Middle Name
+                            </label>
+                            <input type="text"
+                                name="emergency_middle_name"
+                                x-model="emergencyMiddleName"
+                                @input="validateName('emergencyMiddleName', $event.target.value)"
+                                :class="{'border-red-500': errors.emergencyMiddleName}"
+                                placeholder="Enter middle name"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.emergencyTel" x-text="errors.emergencyTel" class="mt-1 text-sm text-red-500"></p>
+                            <p x-show="errors.emergencyMiddleName" x-text="errors.emergencyMiddleName" class="mt-1 text-sm text-red-500"></p>
                         </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">
+                                Last Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                name="emergency_last_name"
+                                x-model="emergencyLastName"
+                                @input="validateName('emergencyLastName', $event.target.value)"
+                                :class="{'border-red-500': errors.emergencyLastName}"
+                                placeholder="Enter last name"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                required>
+                            <p x-show="errors.emergencyLastName" x-text="errors.emergencyLastName" class="mt-1 text-sm text-red-500"></p>
+                        </div>
+                    </div>
+
+                    <!-- Keep existing address and contact fields -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Complete Address <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text"
+                            name="emergency_contact_address"
+                            x-model="emergencyAddress"
+                            @input="validateAddress($event.target.value)"
+                            :class="{'border-red-500': errors.address}"
+                            required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.address" x-text="errors.address" class="mt-1 text-sm text-red-500"></p>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Mobile Number <span class="text-red-500">*</span>
+                        </label>
+                        <input type="tel"
+                            name="emergency_contact_number"
+                            x-model="emergencyContact"
+                            @input="emergencyContact = maskMobile($event.target.value)"
+                            @blur="validatePhoneFormat('mobile', emergencyContact) ? delete errors.emergencyContact : errors.emergencyContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
+                            placeholder="09XX-XXX-XXXX"
+                            :class="{'border-red-500': errors.emergencyContact}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required>
+                        <p x-show="errors.emergencyContact" x-text="errors.emergencyContact" class="mt-1 text-sm text-red-500"></p>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
+                        <input type="tel"
+                            name="emergency_contact_tel"
+                            x-model="emergencyTel"
+                            @input="emergencyTel = maskTelephone($event.target.value)"
+                            @blur="validatePhoneFormat('telephone', emergencyTel) ? delete errors.emergencyTel : errors.emergencyTel = 'Please enter a valid telephone number ((02) XXX-XXXX)'"
+                            placeholder="(02) XXX-XXXX"
+                            :class="{'border-red-500': errors.emergencyTel}"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p x-show="errors.emergencyTel" x-text="errors.emergencyTel" class="mt-1 text-sm text-red-500"></p>
                     </div>
                 </div>
             </div>
