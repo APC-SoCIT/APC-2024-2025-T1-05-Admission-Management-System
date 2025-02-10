@@ -1314,8 +1314,6 @@
                     province: 'Metro Manila'
                 },
                 emergencyAddress: '',
-
-                // Track original address before auto-fill
                 originalAddress: '',
 
                 init() {
@@ -1324,8 +1322,16 @@
                             // Store original address before auto-fill
                             this.originalAddress = this.emergencyAddress;
 
-                            // Construct full address from personal address fields
-                            this.emergencyAddress = `${this.personalAddress.houseNumber} ${this.personalAddress.street}, ${this.personalAddress.barangay}, ${this.personalAddress.city}, ${this.personalAddress.province}`.trim();
+                            // Construct full address with proper formatting
+                            const address = [
+                                this.personalAddress.houseNumber,
+                                this.personalAddress.street,
+                                'Barangay ' + this.personalAddress.barangay,
+                                this.personalAddress.city,
+                                this.personalAddress.province
+                            ].filter(Boolean).join(', ');
+
+                            this.emergencyAddress = address;
                         } else {
                             // Restore original address when unchecked
                             this.emergencyAddress = this.originalAddress;
@@ -1335,7 +1341,15 @@
                     // Watch personal address changes
                     this.$watch('personalAddress', (value) => {
                         if (this.sameAsPersonal) {
-                            this.emergencyAddress = `${value.houseNumber} ${value.street}, ${value.barangay}, ${value.city}, ${value.province}`.trim();
+                            const address = [
+                                value.houseNumber,
+                                value.street,
+                                'Barangay ' + value.barangay,
+                                value.city,
+                                value.province
+                            ].filter(Boolean).join(', ');
+
+                            this.emergencyAddress = address;
                         }
                     }, { deep: true });
                 }
