@@ -487,13 +487,12 @@
                              x-transition
                              class="mt-4">
                             <div class="mb-4">
-                                <label class="inline-flex items-center">
-                                    <input type="checkbox"
-                                           x-model="isReturningStudent"
-                                           name="is_returning"
-                                           class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                    <span class="ml-2 text-sm text-gray-700">Returning Student</span>
-                                </label>
+                                <div class="mt-2 space-y-2">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" name="is_returning" x-model="isReturningStudent">
+                                        <span class="ml-3 font-medium">Returning Student</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Student Lookup for Both Existing and Returning -->
