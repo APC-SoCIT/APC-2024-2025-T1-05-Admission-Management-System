@@ -103,32 +103,82 @@
                 delete this.errors[field];
                 return true;
             },
-            // Add phone masking functions
+            // Updated mobile number masking
             maskMobile(value) {
                 if (!value) return '';
+                // Remove all non-digits
                 value = value.replace(/\D/g, '');
-                if (value.length >= 2 && value.substring(0, 2) !== '09') {
-                    value = '09' + value.substring(2);
+
+                // Ensure it starts with 09
+                if (value.length >= 2) {
+                    if (value.substring(0, 2) !== '09') {
+                        value = '09' + value.substring(Math.max(0, value.length - 9));
+                    }
                 }
-                return value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})/, '$1$2-$3-$4');
+
+                // Format as 09XX-XXX-XXXX
+                if (value.length > 11) {
+                    value = value.substring(0, 11);
+                }
+
+                if (value.length >= 4) {
+                    value = value.substring(0, 4) + '-' + value.substring(4);
+                }
+                if (value.length >= 8) {
+                    value = value.substring(0, 8) + '-' + value.substring(8);
+                }
+
+                return value;
             },
+            // Updated telephone number masking
             maskTelephone(value) {
                 if (!value) return '';
+                // Remove all non-digits
                 value = value.replace(/\D/g, '');
-                if (value.length >= 2 && value.substring(0, 2) !== '02') {
-                    value = '02' + value.substring(2);
+
+                // Ensure it starts with 02
+                if (value.length >= 2) {
+                    if (value.substring(0, 2) !== '02') {
+                        value = '02' + value.substring(Math.max(0, value.length - 7));
+                    }
                 }
-                return value.replace(/(\d{2})(\d{3})(\d{4})/, '($1) $2-$3');
+
+                // Format as (02) XXX-XXXX
+                if (value.length > 9) {
+                    value = value.substring(0, 9);
+                }
+
+                if (value.length >= 2) {
+                    value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+                }
+                if (value.length >= 6) {
+                    value = value.substring(0, 6) + '-' + value.substring(6);
+                }
+
+                return value;
             },
+            // Updated phone format validation
             validatePhoneFormat(type, value) {
                 if (!value) return true;
-                const mobilePattern = /^09\d{2}-\d{3}-\d{4}$/;
-                const telephonePattern = /^\(02\) \d{3}-\d{4}$/;
 
                 if (type === 'mobile') {
-                    return mobilePattern.test(value);
+                    // Check if it's exactly in 09XX-XXX-XXXX format
+                    const mobilePattern = /^09\d{2}-\d{3}-\d{4}$/;
+                    const isValid = mobilePattern.test(value);
+                    if (!isValid) {
+                        this.errors[type === 'mobile' ? 'contactNo' : 'contactTel'] = 'Please enter a valid mobile number (09XX-XXX-XXXX)';
+                        return false;
+                    }
+                    return true;
                 } else {
-                    return telephonePattern.test(value);
+                    // Check if it's exactly in (02) XXX-XXXX format
+                    const telephonePattern = /^\(02\) \d{3}-\d{4}$/;
+                    const isValid = telephonePattern.test(value);
+                    if (!isValid) {
+                        this.errors[type === 'mobile' ? 'contactNo' : 'contactTel'] = 'Please enter a valid telephone number ((02) XXX-XXXX)';
+                        return false;
+                    }
+                    return true;
                 }
             },
             contactTel: '',
