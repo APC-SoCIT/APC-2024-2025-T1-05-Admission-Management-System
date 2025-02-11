@@ -195,7 +195,7 @@
         }"
         @student-type-changed.window="resetStudentTypeFields"
     >
-        <form @submit.prevent="handleSubmit" action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             <!-- Program Information -->
@@ -369,11 +369,12 @@
                     </svg>
                 </div>
                 <div x-show="isOpen" x-transition>
+    
                     <!-- Program Type -->
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700">Program Type <span class="text-red-500">*</span></label>
                         <select
-                            name="program_type"
+                            name="apply_program"
                             x-model="programType"
                             @change="updateGradeLevels()"
                             @blur="validateField('programType')"
@@ -393,7 +394,7 @@
                     <div class="mb-6" x-show="showGradeLevel" x-transition>
                         <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
                         <select
-                            name="grade_level"
+                            name="apply_grade_level"
                             x-model="gradeLevel"
                             @blur="validateField('gradeLevel')"
                             :class="{'border-red-500': errors.gradeLevel}"
@@ -762,7 +763,7 @@
                                 Place of Birth <span class="text-red-500">*</span>
                             </label>
                             <input type="text"
-                                name="applicant_place_of_birth"
+                                name="applicant_place_birth"
                                 x-model="placeOfBirth"
                                 @input="validateName('placeOfBirth', $event.target.value)"
                                 :class="{'border-red-500': errors.placeOfBirth}"
@@ -805,16 +806,7 @@
                             <label class="block text-sm font-medium text-gray-700">
                                 Mobile Number <span class="text-red-500">*</span>
                             </label>
-                            <input type="tel"
-                                name="applicant_mobile_number"
-                                x-model="contactNo"
-                                @input="contactNo = maskMobile($event.target.value)"
-                                @blur="validatePhoneFormat('mobile', contactNo) ? delete errors.contactNo : errors.contactNo = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                placeholder="09XX-XXX-XXXX"
-                                :class="{'border-red-500': errors.contactNo}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.contactNo" x-text="errors.contactNo" class="mt-1 text-sm text-red-500"></p>
+                            <input type="text" name="applicant_mobile_number" maxlength="20" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
 
                         <!-- Telephone Number -->
@@ -1702,9 +1694,30 @@
                 </div>
             </div>
 
+        <!-- Success/Error Messages -->
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">There were some problems with your submission:</strong>
+                <ul class="mt-2 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+
             <!-- Submit button -->
             <div class="flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <button type="submit" 
+                        id="submitBtn"
+                        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 flex items-center"
+                        onclick="this.disabled=true; this.innerHTML='Submitting... <svg class=\'animate-spin ml-2 h-5 w-5 text-white\' xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\'><circle class=\'opacity-25\' cx=\'12\' cy=\'12\' r=\'10\' stroke=\'currentColor\' stroke-width=\'4\'></circle><path class=\'opacity-75\' fill=\'currentColor\' d=\'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\'></path></svg>'; this.form.submit();">
                     Submit Application
                 </button>
             </div>
@@ -1743,13 +1756,13 @@
 
     function handleSubmit() {
         // Check if at least one guardian is filled out
-        const hasFather = this.fatherFirstName || this.fatherLastName;
-        const hasMother = this.motherFirstName || this.motherLastName;
-        const hasGuardian = this.guardianFirstName || this.guardianLastName;
+        const hasFather = document.querySelector('[name=father_first_name]').value || document.querySelector('[name=father_last_name]').value;
+        const hasMother = document.querySelector('[name=mother_first_name]').value || document.querySelector('[name=mother_last_name]').value;
+        const hasGuardian = document.querySelector('[name=guardian_first_name]').value || document.querySelector('[name=guardian_last_name]').value;
 
         if (!hasFather && !hasMother && !hasGuardian) {
             alert('Please fill out information for at least one guardian (Father, Mother, or Legal Guardian)');
-            return false;
+            return;
         }
 
         // If validation passes, submit the form
