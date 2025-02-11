@@ -99,7 +99,7 @@ class ApplicantInfoController extends Controller
                 'siblings.*.full_name' => 'nullable|string|max:255',
                 'siblings.*.date_of_birth' => 'nullable|date',
                 'siblings.*.age' => 'nullable|numeric|min:0|max:100',
-                'siblings.*.apply_grade_level' => 'nullable|string|max:255',
+                'siblings.*.grade_level' => 'nullable|string|max:255',
                 'siblings.*.school_attended' => 'nullable|string|max:255',
 
                 // Emergency Contact
@@ -113,6 +113,7 @@ class ApplicantInfoController extends Controller
             // Debug log
             Log::info('Validated data:', $validated);
 
+            // Change auth()->id() to Auth::id()
             $validated['user_id'] = Auth::id() ?? 1;
             $validated['status'] = 'new';
 
@@ -198,7 +199,7 @@ class ApplicantInfoController extends Controller
             $validated = $request->validate([
                 // Program Information
                 'apply_program' => 'required|in:Elementary,High School,Senior High School',
-                'apply_grade_level' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',    
+                'apply_grade_level' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
                 'apply_strand' => 'nullable|required_if:apply_program,Senior High School|in:STEM,ABM,TECHVOC,HUMSS,GAS',
 
                 // Personal Information
@@ -239,7 +240,7 @@ class ApplicantInfoController extends Controller
                 'siblings.*.full_name' => 'nullable|string|max:255',
                 'siblings.*.date_of_birth' => 'nullable|date',
                 'siblings.*.age' => 'nullable|numeric|min:0|max:100',
-                'siblings.*.apply_grade_level' => 'nullable|string|max:255',
+                'siblings.*.grade_level' => 'nullable|string|max:255',
                 'siblings.*.school_attended' => 'nullable|string|max:255',
 
                 // Emergency Contact
