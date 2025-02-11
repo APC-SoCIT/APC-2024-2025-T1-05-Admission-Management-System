@@ -12,14 +12,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('applicant_id');
             $table->string('lrn', 12)->nullable();
-            $table->boolean('sped')->default(false);
-            $table->boolean('pwd')->default(false);
-            $table->string('applicant_school_name')->nullable();
-            $table->string('applicant_school_address')->nullable();
-            $table->enum('applicant_last_grade_level', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'])->nullable();
-            $table->date('applicant_year_graduation')->nullable();
-            $table->decimal('applicant_gwa', 4, 2)->nullable();
-            $table->string('applicant_achievements')->nullable();
+            $table->string('school_name');
+            $table->string('school_address');
+            $table->string('previous_program')->nullable();
+            $table->year('year_of_graduation')->nullable();
+            $table->decimal('gwa', 4, 2)->nullable();
+            $table->text('awards_honors')->nullable();
             $table->timestamps();
 
             $table->foreign('applicant_id')

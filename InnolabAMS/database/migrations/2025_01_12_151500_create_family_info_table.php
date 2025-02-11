@@ -12,24 +12,22 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('applicant_id');
             
-            // Father's Information - simplified to single name field
+            // Father's Information
             $table->string('father_name')->nullable();
             $table->string('father_occupation')->nullable();
-            $table->string('father_contact_num', 12)->nullable();
+            $table->string('father_contact_number', 20)->nullable();
             
-            // Mother's Information - simplified to single name field
+            // Mother's Information
             $table->string('mother_name')->nullable();
             $table->string('mother_occupation')->nullable();
-            $table->string('mother_contact_num', 12)->nullable();
+            $table->string('mother_contact_number', 20)->nullable();
             
-            // Guardian's Information - restructured fields
-            $table->string('guardian_name');
-            $table->string('guardian_street_number')->nullable();
-            $table->string('guardian_barangay')->nullable();
-            $table->string('guardian_city')->nullable();
-            $table->string('guardian_telephone')->nullable();
-            $table->string('guardian_mobile')->nullable();
-            $table->string('guardian_email')->nullable();
+            // Emergency Contact
+            $table->string('emergency_contact_name');
+            $table->string('emergency_contact_address');
+            $table->string('emergency_contact_tel', 20)->nullable();
+            $table->string('emergency_contact_mobile', 20)->nullable();
+            $table->string('emergency_contact_email')->nullable();
             
             $table->timestamps();
             

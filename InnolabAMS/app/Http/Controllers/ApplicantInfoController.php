@@ -12,7 +12,7 @@ class ApplicantInfoController extends Controller
     // Index method to list applicants
     public function index()
     {
-        $query = ApplicantInfo::with('user')
+        $query = ApplicantInfo::with(['user', 'familyInfo', 'educationalBackground'])
             ->select(
                 'id',
                 'user_id',
@@ -156,7 +156,7 @@ class ApplicantInfoController extends Controller
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'new')
             ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        return view('admission.new', compact('applicants'));
     }
 
     public function accepted()
@@ -164,7 +164,7 @@ class ApplicantInfoController extends Controller
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'accepted')
             ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        return view('admission.accepted', compact('applicants'));
     }
 
     public function rejected()
@@ -172,7 +172,7 @@ class ApplicantInfoController extends Controller
         $applicants = ApplicantInfo::with('user')
             ->where('status', 'rejected')
             ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        return view('admission.rejected', compact('applicants'));
     }
 
     // Add these methods to your existing ApplicantInfoController class
@@ -296,25 +296,39 @@ class ApplicantInfoController extends Controller
         return view('scholarship.create');
     }
 
-    // Add this method to the existing controller
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $applicant = ApplicantInfo::findOrFail($id);
+            $applicant->update(['status' => $request->status]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Application status updated successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to update application status: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update application status'
+            ], 500);
+        }
+    }
+
     public function lookup($studentId)
     {
         try {
             $student = ApplicantInfo::where('id', $studentId)
-                ->select('applicant_given_name as first_name',
-                        'applicant_middle_name as middle_name',
-                        'applicant_surname as last_name',
-                        'lrn')
+                ->with(['familyInfo', 'educationalBackground'])
                 ->firstOrFail();
 
             return response()->json([
-                'first_name' => $student->first_name,
-                'middle_name' => $student->middle_name,
-                'last_name' => $student->last_name,
-                'lrn' => $student->lrn,
+                'success' => true,
+                'data' => $student
             ]);
         } catch (\Exception $e) {
             return response()->json([
+                'success' => false,
                 'message' => 'Student not found'
             ], 404);
         }

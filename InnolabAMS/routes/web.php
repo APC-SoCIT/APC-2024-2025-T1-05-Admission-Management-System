@@ -7,6 +7,7 @@ use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
+use App\Http\Controllers\ApplicantController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -108,6 +109,26 @@ Route::middleware('auth')->group(function () {
 
     });
 
+    // Applicant Routes
+    Route::middleware(['auth'])->group(function () {
+        Route::resource('applicant', ApplicantController::class);
+
+        // Additional admission routes
+        Route::get('admission/new', [ApplicantInfoController::class, 'new'])->name('admission.new');
+        Route::get('admission/accepted', [ApplicantInfoController::class, 'accepted'])->name('admission.accepted');
+        Route::get('admission/rejected', [ApplicantInfoController::class, 'rejected'])->name('admission.rejected');
+        Route::patch('admission/{id}/status', [ApplicantInfoController::class, 'updateStatus'])->name('admission.status');
+        Route::get('admission/{id}/lookup', [ApplicantInfoController::class, 'lookup'])->name('admission.lookup');
+
+        // Make sure this route is not duplicated
+        Route::post('/applicant', [ApplicantController::class, 'store'])->name('applicant.store');
+    });
+
 });
+
+// Add this temporary route for testing
+Route::get('/test-applicant', function() {
+    return 'ApplicantController is accessible';
+})->name('test.applicant');
 
 require __DIR__ . '/auth.php';

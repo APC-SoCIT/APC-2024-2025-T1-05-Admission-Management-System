@@ -13,9 +13,12 @@ class ApplicantInfo extends Model
 
     protected $fillable = [
     'user_id',
-    'status',
+    'student_type',
+    'previous_school',
+    'transfer_reason',
+    'is_returning',
     'apply_program',
-    'apply_grade_level', 
+    'apply_grade_level',
     'apply_strand',
     'applicant_surname',
     'applicant_given_name',
@@ -57,10 +60,18 @@ class ApplicantInfo extends Model
     'hobbies',
     'participations',
     'competitions',
-    'referral_source'
+    'referral_source',
+    'birth_certificate_path',
+    'form_138_path',
+    'good_moral_path',
+    'parent_id_path',
+    'photo_2x2_path',
+    'medical_records_path',
+    'status'
     ];
 
     protected $casts = [
+        'is_returning' => 'boolean',
         'applicant_date_birth' => 'date',
     ];
 
@@ -98,5 +109,15 @@ class ApplicantInfo extends Model
         ];
 
         return implode(' ', array_filter($parts));
+    }
+
+    public function familyInfo()
+    {
+        return $this->hasOne(FamilyInfo::class);
+    }
+
+    public function educationalBackground()
+    {
+        return $this->hasOne(EducationalBackground::class);
     }
 }

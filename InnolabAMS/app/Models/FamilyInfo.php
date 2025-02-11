@@ -16,19 +16,17 @@ class FamilyInfo extends Model
         // Father's Information
         'father_name',
         'father_occupation',
-        'father_contact_num',
+        'father_contact_number',
         // Mother's Information
         'mother_name',
         'mother_occupation',
-        'mother_contact_num',
-        // Guardian's Information
-        'guardian_name',
-        'guardian_street_number',
-        'guardian_barangay',
-        'guardian_city',
-        'guardian_telephone',
-        'guardian_mobile',
-        'guardian_email'
+        'mother_contact_number',
+        // Emergency Contact
+        'emergency_contact_name',
+        'emergency_contact_address',
+        'emergency_contact_tel',
+        'emergency_contact_mobile',
+        'emergency_contact_email'
     ];
 
     // Relationship with ApplicantInfo

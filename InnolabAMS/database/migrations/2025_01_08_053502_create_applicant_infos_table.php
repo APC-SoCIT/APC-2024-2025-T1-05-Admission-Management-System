@@ -14,12 +14,18 @@ return new class extends Migration
         Schema::create('applicant_infos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-
-            // Program Information  
-            $table->enum('apply_program', ['Kindergarten', 'Elementary', 'High School', 'Senior High School']);
+            
+            // Student Type Information
+            $table->enum('student_type', ['new', 'transferee', 'existing', 'returning'])->default('new');
+            $table->string('previous_school')->nullable();
+            $table->text('transfer_reason')->nullable();
+            $table->boolean('is_returning')->default(false);
+            
+            // Program Information
+            $table->enum('apply_program', ['Elementary', 'High School', 'Senior High School']);
             $table->enum('apply_grade_level', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
             $table->enum('apply_strand', ['STEM', 'ABM', 'TECHVOC', 'HUMSS', 'GAS'])->nullable();
-
+            
             // Personal Information
             $table->string('applicant_surname', 40);
             $table->string('applicant_given_name', 40);
@@ -70,9 +76,19 @@ return new class extends Migration
             $table->string('participations', 255)->nullable();
             $table->string('competitions', 255)->nullable();
             $table->enum('referral_source', ['Social Media', 'Alumni', 'Online Ad', 'Website', 'School Fair', 'Other'])->nullable();
-            $table->enum('status', ['new', 'accepted', 'rejected'])->default('new');
+
+            // Document Information
+            $table->string('birth_certificate_path')->nullable();
+            $table->string('form_138_path')->nullable();
+            $table->string('good_moral_path')->nullable();
+            $table->string('parent_id_path')->nullable();
+            $table->string('photo_2x2_path')->nullable();
+            $table->string('medical_records_path')->nullable();
             
+            // Application Status
+            $table->enum('status', ['new', 'accepted', 'rejected'])->default('new');
             $table->timestamps();
+            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

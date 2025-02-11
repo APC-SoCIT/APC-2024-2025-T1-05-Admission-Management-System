@@ -195,8 +195,33 @@
         }"
         @student-type-changed.window="resetStudentTypeFields"
     >
-        <form @submit.prevent="handleSubmit" action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="applicationForm"
+              action="{{ route('applicant.store') }}"
+              method="POST"
+              enctype="multipart/form-data"
+              x-data="applicationForm()"
+              @submit.prevent="submitForm"
+        >
             @csrf
+
+            <!-- Add this right after the form opening tag -->
+            <div x-show="Object.keys($errors).length > 0" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                <template x-for="(error, field) in $errors" :key="field">
+                    <div x-text="error[0]"></div>
+                </template>
+            </div>
+
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <!-- Program Information -->
             <div class="mb-8" x-data="{
@@ -1702,6 +1727,51 @@
                 </div>
             </div>
 
+            <!-- Sibling Entries -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center cursor-pointer mb-4" @click="isSiblingOpen = !isSiblingOpen">
+                    <h2 class="text-xl font-semibold">Sibling Information</h2>
+                    <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isSiblingOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                <div x-show="isSiblingOpen" x-transition>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-medium">Sibling 1</h3>
+                            <button type="button" @click="removeSibling(1)" class="text-red-500">Remove</button>
+                        </div>
+                        <div class="grid grid-cols-5 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" name="siblings[1][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                                <input type="date" name="siblings[1][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Age</label>
+                                <input type="number" name="siblings[1][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Grade Level</label>
+                                <input type="text" name="siblings[1][grade_level]" placeholder="Grade Level" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">School Attended</label>
+                                <input type="text" name="siblings[1][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" 
+                            @click="addSibling" 
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Add Sibling
+                    </button>
+                </div>
+            </div>
+
             <!-- Submit button -->
             <div class="flex justify-end">
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
@@ -1714,46 +1784,67 @@
 
 @push('scripts')
 <script>
-    // Show/hide strand selection based on program selection
-    document.querySelector('select[name="apply_program"]').addEventListener('change', function() {
-        const strandContainer = document.getElementById('strandContainer');
-        if (this.value === 'Senior High School') {
-            strandContainer.style.display = 'block';
-        } else {
-            strandContainer.style.display = 'none';
+    function applicationForm() {
+        return {
+            // ... your existing x-data properties ...
+
+            async submitForm(event) {
+                console.log('Form submission started');
+
+                // Check if at least one guardian is filled out
+                const hasFather = this.fatherFirstName || this.fatherLastName;
+                const hasMother = this.motherFirstName || this.motherLastName;
+                const hasGuardian = this.guardianFirstName || this.guardianLastName;
+
+                if (!hasFather && !hasMother && !hasGuardian) {
+                    alert('Please fill out information for at least one guardian (Father, Mother, or Legal Guardian)');
+                    return false;
+                }
+
+                const form = event.target;
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Form submission failed');
+                    }
+
+                    // Success - redirect
+                    window.location.href = data.redirect || '{{ route("admission.index") }}';
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    alert('Failed to submit form: ' + error.message);
+                }
+            },
+
+            // Move sibling handling into Alpine.js
+            siblingCount: 1,
+            addSibling() {
+                const container = document.getElementById('siblings-container');
+                const newEntry = document.createElement('div');
+                newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4';
+                newEntry.innerHTML = `
+                    <input type="text" name="siblings[${this.siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="date" name="siblings[${this.siblingCount}][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="number" name="siblings[${this.siblingCount}][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="text" name="siblings[${this.siblingCount}][grade_level]" placeholder="Grade Level" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="text" name="siblings[${this.siblingCount}][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                `;
+                container.appendChild(newEntry);
+                this.siblingCount++;
+            }
         }
-    });
-
-    // Sibling entries handling
-    let siblingCount = 1;
-    document.getElementById('add-sibling').addEventListener('click', function() {
-        const container = document.getElementById('siblings-container');
-        const newEntry = document.createElement('div');
-        newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4';
-        newEntry.innerHTML = `
-            <input type="text" name="siblings[${siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="date" name="siblings[${siblingCount}][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="number" name="siblings[${siblingCount}][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="text" name="siblings[${siblingCount}][grade_level]" placeholder="Grade Level" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="text" name="siblings[${siblingCount}][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-        `;
-        container.appendChild(newEntry);
-        siblingCount++;
-    });
-
-    function handleSubmit() {
-        // Check if at least one guardian is filled out
-        const hasFather = this.fatherFirstName || this.fatherLastName;
-        const hasMother = this.motherFirstName || this.motherLastName;
-        const hasGuardian = this.guardianFirstName || this.guardianLastName;
-
-        if (!hasFather && !hasMother && !hasGuardian) {
-            alert('Please fill out information for at least one guardian (Father, Mother, or Legal Guardian)');
-            return false;
-        }
-
-        // If validation passes, submit the form
-        this.$el.submit();
     }
 </script>
 @endpush

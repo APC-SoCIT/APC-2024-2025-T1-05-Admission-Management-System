@@ -14,21 +14,17 @@ class EducationalBackground extends Model
     protected $fillable = [
         'applicant_id',
         'lrn',
-        'sped',
-        'pwd',
-        'applicant_school_name',
-        'applicant_school_address',
-        'applicant_last_grade_level',
-        'applicant_year_graduation',
-        'applicant_gwa',
-        'applicant_achievements'
+        'school_name',
+        'school_address',
+        'previous_program',
+        'year_of_graduation',
+        'gwa',
+        'awards_honors'
     ];
 
     protected $casts = [
-        'sped' => 'boolean',
-        'pwd' => 'boolean',
-        'applicant_year_graduation' => 'date',
-        'applicant_gwa' => 'decimal:2'
+        'year_of_graduation' => 'integer',
+        'gwa' => 'decimal:2'
     ];
 
     /**
