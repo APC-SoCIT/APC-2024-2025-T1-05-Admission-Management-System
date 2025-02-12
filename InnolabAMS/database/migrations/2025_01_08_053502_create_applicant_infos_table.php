@@ -13,67 +13,46 @@ return new class extends Migration
     {
         Schema::create('applicant_infos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-
-            // Program Information  
-            $table->enum('apply_program', ['Kindergarten', 'Elementary', 'High School', 'Senior High School']);
-            $table->enum('apply_grade_level', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
-            $table->enum('apply_strand', ['STEM', 'ABM', 'TECHVOC', 'HUMSS', 'GAS'])->nullable();
-
-            // Personal Information
-            $table->string('applicant_surname', 40);
-            $table->string('applicant_given_name', 40);
-            $table->string('applicant_middle_name', 40)->nullable();
-            $table->string('applicant_extension', 10)->nullable();
-            $table->date('applicant_date_birth');
-            $table->integer('age')->nullable();
-            $table->string('applicant_place_birth', 255);
-            $table->enum('gender', ['Male', 'Female']);
-            $table->string('applicant_tel_no', 20)->nullable();
-            $table->string('applicant_address_street', 255);
-            $table->string('applicant_address_province', 255);
-            $table->string('applicant_address_city', 255);
-            $table->string('applicant_nationality', 255);
-            $table->string('applicant_religion', 255)->nullable();
-            $table->string('applicant_mobile_number', 12);
-            $table->string('applicant_photo', 255)->nullable();
-
-            // Educational Background
-            $table->string('lrn', 12)->nullable();
-            $table->string('school_name')->nullable();
-            $table->string('school_address')->nullable();
-            $table->string('previous_program')->nullable();
-            $table->string('year_of_graduation')->nullable();
-            $table->string('awards_honors')->nullable();
-            $table->decimal('gwa', 4, 2)->nullable();
-
-            // Family Information
-            $table->string('father_name')->nullable();
-            $table->string('father_occupation')->nullable();
-            $table->string('father_contact')->nullable();
-            $table->string('mother_name')->nullable();
-            $table->string('mother_occupation')->nullable();
-            $table->string('mother_contact')->nullable();
-            $table->json('siblings')->nullable(); // Will store array of sibling info
-
-            // Emergency Contact
-            $table->string('emergency_contact_name')->nullable();
-            $table->string('emergency_contact_address')->nullable();
-            $table->string('emergency_contact_tel')->nullable();
-            $table->string('emergency_contact_mobile')->nullable();
-            $table->string('emergency_contact_email')->nullable();
-
-            // Other existing fields
-            $table->enum('extracurricular_interest', ['Sports', 'Music', 'Art', 'Drama', 'Debate', 'Science Club', 'Math Club', 'Student Government', 'Volunteering', 'Dance', 'Technology Club'])->nullable();
-            $table->enum('skills', ['Communication', 'Teamwork', 'Leadership', 'Problem-Solving', 'Time Management', 'Creativity', 'Adaptability', 'Technology-related'])->nullable();
-            $table->string('hobbies', 255)->nullable();
-            $table->string('participations', 255)->nullable();
-            $table->string('competitions', 255)->nullable();
-            $table->enum('referral_source', ['Social Media', 'Alumni', 'Online Ad', 'Website', 'School Fair', 'Other'])->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['new', 'accepted', 'rejected'])->default('new');
             
+            // Program Information
+            $table->string('student_type')->nullable();
+            $table->string('previous_school')->nullable();
+            $table->text('transfer_reason')->nullable();
+            $table->string('gap_period')->nullable();
+            $table->text('return_reason')->nullable();
+            $table->string('current_grade_level')->nullable();
+            $table->enum('academic_status', ['regular', 'irregular', 'probation'])->nullable();
+            
+            // Personal Information
+            $table->string('applicant_surname');
+            $table->string('applicant_given_name');
+            $table->string('applicant_middle_name')->nullable();
+            $table->string('applicant_extension')->nullable();
+            $table->date('applicant_date_birth');
+            $table->integer('age');
+            $table->string('gender');
+            $table->string('applicant_tel_no')->nullable();
+            $table->string('applicant_mobile_number');
+            $table->string('applicant_nationality');
+            $table->string('applicant_religion');
+            
+            // Contact Information
+            $table->string('applicant_address_street');
+            $table->string('applicant_address_city');
+            $table->string('applicant_address_province');
+            
+            // Document Paths
+            $table->string('birth_certificate_path')->nullable();
+            $table->string('photo_path')->nullable();
+            $table->string('form_137_path')->nullable();
+            $table->string('form_138_path')->nullable();
+            $table->string('good_moral_path')->nullable();
+            $table->string('guardian_id_path')->nullable();
+            $table->string('medical_records_path')->nullable();
+            
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

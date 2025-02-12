@@ -4,11 +4,17 @@ services:
     # PHP
     ####################################################################################################
     php:
-        build: .docker/php
+        build: 
+            context: .
+            dockerfile: Dockerfile
         ports:
             - 5173:5173
         volumes:
             - .:/var/www:cached
+        networks:
+            - app-network
+        depends_on:
+            - db
 
     ####################################################################################################
     # Nginx
@@ -23,24 +29,28 @@ services:
             - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf
         depends_on:
             - php
+        networks:
+            - app-network
 
     ####################################################################################################
     # DATABASE (MySQL)
     ####################################################################################################
     db:
         image: mysql:8.1
+        restart: always
         ports:
-            - 3306:3306
-        volumes:
-            - .docker/db/data:/var/lib/mysql
-            - .docker/logs:/var/log/mysql
-            - .docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-            - .docker/db/sql:/docker-entrypoint-initdb.d
+            - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: refactorian
-            MYSQL_USER: refactorian
-            MYSQL_PASSWORD: refactorian
+            - MYSQL_DATABASE=refactorian
+            - MYSQL_USER=refactorian
+            - MYSQL_PASSWORD=refactorian
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_ROOT_HOST=%
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - app-network
+        command: --default-authentication-plugin=mysql_native_password
 
     ####################################################################################################
     # phpMyAdmin
@@ -49,14 +59,16 @@ services:
         image: phpmyadmin/phpmyadmin
         ports:
             - 8080:80
-        links:
-            - db
         environment:
-            PMA_HOST: db
-            PMA_PORT: 3306
-            PMA_ARBITRARY: 1
-        volumes:
-            - .docker/phpmyadmin/sessions:/sessions
+            - PMA_HOST=db
+            - PMA_PORT=3306
+            - MYSQL_ROOT_PASSWORD=root
+            - PMA_USER=refactorian
+            - PMA_PASSWORD=refactorian
+        networks:
+            - app-network
+        depends_on:
+            - db
 
     ####################################################################################################
     # Adminer
@@ -133,3 +145,10 @@ services:
     #         - PGADMIN_DEFAULT_PASSWORD=password
     #     depends_on:
     #         - db
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    db_data:

@@ -26,64 +26,71 @@ class EducationalBackgroundController extends Controller
     /**
      * Store educational background information.
      */
-    public function store(Request $request)
+    public function store(Request $request, ApplicantInfo $applicant)
     {
-        $request->validate([
+        $validated = $request->validate([
             'lrn' => 'nullable|string|max:12',
-            'sped' => 'required|boolean',
-            'pwd' => 'required|boolean',
-            'applicant_school_name' => 'required|string|max:255',
-            'applicant_school_address' => 'required|string|max:255',
-            'applicant_last_grade_level' => 'required|string|in:1,2,3,4,5,6,7,8,9,10,11,12',
-            'applicant_year_graduation' => 'required|date',
-            'applicant_gwa' => 'required|numeric|between:0,100',
-            'applicant_achievements' => 'nullable|string'
+            'school_name' => 'required|string|max:255',
+            'school_address' => 'required|string|max:255',
+            'previous_program' => 'nullable|string|max:255',
+            'year_of_graduation' => 'nullable|string|max:4',
+            'awards_honors' => 'nullable|string',
+            'gwa' => 'nullable|numeric|between:1.00,5.00'
         ]);
 
-        $applicant = ApplicantInfo::where('user_id', Auth::id())->firstOrFail();
+        try {
+            $educationalBackground = EducationalBackground::create([
+                'applicant_info_id' => $applicant->id,
+                ...$validated
+            ]);
 
-        $educationalBackground = EducationalBackground::updateOrCreate(
-            ['applicant_id' => $applicant->id],
-            $request->all()
-        );
+            return response()->json([
+                'message' => 'Educational background saved successfully',
+                'data' => $educationalBackground
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Educational background saved successfully',
-            'redirect' => route('form.documents') // Adjust this route as needed
-        ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error saving educational background'
+            ], 500);
+        }
     }
 
     /**
      * Update educational background information.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ApplicantInfo $applicant)
     {
-        $request->validate([
+        $validated = $request->validate([
             'lrn' => 'nullable|string|max:12',
-            'sped' => 'required|boolean',
-            'pwd' => 'required|boolean',
-            'applicant_school_name' => 'required|string|max:255',
-            'applicant_school_address' => 'required|string|max:255',
-            'applicant_last_grade_level' => 'required|string|in:1,2,3,4,5,6,7,8,9,10,11,12',
-            'applicant_year_graduation' => 'required|date',
-            'applicant_gwa' => 'required|numeric|between:0,100',
-            'applicant_achievements' => 'nullable|string'
+            'school_name' => 'required|string|max:255',
+            'school_address' => 'required|string|max:255',
+            'previous_program' => 'nullable|string|max:255',
+            'year_of_graduation' => 'nullable|string|max:4',
+            'awards_honors' => 'nullable|string',
+            'gwa' => 'nullable|numeric|between:1.00,5.00'
         ]);
 
-        $educationalBackground = EducationalBackground::findOrFail($id);
-        
-        // Check if the educational background belongs to the authenticated user
-        $applicant = ApplicantInfo::where('user_id', Auth::id())->firstOrFail();
-        if ($educationalBackground->applicant_id !== $applicant->id) {
-            abort(403, 'Unauthorized action.');
+        try {
+            $educationalBackground = $applicant->educationalBackground;
+            
+            if (!$educationalBackground) {
+                return response()->json([
+                    'error' => 'Educational background not found'
+                ], 404);
+            }
+
+            $educationalBackground->update($validated);
+
+            return response()->json([
+                'message' => 'Educational background updated successfully',
+                'data' => $educationalBackground
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error updating educational background'
+            ], 500);
         }
-
-        $educationalBackground->update($request->all());
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Educational background updated successfully'
-        ]);
     }
 }

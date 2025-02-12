@@ -7,6 +7,7 @@ use App\Models\SiblingInfo;
 use App\Models\ApplicantInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FamilyInformationController extends Controller
 {
@@ -127,5 +128,93 @@ class FamilyInformationController extends Controller
         }
 
         return redirect()->back()->with('success', 'Family information updated successfully!');
+    }
+
+    public function storeSiblings(Request $request, ApplicantInfo $applicant)
+    {
+        $request->validate([
+            'siblings' => 'array',
+            'siblings.*.full_name' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'siblings.*.date_of_birth' => 'required|date',
+            'siblings.*.age' => 'required|numeric|min:1|max:100',
+            'siblings.*.grade_level' => 'required|string',
+            'siblings.*.school_attended' => 'required|string'
+        ]);
+
+        try {
+            DB::transaction(function () use ($request, $applicant) {
+                foreach ($request->siblings as $siblingData) {
+                    SiblingInfo::create([
+                        'applicant_info_id' => $applicant->id,
+                        'full_name' => $siblingData['full_name'],
+                        'date_of_birth' => $siblingData['date_of_birth'],
+                        'age' => $siblingData['age'],
+                        'grade_level' => $siblingData['grade_level'],
+                        'school_attended' => $siblingData['school_attended']
+                    ]);
+                }
+            });
+
+            return response()->json([
+                'message' => 'Siblings information saved successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error saving siblings information'
+            ], 500);
+        }
+    }
+
+    public function updateSibling(Request $request, ApplicantInfo $applicant, SiblingInfo $sibling)
+    {
+        $request->validate([
+            'full_name' => 'required|string|regex:/^[\pL\s\-]+$/u',
+            'date_of_birth' => 'required|date',
+            'age' => 'required|numeric|min:1|max:100',
+            'grade_level' => 'required|string',
+            'school_attended' => 'required|string'
+        ]);
+
+        try {
+            if ($sibling->applicant_info_id !== $applicant->id) {
+                return response()->json([
+                    'error' => 'Unauthorized access to sibling information'
+                ], 403);
+            }
+
+            $sibling->update($request->all());
+
+            return response()->json([
+                'message' => 'Sibling information updated successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error updating sibling information'
+            ], 500);
+        }
+    }
+
+    public function deleteSibling(ApplicantInfo $applicant, SiblingInfo $sibling)
+    {
+        try {
+            if ($sibling->applicant_info_id !== $applicant->id) {
+                return response()->json([
+                    'error' => 'Unauthorized access to sibling information'
+                ], 403);
+            }
+
+            $sibling->delete();
+
+            return response()->json([
+                'message' => 'Sibling information deleted successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error deleting sibling information'
+            ], 500);
+        }
     }
 }

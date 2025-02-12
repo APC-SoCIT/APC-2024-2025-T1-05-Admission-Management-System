@@ -12,29 +12,19 @@ class FamilyInfo extends Model
     protected $table = 'family_info';
 
     protected $fillable = [
-        'applicant_id',
-        // Father's Information
+        'applicant_info_id',
         'father_name',
-        'father_occupation',
-        'father_contact_num',
-        // Mother's Information
+        'father_contact',
         'mother_name',
-        'mother_occupation',
-        'mother_contact_num',
-        // Guardian's Information
+        'mother_contact',
         'guardian_name',
-        'guardian_street_number',
-        'guardian_barangay',
-        'guardian_city',
-        'guardian_telephone',
-        'guardian_mobile',
-        'guardian_email'
+        'guardian_contact'
     ];
 
     // Relationship with ApplicantInfo
     public function applicant()
     {
-        return $this->belongsTo(ApplicantInfo::class, 'applicant_id');
+        return $this->belongsTo(ApplicantInfo::class, 'applicant_info_id');
     }
 
     // Relationship with siblings
