@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
 use App\Http\Controllers\FamilyInformationController;
@@ -66,6 +67,8 @@ Route::middleware('auth')->group(function () {
 
     // User Routes
     Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show');
+    Route::post('/dashboard/users', [AddUserController::class, 'store'])->name('user.store');
+    
 
     // Profile Routes
     Route::controller(ProfileController::class)->group(function () {
