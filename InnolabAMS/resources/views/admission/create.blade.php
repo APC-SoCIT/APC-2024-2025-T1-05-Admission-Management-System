@@ -130,11 +130,30 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Province</label>
-                        <input type="text" name="applicant_address_province" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text" name="applicant_address_province" value="Metro Manila" readonly class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">City</label>
-                        <input type="text" name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <select name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="">Select City</option>
+                            <option value="Caloocan">Caloocan</option>
+                            <option value="Las Piñas">Las Piñas</option>
+                            <option value="Makati">Makati</option>
+                            <option value="Malabon">Malabon</option>
+                            <option value="Mandaluyong">Mandaluyong</option>
+                            <option value="Manila">Manila</option>
+                            <option value="Marikina">Marikina</option>
+                            <option value="Muntinlupa">Muntinlupa</option>
+                            <option value="Navotas">Navotas</option>
+                            <option value="Parañaque">Parañaque</option>
+                            <option value="Pasay">Pasay</option>
+                            <option value="Pasig">Pasig</option>
+                            <option value="Quezon City">Quezon City</option>
+                            <option value="San Juan">San Juan</option>
+                            <option value="Taguig">Taguig</option>
+                            <option value="Valenzuela">Valenzuela</option>
+                            <option value="Pateros">Pateros</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Barangay</label>
