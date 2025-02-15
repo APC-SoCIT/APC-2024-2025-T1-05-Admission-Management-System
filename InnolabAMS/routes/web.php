@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
+use App\Http\Controllers\DashboardController; //Added dashboard controller
 use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
@@ -18,10 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/app', function () {
+    return view('application');
+})->middleware(['auth', 'verified'])->name('application');
+
 //Admin Panel and Online Appplication Portal Routes
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        if (auth()->user()->hasRole('Staff')) {
+            return redirect('/app');
+        }
+        return view('application');
+    })->name('dashboard');
+});
 
 Route::get('/portal', function () {
     return view('portal');
@@ -53,7 +63,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Scholarship Routes
-    Route::get('/dashboard/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show');
+    Route::get('/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show');
 
     // Inquiry routes
     Route::prefix('inquiries')->group(function () {
@@ -66,9 +76,22 @@ Route::middleware('auth')->group(function () {
     });
 
     // User Routes
-    Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show');
-    Route::post('/dashboard/users', [AddUserController::class, 'store'])->name('user.store');
-    
+    Route::middleware('auth')->group(function () {
+        Route::get('/users', function () {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/dashboard')->with('error', 'You do not have access to this page.');
+            }
+            return app(UserController::class)->show();
+        })->name('user.show');
+
+        Route::post('/users', function () {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/dashboard')->with('error', 'You do not have access to this page.');
+            }
+            return app(AddUserController::class)->store(request());
+        })->name('user.store');
+    });
+
 
     // Profile Routes
     Route::controller(ProfileController::class)->group(function () {
@@ -106,7 +129,7 @@ Route::middleware('auth')->group(function () {
     });
 
     //Personal Information Routes
-    Route::prefix('form')->name('scholarship.')->group(function() {
+    Route::prefix('form')->name('scholarship.')->group(function () {
         Route::get('/portal/scholarship', [ApplicantInfoController::class, 'showScholarshipForm'])->name('create'); //Added Route
 
     });
