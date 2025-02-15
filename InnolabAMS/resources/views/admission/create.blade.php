@@ -654,13 +654,38 @@
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<<<<<<< HEAD
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Street Address</label>
                         <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+=======
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Province</label>
+                        <input type="text" name="applicant_address_province" value="Metro Manila" readonly class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 81ef476 (Update province and city fields in admission form)
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">City</label>
-                        <input type="text" name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <select name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="">Select City</option>
+                            <option value="Caloocan">Caloocan</option>
+                            <option value="Las Piñas">Las Piñas</option>
+                            <option value="Makati">Makati</option>
+                            <option value="Malabon">Malabon</option>
+                            <option value="Mandaluyong">Mandaluyong</option>
+                            <option value="Manila">Manila</option>
+                            <option value="Marikina">Marikina</option>
+                            <option value="Muntinlupa">Muntinlupa</option>
+                            <option value="Navotas">Navotas</option>
+                            <option value="Parañaque">Parañaque</option>
+                            <option value="Pasay">Pasay</option>
+                            <option value="Pasig">Pasig</option>
+                            <option value="Quezon City">Quezon City</option>
+                            <option value="San Juan">San Juan</option>
+                            <option value="Taguig">Taguig</option>
+                            <option value="Valenzuela">Valenzuela</option>
+                            <option value="Pateros">Pateros</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Province</label>
