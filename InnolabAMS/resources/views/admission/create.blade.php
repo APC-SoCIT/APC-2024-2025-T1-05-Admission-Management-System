@@ -67,23 +67,7 @@
                     </label>
                 </div>
             </div>
-            <!-- Student Type Specific Fields -->
-            <template x-if="studentType === 'existing' || studentType === 'returning'">
-                <div class="md:col-span-2">
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h3 class="font-medium mb-4">Student Lookup</h3>
-                    <div class="flex gap-4">
-                            <input type="text" name="student_id" placeholder="Enter Student ID" 
-                                     class="flex-1 rounded-md border-gray-300">
-                            <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md">
-                                 Search
-                             </button>
-                         </div>
-                     </div>
-                  </div>
-             </template>
-
-
+        
             <!-- Personal Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
@@ -114,11 +98,11 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Age</label>
-                        <input type="number" name="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="number" name="age" id="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                        <input type="date" name="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Place of Birth</label>
@@ -297,6 +281,32 @@
             strandContainer.style.display = 'block';
         } else {
             strandContainer.style.display = 'none';
+        }
+    });
+
+    // Function to calculate age based on birthdate
+    function calculateAge(birthDate) {
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        
+        return age;
+    }
+
+    // Event listener for birthdate change
+    document.getElementById('applicant_date_birth').addEventListener('change', function() {
+        const ageInput = document.getElementById('age');
+        const birthDate = this.value;
+        if (birthDate) {
+            const age = calculateAge(birthDate);
+            ageInput.value = age;
+        } else {
+            ageInput.value = '';
         }
     });
 
