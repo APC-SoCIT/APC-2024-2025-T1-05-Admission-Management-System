@@ -28,6 +28,7 @@ class ApplicantInfo extends Model
     'applicant_tel_no',
     'applicant_address_street',
     'applicant_address_province',
+    'applicant_barangay',
     'applicant_address_city',
     'applicant_nationality',
     'applicant_religion',

@@ -73,6 +73,7 @@ class ApplicantInfoController extends Controller
                 'applicant_address_street' => 'required|max:255',
                 'applicant_address_province' => 'required|max:255',
                 'applicant_address_city' => 'required|max:255',
+                'applicant_barangay' => 'required|max:255',
                 'applicant_nationality' => 'required|max:255',
                 'applicant_religion' => 'nullable|max:255',
                 'applicant_mobile_number' => 'required|max:12',
