@@ -40,6 +40,7 @@ class ApplicantInfo extends Model
     'year_of_graduation', 
     'awards_honors',
     'gwa',
+    'student_type',
     'father_name',
     'father_occupation',
     'father_contact',
