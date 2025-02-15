@@ -54,12 +54,12 @@
                 <label class="block text-sm font-medium text-gray-700">Student Type <span class="text-red-500">*</span></label>
                 <div class="mt-2 space-y-2">
                     <label class="inline-flex items-center">
-                        <input type="radio" name="student_type" value="New Student" x-model="studentType" class="form-radio">
-                        <span class="ml-2">New Student</span>
-                    </label>
-                    <label class="inline-flex items-center ml-6">
                         <input type="radio" name="student_type" value="Transferee" x-model="studentType" class="form-radio">
                         <span class="ml-2">Transferee</span>
+                    </label>
+                    <label class="inline-flex items-center ml-6">
+                        <input type="radio" name="student_type" value="Existing Student" x-model="studentType" class="form-radio">
+                        <span class="ml-2">Existing Student</span>
                     </label>
                     <label class="inline-flex items-center ml-6">
                         <input type="radio" name="student_type" value="Returning Student" x-model="studentType" class="form-radio">
@@ -67,6 +67,21 @@
                     </label>
                 </div>
             </div>
+            <!-- Student Type Specific Fields -->
+            <template x-if="studentType === 'existing' || studentType === 'returning'">
+                <div class="md:col-span-2">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-medium mb-4">Student Lookup</h3>
+                    <div class="flex gap-4">
+                            <input type="text" name="student_id" placeholder="Enter Student ID" 
+                                     class="flex-1 rounded-md border-gray-300">
+                            <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                                 Search
+                             </button>
+                         </div>
+                     </div>
+                  </div>
+             </template>
 
 
             <!-- Personal Information -->
