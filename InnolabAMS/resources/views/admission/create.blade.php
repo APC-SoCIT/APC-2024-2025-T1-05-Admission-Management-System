@@ -587,283 +587,58 @@
                     </label>
                 </div>
             </div>
-            <!-- Student Type Specific Fields -->
-            <template x-if="studentType === 'existing' || studentType === 'returning'">
-                <div class="md:col-span-2">
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <h3 class="font-medium mb-4">Student Lookup</h3>
-                    <div class="flex gap-4">
-                            <input type="text" name="student_id" placeholder="Enter Student ID" 
-                                     class="flex-1 rounded-md border-gray-300">
-                            <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md">
-                                 Search
-                             </button>
-                         </div>
-                     </div>
-                  </div>
-             </template>
-
-
+        
             <!-- Personal Information -->
-            <div class="mb-8" x-data="{ isOpen: true, dateOfBirth: '', age: '', surname: '', givenName: '', middleName: '', placeOfBirth: '', nationality: '', religion: '', contactNo: '', extensionName: '', errors: {}, validateTextInput(field, value) {
-                if (/\d/.test(value)) {
-                    this.errors[field] = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors[field];
-                return true;
-            }, computeAge() {
-                if (this.dateOfBirth) {
-                    const dob = new Date(this.dateOfBirth);
-                    const today = new Date();
-                    let calculatedAge = today.getFullYear() - dob.getFullYear();
-                    const monthDiff = today.getMonth() - dob.getMonth();
-
-                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                        calculatedAge--;
-                    }
-
-                    this.age = calculatedAge;
-                } else {
-                    this.age = '';
-                }
-            }, validateExtensionName(value) {
-                if (!value) {
-                    delete this.errors.extensionName;
-                    return true;
-                }
-                // Only allow letters, dots, and spaces
-                const pattern = /^[a-zA-Z\s.]+$/;
-                if (!pattern.test(value)) {
-                    this.errors.extensionName = 'Only letters, spaces, and dots are allowed';
-                    return false;
-                }
-                delete this.errors.extensionName;
-                return true;
-            }, validateReligion(value) {
-                if (!value) {
-                    delete this.errors.religion;
-                    return true;
-                }
-                // Only allow letters and spaces
-                const pattern = /^[a-zA-Z\s]+$/;
-                if (!pattern.test(value)) {
-                    this.errors.religion = 'Only letters and spaces are allowed';
-                    return false;
-                }
-                delete this.errors.religion;
-                return true;
-            }, validateContactNumber(value) {
-                if (/[a-zA-Z]/.test(value)) {
-                    this.errors.contactNo = 'Invalid Format';
-                    return false;
-                }
-                delete this.errors.contactNo;
-                return true;
-            }, sameAsPersonal: false, personalAddress: {
-                houseNumber: document.querySelector('[name=applicant_house_number]')?.value || '',
-                street: document.querySelector('[name=applicant_address_street]')?.value || '',
-                barangay: document.querySelector('[name=applicant_address_barangay]')?.value || '',
-                city: document.querySelector('[name=applicant_address_city]')?.value || '',
-                province: 'Metro Manila'
-            }, emergencyAddress: '', originalAddress: '' }">
-                <div class="flex justify-between items-center cursor-pointer mb-4" @click="isOpen = !isOpen">
-                    <h2 class="text-xl font-semibold">Personal Information</h2>
-                    <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </div>
-                <div x-show="isOpen" x-transition>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <!-- Given Name -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Given Name <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_given_name"
-                                x-model="givenName"
-                                @input="validateName('givenName', $event.target.value)"
-                                :disabled="studentData !== null"
-                                :class="{
-                                    'bg-gray-100': studentData !== null,
-                                    'border-red-500': errors.givenName
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.givenName" x-text="errors.givenName" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Surname -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Surname <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_surname"
-                                x-model="surname"
-                                @input="validateName('surname', $event.target.value)"
-                                :disabled="studentData !== null"
-                                :class="{
-                                    'bg-gray-100': studentData !== null,
-                                    'border-red-500': errors.surname
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.surname" x-text="errors.surname" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Middle Name -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Middle Name <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                x-ref="middleName"
-                                name="applicant_middle_name"
-                                x-model="middleName"
-                                @input="validateName('middleName', $event.target.value)"
-                                :disabled="studentData !== null"
-                                :class="{
-                                    'bg-gray-100': studentData !== null,
-                                    'border-red-500': errors.middleName
-                                }"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.middleName" x-text="errors.middleName" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Extension Name -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Extension Name
-                            </label>
-                            <input type="text"
-                                name="extension_name"
-                                x-model="extensionName"
-                                @input="validateExtensionName($event.target.value)"
-                                :class="{'border-red-500': errors.extensionName}"
-                                placeholder="e.g., Jr., Sr., III"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.extensionName" x-text="errors.extensionName" class="mt-1 text-sm text-red-500"></p>
-                        </div>
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Surname</label>
+                        <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
-
-                    <!-- Other Personal Information Fields -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Sex -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Sex <span class="text-red-500">*</span>
-                            </label>
-                            <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">Select Sex</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-
-                        <!-- Date of Birth -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Date of Birth <span class="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="date"
-                                name="applicant_date_birth"
-                                x-model="dateOfBirth"
-                                @input="computeAge()"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required
-                            >
-                        </div>
-
-                        <!-- Age -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Age</label>
-                            <input
-                                type="number"
-                                name="age"
-                                x-model="age"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-50"
-                                readonly
-                            >
-                        </div>
-
-                        <!-- Place of Birth -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Place of Birth <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_place_of_birth"
-                                x-model="placeOfBirth"
-                                @input="validateName('placeOfBirth', $event.target.value)"
-                                :class="{'border-red-500': errors.placeOfBirth}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.placeOfBirth" x-text="errors.placeOfBirth" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Nationality -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Nationality <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_nationality"
-                                x-model="nationality"
-                                @input="validateName('nationality', $event.target.value)"
-                                :class="{'border-red-500': errors.nationality}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.nationality" x-text="errors.nationality" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Religion -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Religion
-                            </label>
-                            <input type="text"
-                                name="religion"
-                                x-model="religion"
-                                @input="validateReligion($event.target.value)"
-                                :class="{'border-red-500': errors.religion}"
-                                placeholder="Enter religion"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.religion" x-text="errors.religion" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Contact Number -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Mobile Number <span class="text-red-500">*</span>
-                            </label>
-                            <input type="tel"
-                                name="applicant_mobile_number"
-                                x-model="contactNo"
-                                @input="contactNo = maskMobile($event.target.value)"
-                                @blur="validatePhoneFormat('mobile', contactNo) ? delete errors.contactNo : errors.contactNo = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                placeholder="09XX-XXX-XXXX"
-                                :class="{'border-red-500': errors.contactNo}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                required>
-                            <p x-show="errors.contactNo" x-text="errors.contactNo" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-
-                        <!-- Telephone Number -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                            <input type="tel"
-                                name="applicant_tel_no"
-                                x-model="contactTel"
-                                @input="contactTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', contactTel) ? delete errors.contactTel : errors.contactTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
-                                placeholder="(02) XXXX-XXXX"
-                                :class="{'border-red-500': errors.contactTel}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.contactTel" x-text="errors.contactTel" class="mt-1 text-sm text-red-500"></p>
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                        <input type="text" name="applicant_given_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                        <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Extension Name</label>
+                        <input type="text" name="applicant_extension" placeholder="Jr., II, III, etc." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Sex</label>
+                        <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="">Select Sex</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Age</label>
+                        <input type="number" name="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                        <input type="date" name="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Place of Birth</label>
+                        <input type="text" name="applicant_place_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Nationality</label>
+                        <input type="text" name="applicant_nationality" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Religion</label>
+                        <input type="text" name="applicant_religion" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                        <input type="text" name="applicant_tel_no" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
             </div>
@@ -1755,6 +1530,32 @@
             strandContainer.style.display = 'block';
         } else {
             strandContainer.style.display = 'none';
+        }
+    });
+
+    // Function to calculate age based on birthdate
+    function calculateAge(birthDate) {
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        
+        return age;
+    }
+
+    // Event listener for birthdate change
+    document.getElementById('applicant_date_birth').addEventListener('change', function() {
+        const ageInput = document.getElementById('age');
+        const birthDate = this.value;
+        if (birthDate) {
+            const age = calculateAge(birthDate);
+            ageInput.value = age;
+        } else {
+            ageInput.value = '';
         }
     });
 
