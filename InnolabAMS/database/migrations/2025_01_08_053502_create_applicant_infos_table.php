@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('applicant_address_street', 255);
             $table->string('applicant_address_province', 255);
             $table->string('applicant_address_city', 255);
+            $table->string('applicant_barangay', 255);
             $table->string('applicant_nationality', 255);
             $table->string('applicant_religion', 255)->nullable();
             $table->string('applicant_mobile_number', 12);

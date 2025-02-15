@@ -643,139 +643,32 @@
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
                         <input type="text" name="applicant_tel_no" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                        <input type="tel" name="applicant_mobile_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
                 </div>
             </div>
 
-            <!-- Address Information - Keep all existing functionality -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"
-                x-data="{
-                    province: 'Metro Manila',
-                    city: '',
-                    barangay: '',
-                    street: '',
-                    houseNumber: '',
-                    showBarangay: false,
-                    showStreet: false,
-                    errors: {},
-                    validateAddress(field, value) {
-                        if (!value) {
-                            delete this.errors[field];
-                            return true;
-                        }
-                        const pattern = /^[a-zA-Z0-9\s.-]+$/;
-                        if (!pattern.test(value)) {
-                            this.errors[field] = 'Only letters, numbers, spaces, periods, and hyphens allowed';
-                            return false;
-                        }
-                        if (value.length > 100) {
-                            this.errors[field] = 'Maximum length is 100 characters';
-                            return false;
-                        }
-                        delete this.errors[field];
-                        return true;
-                    }
-                }"
-                x-init="$watch('city', value => {
-                    showBarangay = value !== '';
-                    barangay = '';
-                    street = '';
-                    houseNumber = '';
-                });
-                $watch('barangay', value => {
-                    showStreet = value !== '';
-                    street = '';
-                    houseNumber = '';
-                })">
-
-                <!-- Province/Region -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Province/Region <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text"
-                        name="applicant_address_province"
-                        x-model="province"
-                        class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 cursor-not-allowed"
-                        readonly>
-                </div>
-
-                <!-- City -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">
-                        City <span class="text-red-500">*</span>
-                    </label>
-                    <select name="applicant_address_city"
-                        x-model="city"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        required>
-                        <option value="">Select City</option>
-                        <option value="Caloocan">Caloocan</option>
-                        <option value="Las Piñas">Las Piñas</option>
-                        <option value="Makati">Makati</option>
-                        <option value="Malabon">Malabon</option>
-                        <option value="Mandaluyong">Mandaluyong</option>
-                        <option value="Manila">Manila</option>
-                        <option value="Marikina">Marikina</option>
-                        <option value="Muntinlupa">Muntinlupa</option>
-                        <option value="Navotas">Navotas</option>
-                        <option value="Parañaque">Parañaque</option>
-                        <option value="Pasay">Pasay</option>
-                        <option value="Pasig">Pasig</option>
-                        <option value="Pateros">Pateros</option>
-                        <option value="Quezon City">Quezon City</option>
-                        <option value="San Juan">San Juan</option>
-                        <option value="Taguig">Taguig</option>
-                        <option value="Valenzuela">Valenzuela</option>
-                    </select>
-                </div>
-
-                <!-- Barangay Input -->
-                <div class="relative" x-show="showBarangay" x-transition>
-                    <label class="block text-sm font-medium text-gray-700">
-                        Barangay <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text"
-                        name="applicant_address_barangay"
-                        x-model="barangay"
-                        @input="validateAddress('barangay', $event.target.value)"
-                        :class="{'border-red-500': errors.barangay}"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="Enter barangay name"
-                        required>
-                    <p x-show="errors.barangay" x-text="errors.barangay" class="mt-1 text-sm text-red-500"></p>
-                </div>
-
-                <!-- House Number and Street Input -->
-                <div class="relative md:col-span-2" x-show="showStreet" x-transition>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                House/Unit Number <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_house_number"
-                                x-model="houseNumber"
-                                @input="validateAddress('houseNumber', $event.target.value)"
-                                :class="{'border-red-500': errors.houseNumber}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                placeholder="Enter house/unit number"
-                                required>
-                            <p x-show="errors.houseNumber" x-text="errors.houseNumber" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">
-                                Street Name <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text"
-                                name="applicant_address_street"
-                                x-model="street"
-                                @input="validateAddress('street', $event.target.value)"
-                                :class="{'border-red-500': errors.street}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                placeholder="Enter street name"
-                                required>
-                            <p x-show="errors.street" x-text="errors.street" class="mt-1 text-sm text-red-500"></p>
-                        </div>
+            <!-- Contact Information -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Street Address</label>
+                        <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">City</label>
+                        <input type="text" name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Province</label>
+                        <input type="text" name="applicant_address_province" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                        <input type="tel" name="applicant_mobile_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
             </div>
