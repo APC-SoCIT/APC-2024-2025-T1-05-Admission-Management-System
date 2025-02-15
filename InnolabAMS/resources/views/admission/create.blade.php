@@ -401,9 +401,12 @@
                             required
                         >
                             <option value="">Select Grade Level</option>
+<<<<<<< HEAD
                             <template x-for="level in gradeLevels" :key="level">
                                 <option :value="level" x-text="'Grade ' + level"></option>
                             </template>
+=======
+>>>>>>> 7fcafea (Enhance grade level selection for admission form)
                         </select>
                         <p x-show="errors.gradeLevel" x-text="errors.gradeLevel" class="mt-1 text-sm text-red-500"></p>
                     </div>
@@ -1526,12 +1529,35 @@
     // Show/hide strand selection based on program selection
     document.querySelector('select[name="apply_program"]').addEventListener('change', function() {
         const strandContainer = document.getElementById('strandContainer');
-        if (this.value === 'Senior High School') {
-            strandContainer.style.display = 'block';
-        } else {
+        const gradeLevelSelect = document.querySelector('select[name="apply_grade_level"]');
+        const program = this.value;
+
+        // Update grade level options based on selected program
+        gradeLevelSelect.innerHTML = ''; // Clear existing options
+        let gradeOptions = '';
+
+        if (program === 'Elementary') {
+            gradeOptions = generateGradeOptions(1, 6);
             strandContainer.style.display = 'none';
+        } else if (program === 'High School') {
+            gradeOptions = generateGradeOptions(7, 10);
+            strandContainer.style.display = 'none';
+        } else if (program === 'Senior High School') {
+            gradeOptions = generateGradeOptions(11, 12);
+            strandContainer.style.display = 'block';
         }
+
+        gradeLevelSelect.innerHTML = gradeOptions;
     });
+
+    // Function to generate grade options
+    function generateGradeOptions(start, end) {
+        let options = '<option value="">Select Grade Level</option>';
+        for (let i = start; i <= end; i++) {
+            options += `<option value="${i}">Grade ${i}</option>`;
+        }
+        return options;
+    }
 
     // Function to calculate age based on birthdate
     function calculateAge(birthDate) {
