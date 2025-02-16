@@ -19,11 +19,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+//Admin Panel and Online Application Portal Routes
 Route::get('/app', function () {
+    if (auth()->check() && auth()->user()->hasRole('Applicant')) {
+        return redirect('/portal');
+    }
     return view('application');
 })->middleware(['auth', 'verified'])->name('application');
 
-//Admin Panel and Online Appplication Portal Routes
+Route::get('/portal', function () {
+    if (auth()->check() && (auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Staff'))) {
+        return redirect('/app');
+    }
+    return view('portal');
+})->middleware(['auth', 'verified'])->name('portal'); //Added Route
+
+
+//Dashboard Route
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         if (auth()->user()->hasRole('Staff')) {
@@ -33,9 +46,7 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 });
 
-Route::get('/portal', function () {
-    return view('portal');
-})->middleware(['auth', 'verified'])->name('portal'); //Added Route
+
 
 //Lead_Info routes
 Route::prefix('lead_info')->name('lead_info.')->group(function () {
