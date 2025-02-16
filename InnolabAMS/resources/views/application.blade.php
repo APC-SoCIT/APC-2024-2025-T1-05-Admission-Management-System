@@ -115,7 +115,8 @@
                 </li>
                 <li>
                     <a href="{{ route('user.show') }}"
-                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                       {{ request()->routeIs('user.show') ? 'bg-gray-200' : '' }}">
                         <i class="fa-solid fa-users w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Users') }}</span>
                     </a>
