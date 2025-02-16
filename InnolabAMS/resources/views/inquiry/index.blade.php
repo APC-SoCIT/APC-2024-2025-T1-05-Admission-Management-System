@@ -1,5 +1,5 @@
 @section('title', 'Inquiry | InnolabAMS')
-@extends('dashboard') <!-- Use the dashboard layout -->
+@extends('application') <!-- Use the dashboard layout -->
 
 @section('content') <!-- Define the content section -->
 <div class="flex justify-between items-center mb-4">
