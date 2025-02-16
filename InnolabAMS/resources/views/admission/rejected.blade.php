@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('application')
 @section('title', 'Rejected Applications | InnolabAMS')
 
 @section('content')
