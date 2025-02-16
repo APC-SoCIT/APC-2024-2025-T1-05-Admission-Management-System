@@ -599,7 +599,7 @@
                     </label>
                 </div>
             </div>
-        
+
             <!-- Personal Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
@@ -624,7 +624,7 @@
                         <label class="block text-sm font-medium text-gray-700">Sex</label>
                         <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option value="">Select Sex</option>
-                            <option value="Male">Male</option>
+                            <option value="Male">Malee</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
@@ -708,6 +708,7 @@
             </div>
 
             <!-- Family Information -->
+<<<<<<< HEAD
             <div class="mb-8" x-data="{
                 isOpen: true,
                 fatherFirstName: '',
@@ -755,6 +756,25 @@
                     <svg class="w-6 h-6 transition-transform" :class="{'rotate-180': !isOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
+=======
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
+
+                <!-- Father's Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Father's Name</label>
+                        <input type="text" name="father_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Father's Occupation</label>
+                        <input type="text" name="father_occupation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Father's Contact Number</label>
+                        <input type="text" name="father_contact" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+>>>>>>> 43c1001 (<test>)
                 </div>
                 <div x-show="isOpen" x-transition>
                     <p class="text-sm text-gray-600 mb-4">Please provide information for at least one guardian (Father, Mother, or Guardian)</p>
@@ -1487,7 +1507,7 @@
         const strandContainer = document.getElementById('strandContainer');
         const gradeLevelSelect = document.querySelector('select[name="apply_grade_level"]');
         const program = this.value;
-    
+
         // Update grade level options based on selected program
         gradeLevelSelect.innerHTML = ''; // Clear existing options
         let gradeOptions = '';
@@ -1521,11 +1541,11 @@
         const birth = new Date(birthDate);
         let age = today.getFullYear() - birth.getFullYear();
         const monthDiff = today.getMonth() - birth.getMonth();
-        
+
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
             age--;
         }
-        
+
         return age;
     }
 
