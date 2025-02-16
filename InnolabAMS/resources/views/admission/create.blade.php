@@ -294,6 +294,35 @@
 
 @push('scripts')
 <script>
+    // Function to validate input and show error message
+    function validateInput(event) {
+        const input = event.target;
+        const value = input.value;
+        const isValid = /^[a-zA-Z\s]*$/.test(value);
+
+        if (!isValid) {
+            input.classList.add('border-red-500');
+            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid input';
+                input.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            input.classList.remove('border-red-500');
+            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
+                input.nextElementSibling.remove();
+            }
+        }
+    }
+
+    // Add event listeners to fields that should only accept letters
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+        if (!['applicant_tel_no', 'applicant_mobile_number', 'father_contact', 'mother_contact', 'emergency_contact_tel', 'emergency_contact_mobile', 'emergency_contact_email'].includes(input.name)) {
+            input.addEventListener('input', validateInput);
+        }
+    });
+
     // Show/hide strand selection based on program selection
     document.querySelector('select[name="apply_program"]').addEventListener('change', function() {
         const strandContainer = document.getElementById('strandContainer');
