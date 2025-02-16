@@ -323,6 +323,12 @@
         }
     });
 
+    // Show/hide strand selection based on program selection
+    document.querySelector('select[name="apply_program"]').addEventListener('change', function() {
+        const strandContainer = document.getElementById('strandContainer');
+        const gradeLevelSelect = document.querySelector('select[name="apply_grade_level"]');
+        const program = this.value;
+    
         // Update grade level options based on selected program
         gradeLevelSelect.innerHTML = ''; // Clear existing options
         let gradeOptions = '';
