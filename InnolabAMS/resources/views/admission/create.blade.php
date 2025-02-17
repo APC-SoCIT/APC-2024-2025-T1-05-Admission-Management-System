@@ -283,24 +283,35 @@
 
                 <!-- Siblings Information -->
                 <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
-                    <div id="siblings-container">
-                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
-                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">Select Grade Level</option>
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="Grade {{ $i }}">Grade {{ $i }}</option>
-                                @endfor
-                            </select>
-                            <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <div class="flex items-center mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mr-4">Siblings</label>
+                        <div class="flex items-center">
+                            <input type="checkbox"
+                                   id="only-child"
+                                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label for="only-child" class="ml-2 text-sm text-gray-600">Only Child</label>
                         </div>
                     </div>
-                    <button type="button" id="add-sibling" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                        Add Sibling
-                    </button>
+
+                    <div id="siblings-section">
+                        <div id="siblings-container">
+                            <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
+                                <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">Select Grade Level</option>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <option value="Grade {{ $i }}">Grade {{ $i }}</option>
+                                    @endfor
+                                </select>
+                                <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                        </div>
+                        <button type="button" id="add-sibling" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                            Add Sibling
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -349,6 +360,24 @@
 
 @push('scripts')
 <script>
+    // Add this at the beginning of your script section
+    document.addEventListener('DOMContentLoaded', function() {
+        const onlyChildCheckbox = document.getElementById('only-child');
+        const siblingsSection = document.getElementById('siblings-section');
+
+        onlyChildCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                siblingsSection.style.display = 'none';
+                // Clear sibling inputs when hiding
+                document.querySelectorAll('#siblings-container input, #siblings-container select').forEach(input => {
+                    input.value = '';
+                });
+            } else {
+                siblingsSection.style.display = 'block';
+            }
+        });
+    });
+
     // Function to validate input and show error message
     function validateInput(event) {
         const input = event.target;
