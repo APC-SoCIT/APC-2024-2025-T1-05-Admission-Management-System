@@ -172,7 +172,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">LRN</label>
-                        <input type="text" name="lrn" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                               name="lrn"
+                               maxlength="12"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">School Name</label>
@@ -421,6 +424,31 @@
         `;
         container.appendChild(newEntry);
         siblingCount++;
+    });
+
+    // LRN field validation
+    document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid input (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 12 digits
+        if (this.value.length > 12) {
+            this.value = this.value.slice(0, 12);
+        }
     });
 </script>
 @endpush
