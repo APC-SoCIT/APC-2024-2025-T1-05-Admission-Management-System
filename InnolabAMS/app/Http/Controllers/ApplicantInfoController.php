@@ -152,7 +152,7 @@ class ApplicantInfoController extends Controller
 
 
     }
-    
+
 
     public function new()
     {
@@ -161,7 +161,7 @@ class ApplicantInfoController extends Controller
             ->get();
         return view('admission.index', ['applicants' => $applicants]);
     }
-    
+
     public function accepted()
     {
         $applicants = ApplicantInfo::with('user')
@@ -169,7 +169,7 @@ class ApplicantInfoController extends Controller
             ->get();
         return view('admission.index', ['applicants' => $applicants]);
     }
-    
+
     public function rejected()
     {
         $applicants = ApplicantInfo::with('user')
@@ -189,7 +189,7 @@ class ApplicantInfoController extends Controller
             $applicant = ApplicantInfo::with('user')->findOrFail($id);
             return view('admission.show', compact('applicant'));
     }
-    
+
     //Personal Information Form
     public function showPersonalInfoForm()
     {
