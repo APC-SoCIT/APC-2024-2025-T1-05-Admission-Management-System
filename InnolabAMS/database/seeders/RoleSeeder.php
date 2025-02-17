@@ -41,7 +41,8 @@ class RoleSeeder extends Seeder
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password') // Change this to a secure password
+            'password' => Hash::make('password'), 
+            'role' => 'Admin'
         ]);
         $admin->assignRole($adminRole);
 
@@ -49,7 +50,8 @@ class RoleSeeder extends Seeder
         $staff = User::create([
             'name' => 'Staff',
             'email' => 'staff@example.com',
-            'password' => Hash::make('password') // Change this to a secure password
+            'password' => Hash::make('password'),
+            'role' => 'Staff'
         ]);
         $staff->assignRole($staffRole);
 
@@ -57,7 +59,8 @@ class RoleSeeder extends Seeder
         $applicant = User::create([
             'name' => 'Applicant',
             'email' => 'applicant@example.com',
-            'password' => Hash::make('password') // Change this to a secure password
+            'password' => Hash::make('password'),
+            'role' => 'Applicant'
         ]);
         $applicant->assignRole($applicantRole);
     }
