@@ -1642,7 +1642,8 @@
             input.name === 'emergency_contact_address' ||
             input.name === 'awards_honors' ||
             input.name === 'previous_program' ||
-            input.name === 'school_name') {
+            input.name === 'school_name' ||
+            input.name === 'applicant_extension') {
             return;
         }
 
