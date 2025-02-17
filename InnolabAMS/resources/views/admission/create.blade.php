@@ -307,8 +307,10 @@
         const input = event.target;
         const value = input.value;
 
-        // Skip validation for barangay and street address fields
-        if (input.name === 'applicant_barangay' || input.name === 'applicant_address_street') {
+        // Skip validation for fields that allow special characters and numbers
+        if (input.name === 'applicant_barangay' ||
+            input.name === 'applicant_address_street' ||
+            input.name === 'school_address') {
             return;
         }
 
@@ -341,7 +343,8 @@
             'emergency_contact_mobile',
             'emergency_contact_email',
             'applicant_barangay',
-            'applicant_address_street' // Add street address to excluded fields
+            'applicant_address_street',
+            'school_address' // Add school address to excluded fields
         ].includes(input.name)) {
             input.addEventListener('input', validateInput);
         }
