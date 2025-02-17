@@ -16,7 +16,7 @@ $url = config('app.url');
 URL::forceRootUrl($url);
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 
