@@ -697,8 +697,31 @@
                         </select>
                     </div>
                     <div>
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">Province</label>
                         <input type="text" name="applicant_address_province" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+=======
+                        <label class="block text-sm font-medium text-gray-700">Barangay</label>
+                        <input type="text" name="applicant_barangay" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Street Address</label>
+                        <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Background -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">LRN</label>
+                        <input type="text"
+                               name="lrn"
+                               maxlength="12"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> ca8e607 (Feat: Add LRN input validation with numeric and length constraints)
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
@@ -1615,6 +1638,7 @@
         siblingCount++;
     });
 
+<<<<<<< HEAD
     function handleSubmit() {
         // Check if at least one guardian is filled out
         const hasFather = this.fatherFirstName || this.fatherLastName;
@@ -1629,6 +1653,32 @@
         // If validation passes, submit the form
         this.$el.submit();
     }
+=======
+    // LRN field validation
+    document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid input (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 12 digits
+        if (this.value.length > 12) {
+            this.value = this.value.slice(0, 12);
+        }
+    });
+>>>>>>> ca8e607 (Feat: Add LRN input validation with numeric and length constraints)
 </script>
 @endpush
 @endsection
