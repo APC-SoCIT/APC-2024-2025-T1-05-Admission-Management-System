@@ -1,7 +1,8 @@
 @section('title', 'Scholarship | InnolabAMS')
 @extends('dashboard') <!-- Use the dashboard layout -->
 
-@section('content') <!-- Define the content section -->
+@section('content')
+<!-- Title Section -->
 <div class="flex justify-between items-center mb-4">
     <h1 class="text-2xl font-semibold mx-4 my-4">Scholarship</h1>
 
@@ -32,6 +33,12 @@
                 </button>
             </div>
         </div>
+
+        <!-- Add Applicant Button -->
+        <a href="{{ route('scholarship.create') }}"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
+        <i class="fa-solid fa-plus mr-2"></i>Add Scholar
+    </a>
     </div>
 </div>
 
@@ -58,7 +65,7 @@
                                 <th scope="col"
                                     class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Action</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +75,7 @@
                                     <td class="w-2/12 py-2 px-4 border-b text-center">{{ $applicant->name }}</td>
                                     <td class="w-2/12 py-2 px-4 border-b text-center"></td>{{ $scholarship->scholarship_type }}</td>
                                     <td class="w-3/12 py-2 px-4 border-b text-center">{{ $scholarship->discount_awarded }}</td>
-                                
+
 
                                 </tr>
                             @empty
