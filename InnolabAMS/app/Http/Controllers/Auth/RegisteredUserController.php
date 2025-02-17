@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role; // Add this import
 
 class RegisteredUserController extends Controller
 {
@@ -43,13 +44,17 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Assign the 'Applicant' role to the new user
+        $applicantRole = Role::firstOrCreate(['name' => 'Applicant']);
+        $user->assignRole($applicantRole);
+
         // Fire the Registered event
         event(new Registered($user));
 
         // Log in the user
         Auth::login($user);
 
-        // Redirect to the dashboard
-        return redirect()->route('dashboard');
+        // Redirect to the portal
+        return redirect()->route('portal');
     }
 }
