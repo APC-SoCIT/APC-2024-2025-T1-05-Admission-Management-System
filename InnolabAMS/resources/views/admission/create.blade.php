@@ -1977,7 +1977,42 @@
             this.value = this.value.slice(0, 11);
         }
     });
+<<<<<<< HEAD
 >>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
+=======
+
+    // Function to validate numeric input
+    function validateNumericInput(event) {
+        const input = event.target;
+        const value = input.value;
+        const isValid = /^[0-9]*$/.test(value);
+
+        if (!isValid) {
+            input.classList.add('border-red-500');
+            // Only add error message if it doesn't exist
+            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid input';
+                input.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            input.classList.remove('border-red-500');
+            // Remove error message if it exists
+            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
+                input.nextElementSibling.remove();
+            }
+        }
+
+        // Enforce maximum length of 11 digits
+        if (value.replace(/[^0-9]/g, '').length > 11) {
+            input.value = value.slice(0, value.length - 1);
+        }
+    }
+
+    // Add event listener for guardian's contact number
+    document.querySelector('input[name="guardian_contact_num"]').addEventListener('input', validateNumericInput);
+>>>>>>> ff81f34 (Feat: Add input validation for guardian's contact number)
 </script>
 @endpush
 @endsection
