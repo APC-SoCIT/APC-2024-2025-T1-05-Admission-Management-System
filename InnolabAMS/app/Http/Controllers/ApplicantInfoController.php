@@ -152,6 +152,10 @@ class ApplicantInfoController extends Controller
                 ->with('error', 'Failed to create application: ' . $e->getMessage());
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b739594 (Feat: Enhance sibling information input and form validation in admission form)
 
     public function new()
     {
@@ -183,12 +187,15 @@ class ApplicantInfoController extends Controller
         return view('admission.create');
     }
 
+<<<<<<< HEAD
     public function show($id)
     {
         $applicant = ApplicantInfo::with('user')->findOrFail($id);
         return view('admission.show', compact('applicant'));
     }
 
+=======
+>>>>>>> b739594 (Feat: Enhance sibling information input and form validation in admission form)
     //Personal Information Form
     public function showPersonalInfoForm()
     {

@@ -797,6 +797,7 @@
                                 <p x-show="errors.fatherFirstName" x-text="errors.fatherFirstName" class="mt-1 text-sm text-red-500"></p>
                             </div>
 
+<<<<<<< HEAD
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">
                                     Middle Name
@@ -1000,6 +1001,23 @@
                                 :class="{'border-red-500': errors.guardianTel}"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.guardianTel" x-text="errors.guardianTel" class="mt-1 text-sm text-red-500"></p>
+=======
+                <!-- Siblings Information -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
+                    <div id="siblings-container">
+                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
+                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="date" name="siblings[0][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="number" name="siblings[0][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="">Select Grade Level</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="Grade {{ $i }}">Grade {{ $i }}</option>
+                                @endfor
+                            </select>
+                            <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> b739594 (Feat: Enhance sibling information input and form validation in admission form)
                         </div>
                     </div>
                 </div>
@@ -1477,6 +1495,12 @@
     function validateInput(event) {
         const input = event.target;
         const value = input.value;
+
+        // Skip validation for barangay field
+        if (input.name === 'applicant_barangay') {
+            return;
+        }
+
         const isValid = /^[a-zA-Z\s]*$/.test(value);
 
         if (!isValid) {
@@ -1497,7 +1521,16 @@
 
     // Add event listeners to fields that should only accept letters
     document.querySelectorAll('input[type="text"]').forEach(input => {
-        if (!['applicant_tel_no', 'applicant_mobile_number', 'father_contact', 'mother_contact', 'emergency_contact_tel', 'emergency_contact_mobile', 'emergency_contact_email'].includes(input.name)) {
+        if (![
+            'applicant_tel_no',
+            'applicant_mobile_number',
+            'father_contact',
+            'mother_contact',
+            'emergency_contact_tel',
+            'emergency_contact_mobile',
+            'emergency_contact_email',
+            'applicant_barangay' // Add barangay to excluded fields
+        ].includes(input.name)) {
             input.addEventListener('input', validateInput);
         }
     });
@@ -1571,7 +1604,10 @@
             <input type="text" name="siblings[${siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <input type="date" name="siblings[${siblingCount}][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <input type="number" name="siblings[${siblingCount}][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="text" name="siblings[${siblingCount}][grade_level]" placeholder="Grade Level" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <select name="siblings[${siblingCount}][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <option value="">Select Grade Level</option>
+                ${generateGradeOptions(1, 12)}
+            </select>
             <input type="text" name="siblings[${siblingCount}][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
         `;
         container.appendChild(newEntry);
