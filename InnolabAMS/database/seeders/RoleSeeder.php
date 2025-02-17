@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RoleSeeder extends Seeder
 {
@@ -36,20 +37,37 @@ class RoleSeeder extends Seeder
             'view scholarships'
         ]);
 
+        // Create default admin user if it does not exist
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('password') // Change this to a secure password
+            ]
+        );
+
         // Assign roles to users
-        $admin = User::find(1); // Assuming the first user is the admin
         if ($admin && !$admin->hasRole('Admin')) {
             $admin->assignRole('Admin');
+        }
+
+        // Create default applicant user if it does not exist
+        $applicant = User::firstOrCreate(
+            ['email' => 'applicant@example.com'],
+            [
+                'name' => 'Applicant',
+                'password' => Hash::make('password') // Change this to a secure password
+            ]
+        );
+
+        // Assign roles to users
+        if ($applicant && !$applicant->hasRole('Applicant')) {
+            $applicant->assignRole('Applicant');
         }
 
         $staff = User::find(2); // Assuming the second user is a staff member
         if ($staff && !$staff->hasRole('Staff')) {
             $staff->assignRole('Staff');
-        }
-
-        $applicant = User::find(3); // Assuming the third user is an applicant
-        if ($applicant && !$applicant->hasRole('Applicant')) {
-            $applicant->assignRole('Applicant');
         }
     }
 }

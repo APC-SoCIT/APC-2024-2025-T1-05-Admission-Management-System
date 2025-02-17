@@ -44,9 +44,16 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Assign the 'Applicant' role to the new user
-        $applicantRole = Role::firstOrCreate(['name' => 'Applicant']);
-        $user->assignRole($applicantRole);
+        // Check if this is the first user being created
+        if (User::count() == 1) {
+            // Assign the 'Admin' role to the first user
+            $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+            $user->assignRole($adminRole);
+        } else {
+            // Assign the 'Applicant' role to subsequent users
+            $applicantRole = Role::firstOrCreate(['name' => 'Applicant']);
+            $user->assignRole($applicantRole);
+        }
 
         // Fire the Registered event
         event(new Registered($user));
