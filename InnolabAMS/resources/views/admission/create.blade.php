@@ -316,7 +316,8 @@
             input.name === 'school_address' ||
             input.name === 'emergency_contact_address' ||
             input.name === 'awards_honors' ||
-            input.name === 'previous_program') {
+            input.name === 'previous_program' ||
+            input.name === 'school_name') {
             return;
         }
 
@@ -353,7 +354,8 @@
             'school_address',
             'emergency_contact_address',
             'awards_honors',
-            'previous_program' // Add previous program to excluded fields
+            'previous_program',
+            'school_name' // Add school name to excluded fields
         ].includes(input.name)) {
             input.addEventListener('input', validateInput);
         }
