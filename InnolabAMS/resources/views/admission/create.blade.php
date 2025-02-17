@@ -310,7 +310,8 @@
         // Skip validation for fields that allow special characters and numbers
         if (input.name === 'applicant_barangay' ||
             input.name === 'applicant_address_street' ||
-            input.name === 'school_address') {
+            input.name === 'school_address' ||
+            input.name === 'emergency_contact_address') {
             return;
         }
 
@@ -344,7 +345,8 @@
             'emergency_contact_email',
             'applicant_barangay',
             'applicant_address_street',
-            'school_address' // Add school address to excluded fields
+            'school_address',
+            'emergency_contact_address' // Add emergency contact address to excluded fields
         ].includes(input.name)) {
             input.addEventListener('input', validateInput);
         }
