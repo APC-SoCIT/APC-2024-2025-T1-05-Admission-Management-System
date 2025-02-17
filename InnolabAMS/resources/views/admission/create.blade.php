@@ -833,6 +833,7 @@
                 <div x-show="isOpen" x-transition>
                     <p class="text-sm text-gray-600 mb-4">Please provide information for at least one guardian (Father, Mother, or Guardian)</p>
 
+<<<<<<< HEAD
                     <!-- Father's Information -->
                     <div class="mb-6">
                         <h3 class="text-lg font-medium mb-4">Father</h3>
@@ -850,6 +851,26 @@
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <p x-show="errors.fatherFirstName" x-text="errors.fatherFirstName" class="mt-1 text-sm text-red-500"></p>
                             </div>
+=======
+                <!-- Mother's Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mother's Name</label>
+                        <input type="text" name="mother_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mother's Occupation</label>
+                        <input type="text" name="mother_occupation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Mother's Contact Number</label>
+                        <input type="text"
+                               name="mother_contact"
+                               maxlength="11"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+>>>>>>> 3ba92e1 (Feat: Add input validation for mother's contact number in admission form)
 
 <<<<<<< HEAD
                             <div>
@@ -1808,7 +1829,35 @@
             this.value = this.value.slice(0, 11);
         }
     });
+<<<<<<< HEAD
 >>>>>>> 7ff8908 (Feat: Add input validation for father's contact number in admission form)
+=======
+
+    // Mother's contact number validation
+    document.querySelector('input[name="mother_contact"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+>>>>>>> 3ba92e1 (Feat: Add input validation for mother's contact number in admission form)
 </script>
 @endpush
 @endsection
