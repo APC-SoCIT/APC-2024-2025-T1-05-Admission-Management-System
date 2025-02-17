@@ -5,7 +5,7 @@
 <div class="container mx-auto px-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('admission.index') }}" 
+        <a href="{{ route('admission.index') }}"
            class="inline-flex items-center px-4 py-2 bg-gray-500 text-white px-4 py-1 rounded-lg hover:bg-gray-700">
             <i class="fas fa-arrow-left mr-2"></i>Back
         </a>
@@ -148,6 +148,14 @@
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Contact No:</td>
                     <td class="px-4 py-2" colspan="3">{{ $applicant->mother_contact }}</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Guardian's Name:</td>
+                    <td class="px-4 py-2" colspan="3">{{ $applicant->guardian_full_name }}</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Guardian's Contact No:</td>
+                    <td class="px-4 py-2" colspan="3">{{ $applicant->guardian_contact_num }}</td>
                 </tr>
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Siblings:</td>

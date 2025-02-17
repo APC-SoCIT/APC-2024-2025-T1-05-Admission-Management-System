@@ -97,6 +97,10 @@ class ApplicantInfoController extends Controller
                 'mother_name' => 'nullable|string|max:255',
                 'mother_occupation' => 'nullable|string|max:255',
                 'mother_contact' => 'nullable|string|max:255',
+                'guardian_given_name' => 'nullable|string|max:255',
+                'guardian_middle_name' => 'nullable|string|max:255',
+                'guardian_surname' => 'nullable|string|max:255',
+                'guardian_contact_num' => 'nullable|string|max:255',
                 'siblings' => 'nullable|array',
                 'siblings.*.full_name' => 'nullable|string|max:255',
                 'siblings.*.date_of_birth' => 'nullable|date',
@@ -155,8 +159,11 @@ class ApplicantInfoController extends Controller
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 >>>>>>> b739594 (Feat: Enhance sibling information input and form validation in admission form)
 
+=======
+>>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
     public function new()
     {
         $applicants = ApplicantInfo::with('user')
@@ -185,6 +192,15 @@ class ApplicantInfoController extends Controller
     public function create()
     {
         return view('admission.create');
+<<<<<<< HEAD
+=======
+    }
+
+    public function show($id)
+    {
+        $applicant = ApplicantInfo::with('user')->findOrFail($id);
+        return view('admission.show', compact('applicant'));
+>>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
     }
 
 <<<<<<< HEAD
@@ -245,6 +261,10 @@ class ApplicantInfoController extends Controller
                 'mother_name' => 'nullable|string|max:255',
                 'mother_occupation' => 'nullable|string|max:255',
                 'mother_contact' => 'nullable|string|max:255',
+                'guardian_given_name' => 'nullable|string|max:255',
+                'guardian_middle_name' => 'nullable|string|max:255',
+                'guardian_surname' => 'nullable|string|max:255',
+                'guardian_contact_num' => 'nullable|string|max:255',
                 'siblings' => 'nullable|array',
                 'siblings.*.full_name' => 'nullable|string|max:255',
                 'siblings.*.date_of_birth' => 'nullable|date',
@@ -304,6 +324,7 @@ class ApplicantInfoController extends Controller
     {
         return view('scholarship.create');
     }
+<<<<<<< HEAD
 
     // Add this method to the existing controller
     public function lookup($studentId)
@@ -328,4 +349,6 @@ class ApplicantInfoController extends Controller
             ], 404);
         }
     }
+=======
+>>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
 }

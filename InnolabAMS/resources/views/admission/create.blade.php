@@ -873,6 +873,7 @@
 >>>>>>> 3ba92e1 (Feat: Add input validation for mother's contact number in admission form)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">
                                     Middle Name
@@ -1077,6 +1078,31 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <p x-show="errors.guardianTel" x-text="errors.guardianTel" class="mt-1 text-sm text-red-500"></p>
 =======
+=======
+                <!-- Guardian's Information -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Guardian's First Name</label>
+                        <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Guardian's Middle Name</label>
+                        <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Guardian's Last Name</label>
+                        <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Guardian's Contact Number</label>
+                        <input type="text"
+                               name="guardian_contact_num"
+                               maxlength="11"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+
+>>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
                 <!-- Siblings Information -->
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
@@ -1312,6 +1338,7 @@
                     </div>
 
                     <div class="md:col-span-2">
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">
                             Mobile Number <span class="text-red-500">*</span>
                         </label>
@@ -1325,6 +1352,24 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required>
                         <p x-show="errors.emergencyContact" x-text="errors.emergencyContact" class="mt-1 text-sm text-red-500"></p>
+=======
+                        <label class="block text-sm font-medium text-gray-700">Complete Address</label>
+                        <input type="text" name="emergency_contact_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                        <input type="text"
+                               name="emergency_contact_tel"
+                               maxlength="11"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mobile No.</label>
+                        <input type="text"
+                               name="emergency_contact_mobile"
+                               maxlength="11"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
                     </div>
 
                     <div class="md:col-span-2">
@@ -1857,7 +1902,60 @@
             this.value = this.value.slice(0, 11);
         }
     });
+<<<<<<< HEAD
 >>>>>>> 3ba92e1 (Feat: Add input validation for mother's contact number in admission form)
+=======
+
+    // Emergency contact telephone validation
+    document.querySelector('input[name="emergency_contact_tel"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid telephone number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Emergency contact mobile validation
+    document.querySelector('input[name="emergency_contact_mobile"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid mobile number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+>>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
 </script>
 @endpush
 @endsection
