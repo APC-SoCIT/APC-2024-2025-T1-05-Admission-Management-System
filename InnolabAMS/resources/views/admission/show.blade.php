@@ -151,10 +151,10 @@
                 </tr>
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Guardian's Name:</td>
-                    <td class="px-4 py-2" colspan="3">{{ $applicant->guardian_full_name }}</td>
+                    <td class="px-4 py-2" colspan="3">{{ implode(', ', array_filter([$applicant->guardian_given_name, $applicant->guardian_middle_name, $applicant->guardian_surname])) }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Guardian's Contact No:</td>
+                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Contact No:</td>
                     <td class="px-4 py-2" colspan="3">{{ $applicant->guardian_contact_num }}</td>
                 </tr>
                 <tr class="border-b">
