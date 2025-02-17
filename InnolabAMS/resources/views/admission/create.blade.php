@@ -13,7 +13,7 @@
     <div class="bg-white rounded-lg shadow-lg p-6">
         <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            
+
             <!-- Program Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Informationn</h2>
@@ -64,7 +64,7 @@
                     </label>
                 </div>
             </div>
-        
+
             <!-- Personal Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
@@ -204,7 +204,7 @@
             <!-- Family Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
-                
+
                 <!-- Father's Information -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
@@ -328,7 +328,7 @@
         const strandContainer = document.getElementById('strandContainer');
         const gradeLevelSelect = document.querySelector('select[name="apply_grade_level"]');
         const program = this.value;
-    
+
         // Update grade level options based on selected program
         gradeLevelSelect.innerHTML = ''; // Clear existing options
         let gradeOptions = '';
@@ -362,11 +362,11 @@
         const birth = new Date(birthDate);
         let age = today.getFullYear() - birth.getFullYear();
         const monthDiff = today.getMonth() - birth.getMonth();
-        
+
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
             age--;
         }
-        
+
         return age;
     }
 
