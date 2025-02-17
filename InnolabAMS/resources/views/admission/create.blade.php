@@ -191,7 +191,10 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Year of Graduation</label>
-                        <input type="text" name="year_of_graduation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text"
+                               name="year_of_graduation"
+                               maxlength="4"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Awards/Honors</label>
@@ -455,6 +458,31 @@
         // Limit to 12 digits
         if (this.value.length > 12) {
             this.value = this.value.slice(0, 12);
+        }
+    });
+
+    // Year of Graduation field validation
+    document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid year (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 4 digits
+        if (this.value.length > 4) {
+            this.value = this.value.slice(0, 4);
         }
     });
 </script>
