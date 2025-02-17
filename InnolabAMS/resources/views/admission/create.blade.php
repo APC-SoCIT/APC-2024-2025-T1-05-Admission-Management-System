@@ -1523,7 +1523,8 @@
         if (input.name === 'applicant_barangay' ||
             input.name === 'applicant_address_street' ||
             input.name === 'school_address' ||
-            input.name === 'emergency_contact_address') {
+            input.name === 'emergency_contact_address' ||
+            input.name === 'awards_honors') {
             return;
         }
 
@@ -1558,7 +1559,8 @@
             'applicant_barangay',
             'applicant_address_street',
             'school_address',
-            'emergency_contact_address' // Add emergency contact address to excluded fields
+            'emergency_contact_address',
+            'awards_honors' // Add awards/honors to excluded fields
         ].includes(input.name)) {
             input.addEventListener('input', validateInput);
         }
