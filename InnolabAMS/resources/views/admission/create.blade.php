@@ -249,8 +249,8 @@
                     <div id="siblings-container">
                         <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
                             <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="date" name="siblings[0][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="number" name="siblings[0][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <option value="">Select Grade Level</option>
                                 @for ($i = 1; $i <= 12; $i++)
@@ -424,8 +424,8 @@
         newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4';
         newEntry.innerHTML = `
             <input type="text" name="siblings[${siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="date" name="siblings[${siblingCount}][date_of_birth]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <input type="number" name="siblings[${siblingCount}][age]" placeholder="Age" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <input type="date" name="siblings[${siblingCount}][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <input type="number" name="siblings[${siblingCount}][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <select name="siblings[${siblingCount}][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 <option value="">Select Grade Level</option>
                 ${generateGradeOptions(1, 12)}
@@ -435,6 +435,35 @@
         container.appendChild(newEntry);
         siblingCount++;
     });
+
+    // Function to calculate sibling age
+    function calculateSiblingAge(dateInput) {
+        const ageInput = dateInput.parentNode.querySelector('input[name$="[age]"]');
+        const birthDate = dateInput.value;
+
+        if (birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+
+            ageInput.value = age;
+        } else {
+            ageInput.value = '';
+        }
+    }
+
+    // Add event listener to initial sibling's date of birth field
+    document.querySelector('input[name="siblings[0][date_of_birth]"]').addEventListener('change', function() {
+        calculateSiblingAge(this);
+    });
+
+    // Make initial sibling's age field readonly
+    document.querySelector('input[name="siblings[0][age]"]').readOnly = true;
 
     // LRN field validation
     document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
