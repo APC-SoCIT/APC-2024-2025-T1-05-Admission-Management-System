@@ -237,12 +237,17 @@
                 <!-- Mother's Information -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's Name</label>
-                        <input type="text" name="mother_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Mother's First Name</label>
+                        <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's Occupation</label>
-                        <input type="text" name="mother_occupation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Mother's Middle Name</label>
+                        <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mother's Last Name</label>
+                        <input type="text" name="mother_last_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Mother's Contact Number</label>

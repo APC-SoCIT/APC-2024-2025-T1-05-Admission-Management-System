@@ -54,8 +54,9 @@ return new class extends Migration
             $table->string('father_middle_name')->nullable();
             $table->string('father_surname')->nullable();
             $table->string('father_contact')->nullable();
-            $table->string('mother_name')->nullable();
-            $table->string('mother_occupation')->nullable();
+            $table->string('mother_given_name')->nullable();
+            $table->string('mother_middle_name')->nullable();
+            $table->string('mother_surname')->nullable();
             $table->string('mother_contact')->nullable();
             $table->string('guardian_given_name')->nullable();
             $table->string('guardian_middle_name')->nullable();
