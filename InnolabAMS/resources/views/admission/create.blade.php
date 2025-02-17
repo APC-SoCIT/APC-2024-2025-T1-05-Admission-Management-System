@@ -354,6 +354,16 @@
         const input = event.target;
         const value = input.value;
 
+        // Skip validation for sibling fields
+        if (input.name.startsWith('siblings[')) {
+            // Clear any existing error messages for sibling fields
+            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
+                input.nextElementSibling.remove();
+            }
+            input.classList.remove('border-red-500');
+            return;
+        }
+
         // Skip validation for fields that allow special characters and numbers
         if (input.name === 'applicant_barangay' ||
             input.name === 'applicant_address_street' ||
@@ -369,6 +379,7 @@
 
         if (!isValid) {
             input.classList.add('border-red-500');
+            // Only add error message if it doesn't exist
             if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
                 const errorMessage = document.createElement('span');
                 errorMessage.className = 'error-message text-red-500 text-sm';
@@ -377,6 +388,7 @@
             }
         } else {
             input.classList.remove('border-red-500');
+            // Remove error message if it exists
             if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
                 input.nextElementSibling.remove();
             }
@@ -385,7 +397,8 @@
 
     // Add event listeners to fields that should only accept letters
     document.querySelectorAll('input[type="text"]').forEach(input => {
-        if (![
+        // Skip validation for sibling fields and other excluded fields
+        if (!input.name.startsWith('siblings[') && ![
             'applicant_tel_no',
             'applicant_mobile_number',
             'father_contact',
@@ -399,7 +412,7 @@
             'emergency_contact_address',
             'awards_honors',
             'previous_program',
-            'school_name' // Add school name to excluded fields
+            'school_name'
         ].includes(input.name)) {
             input.addEventListener('input', validateInput);
         }
