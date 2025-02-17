@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
 
-            // Program Information  
+            // Program Information
             $table->enum('apply_program', ['Kindergarten', 'Elementary', 'High School', 'Senior High School']);
             $table->enum('apply_grade_level', ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']);
             $table->enum('apply_strand', ['STEM', 'ABM', 'TECHVOC', 'HUMSS', 'GAS'])->nullable();
@@ -56,6 +56,10 @@ return new class extends Migration
             $table->string('mother_name')->nullable();
             $table->string('mother_occupation')->nullable();
             $table->string('mother_contact')->nullable();
+            $table->string('guardian_given_name')->nullable();
+            $table->string('guardian_middle_name')->nullable();
+            $table->string('guardian_surname')->nullable();
+            $table->string('guardian_contact_num')->nullable();
             $table->json('siblings')->nullable(); // Will store array of sibling info
 
             // Emergency Contact
@@ -73,7 +77,7 @@ return new class extends Migration
             $table->string('competitions', 255)->nullable();
             $table->enum('referral_source', ['Social Media', 'Alumni', 'Online Ad', 'Website', 'School Fair', 'Other'])->nullable();
             $table->enum('status', ['new', 'accepted', 'rejected'])->default('new');
-            
+
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

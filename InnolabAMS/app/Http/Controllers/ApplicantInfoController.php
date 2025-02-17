@@ -95,6 +95,10 @@ class ApplicantInfoController extends Controller
                 'mother_name' => 'nullable|string|max:255',
                 'mother_occupation' => 'nullable|string|max:255',
                 'mother_contact' => 'nullable|string|max:255',
+                'guardian_given_name' => 'nullable|string|max:255',
+                'guardian_middle_name' => 'nullable|string|max:255',
+                'guardian_surname' => 'nullable|string|max:255',
+                'guardian_contact_num' => 'nullable|string|max:255',
                 'siblings' => 'nullable|array',
                 'siblings.*.full_name' => 'nullable|string|max:255',
                 'siblings.*.date_of_birth' => 'nullable|date',
@@ -149,10 +153,7 @@ class ApplicantInfoController extends Controller
                 ->withInput()
                 ->with('error', 'Failed to create application: ' . $e->getMessage());
         }
-
-
     }
-
 
     public function new()
     {
@@ -178,16 +179,16 @@ class ApplicantInfoController extends Controller
         return view('admission.index', ['applicants' => $applicants]);
     }
 
-            // Add these methods to your existing ApplicantInfoController class
-        public function create()
-        {
-            return view('admission.create');
-        }
+    // Add these methods to your existing ApplicantInfoController class
+    public function create()
+    {
+        return view('admission.create');
+    }
 
-        public function show($id)
-        {
-            $applicant = ApplicantInfo::with('user')->findOrFail($id);
-            return view('admission.show', compact('applicant'));
+    public function show($id)
+    {
+        $applicant = ApplicantInfo::with('user')->findOrFail($id);
+        return view('admission.show', compact('applicant'));
     }
 
     //Personal Information Form
@@ -239,6 +240,10 @@ class ApplicantInfoController extends Controller
                 'mother_name' => 'nullable|string|max:255',
                 'mother_occupation' => 'nullable|string|max:255',
                 'mother_contact' => 'nullable|string|max:255',
+                'guardian_given_name' => 'nullable|string|max:255',
+                'guardian_middle_name' => 'nullable|string|max:255',
+                'guardian_surname' => 'nullable|string|max:255',
+                'guardian_contact_num' => 'nullable|string|max:255',
                 'siblings' => 'nullable|array',
                 'siblings.*.full_name' => 'nullable|string|max:255',
                 'siblings.*.date_of_birth' => 'nullable|date',
@@ -293,12 +298,10 @@ class ApplicantInfoController extends Controller
                 ->withInput()
                 ->with('error', 'Failed to create application: ' . $e->getMessage());
         }
+    }
 
-
-}
-
-public function showScholarshipForm()
-{
-    return view('scholarship.create');
-}
+    public function showScholarshipForm()
+    {
+        return view('scholarship.create');
+    }
 }
