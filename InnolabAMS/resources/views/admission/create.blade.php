@@ -304,8 +304,8 @@
         const input = event.target;
         const value = input.value;
 
-        // Skip validation for barangay field
-        if (input.name === 'applicant_barangay') {
+        // Skip validation for barangay and street address fields
+        if (input.name === 'applicant_barangay' || input.name === 'applicant_address_street') {
             return;
         }
 
@@ -337,7 +337,8 @@
             'emergency_contact_tel',
             'emergency_contact_mobile',
             'emergency_contact_email',
-            'applicant_barangay' // Add barangay to excluded fields
+            'applicant_barangay',
+            'applicant_address_street' // Add street address to excluded fields
         ].includes(input.name)) {
             input.addEventListener('input', validateInput);
         }
