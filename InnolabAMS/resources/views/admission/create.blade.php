@@ -199,6 +199,7 @@
             @csrf
 
             <!-- Program Information -->
+<<<<<<< HEAD
             <div class="mb-8" x-data="{
                 isOpen: true,
                 gradeLevel: '',
@@ -381,6 +382,14 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
+=======
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Informationn</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Program</label>
+                        <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+>>>>>>> 8b624a3 (<<test3>>)
                             <option value="">Select Program</option>
                             <option value="Elementary">Elementary</option>
                             <option value="Junior High School">Junior High School</option>
