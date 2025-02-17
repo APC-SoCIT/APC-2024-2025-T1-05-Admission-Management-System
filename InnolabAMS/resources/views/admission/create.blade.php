@@ -1994,7 +1994,7 @@
             if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
                 const errorMessage = document.createElement('span');
                 errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid input';
+                errorMessage.textContent = 'Please enter numbers only';
                 input.parentNode.appendChild(errorMessage);
             }
         } else {
@@ -2011,9 +2011,25 @@
         }
     }
 
+<<<<<<< HEAD
     // Add event listener for guardian's contact number
     document.querySelector('input[name="guardian_contact_num"]').addEventListener('input', validateNumericInput);
 >>>>>>> ff81f34 (Feat: Add input validation for guardian's contact number)
+=======
+    // Add event listeners for contact number fields
+    const numericInputFields = [
+        'guardian_contact_num',
+        'emergency_contact_tel',
+        'emergency_contact_mobile'
+    ];
+
+    numericInputFields.forEach(fieldName => {
+        const input = document.querySelector(`input[name="${fieldName}"]`);
+        if (input) {
+            input.addEventListener('input', validateNumericInput);
+        }
+    });
+>>>>>>> 1cf8ba4 (Feat: Enhance numeric input validation for multiple contact fields)
 </script>
 @endpush
 @endsection
