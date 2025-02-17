@@ -50,8 +50,9 @@ return new class extends Migration
             $table->decimal('gwa', 4, 2)->nullable();
 
             // Family Information
-            $table->string('father_name')->nullable();
-            $table->string('father_occupation')->nullable();
+            $table->string('father_given_name')->nullable();
+            $table->string('father_middle_name')->nullable();
+            $table->string('father_surname')->nullable();
             $table->string('father_contact')->nullable();
             $table->string('mother_name')->nullable();
             $table->string('mother_occupation')->nullable();
