@@ -131,9 +131,7 @@
             <table class="w-full">
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Father's Name:</td>
-                    <td class="w-1/3 px-4 py-2">{{ $applicant->father_name }}</td>
-                    <td class="w-1/6 px-4 py-2 text-gray-600 border-x">Occupation:</td>
-                    <td class="px-4 py-2">{{ $applicant->father_occupation }}</td>
+                    <td class="px-4 py-2" colspan="3">{{ implode(', ', array_filter([$applicant->father_given_name, $applicant->father_middle_name, $applicant->father_surname])) }}</td>
                 </tr>
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Contact No:</td>

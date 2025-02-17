@@ -89,8 +89,9 @@ class ApplicantInfoController extends Controller
                 'gwa' => 'nullable|numeric|between:0,100',
 
                 // Family Information
-                'father_name' => 'nullable|string|max:255',
-                'father_occupation' => 'nullable|string|max:255',
+                'father_given_name' => 'nullable|string|max:255',
+                'father_middle_name' => 'nullable|string|max:255',
+                'father_surname' => 'nullable|string|max:255',
                 'father_contact' => 'nullable|string|max:255',
                 'mother_name' => 'nullable|string|max:255',
                 'mother_occupation' => 'nullable|string|max:255',
@@ -234,8 +235,9 @@ class ApplicantInfoController extends Controller
                 'gwa' => 'nullable|numeric|between:0,100',
 
                 // Family Information
-                'father_name' => 'nullable|string|max:255',
-                'father_occupation' => 'nullable|string|max:255',
+                'father_given_name' => 'nullable|string|max:255',
+                'father_middle_name' => 'nullable|string|max:255',
+                'father_surname' => 'nullable|string|max:255',
                 'father_contact' => 'nullable|string|max:255',
                 'mother_name' => 'nullable|string|max:255',
                 'mother_occupation' => 'nullable|string|max:255',
