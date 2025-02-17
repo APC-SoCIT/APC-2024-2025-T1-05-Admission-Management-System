@@ -372,7 +372,8 @@
             input.name === 'awards_honors' ||
             input.name === 'previous_program' ||
             input.name === 'school_name' ||
-            input.name === 'applicant_extension') {
+            input.name === 'applicant_extension' ||
+            input.name.includes('school_attended')) {
             return;
         }
 
