@@ -12,19 +12,25 @@
     </div>
 
     <!-- Application Info Header -->
-    <div class="grid grid-cols-3 gap-8 mb-6">
+    <div class="flex justify-between items-center mb-6">
         <div>
-            <span class="text-gray-600">Application ID:</span>
-            <span>{{ $applicant->id }}</span>
+            <span class="text-gray-600">Application ID: {{ $applicant->id }}</span>
+            <span class="text-gray-600 ml-6">Date Submitted: {{ $applicant->created_at->format('F d, Y') }}</span>
         </div>
-        <div>
-            <span class="text-gray-600">Date Submitted:</span>
-            <span>{{ $applicant->created_at->format('F d, Y') }}</span>
-        </div>
-        <div class="flex justify-end space-x-4">
-            <button class="bg-gray-500 text-white px-4 py-1 rounded">Accept (0)</button>
-            <button class="bg-gray-500 text-white px-4 py-1 rounded">Reject (0)</button>
-            <button class="bg-gray-500 text-white px-4 py-1 rounded">Pending (0)</button>
+        <div class="flex space-x-4">
+            <form method="POST" action="{{ route('admission.update-status', $applicant->id) }}" class="flex space-x-3">
+                @csrf
+                @method('PATCH')
+                <button type="submit" name="status" value="accepted"
+                    style="background-color: #4CAF50;"
+                    class="inline-flex items-center px-4 py-2 text-white font-bold rounded-lg hover:opacity-90">
+                    Accept
+                </button>
+                <button type="submit" name="status" value="rejected"
+                    class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg">
+                    Reject
+                </button>
+            </form>
         </div>
     </div>
 

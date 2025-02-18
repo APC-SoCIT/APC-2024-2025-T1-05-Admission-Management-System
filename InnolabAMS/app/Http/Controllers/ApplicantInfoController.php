@@ -12,7 +12,8 @@ class ApplicantInfoController extends Controller
     // Index method to list applicants
     public function index()
     {
-        $query = ApplicantInfo::with('user')
+        $applicants = ApplicantInfo::where('status', 'new')
+            ->with('user')
             ->select(
                 'id',
                 'user_id',
@@ -24,29 +25,7 @@ class ApplicantInfoController extends Controller
                 'apply_program',
                 'applicant_mobile_number',
                 'status'
-            );
-
-        // Handle sorting
-        $sortField = request('sort', 'id');
-        $sortDirection = request('direction', 'desc');
-        $query->orderBy($sortField, $sortDirection);
-
-        // Handle search
-        if ($search = request('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('applicant_surname', 'like', "%{$search}%")
-                    ->orWhere('applicant_given_name', 'like', "%{$search}%")
-                    ->orWhere('apply_program', 'like', "%{$search}%")
-                    ->orWhere('applicant_mobile_number', 'like', "%{$search}%");
-            });
-        }
-
-        $applicants = $query->get();
-
-        // Handle JSON response
-        if (request()->wantsJson()) {
-            return response()->json($applicants);
-        }
+            )->get();
 
         return view('admission.index', compact('applicants'));
     }
@@ -176,18 +155,42 @@ class ApplicantInfoController extends Controller
 
     public function accepted()
     {
-        $applicants = ApplicantInfo::with('user')
-            ->where('status', 'accepted')
-            ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        $applicants = ApplicantInfo::where('status', 'accepted')
+            ->with('user')
+            ->select(
+                'id',
+                'user_id',
+                'applicant_surname',
+                'applicant_given_name',
+                'applicant_middle_name',
+                'applicant_extension',
+                'gender',
+                'apply_program',
+                'applicant_mobile_number',
+                'status'
+            )->get();
+
+        return view('admission.index', compact('applicants'));
     }
 
     public function rejected()
     {
-        $applicants = ApplicantInfo::with('user')
-            ->where('status', 'rejected')
-            ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        $applicants = ApplicantInfo::where('status', 'rejected')
+            ->with('user')
+            ->select(
+                'id',
+                'user_id',
+                'applicant_surname',
+                'applicant_given_name',
+                'applicant_middle_name',
+                'applicant_extension',
+                'gender',
+                'apply_program',
+                'applicant_mobile_number',
+                'status'
+            )->get();
+
+        return view('admission.index', compact('applicants'));
     }
 
     // Add these methods to your existing ApplicantInfoController class
@@ -328,6 +331,7 @@ class ApplicantInfoController extends Controller
         return view('scholarship.create');
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     // Add this method to the existing controller
     public function lookup($studentId)
@@ -354,4 +358,32 @@ class ApplicantInfoController extends Controller
     }
 =======
 >>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
+=======
+
+    // Add this method to your existing ApplicantInfoController class
+    public function updateStatus(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'status' => ['required', 'string', 'in:accepted,rejected'],
+        ]);
+
+        $applicant = ApplicantInfo::findOrFail($id);
+        $applicant->update([
+            'status' => $validatedData['status'],
+            'processed_at' => now(),
+            'processed_by' => auth()->id()
+        ]);
+
+        $statusMessage = ucfirst($validatedData['status']);
+
+        // Redirect based on status
+        if ($validatedData['status'] === 'accepted') {
+            return redirect()->route('admission.accepted')
+                ->with('success', "Application has been {$statusMessage}");
+        } else {
+            return redirect()->route('admission.rejected')
+                ->with('success', "Application has been {$statusMessage}");
+        }
+    }
+>>>>>>> 00d8539 (Feat: Add status update functionality for applicant processing)
 }
