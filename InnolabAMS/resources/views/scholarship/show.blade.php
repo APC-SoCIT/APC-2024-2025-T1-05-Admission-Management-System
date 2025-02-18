@@ -33,12 +33,6 @@
                 </button>
             </div>
         </div>
-
-        <!-- Add Applicant Button -->
-        <a href="{{ route('scholarship.create') }}"
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
-        <i class="fa-solid fa-plus mr-2"></i>Add Scholar
-    </a>
     </div>
 </div>
 
