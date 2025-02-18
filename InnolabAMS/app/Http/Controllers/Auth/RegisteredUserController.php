@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role; // Add this import
+use App\Mail\UserWelcomeMail; // Add this import
+use Illuminate\Support\Facades\Mail; // Add this import
 
 class RegisteredUserController extends Controller
 {
@@ -57,6 +59,9 @@ class RegisteredUserController extends Controller
 
         // Fire the Registered event
         event(new Registered($user));
+
+        // Send the user a welcome email    
+        Mail::to($user->email)->send(new UserWelcomeMail($user));
 
         // Log in the user
         Auth::login($user);
