@@ -23,12 +23,12 @@
                 @method('PATCH')
                 <button type="submit" name="status" value="accepted"
                     style="background-color: #4CAF50;"
-                    class="inline-flex items-center px-6 py-2 text-white font-bold rounded-lg hover:opacity-90">
+                    class="inline-flex items-center px-6 py-2 bg-[#4CAF50] text-white font-bold rounded-lg transition-opacity hover:opacity-80">
                     Accept
                 </button>
                 <button type="submit" name="status" value="rejected"
                     onclick="confirmReject(event)"
-                    class="inline-flex items-center px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg">
+                    class="inline-flex items-center px-6 py-2 bg-red-600 text-white font-bold rounded-lg transition-opacity hover:opacity-80">
                     Reject
                 </button>
             </form>
