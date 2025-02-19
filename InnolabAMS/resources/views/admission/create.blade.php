@@ -47,19 +47,20 @@
                 </div>
             </div>
 
+            <!-- Student Type -->
             <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700">Student Type <span class="text-red-500">*</span></label>
                 <div class="mt-2 space-y-2">
                     <label class="inline-flex items-center">
-                        <input type="radio" name="student_type" value="Transferee" x-model="studentType" class="form-radio">
+                        <input type="radio" name="student_type" value="Transferee" class="form-radio" required>
                         <span class="ml-2">Transferee</span>
                     </label>
                     <label class="inline-flex items-center ml-6">
-                        <input type="radio" name="student_type" value="Existing Student" x-model="studentType" class="form-radio">
+                        <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
                         <span class="ml-2">Existing Student</span>
                     </label>
                     <label class="inline-flex items-center ml-6">
-                        <input type="radio" name="student_type" value="Returning Student" x-model="studentType" class="form-radio">
+                        <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
                         <span class="ml-2">Returning Student</span>
                     </label>
                 </div>
@@ -361,12 +362,12 @@
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Required Documents</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
+                    <!-- Birth Certificate -->
+                    <div class="document-requirement" data-required-for="Transferee,Returning Student">
                         <label class="block text-sm font-medium text-gray-700">Birth Certificate (PSA/NSO) <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="birth_certificate"
                                accept=".pdf,.jpg,.jpeg,.png"
-                               required
                                class="mt-1 block w-full text-sm text-gray-500
                                       file:mr-4 file:py-2 file:px-4
                                       file:rounded-md file:border-0
@@ -376,12 +377,12 @@
                         <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
                     </div>
 
-                    <div>
+                    <!-- Form 137 -->
+                    <div class="document-requirement" data-required-for="Transferee">
                         <label class="block text-sm font-medium text-gray-700">Form 137 <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="form_137"
                                accept=".pdf,.jpg,.jpeg,.png"
-                               required
                                class="mt-1 block w-full text-sm text-gray-500
                                       file:mr-4 file:py-2 file:px-4
                                       file:rounded-md file:border-0
@@ -391,12 +392,12 @@
                         <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
                     </div>
 
-                    <div>
+                    <!-- Form 138 -->
+                    <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
                         <label class="block text-sm font-medium text-gray-700">Form 138 (Report Card) <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="form_138"
                                accept=".pdf,.jpg,.jpeg,.png"
-                               required
                                class="mt-1 block w-full text-sm text-gray-500
                                       file:mr-4 file:py-2 file:px-4
                                       file:rounded-md file:border-0
@@ -406,12 +407,12 @@
                         <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
                     </div>
 
-                    <div>
+                    <!-- ID Picture -->
+                    <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
                         <label class="block text-sm font-medium text-gray-700">2x2 ID Picture <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="id_picture"
                                accept=".jpg,.jpeg,.png"
-                               required
                                class="mt-1 block w-full text-sm text-gray-500
                                       file:mr-4 file:py-2 file:px-4
                                       file:rounded-md file:border-0
@@ -421,12 +422,12 @@
                         <p class="mt-1 text-sm text-gray-500">Accepted formats: JPG, JPEG, PNG (Max: 1MB)</p>
                     </div>
 
-                    <div>
+                    <!-- Good Moral Certificate -->
+                    <div class="document-requirement" data-required-for="Transferee,Returning Student">
                         <label class="block text-sm font-medium text-gray-700">Good Moral Certificate <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="good_moral"
                                accept=".pdf,.jpg,.jpeg,.png"
-                               required
                                class="mt-1 block w-full text-sm text-gray-500
                                       file:mr-4 file:py-2 file:px-4
                                       file:rounded-md file:border-0
@@ -450,7 +451,6 @@
 
 @push('scripts')
 <script>
-
     document.addEventListener('DOMContentLoaded', function() {
         const onlyChildCheckbox = document.getElementById('only-child');
         const siblingsSection = document.getElementById('siblings-section');
@@ -877,6 +877,41 @@
                     return;
                 }
             }
+        });
+    });
+
+    // Add this to your existing scripts
+    document.addEventListener('DOMContentLoaded', function() {
+        const studentTypeInputs = document.querySelectorAll('input[name="student_type"]');
+        const documentRequirements = document.querySelectorAll('.document-requirement');
+
+        function updateDocumentRequirements(selectedType) {
+            documentRequirements.forEach(requirement => {
+                const requiredFor = requirement.dataset.requiredFor.split(',');
+                const input = requirement.querySelector('input[type="file"]');
+
+                if (requiredFor.includes(selectedType)) {
+                    requirement.style.display = 'block';
+                    input.required = true;
+                } else {
+                    requirement.style.display = 'none';
+                    input.required = false;
+                    input.value = ''; // Clear the input when hidden
+                }
+            });
+        }
+
+        // Initially hide all document requirements
+        documentRequirements.forEach(requirement => {
+            requirement.style.display = 'none';
+            requirement.querySelector('input[type="file"]').required = false;
+        });
+
+        // Add change event listener to student type radio buttons
+        studentTypeInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                updateDocumentRequirements(this.value);
+            });
         });
     });
 </script>
