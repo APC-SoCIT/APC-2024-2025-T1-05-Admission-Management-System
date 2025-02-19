@@ -30,7 +30,7 @@
 
         <div class="form-group">
             <label>Mobile Number <span class="required">*</span></label>
-            <input type="text" name="lead_mobile_number" maxlength="13" required placeholder="09XX-XXX-YYYY">
+            <input type="text" name="lead_mobile_number" maxlength="13" required placeholder="(09XX-XXX-XXXX)">
         </div>
 
         <div class="form-group">
@@ -52,11 +52,16 @@
                 <option value="Others">Others</option>
             </select>
         </div>
+        
+        <div class="form-group">
+            <label>Message <span class="required">*</span></label>
+            <textarea name="lead_message" rows="4" required placeholder="Write your message here..."></textarea>
+        </div>
 
         <!-- Updated Extracurricular Interests (Changed to VARCHAR 255) -->
         <div class="form-group">
-            <label>Extracurricular Interests <span class="required">*</span></label>
-            <input type="text" name="extracurricular_interest_lead" required placeholder="Enter your interests">
+            <label>Extracurricular Interest <span class="required">*</span></label>
+            <input type="text" name="extracurricular_interest_lead" required placeholder="Enter your interest">
         </div>
 
         <!-- Updated Skills Dropdown -->
@@ -74,11 +79,6 @@
                 <option value="Technology-related">Technology-related</option>
                 <option value="Others">Others</option>
             </select>
-        </div>
-
-        <div class="form-group">
-            <label>Message <span class="required">*</span></label>
-            <textarea name="lead_message" rows="4" required placeholder="Write your message here..."></textarea>
         </div>
 
         <div class="form-group">

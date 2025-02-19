@@ -49,6 +49,9 @@ class LeadInfoController extends Controller
             'lead_address_city' => 'nullable|string|max:225',
             'inquired_details' => 'required|in:Application Requirements,Application Process,Tuition Fees,Scholarship Opportunities,Program Offerings,Admission Deadlines,Others',
             'lead_message' => 'nullable|string',
+            'extracurricular_interest_lead' => 'nullable|string|max:225',
+            'skills_lead' => 'nullable|in:Communication,Teamwork,Leadership,Problem-Solving,Time Management,Creativity,Adaptability,Technology-related,Others',
+            'desired_career' => 'nullable|string|max:225',
             'source' => 'nullable|array', // Source should be an array
         ]);
 

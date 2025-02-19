@@ -1,5 +1,5 @@
-@section('title', 'Inquiry | InnolabAMS')
-@extends('application') <!-- Use the dashboard layout -->
+@extends('application')
+@section('title', 'Applications | InnolabAMS')
 
 @section('content') <!-- Define the content section -->
 <div class="flex justify-between items-center mb-4">
@@ -35,67 +35,55 @@
     </div>
 </div>
 
-<!-- Inquiry table -->
-<div class="py-9">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 table-fixed">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    INQUIRY ID
-                                </th>
-                                <th scope="col"
-                                    class="w-2/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Name
-                                </th>
-                                <th scope="col"
-                                    class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Email Address
-                                </th>
-                                <th scope="col"
-                                    class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Contact No.
-                                </th>
-                                <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="userTable">
-                            @forelse ($leadInfos as $leadInfo)
-                                <tr>
-                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $leadInfo->id }}</td>
-                                    <td class="w-2/12 py-2 px-4 border-b text-center">
-                                        {{ $leadInfo->lead_surname }}, {{ $leadInfo->lead_given_name }}
-                                    </td>
-                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->lead_email }}</td>
-                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->lead_mobile_number }}
-                                    </td>
-                                    <td class="w-1/12 py-2 px-4 border-b text-center">
-                                        <!-- Action buttons can go here (e.g., Edit, Delete) -->
-                                        <a href="{{ route('inquiry.show', $leadInfo->id) }}" class="text-blue-600">View</a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center py-4 text-gray-500">No inquiries found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
 
-                    </table>
-                </div>
-            </div>
-        </div>
+<!-- Table Section -->
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200" id="applicantsTable">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">INQUIRY ID</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Name</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Contact No.</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Email Address</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">INQUIRED DETAILS</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">DATE</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">STATUS</th>
+                    <th scope="col" class="px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">Action</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse ($leadInfos as $leadInfo)
+                <tr>
+
+                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $leadInfo->id }}</td>
+                    <td class="w-2/12 py-2 px-4 border-b text-center font-bold">
+                        {{ $leadInfo->lead_surname }}, {{ $leadInfo->lead_given_name }}
+                    </td>
+                    <td class="w-2/12 py-2 px-4 border-b text-center">
+                        {{ preg_replace('/(\d{4})(\d{3})(\d{4})/', '$1-$2-$3', $leadInfo->lead_mobile_number) }}
+                    </td>
+                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->lead_email }}</td>
+                    <td class="w-3/12 py-2 px-4 border-b text-center font-bold">{{ $leadInfo->inquired_details }}</td>
+                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->inquiry_submitted }}</td>
+                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $leadInfo->inquiry_status }}</td>
+                    <td class="w-1/12 py-2 px-4 border-b text-center">
+                        <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-block">
+                            <a href="{{ route('inquiry.show', $leadInfo->id) }}">View</a>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-gray-500">No inquiries found.</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
-@endsection
 
+@push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const searchIcon = document.getElementById("searchIcon");
@@ -155,3 +143,5 @@
         }
     });
 </script>
+@endpush
+@endsection
