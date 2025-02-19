@@ -337,9 +337,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:justify-center sm:gap-3 sm:px-6">
-                    <button type="button" onclick="closeRejectModal()" class="inline-flex w-24 justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">Cancel</button>
-                    <button type="button" onclick="submitReject()" class="inline-flex w-24 justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500">Confirm</button>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6">
+                    <div class="flex justify-center">
+                        <button type="button"
+                                onclick="closeRejectModal()"
+                                class="inline-flex w-24 justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 mr-20">
+                            Cancel
+                        </button>
+                        <button type="button"
+                                onclick="submitReject()"
+                                class="inline-flex w-24 justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 ml-20">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
