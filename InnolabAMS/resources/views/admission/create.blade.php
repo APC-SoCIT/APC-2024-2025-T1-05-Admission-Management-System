@@ -210,7 +210,7 @@
             <!-- Family Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
-                <p class="text-sm text-gray-600 mb-4">Please provide at least one guardian's information (Father, Mother, or Guardian)</p>
+                <p class="text-sm text-gray-600 mb-4">Please provide at least one guardian's information (Father, Mother, or Guardian) <span class="text-red-500">*</span></p>
 
                 <!-- Father's Information -->
                 <div class="border-b pb-4 mb-4">
