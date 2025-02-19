@@ -1160,6 +1160,7 @@
                 <!-- Siblings Information -->
                 <div class="mb-6">
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
                     <div id="siblings-container">
                         <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
@@ -1180,6 +1181,11 @@
                     <div class="flex items-center mb-4">
                         <label class="block text-sm font-medium text-gray-700 mr-8">Siblings</label>
                         <div class="flex items-center ml-4">
+=======
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
+                        <div class="flex items-center">
+>>>>>>> 0db0309 (Refactor: Improve siblings section layout in admission form)
                             <input type="checkbox"
                                    id="only-child"
                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
