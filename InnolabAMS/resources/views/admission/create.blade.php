@@ -1185,11 +1185,15 @@
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <div class="flex items-center">
 >>>>>>> 0db0309 (Refactor: Improve siblings section layout in admission form)
 =======
                         <div class="flex items-center mb-4">
 >>>>>>> a7fdec3 (Refactor: Enhance siblings section spacing in admission form)
+=======
+                        <div class="flex items-center">
+>>>>>>> 1d03c4b (Refactor: Simplify siblings section structure in admission form)
                             <input type="checkbox"
                                    id="only-child"
                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -1197,26 +1201,27 @@
                         </div>
                     </div>
 
-                    <div id="siblings-section">
-                        <div id="siblings-container">
-                            <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
-                                <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    <option value="">Select Grade Level</option>
-                                    @for ($i = 1; $i <= 12; $i++)
-                                        <option value="Grade {{ $i }}">Grade {{ $i }}</option>
-                                    @endfor
-                                </select>
-                                <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            </div>
+                    <div id="siblings-container" class="mt-4">
+                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
+                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="">Select Grade Level</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="Grade {{ $i }}">Grade {{ $i }}</option>
+                                @endfor
+                            </select>
+                            <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
-                        <button type="button" id="add-sibling" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                            Add Sibling
-                        </button>
                     </div>
+<<<<<<< HEAD
 >>>>>>> e2a63ae (Feat: Add "Only Child" option to siblings section with dynamic visibility)
+=======
+                    <button type="button" id="add-sibling" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Add Sibling
+                    </button>
+>>>>>>> 1d03c4b (Refactor: Simplify siblings section structure in admission form)
                 </div>
             </div>
 
