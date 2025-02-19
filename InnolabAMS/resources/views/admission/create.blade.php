@@ -387,7 +387,7 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Program</label>
+                        <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
                         <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
 >>>>>>> 8b624a3 (<<test3>>)
                             <option value="">Select Program</option>
@@ -397,6 +397,7 @@
                         </select>
                         <p x-show="errors.programType" x-text="errors.programType" class="mt-1 text-sm text-red-500"></p>
                     </div>
+<<<<<<< HEAD
 
                     <!-- Grade Level -->
                     <div class="mb-6" x-show="showGradeLevel" x-transition>
@@ -409,6 +410,11 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             required
                         >
+=======
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
+                        <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                             <option value="">Select Grade Level</option>
 <<<<<<< HEAD
                             <template x-for="level in gradeLevels" :key="level">
@@ -419,6 +425,7 @@
                         </select>
                         <p x-show="errors.gradeLevel" x-text="errors.gradeLevel" class="mt-1 text-sm text-red-500"></p>
                     </div>
+<<<<<<< HEAD
 
                     <!-- Strand -->
                     <div class="mb-6" x-show="showStrand" x-transition>
@@ -431,6 +438,11 @@
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             :required="showStrand"
                         >
+=======
+                    <div id="strandContainer" style="display: none;">
+                        <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
+                        <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                             <option value="">Select Strand</option>
                             <option value="STEM">STEM (Science, Technology, Engineering, and Mathematics)</option>
                             <option value="ABM">ABM (Accountancy, Business, and Management)</option>
@@ -605,11 +617,11 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Surname</label>
+                        <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                        <label class="block text-sm font-medium text-gray-700">Given Name <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_given_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
@@ -617,11 +629,11 @@
                         <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Extension Name</label>
+                        <label class="block text-sm font-medium text-gray-700">Extension Name <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_extension" placeholder="Jr., II, III, etc." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Sex</label>
+                        <label class="block text-sm font-medium text-gray-700">Sex <span class="text-red-500">*</span></label>
                         <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option value="">Select Sex</option>
                             <option value="Male">Male</option>
@@ -629,31 +641,40 @@
                         </select>
                     </div>
                     <div>
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">Age</label>
                         <input type="number" name="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
                         <input type="date" name="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+=======
+                        <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label>
+                        <input type="number" name="age" id="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Place of Birth</label>
+                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
+                        <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Place of Birth <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_place_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Nationality</label>
+                        <label class="block text-sm font-medium text-gray-700">Nationality <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_nationality" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Religion</label>
-                        <input type="text" name="applicant_religion" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Religion <span class="text-red-500">*</span></label>
+                        <input type="text" name="applicant_religion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
                         <input type="text" name="applicant_tel_no" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                        <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
                         <input type="tel" name="applicant_mobile_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
@@ -674,7 +695,7 @@
 >>>>>>> 81ef476 (Update province and city fields in admission form)
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">City</label>
+                        <label class="block text-sm font-medium text-gray-700">City <span class="text-red-500">*</span></label>
                         <select name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option value="">Select City</option>
                             <option value="Caloocan">Caloocan</option>
@@ -698,14 +719,18 @@
                     </div>
                     <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">Province</label>
                         <input type="text" name="applicant_address_province" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 =======
                         <label class="block text-sm font-medium text-gray-700">Barangay</label>
+=======
+                        <label class="block text-sm font-medium text-gray-700">Barangay <span class="text-red-500">*</span></label>
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                         <input type="text" name="applicant_barangay" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Street Address</label>
+                        <label class="block text-sm font-medium text-gray-700">Street Address <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
@@ -716,7 +741,7 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">LRN</label>
+                        <label class="block text-sm font-medium text-gray-700">LRN <span class="text-red-500">*</span></label>
                         <input type="text"
                                name="lrn"
                                maxlength="12"
@@ -725,22 +750,27 @@
                     </div>
                     <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
                         <input type="tel" name="applicant_mobile_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 =======
                         <label class="block text-sm font-medium text-gray-700">School Name</label>
                         <input type="text" name="school_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+=======
+                        <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="school_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">School Address</label>
-                        <input type="text" name="school_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">School Address <span class="text-red-500">*</span></label>
+                        <input type="text" name="school_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Previous Program</label>
-                        <input type="text" name="previous_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Previous Program <span class="text-red-500">*</span></label>
+                        <input type="text" name="previous_program" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Year of Graduation</label>
+                        <label class="block text-sm font-medium text-gray-700">Year of Graduation <span class="text-red-500">*</span></label>
                         <input type="text"
                                name="year_of_graduation"
                                maxlength="4"
@@ -751,9 +781,14 @@
                         <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">GWA</label>
                         <input type="number" step="0.01" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 >>>>>>> 078493a (Feat: Add input validation for year of graduation field)
+=======
+                        <label class="block text-sm font-medium text-gray-700">GWA <span class="text-red-500">*</span></label>
+                        <input type="number" step="0.01" name="gwa" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                     </div>
                 </div>
             </div>
@@ -810,27 +845,31 @@
 =======
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
+                <p class="text-sm text-gray-600 mb-4">Please provide at least one guardian's information (Father, Mother, or Guardian)</p>
 
                 <!-- Father's Information -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Father's First Name</label>
-                        <input type="text" name="father_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Father's Middle Name</label>
-                        <input type="text" name="father_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Father's Last Name</label>
-                        <input type="text" name="father_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Father's Contact Number</label>
-                        <input type="text"
-                               name="father_contact"
-                               maxlength="11"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <div class="border-b pb-4 mb-4">
+                    <h3 class="font-medium mb-2">Father's Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <input type="text" name="father_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <input type="text" name="father_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" name="father_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                   name="father_contact"
+                                   maxlength="11"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
 >>>>>>> 43c1001 (<test>)
                 </div>
@@ -857,26 +896,28 @@
                             </div>
 =======
                 <!-- Mother's Information -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's First Name</label>
-                        <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's Middle Name</label>
-                        <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mother's Last Name</label>
-                        <input type="text" name="mother_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Mother's Contact Number</label>
-                        <input type="text"
-                               name="mother_contact"
-                               maxlength="11"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <div class="border-b pb-4 mb-4">
+                    <h3 class="font-medium mb-2">Mother's Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" name="mother_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                   name="mother_contact"
+                                   maxlength="11"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                 </div>
 >>>>>>> 3ba92e1 (Feat: Add input validation for mother's contact number in admission form)
@@ -1089,25 +1130,28 @@
 =======
 =======
                 <!-- Guardian's Information -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Guardian's First Name</label>
-                        <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Guardian's Middle Name</label>
-                        <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Guardian's Last Name</label>
-                        <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Guardian's Contact Number</label>
-                        <input type="text"
-                               name="guardian_contact_num"
-                               maxlength="11"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <div class="mb-4">
+                    <h3 class="font-medium mb-2">Guardian's Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                   name="guardian_contact_num"
+                                   maxlength="11"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                 </div>
 
@@ -1166,6 +1210,7 @@
             </div>
 
             <!-- Emergency Contact -->
+<<<<<<< HEAD
             <div class="mb-8" x-data="{
                 isOpen: true,
                 emergencyFirstName: '',
@@ -1348,6 +1393,14 @@
                                 required>
                             <p x-show="errors.emergencyLastName" x-text="errors.emergencyLastName" class="mt-1 text-sm text-red-500"></p>
                         </div>
+=======
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Complete Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="emergency_contact_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                     </div>
 
                     <!-- Address Auto-fill Checkbox -->
@@ -1363,6 +1416,7 @@
 
                     <!-- Emergency Contact Address -->
                     <div class="md:col-span-2">
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">
                             Complete Address <span class="text-red-500">*</span>
                         </label>
@@ -1396,6 +1450,10 @@
 =======
                         <label class="block text-sm font-medium text-gray-700">Complete Address</label>
                         <input type="text" name="emergency_contact_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+=======
+                        <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label>
+                        <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
@@ -1405,7 +1463,7 @@
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile No.</label>
+                        <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
                         <input type="text"
                                name="emergency_contact_mobile"
                                maxlength="11"
@@ -1414,6 +1472,7 @@
                     </div>
 
                     <div class="md:col-span-2">
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
                         <input type="tel"
                             name="emergency_contact_tel"
@@ -1424,6 +1483,10 @@
                             :class="{'border-red-500': errors.emergencyTel}"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <p x-show="errors.emergencyTel" x-text="errors.emergencyTel" class="mt-1 text-sm text-red-500"></p>
+=======
+                        <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+                        <input type="email" name="emergency_contact_email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
                     </div>
                 </div>
             </div>
@@ -1643,7 +1706,7 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Required Documents</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Birth Certificate (PSA/NSO)</label>
+                        <label class="block text-sm font-medium text-gray-700">Birth Certificate (PSA/NSO) <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="birth_certificate"
                                accept=".pdf,.jpg,.jpeg,.png"
@@ -1658,7 +1721,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Form 137</label>
+                        <label class="block text-sm font-medium text-gray-700">Form 137 <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="form_137"
                                accept=".pdf,.jpg,.jpeg,.png"
@@ -1673,7 +1736,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Form 138 (Report Card)</label>
+                        <label class="block text-sm font-medium text-gray-700">Form 138 (Report Card) <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="form_138"
                                accept=".pdf,.jpg,.jpeg,.png"
@@ -1688,7 +1751,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">2x2 ID Picture</label>
+                        <label class="block text-sm font-medium text-gray-700">2x2 ID Picture <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="id_picture"
                                accept=".jpg,.jpeg,.png"
@@ -1703,7 +1766,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Good Moral Certificate</label>
+                        <label class="block text-sm font-medium text-gray-700">Good Moral Certificate <span class="text-red-500">*</span></label>
                         <input type="file"
                                name="good_moral"
                                accept=".pdf,.jpg,.jpeg,.png"
