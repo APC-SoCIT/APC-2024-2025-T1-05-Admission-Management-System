@@ -71,7 +71,7 @@
                                 <tr>
                                     <td class="w-1/12 py-2 px-4 border-b text-center">{{ $leadInfo->id }}</td>
                                     <td class="w-2/12 py-2 px-4 border-b text-center">
-                                        {{ $leadInfo->lead_surname }} {{ $leadInfo->lead_given_name }}
+                                        {{ $leadInfo->lead_surname }}, {{ $leadInfo->lead_given_name }}
                                     </td>
                                     <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->lead_email }}</td>
                                     <td class="w-3/12 py-2 px-4 border-b text-center">{{ $leadInfo->lead_mobile_number }}

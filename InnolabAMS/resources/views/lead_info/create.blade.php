@@ -10,32 +10,32 @@
 
         <div class="form-group">
             <label>First Name <span class="required">*</span></label>
-            <input type="text" name="lead_given_name" required>
+            <input type="text" name="lead_given_name" required placeholder="Enter you first name">
         </div>
 
         <div class="form-group">
             <label>Last Name <span class="required">*</span></label>
-            <input type="text" name="lead_surname" required>
+            <input type="text" name="lead_surname" required placeholder="Enter you last name">
         </div>
 
         <div class="form-group">
-            <label>Middle Name <span class="required">*</span></label>
-            <input type="text" name="lead_middle_name" required>
+            <label>Middle Name</label>
+            <input type="text" name="lead_middle_name" placeholder="Enter you middle name">
         </div>
 
         <div class="form-group">
             <label>Email <span class="required">*</span></label>
-            <input type="email" name="lead_email" required>
+            <input type="email" name="lead_email" require placeholder="example@email.com">
         </div>
 
         <div class="form-group">
             <label>Mobile Number <span class="required">*</span></label>
-            <input type="text" name="lead_mobile_number" maxlength="13" required>
+            <input type="text" name="lead_mobile_number" maxlength="13" required placeholder="09XX-XXX-YYYY">
         </div>
 
         <div class="form-group">
             <label>City <span class="required">*</span></label>
-            <input type="text" name="lead_address_city" required>
+            <input type="text" name="lead_address_city" required placeholder="Where do you live?">
         </div>
 
         <!-- Updated Inquiry Details -->
@@ -74,6 +74,16 @@
                 <option value="Technology-related">Technology-related</option>
                 <option value="Others">Others</option>
             </select>
+        </div>
+
+        <div class="form-group">
+            <label>Message <span class="required">*</span></label>
+            <textarea name="lead_message" rows="4" required placeholder="Write your message here..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Desired Career</label>
+            <input type="text" name="desired_career" placeholder="Enter your career interest">
         </div>
 
         <!-- How Did You Learn About Us -->
