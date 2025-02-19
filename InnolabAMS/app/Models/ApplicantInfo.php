@@ -66,7 +66,12 @@ class ApplicantInfo extends Model
     'hobbies',
     'participations',
     'competitions',
-    'referral_source'
+    'referral_source',
+    'birth_certificate_path',
+    'form_137_path',
+    'form_138_path',
+    'id_picture_path',
+    'good_moral_path',
     ];
 
     protected $casts = [
