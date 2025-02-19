@@ -18,16 +18,16 @@
             <span class="text-gray-600 ml-6">Date Submitted: {{ $applicant->created_at->format('F d, Y') }}</span>
         </div>
         <div class="flex space-x-4">
-            <form method="POST" action="{{ route('admission.update-status', $applicant->id) }}" class="flex space-x-3">
+            <form method="POST" action="{{ route('admission.update-status', $applicant->id) }}" class="flex space-x-4">
                 @csrf
                 @method('PATCH')
                 <button type="submit" name="status" value="accepted"
                     style="background-color: #4CAF50;"
-                    class="inline-flex items-center px-4 py-2 text-white font-bold rounded-lg hover:opacity-90">
+                    class="inline-flex items-center px-6 py-2 text-white font-bold rounded-lg hover:opacity-90">
                     Accept
                 </button>
                 <button type="submit" name="status" value="rejected"
-                    class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg">
+                    class="inline-flex items-center px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg">
                     Reject
                 </button>
             </form>
