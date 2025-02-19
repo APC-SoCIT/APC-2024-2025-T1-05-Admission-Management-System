@@ -316,16 +316,16 @@
 </div>
 
 <!-- Modal -->
-<div id="rejectModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-    <div class="relative p-8 bg-white w-96 max-w-lg mx-auto rounded-md shadow-lg">
-        <div class="text-center mb-6">
+<div id="rejectModal" class="hidden fixed inset-0 bg-gray-500/50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+    <div class="relative p-12 bg-white w-96 max-w-lg mx-auto rounded-md shadow-lg">
+        <div class="text-center">
             <h3 class="text-lg font-medium text-gray-900">Confirm Application Rejection</h3>
             <p class="mt-2 text-sm text-gray-500">
                 Are you sure you want to reject this application?
             </p>
         </div>
 
-        <div class="flex justify-center space-x-4">
+        <div class="flex justify-center space-x-4 mt-6">
             <button onclick="closeRejectModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300">
                 Cancel
             </button>
