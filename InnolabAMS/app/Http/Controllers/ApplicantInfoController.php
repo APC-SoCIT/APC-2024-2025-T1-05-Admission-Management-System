@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\ApplicantInfo;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+=======
+use Illuminate\Support\Facades\Storage;
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
 
 class ApplicantInfoController extends Controller
 {
@@ -34,107 +38,100 @@ class ApplicantInfoController extends Controller
     public function store(Request $request)
     {
         try {
-            $validated = $request->validate([
-                // Program Information
-                'apply_program' => 'required|in:Elementary,High School,Senior High School',
-                'apply_grade_level' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
-                'apply_strand' => 'nullable|required_if:apply_program,Senior High School|in:STEM,ABM,TECHVOC,HUMSS,GAS',
-                'student_type' => 'required|in:Transferee,Existing Student,Returning Student',
+            // Log the entire request for debugging
+            \Log::info('Request data:', $request->all());
 
-                // Personal Information
-                'applicant_surname' => 'required|max:40',
-                'applicant_given_name' => 'required|max:40',
-                'applicant_middle_name' => 'nullable|max:40',
-                'applicant_extension' => 'nullable|max:10',
-                'applicant_date_birth' => 'required|date',
-                'age' => 'nullable|numeric|min:0|max:100',
-                'applicant_place_birth' => 'required|max:255',
-                'gender' => 'required|in:Male,Female',
-                'applicant_tel_no' => 'nullable|string|max:20',
-                'applicant_address_street' => 'required|max:255',
-                'applicant_address_province' => 'required|max:255',
-                'applicant_address_city' => 'required|max:255',
-                'applicant_barangay' => 'required|max:255',
-                'applicant_nationality' => 'required|max:255',
-                'applicant_religion' => 'nullable|max:255',
-                'applicant_mobile_number' => 'required|max:12',
-                'applicant_photo' => 'nullable|image|max:2048',
-
-                // Educational Background
-                'lrn' => 'nullable|string|max:12',
-                'school_name' => 'nullable|string|max:255',
-                'school_address' => 'nullable|string|max:255',
-                'previous_program' => 'nullable|string|max:255',
-                'year_of_graduation' => 'nullable|string|max:4',
-                'awards_honors' => 'nullable|string|max:255',
-                'gwa' => 'nullable|numeric|between:0,100',
-
-                // Family Information
-                'father_given_name' => 'nullable|string|max:255',
-                'father_middle_name' => 'nullable|string|max:255',
-                'father_surname' => 'nullable|string|max:255',
-                'father_contact' => 'nullable|string|max:255',
-                'mother_given_name' => 'nullable|string|max:255',
-                'mother_middle_name' => 'nullable|string|max:255',
-                'mother_surname' => 'nullable|string|max:255',
-                'mother_contact' => 'nullable|string|max:255',
-                'guardian_given_name' => 'nullable|string|max:255',
-                'guardian_middle_name' => 'nullable|string|max:255',
-                'guardian_surname' => 'nullable|string|max:255',
-                'guardian_contact_num' => 'nullable|string|max:255',
-                'siblings' => 'nullable|array',
-                'siblings.*.full_name' => 'nullable|string|max:255',
-                'siblings.*.date_of_birth' => 'nullable|date',
-                'siblings.*.age' => 'nullable|numeric|min:0|max:100',
-                'siblings.*.grade_level' => 'nullable|string|max:255',
-                'siblings.*.school_attended' => 'nullable|string|max:255',
-
-                // Emergency Contact
-                'emergency_contact_name' => 'nullable|string|max:255',
-                'emergency_contact_address' => 'nullable|string|max:255',
-                'emergency_contact_tel' => 'nullable|string|max:20',
-                'emergency_contact_mobile' => 'nullable|string|max:20',
-                'emergency_contact_email' => 'nullable|email|max:255',
+            // Validate basic fields first
+            $validatedData = $request->validate([
+                'apply_program' => 'required',
+                'apply_grade_level' => 'required',
+                'student_type' => 'required',
+                // Add other validation rules but exclude files for now
             ]);
 
+<<<<<<< HEAD
             // Debug log
             Log::info('Validated data:', $validated);
 
             // Change auth()->id() to Auth::id()
             $validated['user_id'] = Auth::id() ?? 1;
             $validated['status'] = 'new';
+=======
+            // Handle file uploads separately
+            $paths = [];
+            $fileFields = ['birth_certificate', 'form_137', 'form_138', 'id_picture', 'good_moral'];
 
-            // Handle siblings data - convert to JSON
-            if (isset($validated['siblings'])) {
-                $validated['siblings'] = json_encode(array_values(array_filter($validated['siblings'], function ($sibling) {
-                    return !empty($sibling['full_name']);
-                })));
+            foreach ($fileFields as $field) {
+                \Log::info("Checking file: {$field}", [
+                    'exists' => $request->hasFile($field),
+                    'valid' => $request->hasFile($field) ? $request->file($field)->isValid() : false
+                ]);
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
+
+                if ($request->hasFile($field) && $request->file($field)->isValid()) {
+                    try {
+                        $file = $request->file($field);
+                        $filename = time() . '_' . $file->getClientOriginalName();
+                        // Store in public disk
+                        $path = $file->storeAs("documents/{$field}", $filename, 'public');
+                        $paths["{$field}_path"] = $path;
+                        \Log::info("File {$field} stored successfully at: {$path}");
+                    } catch (\Exception $e) {
+                        \Log::error("Error storing file {$field}: " . $e->getMessage());
+                        throw $e;
+                    }
+                }
             }
 
-            // Handle photo upload
-            if ($request->hasFile('applicant_photo')) {
-                $path = $request->file('applicant_photo')->store('applicant-photos', 'public');
-                $validated['applicant_photo'] = $path;
+            // Prepare applicant data
+            $applicantData = $request->except(array_merge($fileFields, ['_token']));
+
+            // Convert siblings array to JSON if it exists
+            if (isset($applicantData['siblings']) && is_array($applicantData['siblings'])) {
+                $applicantData['siblings'] = json_encode($applicantData['siblings']);
             }
 
-            $applicant = ApplicantInfo::create($validated);
+            // Add file paths, status and user_id
+            $applicantData = array_merge($applicantData, $paths, [
+                'status' => 'new',
+                'user_id' => auth()->id() // Add the authenticated user's ID
+            ]);
 
+<<<<<<< HEAD
             // Debug log
             Log::info('Application created:', ['id' => $applicant->id]);
+=======
+            \Log::info('Final applicant data:', $applicantData);
 
-            return redirect()
-                ->route('admission.index')
-                ->with('success', 'Application created successfully');
+            // Create applicant record
+            $applicant = ApplicantInfo::create($applicantData);
+
+            \Log::info('Applicant created successfully:', ['id' => $applicant->id]);
+
+            return redirect()->route('admission.index')
+                ->with('success', 'Application submitted successfully.');
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
+
         } catch (\Exception $e) {
+<<<<<<< HEAD
             // Debug log
             Log::error('Application creation failed:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
+=======
+            \Log::error('Application submission error: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+
+            // Clean up any uploaded files if there was an error
+            foreach ($paths ?? [] as $path) {
+                Storage::disk('public')->delete($path);
+            }
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
 
             return back()
                 ->withInput()
-                ->with('error', 'Failed to create application: ' . $e->getMessage());
+                ->with('error', 'Error submitting application: ' . $e->getMessage());
         }
     }
 <<<<<<< HEAD
@@ -203,11 +200,12 @@ class ApplicantInfoController extends Controller
 
     public function show($id)
     {
-        $applicant = ApplicantInfo::with('user')->findOrFail($id);
+        $applicant = ApplicantInfo::findOrFail($id);
         return view('admission.show', compact('applicant'));
 >>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public function show($id)
     {
@@ -217,6 +215,26 @@ class ApplicantInfoController extends Controller
 
 =======
 >>>>>>> b739594 (Feat: Enhance sibling information input and form validation in admission form)
+=======
+    public function downloadFile($id, $documentType)
+    {
+        $applicant = ApplicantInfo::findOrFail($id);
+        $pathColumn = "{$documentType}_path";
+
+        if (!$applicant->$pathColumn) {
+            abort(404, 'File not found');
+        }
+
+        $filePath = storage_path('app/public/' . $applicant->$pathColumn);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        return response()->file($filePath);
+    }
+
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
     //Personal Information Form
     public function showPersonalInfoForm()
     {

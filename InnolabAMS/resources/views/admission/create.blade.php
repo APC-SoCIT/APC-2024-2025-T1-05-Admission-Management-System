@@ -1428,6 +1428,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <!-- Required Documents Section -->
             <div class="mb-8">
                 <div class="flex justify-between items-center cursor-pointer mb-4" @click="isDocumentsOpen = !isDocumentsOpen">
@@ -1636,11 +1637,94 @@
                                 <p class="mt-1 text-sm text-gray-500">Upload JPG/PNG files only (max: 10MB)</p>
                             </div>
                         </div>
+=======
+            <!-- Required Documents -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Required Documents</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Birth Certificate (PSA/NSO)</label>
+                        <input type="file"
+                               name="birth_certificate"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Form 137</label>
+                        <input type="file"
+                               name="form_137"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Form 138 (Report Card)</label>
+                        <input type="file"
+                               name="form_138"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">2x2 ID Picture</label>
+                        <input type="file"
+                               name="id_picture"
+                               accept=".jpg,.jpeg,.png"
+                               required
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: JPG, JPEG, PNG (Max: 1MB)</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Good Moral Certificate</label>
+                        <input type="file"
+                               name="good_moral"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
                     </div>
                 </div>
             </div>
 
+<<<<<<< HEAD
             <!-- Submit button -->
+=======
+            <!-- Submit Button -->
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
             <div class="flex justify-end">
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                     Submit Application
@@ -1652,7 +1736,7 @@
 
 @push('scripts')
 <script>
-    // Add this at the beginning of your script section
+
     document.addEventListener('DOMContentLoaded', function() {
         const onlyChildCheckbox = document.getElementById('only-child');
         const siblingsSection = document.getElementById('siblings-section');
@@ -1859,7 +1943,7 @@
         }
     }
 
-    // Add event listener to initial sibling's date of birth field
+
     document.querySelector('input[name="siblings[0][date_of_birth]"]').addEventListener('change', function() {
         calculateSiblingAge(this);
     });
@@ -2080,7 +2164,50 @@
             input.addEventListener('input', validateNumericInput);
         }
     });
+<<<<<<< HEAD
 >>>>>>> 1cf8ba4 (Feat: Enhance numeric input validation for multiple contact fields)
+=======
+
+    // File input validation
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const maxSize = input.name === 'id_picture' ? 1024 * 1024 : 2048 * 1024; // 1MB or 2MB
+            const allowedTypes = input.accept.split(',');
+
+            // Remove any existing error messages
+            const existingError = input.parentElement.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            if (file) {
+                // Check file size
+                if (file.size > maxSize) {
+                    const error = document.createElement('p');
+                    error.className = 'error-message text-red-500 text-sm mt-1';
+                    error.textContent = `File size must be less than ${maxSize/1024/1024}MB`;
+                    input.parentElement.appendChild(error);
+                    input.value = ''; // Clear the input
+                    return;
+                }
+
+                // Check file type
+                const fileType = '.' + file.name.split('.').pop().toLowerCase();
+                if (!allowedTypes.includes(fileType)) {
+                    const error = document.createElement('p');
+                    error.className = 'error-message text-red-500 text-sm mt-1';
+                    error.textContent = 'Invalid file type';
+                    input.parentElement.appendChild(error);
+                    input.value = ''; // Clear the input
+                    return;
+                }
+            }
+        });
+    });
+>>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
 </script>
 @endpush
 @endsection
