@@ -1829,9 +1829,18 @@
         const siblingsContainer = document.getElementById('siblings-container');
         const addSiblingButton = document.getElementById('add-sibling');
 
+        // Create a hidden input for is_only_child
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'is_only_child';
+        hiddenInput.value = '0';
+        onlyChildCheckbox.parentNode.appendChild(hiddenInput);
+
         onlyChildCheckbox.addEventListener('change', function() {
+            // Update hidden input value
+            hiddenInput.value = this.checked ? '1' : '0';
+
             if (this.checked) {
-                // Hide both the siblings container and the add button
                 siblingsContainer.style.display = 'none';
                 addSiblingButton.style.display = 'none';
 
@@ -1840,7 +1849,6 @@
                     input.value = '';
                 });
             } else {
-                // Show both the siblings container and the add button
                 siblingsContainer.style.display = 'block';
                 addSiblingButton.style.display = 'block';
             }

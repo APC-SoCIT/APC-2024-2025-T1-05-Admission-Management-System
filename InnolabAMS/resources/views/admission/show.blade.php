@@ -163,26 +163,34 @@
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Siblings:</td>
                     <td class="px-4 py-2" colspan="3">
-                        <table class="w-full border, text-center">
-                            <tr class="bg-gray-50 border-b">
-                                <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Full Name</th>
-                                <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Date of Birth</th>
-                                <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Age</th>
-                                <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Grade Level</th>
-                                <th class="px-4 py-2 text-sm font-medium text-gray-600">School Attended</th>
-                            </tr>
-                            @if(isset($applicant->siblings))
-                                @foreach(json_decode($applicant->siblings) as $sibling)
-                                    <tr class="border-b">
-                                        <td class="px-4 py-2 border-r">{{ $sibling->full_name }}</td>
-                                        <td class="px-4 py-2 border-r">{{ $sibling->date_of_birth }}</td>
-                                        <td class="px-4 py-2 border-r">{{ $sibling->age }}</td>
-                                        <td class="px-4 py-2 border-r">{{ $sibling->grade_level }}</td>
-                                        <td class="px-4 py-2">{{ $sibling->school_attended }}</td>
+                        @if($applicant->is_only_child)
+                            <p class="text-gray-600 italic">Only Child</p>
+                        @else
+                            <table class="w-full border text-center">
+                                <tr class="bg-gray-50 border-b">
+                                    <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Full Name</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Date of Birth</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Age</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-gray-600 border-r">Grade Level</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-gray-600">School Attended</th>
+                                </tr>
+                                @if(isset($applicant->siblings) && !empty($applicant->siblings))
+                                    @foreach(json_decode($applicant->siblings) as $sibling)
+                                        <tr class="border-b">
+                                            <td class="px-4 py-2 border-r">{{ $sibling->full_name }}</td>
+                                            <td class="px-4 py-2 border-r">{{ $sibling->date_of_birth }}</td>
+                                            <td class="px-4 py-2 border-r">{{ $sibling->age }}</td>
+                                            <td class="px-4 py-2 border-r">{{ $sibling->grade_level }}</td>
+                                            <td class="px-4 py-2">{{ $sibling->school_attended }}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="5" class="px-4 py-2 text-gray-500 italic">No siblings information provided</td>
                                     </tr>
-                                @endforeach
-                            @endif
-                        </table>
+                                @endif
+                            </table>
+                        @endif
                     </td>
                 </tr>
             </table>
