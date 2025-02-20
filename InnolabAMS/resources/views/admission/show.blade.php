@@ -21,7 +21,8 @@
             <form method="POST" action="{{ route('admission.update-status', $applicant->id) }}" class="flex space-x-4" id="statusForm">
                 @csrf
                 @method('PATCH')
-                <button type="submit" name="status" value="accepted"
+                <button type="button"
+                    onclick="confirmAccept(event)"
                     style="background-color: #4CAF50;"
                     class="inline-flex items-center px-6 py-2 bg-[#4CAF50] text-white font-bold rounded-lg transition-opacity hover:opacity-80">
                     Accept
@@ -373,8 +374,50 @@
     </div>
 </div>
 
+<!-- Add Accept Modal -->
+<div id="acceptModal" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="flex items-center gap-6 mb-3">
+                            <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-green-100">
+                                <svg class="size-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
+                            </div>
+                            <h3 class="text-base font-semibold text-gray-900" id="modal-title">Confirm Application Acceptance</h3>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <p class="text-sm text-gray-500 mb-4">Are you sure you want to accept this student? This action will notify the applicant of their acceptance.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6">
+                    <div class="flex justify-center">
+                        <button type="button"
+                                onclick="closeAcceptModal()"
+                                class="inline-flex w-24 justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 mr-20">
+                            Cancel
+                        </button>
+                        <button type="button"
+                                onclick="submitAccept()"
+                                class="inline-flex w-24 justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 ml-20">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 let rejectForm = null;
+let acceptForm = null;
 
 function confirmReject(event) {
     event.preventDefault();
@@ -427,6 +470,40 @@ function submitReject() {
 document.getElementById('rejectModal').addEventListener('click', function(event) {
     if (event.target === this) {
         closeRejectModal();
+    }
+});
+
+function confirmAccept(event) {
+    event.preventDefault();
+    acceptForm = event.target.closest('form');
+    document.getElementById('acceptModal').classList.remove('hidden');
+}
+
+function closeAcceptModal() {
+    document.getElementById('acceptModal').classList.add('hidden');
+}
+
+function submitAccept() {
+    if (acceptForm) {
+        // Add status input if it doesn't exist
+        let statusInput = acceptForm.querySelector('input[name="status"]');
+        if (!statusInput) {
+            statusInput = document.createElement('input');
+            statusInput.type = 'hidden';
+            statusInput.name = 'status';
+            acceptForm.appendChild(statusInput);
+        }
+        statusInput.value = 'accepted';
+
+        acceptForm.submit();
+        closeAcceptModal();
+    }
+}
+
+// Close accept modal when clicking outside
+document.getElementById('acceptModal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeAcceptModal();
     }
 });
 </script>
