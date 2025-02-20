@@ -292,12 +292,13 @@
                 </div>
 
                 <!-- Siblings Information -->
-                <div class="mb-6">
+                <div class="mb-6" id="siblings-section">
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
                         <div class="flex items-center">
                             <input type="checkbox"
                                    id="only-child"
+                                   name="is_only_child"
                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <label for="only-child" class="ml-2 text-sm text-gray-600">Only Child</label>
                         </div>
@@ -317,6 +318,7 @@
                             <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
+
                     <button type="button" id="add-sibling" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                         Add Sibling
                     </button>
@@ -451,17 +453,23 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const onlyChildCheckbox = document.getElementById('only-child');
-        const siblingsSection = document.getElementById('siblings-section');
+        const siblingsContainer = document.getElementById('siblings-container');
+        const addSiblingButton = document.getElementById('add-sibling');
 
         onlyChildCheckbox.addEventListener('change', function() {
             if (this.checked) {
-                siblingsSection.style.display = 'none';
-                // Clear sibling inputs when hiding
+                // Hide both the siblings container and the add button
+                siblingsContainer.style.display = 'none';
+                addSiblingButton.style.display = 'none';
+
+                // Clear all sibling inputs
                 document.querySelectorAll('#siblings-container input, #siblings-container select').forEach(input => {
                     input.value = '';
                 });
             } else {
-                siblingsSection.style.display = 'block';
+                // Show both the siblings container and the add button
+                siblingsContainer.style.display = 'block';
+                addSiblingButton.style.display = 'block';
             }
         });
     });
