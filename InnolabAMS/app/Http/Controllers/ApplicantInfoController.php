@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\RejectApplicationRequest;
 use App\Notifications\ApplicationRejected;
+use App\Http\Requests\AcceptApplicationRequest;
+use App\Notifications\ApplicationAccepted;
+use Carbon\Carbon;
 
 class ApplicantInfoController extends Controller
 {
@@ -304,26 +307,51 @@ class ApplicantInfoController extends Controller
     }
 
     // Add this method to your existing ApplicantInfoController class
-    public function updateStatus(RejectApplicationRequest $request, $id)
+    public function updateStatus(Request $request, $id)
     {
-        $validated = $request->validated();
+        if ($request->status === 'accepted') {
+            return $this->acceptApplication(new AcceptApplicationRequest($request->all()), $id);
+        }
 
+        // Use existing rejection logic
+        return $this->rejectApplication(new RejectApplicationRequest($request->all()), $id);
+    }
+
+    protected function acceptApplication(AcceptApplicationRequest $request, $id)
+    {
         $applicant = ApplicantInfo::findOrFail($id);
+
         $applicant->update([
-            'status' => $validated['status'],
-            'rejection_reason' => $validated['rejection_reason'] ?? null,
+            'status' => 'accepted',
+            'acceptance_message' => $request->acceptance_message ?? 'Congratulations! Your application has been accepted.',
+            'accepted_at' => Carbon::now(),
             'processed_at' => now(),
             'processed_by' => auth()->id()
         ]);
 
-        // Send notification if application is rejected
-        if ($validated['status'] === 'rejected') {
-            $applicant->user->notify(new ApplicationRejected($applicant));
-            return redirect()->route('admission.rejected')
-                ->with('success', 'Application has been rejected');
-        }
+        // Send acceptance notification
+        $applicant->user->notify(new ApplicationAccepted($applicant));
 
         return redirect()->route('admission.accepted')
-            ->with('success', 'Application has been accepted');
+            ->with('success', 'Application has been accepted successfully.');
+    }
+
+    protected function rejectApplication(RejectApplicationRequest $request, $id)
+    {
+        // Your existing rejection logic
+        $validated = $request->validated();
+
+        $applicant = ApplicantInfo::findOrFail($id);
+        $applicant->update([
+            'status' => 'rejected',
+            'rejection_reason' => $validated['rejection_reason'],
+            'processed_at' => now(),
+            'processed_by' => auth()->id()
+        ]);
+
+        $applicant->user->notify(new ApplicationRejected($applicant));
+
+        return redirect()->route('admission.rejected')
+            ->with('success', 'Application has been rejected');
     }
 }
