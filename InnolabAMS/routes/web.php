@@ -15,12 +15,20 @@ use Illuminate\Support\Facades\URL;
 $url = config('app.url');
 URL::forceRootUrl($url);
 
+//Login Routes
 Route::get('/', function () {
+    if (auth()->check()) {
+        if (auth()->user()->hasRole('Applicant')) {
+            return redirect('/portal');
+        } elseif (auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Staff')) {
+            return redirect('/app');
+        }
+    }
     return view('auth.login');
 });
 
 
-//Admin Panel and Online Application Portal Routes
+//Admin Panel and Applicant Portal Routes
 Route::get('/app', function () {
     if (auth()->check() && auth()->user()->hasRole('Applicant')) {
         return redirect('/portal');
@@ -42,10 +50,14 @@ Route::middleware('auth')->group(function () {
         if (auth()->user()->hasRole('Staff')) {
             return redirect('/app');
         }
+
+        if (auth()->user()->hasRole('Applicant')) {
+            return redirect('/portal');
+        }
         return view('application');
     })->name('dashboard');
-});
 
+});
 
 
 //Lead_Info routes
@@ -103,13 +115,15 @@ Route::middleware('auth')->group(function () {
         })->name('user.store');
     });
 
-
     // Profile Routes
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile', 'edit')->name('profile.edit');
         Route::patch('/profile', 'update')->name('profile.update');
         Route::delete('/profile', 'destroy')->name('profile.destroy');
     });
+
+
+    //Applicant Panel Routes
 
     //Personal Information Routes
     Route::prefix('form')->name('form.')->group(function () {
