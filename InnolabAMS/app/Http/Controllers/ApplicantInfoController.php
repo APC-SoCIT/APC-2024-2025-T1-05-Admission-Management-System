@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ApplicantInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\RejectApplicationRequest;
+use App\Notifications\ApplicationRejected;
 
 class ApplicantInfoController extends Controller
 {
@@ -302,28 +304,26 @@ class ApplicantInfoController extends Controller
     }
 
     // Add this method to your existing ApplicantInfoController class
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(RejectApplicationRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'status' => ['required', 'string', 'in:accepted,rejected'],
-        ]);
+        $validated = $request->validated();
 
         $applicant = ApplicantInfo::findOrFail($id);
         $applicant->update([
-            'status' => $validatedData['status'],
+            'status' => $validated['status'],
+            'rejection_reason' => $validated['rejection_reason'] ?? null,
             'processed_at' => now(),
             'processed_by' => auth()->id()
         ]);
 
-        $statusMessage = ucfirst($validatedData['status']);
-
-        // Redirect based on status
-        if ($validatedData['status'] === 'accepted') {
-            return redirect()->route('admission.accepted')
-                ->with('success', "Application has been {$statusMessage}");
-        } else {
+        // Send notification if application is rejected
+        if ($validated['status'] === 'rejected') {
+            $applicant->user->notify(new ApplicationRejected($applicant));
             return redirect()->route('admission.rejected')
-                ->with('success', "Application has been {$statusMessage}");
+                ->with('success', 'Application has been rejected');
         }
+
+        return redirect()->route('admission.accepted')
+            ->with('success', 'Application has been accepted');
     }
 }
