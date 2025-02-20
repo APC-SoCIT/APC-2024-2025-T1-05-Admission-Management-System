@@ -73,10 +73,12 @@ class ApplicantInfo extends Model
     'id_picture_path',
     'good_moral_path',
     'rejection_reason',
+    'is_only_child',
     ];
 
     protected $casts = [
         'applicant_date_birth' => 'date',
+        'is_only_child' => 'boolean',
     ];
 
     // Define status constants for better code readability
