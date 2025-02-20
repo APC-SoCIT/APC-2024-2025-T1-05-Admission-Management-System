@@ -11,9 +11,10 @@ return new class extends Migration
         Schema::create('siblings_info', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('family_info_id');
-            $table->string('full_name');
-            $table->date('date_of_birth');
-            $table->integer('age');
+            $table->boolean('is_only_child')->default(false);
+            $table->string('full_name')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->integer('age')->nullable();
             $table->string('grade_level')->nullable();
             $table->string('school_attended')->nullable();
             $table->timestamps();
