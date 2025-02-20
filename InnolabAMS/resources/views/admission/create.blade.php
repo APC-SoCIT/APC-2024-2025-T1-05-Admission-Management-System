@@ -1158,6 +1158,7 @@
 
 >>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
                 <!-- Siblings Information -->
+<<<<<<< HEAD
                 <div class="mb-6">
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -1182,6 +1183,9 @@
                         <label class="block text-sm font-medium text-gray-700 mr-8">Siblings</label>
                         <div class="flex items-center ml-4">
 =======
+=======
+                <div class="mb-6" id="siblings-section">
+>>>>>>> 4186360 (Feature: Enhance siblings section with dynamic input and only child option)
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
 <<<<<<< HEAD
@@ -1196,6 +1200,7 @@
 >>>>>>> 1d03c4b (Refactor: Simplify siblings section structure in admission form)
                             <input type="checkbox"
                                    id="only-child"
+                                   name="is_only_child"
                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <label for="only-child" class="ml-2 text-sm text-gray-600">Only Child</label>
                         </div>
@@ -1216,8 +1221,12 @@
                         </div>
                     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> e2a63ae (Feat: Add "Only Child" option to siblings section with dynamic visibility)
 =======
+=======
+
+>>>>>>> 4186360 (Feature: Enhance siblings section with dynamic input and only child option)
                     <button type="button" id="add-sibling" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                         Add Sibling
                     </button>
@@ -1817,17 +1826,23 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const onlyChildCheckbox = document.getElementById('only-child');
-        const siblingsSection = document.getElementById('siblings-section');
+        const siblingsContainer = document.getElementById('siblings-container');
+        const addSiblingButton = document.getElementById('add-sibling');
 
         onlyChildCheckbox.addEventListener('change', function() {
             if (this.checked) {
-                siblingsSection.style.display = 'none';
-                // Clear sibling inputs when hiding
+                // Hide both the siblings container and the add button
+                siblingsContainer.style.display = 'none';
+                addSiblingButton.style.display = 'none';
+
+                // Clear all sibling inputs
                 document.querySelectorAll('#siblings-container input, #siblings-container select').forEach(input => {
                     input.value = '';
                 });
             } else {
-                siblingsSection.style.display = 'block';
+                // Show both the siblings container and the add button
+                siblingsContainer.style.display = 'block';
+                addSiblingButton.style.display = 'block';
             }
         });
     });
