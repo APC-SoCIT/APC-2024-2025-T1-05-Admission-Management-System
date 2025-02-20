@@ -72,6 +72,7 @@ class ApplicantInfo extends Model
     'form_138_path',
     'id_picture_path',
     'good_moral_path',
+    'rejection_reason',
     ];
 
     protected $casts = [
