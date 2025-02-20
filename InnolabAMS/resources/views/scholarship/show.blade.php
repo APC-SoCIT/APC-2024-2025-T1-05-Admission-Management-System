@@ -1,8 +1,7 @@
 @section('title', 'Scholarship | InnolabAMS')
 @extends('application') 
 
-@section('content')
-<!-- Title Section -->
+@section('content') <!-- Define the content section -->
 <div class="flex justify-between items-center mb-4">
     <h1 class="text-2xl font-semibold mx-4 my-4">Scholarship</h1>
 
@@ -59,7 +58,7 @@
                                 <th scope="col"
                                     class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Action</th>
-
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -69,7 +68,7 @@
                                     <td class="w-2/12 py-2 px-4 border-b text-center">{{ $applicant->name }}</td>
                                     <td class="w-2/12 py-2 px-4 border-b text-center"></td>{{ $scholarship->scholarship_type }}</td>
                                     <td class="w-3/12 py-2 px-4 border-b text-center">{{ $scholarship->discount_awarded }}</td>
-
+                                
 
                                 </tr>
                             @empty
