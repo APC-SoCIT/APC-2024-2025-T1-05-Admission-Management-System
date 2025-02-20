@@ -16,7 +16,15 @@ $url = config('app.url');
 URL::forceRootUrl($url);
 
 //Login Routes
+//Login Routes
 Route::get('/', function () {
+    if (auth()->check()) {
+        if (auth()->user()->hasRole('Applicant')) {
+            return redirect('/portal');
+        } elseif (auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Staff')) {
+            return redirect('/app');
+        }
+    }
     if (auth()->check()) {
         if (auth()->user()->hasRole('Applicant')) {
             return redirect('/portal');
@@ -54,8 +62,13 @@ Route::middleware('auth')->group(function () {
         if (auth()->user()->hasRole('Applicant')) {
             return redirect('/portal');
         }
+
+        if (auth()->user()->hasRole('Applicant')) {
+            return redirect('/portal');
+        }
         return view('application');
     })->name('dashboard');
+
 
 });
 
