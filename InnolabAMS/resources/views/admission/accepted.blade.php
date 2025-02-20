@@ -1,5 +1,5 @@
 @section('title', 'Accepted Applications | InnolabAMS')
-@extends('dashboard')
+@extends('application')
 
 @section('content')
 <!-- Title Section -->
