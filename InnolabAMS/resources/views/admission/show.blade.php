@@ -333,7 +333,16 @@
                             <h3 class="text-base font-semibold text-gray-900" id="modal-title">Confirm Application Rejection</h3>
                         </div>
                         <div class="mt-2 text-center">
-                            <p class="text-sm text-gray-500">Are you sure you want to reject this application? This action cannot be undone.</p>
+                            <p class="text-sm text-gray-500 mb-4">Please provide a reason for rejecting this application. This will be communicated to the applicant.</p>
+                            <textarea
+                                id="rejectionReason"
+                                name="rejection_reason"
+                                rows="4"
+                                class="w-full px-3 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter rejection reason..."
+                                required
+                            ></textarea>
+                            <p id="rejectionError" class="mt-2 text-sm text-red-600 hidden">Please provide a rejection reason.</p>
                         </div>
                     </div>
                 </div>
@@ -351,7 +360,6 @@
                         </button>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
@@ -368,10 +376,21 @@ function confirmReject(event) {
 
 function closeRejectModal() {
     document.getElementById('rejectModal').classList.add('hidden');
+    document.getElementById('rejectionReason').value = '';
+    document.getElementById('rejectionError').classList.add('hidden');
 }
 
 function submitReject() {
+    const reason = document.getElementById('rejectionReason').value.trim();
+    const errorElement = document.getElementById('rejectionError');
+
+    if (!reason) {
+        errorElement.classList.remove('hidden');
+        return;
+    }
+
     if (rejectForm) {
+        // Add status input if it doesn't exist
         let statusInput = rejectForm.querySelector('input[name="status"]');
         if (!statusInput) {
             statusInput = document.createElement('input');
@@ -380,6 +399,17 @@ function submitReject() {
             rejectForm.appendChild(statusInput);
         }
         statusInput.value = 'rejected';
+
+        // Add rejection reason input
+        let reasonInput = rejectForm.querySelector('input[name="rejection_reason"]');
+        if (!reasonInput) {
+            reasonInput = document.createElement('input');
+            reasonInput.type = 'hidden';
+            reasonInput.name = 'rejection_reason';
+            rejectForm.appendChild(reasonInput);
+        }
+        reasonInput.value = reason;
+
         rejectForm.submit();
         closeRejectModal();
     }
