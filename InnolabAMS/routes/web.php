@@ -1,10 +1,8 @@
 <?php
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ApplicantScholarshipController;
 use App\Http\Controllers\ApplicantInfoController;
-use App\Http\Controllers\DashboardController; //Added dashboard controller
 use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
@@ -16,50 +14,18 @@ use Illuminate\Support\Facades\URL;
 $url = config('app.url');
 URL::forceRootUrl($url);
 
-//Login Routes
 Route::get('/', function () {
-    if (auth()->check()) {
-        if (auth()->user()->hasRole('Applicant')) {
-            return redirect('/portal');
-        } elseif (auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Staff')) {
-            return redirect('/app');
-        }
-    }
-    return view('auth.login');
+    return view('welcome');
 });
 
-
-//Admin Panel and Applicant Portal Routes
-Route::get('/app', function () {
-    if (auth()->check() && auth()->user()->hasRole('Applicant')) {
-        return redirect('/portal');
-    }
-    return view('application');
-})->middleware(['auth', 'verified'])->name('application');
+//Admin Panel and Online Appplication Portal Routes
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/portal', function () {
-    if (auth()->check() && (auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Staff'))) {
-        return redirect('/app');
-    }
     return view('portal');
 })->middleware(['auth', 'verified'])->name('portal'); //Added Route
-
-
-//Dashboard Route
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        if (auth()->user()->hasRole('Staff')) {
-            return redirect('/app');
-        }
-
-        if (auth()->user()->hasRole('Applicant')) {
-            return redirect('/portal');
-        }
-        return view('application');
-    })->name('dashboard');
-
-});
-
 
 //Lead_Info routes
 Route::prefix('lead_info')->name('lead_info.')->group(function () {
@@ -87,7 +53,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Scholarship Routes
-    Route::get('/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show');
+    Route::get('/dashboard/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show');
 
     // Inquiry routes
     Route::prefix('inquiries')->group(function () {
@@ -100,21 +66,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // User Routes
-    Route::middleware('auth')->group(function () {
-        Route::get('/users', function () {
-            if (auth()->user()->hasRole('Staff')) {
-                return redirect('/dashboard')->with('error', 'You do not have access to this page.');
-            }
-            return app(UserController::class)->show();
-        })->name('user.show');
-
-        Route::post('/users', function () {
-            if (auth()->user()->hasRole('Staff')) {
-                return redirect('/dashboard')->with('error', 'You do not have access to this page.');
-            }
-            return app(AddUserController::class)->store(request());
-        })->name('user.store');
-    });
+    Route::get('/dashboard/users', [UserController::class, 'show'])->name('user.show');
 
     // Profile Routes
     Route::controller(ProfileController::class)->group(function () {
@@ -122,9 +74,6 @@ Route::middleware('auth')->group(function () {
         Route::patch('/profile', 'update')->name('profile.update');
         Route::delete('/profile', 'destroy')->name('profile.destroy');
     });
-
-
-    //Applicant Panel Routes
 
     //Personal Information Routes
     Route::prefix('form')->name('form.')->group(function () {
@@ -155,7 +104,7 @@ Route::middleware('auth')->group(function () {
     });
 
     //Personal Information Routes
-    Route::prefix('form')->name('scholarship.')->group(function () {
+    Route::prefix('form')->name('scholarship.')->group(function() {
         Route::get('/portal/scholarship', [ApplicantInfoController::class, 'showScholarshipForm'])->name('create'); //Added Route
 
     });
