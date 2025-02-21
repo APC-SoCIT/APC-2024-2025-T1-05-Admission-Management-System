@@ -202,8 +202,8 @@
                         <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">GWA <span class="text-red-500">*</span></label>
-                        <input type="number" step="0.01" name="gwa" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label>
+                        <input type="text" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
             </div>
@@ -927,6 +927,41 @@
                 updateDocumentRequirements(this.value);
             });
         });
+    });
+
+    // GWA field validation
+    document.querySelector('input[name="gwa"]').addEventListener('input', function(e) {
+        // If there's a decimal point, limit decimal places to 2 without rounding
+        if (this.value.includes('.')) {
+            const parts = this.value.split('.');
+            const whole = parts[0].slice(0, 2); // Limit whole number to 2 digits
+            const decimal = parts[1] ? parts[1].slice(0, 2) : ''; // Limit decimal to 2 digits
+            this.value = decimal ? `${whole}.${decimal}` : `${whole}.`;
+        } else if (this.value.length > 2) {
+            this.value = this.value.slice(0, 2);
+        }
+
+        // Check format: XX.XX (numbers between 0-9, exactly 2 digits before and after decimal)
+        const isValid = /^(\d{0,2})(\.)?(\d{0,2})$/.test(this.value);
+
+        // Additional validation to ensure the value is between 0 and 100
+        const numValue = parseFloat(this.value);
+        const isValidRange = isNaN(numValue) || (numValue >= 0 && numValue <= 100);
+
+        if (!isValid || !isValidRange) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid GWA (e.g., 90.78)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
     });
 </script>
 @endpush
