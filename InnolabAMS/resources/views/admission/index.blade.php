@@ -10,11 +10,13 @@
         <!-- Search Icon and Bar -->
         <div class="relative flex items-center">
             <button id="searchIcon"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+                <i class="fas fa-search"></i>
             </button>
-            <input type="text" id="searchBar" placeholder="Search..."
-                class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
+            <input type="text"
+                   id="searchInput"
+                   placeholder="Search..."
+                   class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none ml-2 hidden transition-all duration-300">
         </div>
 
         <!-- Sort Icon and Dropdown -->
@@ -36,9 +38,9 @@
 
         <!-- Add Applicant Button -->
         <a href="{{ route('admission.create') }}"
-        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
-        <i class="fa-solid fa-plus mr-2"></i>Add Applicant
-    </a>
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
+            <i class="fa-solid fa-plus mr-2"></i>Add Applicant
+        </a>
     </div>
 </div>
 
@@ -90,29 +92,35 @@
 <script>
    document.addEventListener("DOMContentLoaded", () => {
         const searchIcon = document.getElementById("searchIcon");
-        const searchBar = document.getElementById("searchBar");
+        const searchInput = document.getElementById("searchInput");
         const applicantsTable = document.getElementById("applicantsTable");
         const sortIcon = document.getElementById("sortIcon");
         const sortDropdown = document.getElementById("sortDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
         const sortNewOld = document.getElementById("sortNewOld");
-        let sortOrder = "asc";
 
-        // Search Bar Logic
+        // Toggle search bar
         searchIcon.addEventListener("click", () => {
-            if (searchBar.classList.contains("hidden")) {
-                searchBar.classList.remove("hidden");
-                searchBar.focus();
-            } else {
-                searchBar.classList.add("hidden");
+            searchInput.classList.toggle("hidden");
+            if (!searchInput.classList.contains("hidden")) {
+                searchInput.focus();
             }
         });
 
-        searchBar.addEventListener("input", () => {
-            const filter = searchBar.value.toLowerCase();
-            const rows = applicantsTable.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        // Close search bar when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!searchInput.contains(e.target) && !searchIcon.contains(e.target)) {
+                searchInput.classList.add("hidden");
+            }
+        });
 
-            rows.forEach(row => {
+        // Search functionality
+        function performSearch() {
+            const filter = searchInput.value.toLowerCase();
+            const tbody = applicantsTable.getElementsByTagName("tbody")[0];
+            const rows = tbody.getElementsByTagName("tr");
+
+            Array.from(rows).forEach(row => {
                 const name = row.cells[1].textContent.toLowerCase();
                 const email = row.cells[4].textContent.toLowerCase();
                 const program = row.cells[3].textContent.toLowerCase();
@@ -125,14 +133,21 @@
                     row.style.display = "none";
                 }
             });
+        }
+
+        // Add event listeners for search
+        searchInput.addEventListener("input", performSearch);
+        searchInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                performSearch();
+            }
         });
 
-        // Sort Dropdown Logic
+        // Sort functionality (unchanged)
         sortIcon.addEventListener("click", () => {
             sortDropdown.classList.toggle("hidden");
         });
 
-        // Sort Old - New
         sortOldNew.addEventListener("click", () => {
             const tbody = applicantsTable.getElementsByTagName("tbody")[0];
             const rows = Array.from(tbody.getElementsByTagName("tr"));
@@ -143,7 +158,6 @@
             sortDropdown.classList.add("hidden");
         });
 
-        // Sort New - Old
         sortNewOld.addEventListener("click", () => {
             const tbody = applicantsTable.getElementsByTagName("tbody")[0];
             const rows = Array.from(tbody.getElementsByTagName("tr"));
