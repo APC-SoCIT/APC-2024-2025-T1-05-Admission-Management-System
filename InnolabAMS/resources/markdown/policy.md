@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # **Data Privacy Policy**<br><br>
 
 InnolabAMS is committed to safeguarding the personal information of all student applicants and ensuring their right to privacy. In adherence to Republic Act 10173, also known as the Data Privacy Act of 2012, and in alignment with the principles of transparency, legitimate purpose, and proportionality, this policy outlines the data privacy rights of applicants.
@@ -73,3 +74,8 @@ If you have questions regarding this policy, you may contact:
 <br><br>
 
 ---
+=======
+# Privacy Policy
+
+Edit this file to define the privacy policy for your application.
+>>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")

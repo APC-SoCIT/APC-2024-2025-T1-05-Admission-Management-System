@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function show(Request $request)
+    public function show()
     {
         $users = User::paginate(10); // Fetch all users from the database
         return view('user.show', compact('users')); // Pass users to the view

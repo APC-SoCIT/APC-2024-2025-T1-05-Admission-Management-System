@@ -8,12 +8,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 =======
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inquiry Form</title>
+<<<<<<< HEAD
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> Link to Tailwind or custom styles -->
 >>>>>>> 851876b (Revert "Merge branch 'feature/77_implement_admin_admission_management' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into feature/77_implement_admin_admission_management")
+=======
+>>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
 
     <title>{{ config('app.name', 'InnolabAMS') }}</title>
 
@@ -89,6 +93,7 @@
         color: #555;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     input[type="text"],
     input[type="email"],
@@ -184,8 +189,52 @@
 
 
 =======
+=======
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+>>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
         input[type="checkbox"] {
-            margin-right: 10px;
+            margin: 0;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Data Privacy Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .modal button {
+            background-color: red;
+            color: white;
+            margin-top: 10px;
+            width: auto;
+        }
+
+        .required {
+            color: red;
+            font-weight: bold;
         }
     </style>
 >>>>>>> 851876b (Revert "Merge branch 'feature/77_implement_admin_admission_management' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into feature/77_implement_admin_admission_management")
@@ -205,10 +254,14 @@
         </div>
     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
 
     <!-- Data Privacy Modal -->
     <div id="privacyModal" class="modal">
         <div class="modal-content">
+<<<<<<< HEAD
             <div class="prose max-w-none">
                 {!! Str::markdown(file_get_contents(resource_path('markdown/policy.md'))) !!}
             </div>
@@ -219,6 +272,12 @@
             </div>
         </div>
         </>
+=======
+            <h2 class="text-xl font-bold mb-4">Data Privacy Policy</h2>
+            <p>Your data will be used in accordance with the Data Privacy Act...</p>
+            <button onclick="closePrivacyPolicy()">Close</button>
+        </div>
+>>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
     </div>
 
     <script>
@@ -230,6 +289,7 @@
             document.getElementById('privacyModal').style.display = 'none';
         }
     </script>
+<<<<<<< HEAD
 
 
     <script>
@@ -256,5 +316,8 @@
 
 =======
 >>>>>>> 851876b (Revert "Merge branch 'feature/77_implement_admin_admission_management' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into feature/77_implement_admin_admission_management")
+=======
+>>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
 </body>
+
 </html>

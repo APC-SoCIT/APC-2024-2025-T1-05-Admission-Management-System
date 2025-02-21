@@ -14,12 +14,12 @@ class AdditionalInfoController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {        
+    {
         // Get the authenticated user's applicant info
         $applicant = ApplicantInfo::where('user_id', Auth::id())->first();
-        
+
         // Retrieve existing additional info if available
-        $additionalInfo = $applicant ? ApplicantInfo::where('user_id', auth()->id())->first() : null;
+        $additionalInfo = $applicant ? ApplicantInfo::where('user_id', Auth::id())->first() : null;
 
         return view('additional_info.create', compact('additionalInfo'));
     }
@@ -48,12 +48,9 @@ class AdditionalInfoController extends Controller
         $applicant = ApplicantInfo::where('user_id', Auth::id())->firstOrFail();
 
         $additionalInfo = ApplicantInfo::updateOrCreate(
-            ['applicant_id' => $applicant->id],
-            $request->all()
+            ['user_id' => Auth::id()],
+            $validatedData
         );
-
-        // Update the additional info
-        $additionalInfo->update($validatedData);
 
         return response()->json([
             'success' => true,
