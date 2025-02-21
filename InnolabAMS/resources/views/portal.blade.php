@@ -14,14 +14,15 @@
                 <li>
                     <a href="{{ route('form.personal_info') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                     {{ request()->routeIs('personal_information.create') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-user-graduate"></i>
+                        <i class="fa-solid fa-user w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Personal Information') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('educational-background.create') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                    <a href="{{ route('educational-background.create') }}" 
+                    class="flex items-center py-2 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                             {{ request()->routeIs('educational-background.*') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-school"></i>
+                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Educational Background') }}</span>
                     </a>
                 </li>
@@ -33,16 +34,18 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('additional_info.create') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                    <a href="{{ route('additional_info.create') }}" 
+                    class="flex items-center py-2 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                             {{ request()->routeIs('additional_info.*') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Additional Information') }}</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('scholarship.create') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                    <a href="{{ route('scholarship.create') }}"
+                       class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                               {{ request()->routeIs('scholarship.create') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-handshake"></i>
+                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Scholarship') }}</span>
                     </a>
                 </li>
