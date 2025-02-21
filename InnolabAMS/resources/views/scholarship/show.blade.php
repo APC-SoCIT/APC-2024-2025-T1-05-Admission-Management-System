@@ -1,5 +1,5 @@
 @section('title', 'Scholarship | InnolabAMS')
-@extends('dashboard') <!-- Use the dashboard layout -->
+@extends('application') 
 
 @section('content')
 <!-- Title Section -->
