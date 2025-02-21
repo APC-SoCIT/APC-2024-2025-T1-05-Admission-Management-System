@@ -2,28 +2,13 @@
 @section('title', 'Inquiry Details | InnolabAMS')
 
 @section('content')
-<div class="bg-white rounded-lg shadow-md p-6">
-    <h1 class="text-2xl font-bold mb-4">Inquiry Details</h1>
+<div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-semibold mx-4 my-4">Inquiries</h1>
+
     <div class="flex items-center space-x-4">
-        <!-- Search Icon and Bar -->
-        <div class="relative flex items-center">
-            <button id="searchIcon"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <input type="text" id="searchBar" placeholder="Search..."
-                class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
-        </div>
-
-        <!-- Sort Icon and Dropdown -->
-        <div class="relative">
-            <button id="sortIcon"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
+    <!-- maybe add the button for status here -->
     </div>
-
+</div>
     <div class="overflow-x-auto">
         <table class="w-full border-collapse border border-black-600">
             <tbody>
