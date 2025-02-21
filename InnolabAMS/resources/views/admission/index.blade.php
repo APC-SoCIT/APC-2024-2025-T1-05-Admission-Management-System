@@ -84,12 +84,12 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($applicants as $applicant)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $applicant->id }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $applicant->full_name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $applicant->gender }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $applicant->apply_program }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $applicant->user->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $applicant->applicant_mobile_number }}</td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->id }}</td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->full_name }}</td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->gender }}</td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->apply_program }}</td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->user->email }}</td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->applicant_mobile_number }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                 {{ $applicant->status === 'accepted' ? 'bg-green-100 text-green-800' : '' }}
@@ -98,7 +98,7 @@
                                 {{ ucfirst($applicant->status) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                             <a href="{{ route('admission.show', $applicant->id) }}"
                                class="text-blue-600 hover:text-blue-900">
                                 <i class="fas fa-eye"></i>
