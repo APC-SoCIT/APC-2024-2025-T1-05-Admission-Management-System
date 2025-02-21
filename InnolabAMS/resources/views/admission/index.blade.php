@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('application')
 @section('title', 'Applications | InnolabAMS')
 
 @section('content')

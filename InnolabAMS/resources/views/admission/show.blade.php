@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('application')
 @section('title', 'Application Details | InnolabAMS')
 
 @section('content')
@@ -29,7 +29,7 @@
                 </button>
                 <button type="submit" name="status" value="rejected"
                     onclick="confirmReject(event)"
-                    class="inline-flex items-center px-6 py-2 bg-red-600 text-white font-bold rounded-lg transition-opacity hover:opacity-80">
+                    class="inline-flex items-center px-6 py-2 bg-grey-600 text-white font-bold rounded-lg transition-opacity hover:opacity-80">
                     Reject
                 </button>
             </form>

@@ -953,9 +953,9 @@
                     x-transition:enter-start="opacity-0 transform scale-95"
                     x-transition:enter-end="opacity-100 transform scale-100" class="flex flex-col items-center gap-4">
                     @auth
-                        <a href="{{ url('/dashboard') }}"
+                        <a href="{{ url('/app') }}"
                             class="rounded-md border border-gray-300 px-4 py-2 text-black transition duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
-                            Dashboard
+                            Welcome
                         </a>
                     @else
                         <div class="flex gap-4 justify-center">
