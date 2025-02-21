@@ -7,12 +7,16 @@
     <h1 class="text-2xl font-semibold mx-4 my-4">Applications</h1>
 
     <div class="flex items-center space-x-4">
-        <!-- Search Bar -->
-        <div class="relative">
+        <!-- Search Icon and Bar -->
+        <div class="relative flex items-center">
+            <button id="searchIcon"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
+                <i class="fas fa-search"></i>
+            </button>
             <input type="text"
                    id="searchInput"
                    placeholder="Search..."
-                   class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
+                   class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none ml-2 hidden transition-all duration-300">
         </div>
 
         <!-- Sort Icon and Dropdown -->
@@ -87,12 +91,28 @@
 @push('scripts')
 <script>
    document.addEventListener("DOMContentLoaded", () => {
+        const searchIcon = document.getElementById("searchIcon");
         const searchInput = document.getElementById("searchInput");
         const applicantsTable = document.getElementById("applicantsTable");
         const sortIcon = document.getElementById("sortIcon");
         const sortDropdown = document.getElementById("sortDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
         const sortNewOld = document.getElementById("sortNewOld");
+
+        // Toggle search bar
+        searchIcon.addEventListener("click", () => {
+            searchInput.classList.toggle("hidden");
+            if (!searchInput.classList.contains("hidden")) {
+                searchInput.focus();
+            }
+        });
+
+        // Close search bar when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!searchInput.contains(e.target) && !searchIcon.contains(e.target)) {
+                searchInput.classList.add("hidden");
+            }
+        });
 
         // Search functionality
         function performSearch() {
