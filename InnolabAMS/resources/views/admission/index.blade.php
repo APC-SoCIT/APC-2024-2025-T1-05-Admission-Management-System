@@ -35,7 +35,7 @@
         </div>
 
         <!-- Add Applicant Button -->
-        <a href="{{ route('admission.create') }}" 
+        <a href="{{ route('admission.create') }}"
         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
         <i class="fa-solid fa-plus mr-2"></i>Add Applicant
     </a>
@@ -68,7 +68,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->user->email }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">{{ $applicant->applicant_mobile_number }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <a href="{{ route('admission.show', $applicant->id) }}" 
+                            <a href="{{ route('admission.show', $applicant->id) }}"
                                class="text-blue-600 hover:text-blue-800 underline">
                                 View
                             </a>
@@ -91,7 +91,7 @@
    document.addEventListener("DOMContentLoaded", () => {
         const searchIcon = document.getElementById("searchIcon");
         const searchBar = document.getElementById("searchBar");
-        const userTable = document.getElementById("userTable");
+        const applicantsTable = document.getElementById("applicantsTable");
         const sortIcon = document.getElementById("sortIcon");
         const sortDropdown = document.getElementById("sortDropdown");
         const sortOldNew = document.getElementById("sortOldNew");
@@ -110,13 +110,16 @@
 
         searchBar.addEventListener("input", () => {
             const filter = searchBar.value.toLowerCase();
-            const rows = userTable.querySelectorAll("tr");
+            const rows = applicantsTable.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
             rows.forEach(row => {
-                const name = row.children[1].textContent.toLowerCase();
-                const email = row.children[2].textContent.toLowerCase();
+                const name = row.cells[1].textContent.toLowerCase();
+                const email = row.cells[4].textContent.toLowerCase();
+                const program = row.cells[3].textContent.toLowerCase();
 
-                if (name.includes(filter) || email.includes(filter)) {
+                if (name.includes(filter) ||
+                    email.includes(filter) ||
+                    program.includes(filter)) {
                     row.style.display = "";
                 } else {
                     row.style.display = "none";
@@ -131,19 +134,25 @@
 
         // Sort Old - New
         sortOldNew.addEventListener("click", () => {
-            const rows = Array.from(userTable.querySelectorAll("tr"));
-            rows.sort((a, b) => parseInt(a.children[0].textContent) - parseInt(b.children[0].textContent));
-            rows.forEach(row => userTable.appendChild(row));
+            const tbody = applicantsTable.getElementsByTagName("tbody")[0];
+            const rows = Array.from(tbody.getElementsByTagName("tr"));
+
+            rows.sort((a, b) => parseInt(a.cells[0].textContent) - parseInt(b.cells[0].textContent));
+
+            rows.forEach(row => tbody.appendChild(row));
             sortDropdown.classList.add("hidden");
         });
 
         // Sort New - Old
-        sortNewOld.addEventListener("click"), () => {
-            const rows = Array.from(userTable.querySelectorAll("tr"));
-            rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
-            rows.forEach(row => userTable.appendChild(row));
+        sortNewOld.addEventListener("click", () => {
+            const tbody = applicantsTable.getElementsByTagName("tbody")[0];
+            const rows = Array.from(tbody.getElementsByTagName("tr"));
+
+            rows.sort((a, b) => parseInt(b.cells[0].textContent) - parseInt(a.cells[0].textContent));
+
+            rows.forEach(row => tbody.appendChild(row));
             sortDropdown.classList.add("hidden");
-        }
+        });
     });
 </script>
 @endpush
