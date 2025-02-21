@@ -9,9 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('applicant_infos', function (Blueprint $table) {
-            $table->boolean('is_only_child')->default(false)->after('siblings');
-            $table->text('acceptance_message')->nullable()->after('status');
-            $table->timestamp('accepted_at')->nullable()->after('acceptance_message');
+            if (!Schema::hasColumn('applicant_infos', 'is_only_child')) {
+                $table->boolean('is_only_child')->default(false)->after('siblings');
+            }
+            if (!Schema::hasColumn('applicant_infos', 'acceptance_message')) {
+                $table->text('acceptance_message')->nullable()->after('status');
+            }
+            if (!Schema::hasColumn('applicant_infos', 'accepted_at')) {
+                $table->timestamp('accepted_at')->nullable()->after('acceptance_message');
+            }
         });
     }
 
