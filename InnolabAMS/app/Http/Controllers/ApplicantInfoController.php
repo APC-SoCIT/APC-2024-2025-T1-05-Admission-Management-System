@@ -310,14 +310,14 @@ class ApplicantInfoController extends Controller
     public function updateStatus(Request $request, $id)
     {
         if ($request->status === 'accepted') {
-            return $this->acceptApplication(new AcceptApplicationRequest($request->all()), $id);
+            return $this->acceptApplication($request, $id);
         }
 
-        // Use existing rejection logic
-        return $this->rejectApplication(new RejectApplicationRequest($request->all()), $id);
+        // Use existing rejection logic but pass the original request
+        return $this->rejectApplication($request, $id);
     }
 
-    protected function acceptApplication(AcceptApplicationRequest $request, $id)
+    protected function acceptApplication(Request $request, $id)
     {
         $applicant = ApplicantInfo::findOrFail($id);
 
@@ -336,10 +336,13 @@ class ApplicantInfoController extends Controller
             ->with('success', 'Application has been accepted successfully.');
     }
 
-    protected function rejectApplication(RejectApplicationRequest $request, $id)
+    protected function rejectApplication(Request $request, $id)
     {
-        // Your existing rejection logic
-        $validated = $request->validated();
+        // Validate the request here instead of using a form request
+        $validated = $request->validate([
+            'status' => 'required|in:rejected',
+            'rejection_reason' => 'required|string|max:1000'
+        ]);
 
         $applicant = ApplicantInfo::findOrFail($id);
         $applicant->update([
@@ -349,6 +352,7 @@ class ApplicantInfoController extends Controller
             'processed_by' => auth()->id()
         ]);
 
+        // Send rejection notification
         $applicant->user->notify(new ApplicationRejected($applicant));
 
         return redirect()->route('admission.rejected')
