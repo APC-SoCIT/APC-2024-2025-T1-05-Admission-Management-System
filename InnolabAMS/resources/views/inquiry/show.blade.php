@@ -1,6 +1,6 @@
-@extends('application')
-@section('title', 'Inquiry Details | InnolabAMS')
+@extends('dashboard') <!-- Use the dashboard layout -->
 
+<<<<<<< HEAD
 @section('content')
 <div class="flex justify-between items-center mb-4">
 
@@ -113,67 +113,15 @@
         </tbody>
     </table>
 </div>
+=======
+@section('content') <!-- Define the content section -->
+<div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-semibold mx-4 my-4">Inquiry details</h1>
+    <p>Name: {{ $leadInfo->lead_surname }}, {{ $leadInfo->lead_given_name }}</p>
+    <p>Email: {{ $leadInfo->lead_email }}</p>
+    <p>Message: {{ $leadInfo->lead_message }}</p>
+
+>>>>>>> 851876b (Revert "Merge branch 'feature/77_implement_admin_admission_management' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into feature/77_implement_admin_admission_management")
 </div>
 
-@push('scripts')
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const searchIcon = document.getElementById("searchIcon");
-        const searchBar = document.getElementById("searchBar");
-        const userTable = document.getElementById("userTable");
-        const sortIcon = document.getElementById("sortIcon");
-        const sortdropdown = document.getElementById("sortdropdown");
-        const sortOldNew = document.getElementById("sortOldNew");
-        const sortNewOld = document.getElementById("sortNewOld");
-        let sortOrder = "asc";
-
-        // Search Bar Logic
-        searchIcon.addEventListener("click", () => {
-            if (searchBar.classList.contains("hidden")) {
-                searchBar.classList.remove("hidden");
-                searchBar.focus();
-            } else {
-                searchBar.classList.add("hidden");
-            }
-        });
-
-        searchBar.addEventListener("input", () => {
-            const filter = searchBar.value.toLowerCase();
-            const rows = userTable.querySelectorAll("td");
-
-            rows.forEach(row => {
-                const name = row.children[1].textContent.toLowerCase();
-                const email = row.children[2].textContent.toLowerCase();
-
-                if (name.includes(filter) || email.includes(filter)) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        });
-
-        // Sort Dropdown Logic
-        sortIcon.addEventListener("click", () => {
-            sortdropdown.classList.toggle("hidden");
-        });
-
-        // Sort Old - New
-        sortOldNew.addEventListener("click", () => {
-            const rows = Array.from(userTable.querySelectorAll("td"));
-            rows.sort((a, b) => parseInt(a.children[0].textContent) - parseInt(b.children[0].textContent));
-            rows.forEach(row => userTable.appendChild(row));
-            sortdropdown.classList.add("hidden");
-        });
-
-        // Sort New - Old
-        sortNewOld.addEventListener("click"), () => {
-            const rows = Array.from(userTable.querySelectorAll("td"));
-            rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
-            rows.forEach(row => userTable.appendChild(row));
-            sortdropdown.classList.add("hidden");
-        }
-    });
-</script>
-@endpush
 @endsection
