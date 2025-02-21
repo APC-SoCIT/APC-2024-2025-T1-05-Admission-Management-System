@@ -29,9 +29,13 @@ class ApplicantInfoController extends Controller
                 'apply_program',
                 'applicant_mobile_number',
                 'status'
-            )->get();
+            )
+            ->paginate(10);
 
-        return view('admission.index', compact('applicants'));
+        return view('admission.index', array_merge(
+            ['applicants' => $applicants],
+            $this->getCounts()
+        ));
     }
 
     // Store method for handling form submissions
@@ -115,50 +119,35 @@ class ApplicantInfoController extends Controller
 
     public function new()
     {
-        $applicants = ApplicantInfo::with('user')
-            ->where('status', 'new')
-            ->get();
-        return view('admission.index', ['applicants' => $applicants]);
+        $applicants = ApplicantInfo::where('status', 'new')
+            ->with('user')
+            ->paginate(10);
+        return view('admission.new', array_merge(
+            ['applicants' => $applicants],
+            $this->getCounts()
+        ));
     }
 
     public function accepted()
     {
         $applicants = ApplicantInfo::where('status', 'accepted')
             ->with('user')
-            ->select(
-                'id',
-                'user_id',
-                'applicant_surname',
-                'applicant_given_name',
-                'applicant_middle_name',
-                'applicant_extension',
-                'gender',
-                'apply_program',
-                'applicant_mobile_number',
-                'status'
-            )->get();
-
-        return view('admission.index', compact('applicants'));
+            ->paginate(10);
+        return view('admission.accepted', array_merge(
+            ['applicants' => $applicants],
+            $this->getCounts()
+        ));
     }
 
     public function rejected()
     {
         $applicants = ApplicantInfo::where('status', 'rejected')
             ->with('user')
-            ->select(
-                'id',
-                'user_id',
-                'applicant_surname',
-                'applicant_given_name',
-                'applicant_middle_name',
-                'applicant_extension',
-                'gender',
-                'apply_program',
-                'applicant_mobile_number',
-                'status'
-            )->get();
-
-        return view('admission.index', compact('applicants'));
+            ->paginate(10);
+        return view('admission.rejected', array_merge(
+            ['applicants' => $applicants],
+            $this->getCounts()
+        ));
     }
 
     // Add these methods to your existing ApplicantInfoController class
@@ -357,5 +346,14 @@ class ApplicantInfoController extends Controller
 
         return redirect()->route('admission.rejected')
             ->with('success', 'Application has been rejected');
+    }
+
+    private function getCounts()
+    {
+        return [
+            'newCount' => ApplicantInfo::where('status', 'new')->count(),
+            'acceptedCount' => ApplicantInfo::where('status', 'accepted')->count(),
+            'rejectedCount' => ApplicantInfo::where('status', 'rejected')->count(),
+        ];
     }
 }
