@@ -130,6 +130,7 @@
         text-align: left !important;
     }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -161,14 +162,27 @@
         </>
     </div>
 
-    <script>
-        function openPrivacyPolicy() {
-            document.getElementById('privacyModal').style.display = 'flex';
-        }
 
-        function closePrivacyPolicy() {
-            document.getElementById('privacyModal').style.display = 'none';
-        }
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const skillsDropdown = document.getElementById('skills_lead');
+        const otherSkillsContainer = document.getElementById('other_skills_container');
+
+        skillsDropdown.addEventListener('change', function() {
+            if (this.value === 'Others') {
+                otherSkillsContainer.style.display = 'block';
+            } else {
+                otherSkillsContainer.style.display = 'none';
+            }
+        });
+    });
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const submitButton = this.querySelector('button[type="submit"], input[type="submit"]');
+        submitButton.disabled = true;
+        // Optionally, change the button text
+        submitButton.innerText = 'Submitting...';
+    });
     </script>
 
 </body>
