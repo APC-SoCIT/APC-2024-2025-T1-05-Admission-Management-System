@@ -41,7 +41,15 @@ class LeadInfoController extends Controller
             'lead_address_city' => 'nullable|string|max:225',
             'inquired_details' => 'required|in:OPTION_1,OPTION_2,OPTION_3',
             'lead_message' => 'nullable|string',
+<<<<<<< HEAD
             'source' => 'nullable|array', // Validate source as an array
+=======
+            'extracurricular_interest_lead' => 'nullable|string|max:225',
+            'skills_lead' => 'nullable|in:Communication,Teamwork,Leadership,Problem-Solving,Time Management,Creativity,Adaptability,Technology-related,Others',
+            'other_skills_lead' => 'nullable|string|max:225', //added field
+            'desired_career' => 'nullable|string|max:225',
+            'source' => 'nullable|array', // Source should be an array
+>>>>>>> app_rc_jd_mp
         ]);
         
         // Convert 'source' to a JSON string or handle it as needed
@@ -72,7 +80,11 @@ class LeadInfoController extends Controller
             'lead_surname' => 'required|string|max:225',
             'lead_given_name' => 'required|string|max:225',
             'lead_email' => 'required|email|max:225',
+<<<<<<< HEAD
             'inquired_details' => 'required|in:OPTION_1,OPTION_2,OPTION_3',
+=======
+            'inquired_details' => 'required|in:Application Requirements,Application Process,Tuition Fees,Scholarship Opportunities,Program Offerings,Admission Deadlines,Others',
+>>>>>>> app_rc_jd_mp
             'inquiry_submitted' => 'nullable|date',
             'details_sent' => 'nullable|string|max:225',
             'response_date' => 'nullable|date',

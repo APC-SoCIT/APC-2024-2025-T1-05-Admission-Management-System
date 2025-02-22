@@ -25,11 +25,13 @@ class LeadInfo extends Model
         'lead_message',
         'extracurricular_interest_lead',
         'skills_lead',
+        'other_skills_lead', // Newly added field
         'desired_career',
         'inquiry_submitted',
         'details_sent',
         'response_date',
         'inquiry_status',
+        'source',
     ];
 
     // Define default values for the inquiry_status (if not explicitly set)
