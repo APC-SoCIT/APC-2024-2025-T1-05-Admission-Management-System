@@ -88,7 +88,7 @@
                     <td class="px-4 py-2">{{ $applicant->applicant_religion }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Address:</td>
+                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Complete Address:</td>
                     <td class="px-4 py-2" colspan="3">{{ implode(', ', array_filter([$applicant->applicant_address_street, $applicant->applicant_address_city, $applicant->applicant_address_province, $applicant->applicant_barangay])) }}</td>
                 </tr>
                 <tr class="border-b">

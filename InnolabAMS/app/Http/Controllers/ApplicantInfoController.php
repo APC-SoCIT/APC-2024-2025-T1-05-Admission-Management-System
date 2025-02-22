@@ -28,9 +28,11 @@ class ApplicantInfoController extends Controller
                 'gender',
                 'apply_program',
                 'applicant_mobile_number',
-                'status'
+                'status',
+                'applicant_email'
             )
-            ->paginate(10);
+            ->paginate(10)
+            ->through(fn($applicant) => $applicant->makeVisible('applicant_email'));
 
         return view('admission.index', array_merge(
             ['applicants' => $applicants],
