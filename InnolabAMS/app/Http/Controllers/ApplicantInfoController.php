@@ -210,7 +210,8 @@ class ApplicantInfoController extends Controller
                 'applicant_address_city' => 'required|max:255',
                 'applicant_nationality' => 'required|max:255',
                 'applicant_religion' => 'nullable|max:255',
-                'applicant_mobile_number' => 'required|max:12',
+                'applicant_mobile_number' => 'required|string|max:11',
+                'applicant_email' => 'required|email|max:255|unique:applicant_infos,applicant_email',
                 'applicant_photo' => 'nullable|image|max:2048',
 
                 // Educational Background

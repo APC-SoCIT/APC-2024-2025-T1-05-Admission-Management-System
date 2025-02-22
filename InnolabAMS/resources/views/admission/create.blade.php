@@ -128,10 +128,9 @@
                                pattern="[0-9]{7,8}"
                                maxlength="8"
                                title="Please enter a valid telephone number (7-8 digits)"
-                               placeholder="e.g., 87654321"
+                               placeholder="8xxxxxxx"
                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Format: 7-8 digits only</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
@@ -140,7 +139,7 @@
                                pattern="[0-9]{11}"
                                maxlength="11"
                                title="Please enter a valid mobile number (11 digits)"
-                               placeholder="e.g., 09123456789"
+                               placeholder="09xxxxxxxxx"
                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                required
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -151,10 +150,8 @@
                                name="applicant_email"
                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                                title="Please enter a valid email address"
-                               placeholder="e.g., juan.delacruz@email.com"
                                required
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Enter a valid email address</p>
                     </div>
                 </div>
             </div>
@@ -1029,43 +1026,6 @@
             }
         }
     });
-
-    // Telephone number validation
-    const telInput = document.querySelector('input[name="applicant_tel_no"]');
-    telInput.addEventListener('input', function() {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 8) {
-            value = value.slice(0, 8);
-        }
-        this.value = value;
-
-        // Show validation message
-        const isValid = value.length >= 7 && value.length <= 8;
-        this.classList.toggle('border-red-500', !isValid && value.length > 0);
-    });
-
-    // Mobile number validation
-    const mobileInput = document.querySelector('input[name="applicant_mobile_number"]');
-    mobileInput.addEventListener('input', function() {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 11) {
-            value = value.slice(0, 11);
-        }
-        this.value = value;
-
-        // Show validation message
-        const isValid = value.length === 11 && value.startsWith('09');
-        this.classList.toggle('border-red-500', !isValid && value.length > 0);
-    });
-
-    // Email validation
-    const emailInput = document.querySelector('input[name="applicant_email"]');
-    emailInput.addEventListener('input', function() {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const isValid = emailRegex.test(this.value);
-        this.classList.toggle('border-red-500', !isValid && this.value.length > 0);
-    });
-});
 </script>
 @endpush
 @endsection

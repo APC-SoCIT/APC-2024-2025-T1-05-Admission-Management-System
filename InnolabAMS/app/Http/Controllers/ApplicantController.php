@@ -51,6 +51,7 @@ class ApplicantController extends Controller
                 'applicant_place_birth' => 'required',
                 'applicant_nationality' => 'required',
                 'applicant_mobile_number' => 'required',
+                'applicant_email' => 'required|email|max:255|unique:applicant_infos,applicant_email',
                 'applicant_address_city' => 'required',
                 'applicant_barangay' => 'required',
                 'applicant_address_street' => 'required',

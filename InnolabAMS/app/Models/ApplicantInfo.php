@@ -33,6 +33,7 @@ class ApplicantInfo extends Model
     'applicant_nationality',
     'applicant_religion',
     'applicant_mobile_number',
+    'applicant_email',
     'applicant_photo',
     'lrn',
     'school_name',
