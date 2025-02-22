@@ -41,7 +41,7 @@
             <label for="data_privacy" class="inline-flex items-center">
                 <input id="data_privacy" type="checkbox" required
                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                <span class="ms-2 text-m text-gray">
+                <span class="ms-2 text-sm text-gray">
                     I agree to the
                     <a href="#" onclick="openPrivacyPolicy()" class="text-blue-500 underline">
                         Data Privacy Policy
