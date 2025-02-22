@@ -1,9 +1,6 @@
 @extends('layouts.inquiry_form')
 
 @section('content')
-<!-- Inquiry Form -->
-<div class="container mx-auto p-4 bg-white shadow-md rounded">
-    <h1 class="text-2xl font-bold mb-4">Inquiry Form</h1>
 
     <div class="container">
         <h1 class="text-2xl font-bold">Inquiry Form</h1>
