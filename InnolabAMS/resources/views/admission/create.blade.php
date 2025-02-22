@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('application')
 @section('title', 'Add Applicant | InnolabAMS')
 
 @section('content')
@@ -236,8 +236,8 @@
                         <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label>
-                        <input type="text" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">GWA <span class="text-red-500">*</span></label>
+                        <input type="number" step="0.01" name="gwa" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                 </div>
             </div>
@@ -339,7 +339,7 @@
                     </div>
 
                     <div id="siblings-container" class="mt-4">
-                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4 relative">
+                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
                             <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -349,14 +349,7 @@
                                     <option value="Grade {{ $i }}">Grade {{ $i }}</option>
                                 @endfor
                             </select>
-                            <div class="flex items-center">
-                                <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <button type="button" onclick="removeSibling(this)" class="ml-2 text-red-500 hover:text-red-700" style="display: none;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                            </div>
+                            <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
 
@@ -658,7 +651,7 @@
     document.getElementById('add-sibling').addEventListener('click', function() {
         const container = document.getElementById('siblings-container');
         const newEntry = document.createElement('div');
-        newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4 relative';
+        newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4';
         newEntry.innerHTML = `
             <input type="text" name="siblings[${siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <input type="date" name="siblings[${siblingCount}][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -667,14 +660,7 @@
                 <option value="">Select Grade Level</option>
                 ${generateGradeOptions(1, 12)}
             </select>
-            <div class="flex items-center">
-                <input type="text" name="siblings[${siblingCount}][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <button type="button" onclick="removeSibling(this)" class="ml-2 text-red-500 hover:text-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
+            <input type="text" name="siblings[${siblingCount}][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
         `;
         container.appendChild(newEntry);
         siblingCount++;
@@ -701,24 +687,6 @@
         }
     }
 
-    // Add the removeSibling function
-    function removeSibling(button) {
-        const siblingEntry = button.closest('.sibling-entry');
-        siblingEntry.remove();
-
-        // Reindex remaining sibling entries
-        const siblingEntries = document.querySelectorAll('.sibling-entry');
-        siblingEntries.forEach((entry, index) => {
-            entry.querySelectorAll('input, select').forEach(input => {
-                const fieldName = input.name.split('[')[2]?.split(']')[0];
-                if (fieldName) {
-                    input.name = `siblings[${index}][${fieldName}]`;
-                }
-            });
-        });
-
-        siblingCount = siblingEntries.length;
-    }
 
     document.querySelector('input[name="siblings[0][date_of_birth]"]').addEventListener('change', function() {
         calculateSiblingAge(this);
@@ -1066,6 +1034,7 @@
         this.classList.toggle('border-red-500', !isValid && this.value.length > 0);
     });
 });
+
 </script>
 @endpush
 @endsection
