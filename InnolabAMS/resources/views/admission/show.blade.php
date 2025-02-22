@@ -97,7 +97,7 @@
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-x">Mobile No:</td>
                     <td class="w-1/4 px-4 py-2">{{ $applicant->applicant_mobile_number }}</td>
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-x">Email:</td>
-                    <td class="px-4 py-2">{{ $applicant->user->email }}</td>
+                    <td class="px-4 py-2">{{ $applicant->applicant_email }}</td>
                 </tr>
             </table>
         </div>
