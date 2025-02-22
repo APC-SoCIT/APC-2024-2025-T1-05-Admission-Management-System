@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('application') <!-- Use the application layout -->
 @section('title', 'Add Applicant | InnolabAMS')
 
 @section('content')

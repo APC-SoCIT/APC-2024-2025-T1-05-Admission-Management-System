@@ -1,4 +1,4 @@
-@extends('dashboard') <!-- Use the dashboard layout -->
+@extends('application') <!-- Use the application layout -->
 
 @section('content')
 <div class="flex justify-between items-center mb-4">
