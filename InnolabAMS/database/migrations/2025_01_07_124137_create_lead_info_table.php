@@ -25,22 +25,11 @@ class CreateLeadInfoTable extends Migration
             $table->string('lead_address_city', 225)->nullable();
             $table->string('lead_mobile_number', 13)->nullable(); // Example: +639123456789
             $table->string('lead_email', 225);
-            $table->enum('inquired_details', [
-                'Application Requirements', 
-                'Application Process', 
-                'Tuition Fees', 
-                'Scholarship Opportunities', 
-                'Program Offerings', 
-                'Admission Deadlines', 
-                'Others']);
+            $table->enum('inquired_details', ['OPTION_1', 'OPTION_2', 'OPTION_3']);
             $table->text('lead_message')->nullable();
             $table->string('extracurricular_interest_lead', 225)->nullable();
-            $table->enum('skills_lead', [
-                'Communication', 'Teamwork', 'Leadership', 
-                'Problem-Solving', 'Time Management', 'Creativity', 
-                'Adaptability', 'Technology-related', 'Others'
-            ])->nullable();
-            $table->string('desired_career', 225)->nullable();
+            $table->enum('skills_lead', ['SKILL_1', 'SKILL_2', 'SKILL_3'])->nullable();
+            $table->enum('desired_career', ['CAREER_1', 'CAREER_2', 'CAREER_3'])->nullable();
 
             // Inquiry columns
             $table->timestamp('inquiry_submitted')->nullable();

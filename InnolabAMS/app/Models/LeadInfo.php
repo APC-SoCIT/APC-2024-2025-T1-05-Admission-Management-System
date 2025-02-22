@@ -9,10 +9,12 @@ class LeadInfo extends Model
 {
     use HasFactory;
 
-    protected $table = 'lead_info'; // Table associated with this model
+    // Define the table associated with the model
+    protected $table = 'lead_info';
 
+    // Define the fillable properties for mass assignment
     protected $fillable = [
-        'lead_surname',
+        'lead_surname', 
         'lead_given_name',
         'lead_middle_name',
         'lead_extension',
@@ -31,6 +33,7 @@ class LeadInfo extends Model
         'inquiry_status',
         'source',
     ];
+
     // Define default values for the inquiry_status (if not explicitly set)
     protected $attributes = [
         'inquiry_status' => 'New',
