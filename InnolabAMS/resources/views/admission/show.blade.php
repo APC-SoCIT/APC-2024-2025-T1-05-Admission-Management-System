@@ -221,31 +221,29 @@
         </div>
     </div>
 
-    <!-- File Attachments Section -->
+    <!-- Required Documents Section -->
     <div class="border rounded mt-6">
-        <div class="bg-gray-200 px-4 py-2 font-semibold">File Attachments</div>
+        <div class="bg-gray-200 px-4 py-2 font-semibold">Required Documents</div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-            <!-- Birth Certificate - Show for Transferee and Returning Student -->
-            @if($applicant->student_type == 'Transferee' || $applicant->student_type == 'Returning Student')
-                <div class="border rounded p-4">
-                    <h3 class="font-semibold mb-2">Birth Certificate</h3>
-                    @if($applicant->birth_certificate_path)
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm text-gray-600">
-                                {{ basename($applicant->birth_certificate_path) }}
-                            </span>
-                            <a href="{{ route('admission.download-file', ['id' => $applicant->id, 'documentType' => 'birth_certificate']) }}"
-                               class="inline-flex items-center px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
-                                <i class="fas fa-download mr-2"></i>View
-                            </a>
-                        </div>
-                    @else
-                        <p class="text-sm text-gray-500">No file uploaded</p>
-                    @endif
-                </div>
-            @endif
+            <!-- Birth Certificate -->
+            <div class="border rounded p-4">
+                <h3 class="font-semibold mb-2">Birth Certificate (PSA/NSO)</h3>
+                @if($applicant->birth_certificate_path)
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">
+                            {{ basename($applicant->birth_certificate_path) }}
+                        </span>
+                        <a href="{{ route('admission.download-file', ['id' => $applicant->id, 'documentType' => 'birth_certificate']) }}"
+                           class="inline-flex items-center px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
+                            <i class="fas fa-download mr-2"></i>View
+                        </a>
+                    </div>
+                @else
+                    <p class="text-sm text-gray-500">No file uploaded</p>
+                @endif
+            </div>
 
-            <!-- Form 137 - Show for Transferee only -->
+            <!-- Form 137 -->
             @if($applicant->student_type == 'Transferee')
                 <div class="border rounded p-4">
                     <h3 class="font-semibold mb-2">Form 137</h3>
@@ -265,7 +263,7 @@
                 </div>
             @endif
 
-            <!-- Form 138 - Show for all student types -->
+            <!-- Form 138 -->
             <div class="border rounded p-4">
                 <h3 class="font-semibold mb-2">Form 138 (Report Card)</h3>
                 @if($applicant->form_138_path)
@@ -283,7 +281,7 @@
                 @endif
             </div>
 
-            <!-- 2x2 ID Picture - Show for all student types -->
+            <!-- ID Picture -->
             <div class="border rounded p-4">
                 <h3 class="font-semibold mb-2">2x2 ID Picture</h3>
                 @if($applicant->id_picture_path)
@@ -300,26 +298,6 @@
                     <p class="text-sm text-gray-500">No file uploaded</p>
                 @endif
             </div>
-
-            <!-- Good Moral Certificate - Show for Transferee and Returning Student -->
-            @if($applicant->student_type == 'Transferee' || $applicant->student_type == 'Returning Student')
-                <div class="border rounded p-4">
-                    <h3 class="font-semibold mb-2">Good Moral Certificate</h3>
-                    @if($applicant->good_moral_path)
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm text-gray-600">
-                                {{ basename($applicant->good_moral_path) }}
-                            </span>
-                            <a href="{{ route('admission.download-file', ['id' => $applicant->id, 'documentType' => 'good_moral']) }}"
-                               class="inline-flex items-center px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
-                                <i class="fas fa-download mr-2"></i>View
-                            </a>
-                        </div>
-                    @else
-                        <p class="text-sm text-gray-500">No file uploaded</p>
-                    @endif
-                </div>
-            @endif
         </div>
     </div>
 </div>
