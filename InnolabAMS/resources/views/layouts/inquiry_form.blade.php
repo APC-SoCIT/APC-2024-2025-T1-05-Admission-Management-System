@@ -109,9 +109,10 @@
     }
 
     .modal-content div {
-        text-align: left;
+        text-align: left !important;
         line-height: 1.8; 
         padding: 25px;
+
     }
 
     .modal button {
@@ -126,9 +127,6 @@
         font-weight: bold;
     }
 
-    .modal-content div {
-        text-align: left !important;
-    }
 </style>
 </head>
 
@@ -161,7 +159,9 @@
         </>
     </div>
 
-    <script>
+</body>
+
+<script>
         function openPrivacyPolicy() {
             document.getElementById('privacyModal').style.display = 'flex';
         }
@@ -170,7 +170,4 @@
             document.getElementById('privacyModal').style.display = 'none';
         }
     </script>
-
-</body>
-
 </html>

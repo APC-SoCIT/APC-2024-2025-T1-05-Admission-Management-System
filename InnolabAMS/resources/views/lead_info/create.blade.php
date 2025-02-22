@@ -87,31 +87,41 @@
             </div>
 
             <!-- How Did You Learn About Us -->
-            <div class="form-group">
-                <label>How did you learn about us? <span class="required">*</span></label>
-                <div class="checkbox-group">
-                    <input type="checkbox" name="source[]" value="Social Media">
-                    <label>Social Media</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" name="source[]" value="Website">
-                    <label>Website</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" name="source[]" value="Referral">
-                    <label>Referral</label>
+            <div class="form-group mt-4">
+                <label>How did you learn about us? <span
+                        class="text-red-500">*</span></label>
+                <div class="flex flex-col mt-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="source[]" value="Social Media"
+                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <span class="ms-2 text-gray-700">Social Media</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="source[]" value="Website"
+                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <span class="ms-2 text-gray-700">Website</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="source[]" value="Referral"
+                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <span class="ms-2 text-gray-700">Referral</span>
+                    </label>
                 </div>
             </div>
 
+
             <!-- Data Privacy Agreement -->
-            <div class="form-group">
-                <div class="checkbox-group">
-                    <input type="checkbox" id="data_privacy" name="data_privacy" required>
-                    <label for="data_privacy">
-                        I agree to the <a href="#" onclick="openPrivacyPolicy()" class="text-blue-500 underline">Data
-                            Privacy Act</a>.
-                    </label>
-                </div>
+            <div class="mt-6 form-group">
+                <label for="data_privacy" class="inline-flex items-center">
+                    <input id="data_privacy" type="checkbox" required
+                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ms-2 text-m text-gray">
+                        I agree to the
+                        <a href="#" onclick="openPrivacyPolicy()" class="text-blue-500 underline">
+                            Data Privacy Policy
+                        </a>.
+                    </span>
+                </label>
             </div>
 
             <div class="flex justify-end mt-4">
