@@ -136,7 +136,11 @@
             title: 'Success!',
             text: '{{ session("success") }}',
             showConfirmButton: true,
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+            customClass: {
+                confirmButton: 'swal2-confirm-blue'
+            },
+            buttonsStyling: false
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = "{{ route('login') }}";

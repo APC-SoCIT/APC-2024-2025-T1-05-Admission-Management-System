@@ -167,6 +167,13 @@
     .modal-content div {
         text-align: left !important;
     }
+    .swal2-confirm-blue {
+        background-color:rgb(2, 103, 219) !important;
+        border-color: none !important;
+        color: white !important;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
