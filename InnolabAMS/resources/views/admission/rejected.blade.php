@@ -16,7 +16,7 @@
                         <i class="fas fa-search"></i>
                     </button>
                     <input type="text"
-                           id="searchIn put"
+                           id="searchInput"
                            placeholder="Search..."
                            class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none absolute hidden transition-all duration-300"
                            style="right: 2.5rem; top: 0;">
