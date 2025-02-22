@@ -16,7 +16,7 @@
                         <i class="fas fa-search"></i>
                     </button>
                     <input type="text"
-                           id="searchInput"
+                           id="searchIn put"
                            placeholder="Search..."
                            class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none absolute hidden transition-all duration-300"
                            style="right: 2.5rem; top: 0;">
@@ -88,7 +88,7 @@
                         <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->full_name }}</td>
                         <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->gender }}</td>
                         <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->apply_program }}</td>
-                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->user->email }}</td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->applicant_email }}</td>
                         <td class="px-6 py-4 text-center whitespace-nowrap">{{ $applicant->applicant_mobile_number }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
