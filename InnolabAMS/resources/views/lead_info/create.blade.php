@@ -135,10 +135,15 @@
             icon: 'success',
             title: 'Success!',
             text: '{{ session("success") }}',
-            timer: 4000,
-            showConfirmButton: false
+            showConfirmButton: true,
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ route('login') }}";
+            }
         });
     </script>
 @endif
+
 
 @endsection

@@ -21,6 +21,44 @@
 </head>
 
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        background-color: #007bff;
+        padding: 20px;
+        color: #fff;
+    }
+
+    .header img {
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+        border-radius: 50%;
+    }
+
+    .header-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header-content h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .header-content p {
+        margin: 5px 0 0;
+        font-size: 14px;
+    }
+
     .container {
         max-width: 600px;
         margin: 50px auto;
@@ -110,7 +148,7 @@
 
     .modal-content div {
         text-align: left;
-        line-height: 1.8; 
+        line-height: 1.8;
         padding: 25px;
     }
 
@@ -136,7 +174,7 @@
 <body class="bg-gray-100">
 
     <div class="flex justify-center mt-10">
-        <a href="/">
+        <a href="{{ route('login') }}">
             <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
         </a>
     </div>
@@ -164,25 +202,25 @@
 
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const skillsDropdown = document.getElementById('skills_lead');
-        const otherSkillsContainer = document.getElementById('other_skills_container');
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillsDropdown = document.getElementById('skills_lead');
+            const otherSkillsContainer = document.getElementById('other_skills_container');
 
-        skillsDropdown.addEventListener('change', function() {
-            if (this.value === 'Others') {
-                otherSkillsContainer.style.display = 'block';
-            } else {
-                otherSkillsContainer.style.display = 'none';
-            }
+            skillsDropdown.addEventListener('change', function() {
+                if (this.value === 'Others') {
+                    otherSkillsContainer.style.display = 'block';
+                } else {
+                    otherSkillsContainer.style.display = 'none';
+                }
+            });
         });
-    });
 
-    document.querySelector('form').addEventListener('submit', function(e) {
-        const submitButton = this.querySelector('button[type="submit"], input[type="submit"]');
-        submitButton.disabled = true;
-        // Optionally, change the button text
-        submitButton.innerText = 'Submitting...';
-    });
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const submitButton = this.querySelector('button[type="submit"], input[type="submit"]');
+            submitButton.disabled = true;
+            // Optionally, change the button text
+            submitButton.innerText = 'Submitting...';
+        });
     </script>
 
 </body>
