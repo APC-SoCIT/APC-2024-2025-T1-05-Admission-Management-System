@@ -166,20 +166,32 @@ class ApplicantInfoController extends Controller
 
     public function downloadFile($id, $documentType)
     {
-        $applicant = ApplicantInfo::findOrFail($id);
-        $pathColumn = "{$documentType}_path";
+        try {
+            $applicant = ApplicantInfo::findOrFail($id);
 
-        if (!$applicant->$pathColumn) {
-            abort(404, 'File not found');
+            $pathMap = [
+                'birth_certificate' => $applicant->birth_certificate_path,
+                'form_137' => $applicant->form_137_path,
+                'form_138' => $applicant->form_138_path,
+                'id_picture' => $applicant->id_picture_path,
+                'good_moral' => $applicant->good_moral_path,
+            ];
+
+            if (!isset($pathMap[$documentType]) || !$pathMap[$documentType]) {
+                return back()->with('error', 'Document not found');
+            }
+
+            $path = $pathMap[$documentType];
+
+            if (!Storage::disk('public')->exists($path)) {
+                return back()->with('error', 'File not found in storage');
+            }
+
+            return response()->file(Storage::disk('public')->path($path));
+        } catch (\Exception $e) {
+            \Log::error('Document download error: ' . $e->getMessage());
+            return back()->with('error', 'Error downloading document');
         }
-
-        $filePath = storage_path('app/public/' . $applicant->$pathColumn);
-
-        if (!file_exists($filePath)) {
-            abort(404, 'File not found');
-        }
-
-        return response()->file($filePath);
     }
 
     //Personal Information Form
