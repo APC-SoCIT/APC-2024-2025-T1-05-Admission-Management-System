@@ -51,6 +51,7 @@ class LeadInfoController extends Controller
             'lead_message' => 'nullable|string',
             'extracurricular_interest_lead' => 'nullable|string|max:225',
             'skills_lead' => 'nullable|in:Communication,Teamwork,Leadership,Problem-Solving,Time Management,Creativity,Adaptability,Technology-related,Others',
+            'other_skills_lead' => 'nullable|string|max:225', //added field
             'desired_career' => 'nullable|string|max:225',
             'source' => 'nullable|array', // Source should be an array
         ]);
@@ -79,7 +80,7 @@ class LeadInfoController extends Controller
             'lead_surname' => 'required|string|max:225',
             'lead_given_name' => 'required|string|max:225',
             'lead_email' => 'required|email|max:225',
-            'inquired_details' => 'required|in:Application Requirements,Application Process,Tuition Fees,Scholarship Opportunities,Program Offerings,Admission Deadlines,Campus Tours',
+            'inquired_details' => 'required|in:Application Requirements,Application Process,Tuition Fees,Scholarship Opportunities,Program Offerings,Admission Deadlines,Others',
             'inquiry_submitted' => 'nullable|date',
             'details_sent' => 'nullable|string|max:225',
             'response_date' => 'nullable|date',
