@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 @section('title', 'Accepted Applications | InnolabAMS')
 @extends('application')
+<<<<<<< HEAD
 =======
 @extends('dashboard')
 @section('title', 'Accepted Applications | InnolabAMS')
@@ -10,6 +11,8 @@
 @section('title', 'Accepted Applications | InnolabAMS')
 @extends('application')
 >>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 
 @section('content')
 <!-- Title Section -->

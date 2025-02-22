@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ApplicantInfo;
 use Illuminate\Http\Request;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 =======
@@ -21,6 +22,14 @@ use App\Http\Requests\AcceptApplicationRequest;
 use App\Notifications\ApplicationAccepted;
 use Carbon\Carbon;
 >>>>>>> 7939325 (Feature: Add application acceptance workflow with confirmation modal)
+=======
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\RejectApplicationRequest;
+use App\Notifications\ApplicationRejected;
+use App\Http\Requests\AcceptApplicationRequest;
+use App\Notifications\ApplicationAccepted;
+use Carbon\Carbon;
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 
 class ApplicantInfoController extends Controller
 {
@@ -65,6 +74,7 @@ class ApplicantInfoController extends Controller
             ]);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             // Debug log
             Log::info('Validated data:', $validated);
 
@@ -83,6 +93,18 @@ class ApplicantInfoController extends Controller
                 ]);
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
 
+=======
+            // Handle file uploads separately
+            $paths = [];
+            $fileFields = ['birth_certificate', 'form_137', 'form_138', 'id_picture', 'good_moral'];
+
+            foreach ($fileFields as $field) {
+                \Log::info("Checking file: {$field}", [
+                    'exists' => $request->hasFile($field),
+                    'valid' => $request->hasFile($field) ? $request->file($field)->isValid() : false
+                ]);
+
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                 if ($request->hasFile($field) && $request->file($field)->isValid()) {
                     try {
                         $file = $request->file($field);
@@ -113,9 +135,12 @@ class ApplicantInfoController extends Controller
             ]);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             // Debug log
             Log::info('Application created:', ['id' => $applicant->id]);
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
             \Log::info('Final applicant data:', $applicantData);
 
             // Create applicant record
@@ -125,6 +150,7 @@ class ApplicantInfoController extends Controller
 
             return redirect()->route('admission.index')
                 ->with('success', 'Application submitted successfully.');
+<<<<<<< HEAD
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
 
         } catch (\Exception $e) {
@@ -135,6 +161,10 @@ class ApplicantInfoController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
 =======
+=======
+
+        } catch (\Exception $e) {
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
             \Log::error('Application submission error: ' . $e->getMessage());
             \Log::error('Stack trace: ' . $e->getTraceAsString());
 
@@ -142,7 +172,10 @@ class ApplicantInfoController extends Controller
             foreach ($paths ?? [] as $path) {
                 Storage::disk('public')->delete($path);
             }
+<<<<<<< HEAD
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 
             return back()
                 ->withInput()
@@ -201,6 +234,7 @@ class ApplicantInfoController extends Controller
     public function show($id)
     {
         $applicant = ApplicantInfo::findOrFail($id);
+<<<<<<< HEAD
         return view('admission.show', compact('applicant'));
 >>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
     }
@@ -216,6 +250,11 @@ class ApplicantInfoController extends Controller
 =======
 >>>>>>> b739594 (Feat: Enhance sibling information input and form validation in admission form)
 =======
+=======
+        return view('admission.show', compact('applicant'));
+    }
+
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
     public function downloadFile($id, $documentType)
     {
         $applicant = ApplicantInfo::findOrFail($id);
@@ -234,7 +273,10 @@ class ApplicantInfoController extends Controller
         return response()->file($filePath);
     }
 
+<<<<<<< HEAD
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
     //Personal Information Form
     public function showPersonalInfoForm()
     {
@@ -305,9 +347,10 @@ class ApplicantInfoController extends Controller
             ]);
 
             // Debug log
-            Log::info('Validated data:', $validated);
+            \Log::info('Validated data:', $validated);
 
-            $validated['user_id'] = Auth::id() ?? 1;
+            // Ensure user_id is set
+            $validated['user_id'] = auth()->id() ?? 1; // Fallback to ID 1 if no auth user
             $validated['status'] = 'new';
 
             // Handle siblings data - convert to JSON
@@ -326,14 +369,14 @@ class ApplicantInfoController extends Controller
             $applicant = ApplicantInfo::create($validated);
 
             // Debug log
-            Log::info('Application created:', ['id' => $applicant->id]);
+            \Log::info('Application created:', ['id' => $applicant->id]);
 
             return redirect()
                 ->route('admission.index')
                 ->with('success', 'Application created successfully');
         } catch (\Exception $e) {
             // Debug log
-            Log::error('Application creation failed:', [
+            \Log::error('Application creation failed:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
@@ -351,28 +394,66 @@ class ApplicantInfoController extends Controller
 <<<<<<< HEAD
 <<<<<<< HEAD
 
-    // Add this method to the existing controller
-    public function lookup($studentId)
+    // Add this method to your existing ApplicantInfoController class
+    public function updateStatus(Request $request, $id)
     {
-        try {
-            $student = ApplicantInfo::where('id', $studentId)
-                ->select('applicant_given_name as first_name',
-                        'applicant_middle_name as middle_name',
-                        'applicant_surname as last_name',
-                        'lrn')
-                ->firstOrFail();
-
-            return response()->json([
-                'first_name' => $student->first_name,
-                'middle_name' => $student->middle_name,
-                'last_name' => $student->last_name,
-                'lrn' => $student->lrn,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Student not found'
-            ], 404);
+        if ($request->status === 'accepted') {
+            return $this->acceptApplication($request, $id);
         }
+
+        // Use existing rejection logic but pass the original request
+        return $this->rejectApplication($request, $id);
+    }
+
+    protected function acceptApplication(Request $request, $id)
+    {
+        $applicant = ApplicantInfo::findOrFail($id);
+
+        $applicant->update([
+            'status' => 'accepted',
+            'acceptance_message' => $request->acceptance_message ?? 'Congratulations! Your application has been accepted.',
+            'accepted_at' => Carbon::now(),
+            'processed_at' => now(),
+            'processed_by' => auth()->id()
+        ]);
+
+        // Send acceptance notification
+        $applicant->user->notify(new ApplicationAccepted($applicant));
+
+        return redirect()->route('admission.accepted')
+            ->with('success', 'Application has been accepted successfully.');
+    }
+
+    protected function rejectApplication(Request $request, $id)
+    {
+        // Validate the request here instead of using a form request
+        $validated = $request->validate([
+            'status' => 'required|in:rejected',
+            'rejection_reason' => 'required|string|max:1000'
+        ]);
+
+        $applicant = ApplicantInfo::findOrFail($id);
+        $applicant->update([
+            'status' => 'rejected',
+            'rejection_reason' => $validated['rejection_reason'],
+            'processed_at' => now(),
+            'processed_by' => auth()->id()
+        ]);
+
+        // Send rejection notification
+        $applicant->user->notify(new ApplicationRejected($applicant));
+
+        return redirect()->route('admission.rejected')
+            ->with('success', 'Application has been rejected');
+    }
+
+    private function getCounts()
+    {
+        return [
+            'newCount' => ApplicantInfo::where('status', 'new')->count(),
+            'acceptedCount' => ApplicantInfo::where('status', 'accepted')->count(),
+            'rejectedCount' => ApplicantInfo::where('status', 'rejected')->count(),
+        ];
     }
 =======
 >>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)

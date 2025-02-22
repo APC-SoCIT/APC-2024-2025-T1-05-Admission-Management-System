@@ -83,12 +83,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [ApplicantInfoController::class, 'show'])->name('show');
         Route::patch('/{id}/status', [ApplicantInfoController::class, 'updateStatus'])->name('update-status'); // New route for updating status
 <<<<<<< HEAD
+<<<<<<< HEAD
         Route::get('/students/{studentId}', [ApplicantInfoController::class, 'lookup'])
             ->name('student.lookup');
 =======
         Route::get('/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
             ->name('admission.download-file');
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
+=======
+        Route::get('/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
+            ->name('admission.download-file');
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
     });
 
     // Scholarship Routes

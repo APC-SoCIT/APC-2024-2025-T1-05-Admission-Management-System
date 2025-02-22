@@ -3,202 +3,19 @@
 
 @section('content')
 <div class="container mx-auto px-6 py-4">
-    <!-- Existing back button and title -->
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-semibold">Add Applicant</h1>
+        <h1 class="text-2xl font-semibold">Add New Applicant</h1>
         <a href="{{ route('admission.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
             <i class="fas fa-arrow-left mr-2"></i>Back
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow-lg p-6"
-        x-data="{
-            showStudentType: false,
-            studentType: '',
-            programType: '',
-            isDocumentsOpen: true,
-            shouldShowDocument(docType) {
-                if (!this.programType || !this.studentType) return false;
-
-                const requirements = {
-                    transferee: {
-                        all: ['psa_birth', 'form_138', 'good_moral', 'parent_id', 'photo'],
-                    },
-                    existing: {
-                        all: ['parent_id', 'medical_records'],
-                    },
-                    returning: {
-                        all: ['psa_birth', 'form_138', 'good_moral', 'photo'],
-                    }
-                };
-
-                return requirements[this.studentType]?.all.includes(docType);
-            },
-            studentId: '',
-            isSearching: false,
-            searchError: '',
-            studentData: null,
-            isReturningStudent: false,
-            previousSchool: '',
-            transferReason: '',
-            previousEnrollment: '',
-            gapPeriod: '',
-            returnReason: '',
-            errors: {},
-            resetStudentTypeFields() {
-                this.previousSchool = '';
-                this.transferReason = '';
-                this.previousEnrollment = '';
-                this.gapPeriod = '';
-                this.returnReason = '';
-                this.isReturningStudent = false;
-                this.studentData = null;
-                this.studentId = '';
-                this.searchError = '';
-            },
-            validateSchoolName(value) {
-                if (/\d/.test(value)) {
-                    this.errors.previousSchool = 'School name cannot contain numbers';
-                    return false;
-                }
-                delete this.errors.previousSchool;
-                return true;
-            },
-            validateName(field, value) {
-                // Allow only letters, spaces, and hyphens
-                if (!/^[a-zA-Z\s-]*$/.test(value)) {
-                    this.errors[field] = 'Only letters, spaces, and hyphens are allowed';
-                    return false;
-                }
-                delete this.errors[field];
-                return true;
-            },
-            validateContact(field, value) {
-                if (!value) {
-                    delete this.errors[field];
-                    return true;
-                }
-                const pattern = /^[0-9-\s]+$/;
-                if (!pattern.test(value)) {
-                    this.errors[field] = 'Only numbers, spaces, and hyphens are allowed';
-                    return false;
-                }
-                delete this.errors[field];
-                return true;
-            },
-            validateAddress(field, value) {
-                if (!value) {
-                    delete this.errors[field];
-                    return true;
-                }
-                const pattern = /^[a-zA-Z0-9\s.-]+$/;
-                if (!pattern.test(value)) {
-                    this.errors[field] = 'Only letters, numbers, spaces, periods, and hyphens are allowed';
-                    return false;
-                }
-                if (value.length > 100) {
-                    this.errors[field] = 'Maximum length is 100 characters';
-                    return false;
-                }
-                delete this.errors[field];
-                return true;
-            },
-            // Updated mobile number masking
-            maskMobile(value) {
-                if (!value) return '';
-                // Remove all non-digits
-                value = value.replace(/\D/g, '');
-
-                // Ensure it starts with 09
-                if (value.length >= 2) {
-                    if (value.substring(0, 2) !== '09') {
-                        value = '09' + value.substring(Math.max(0, value.length - 9));
-                    }
-                }
-
-                // Format as 09XX-XXX-XXXX
-                if (value.length > 11) {
-                    value = value.substring(0, 11);
-                }
-
-                if (value.length >= 4) {
-                    value = value.substring(0, 4) + '-' + value.substring(4);
-                }
-                if (value.length >= 8) {
-                    value = value.substring(0, 8) + '-' + value.substring(8);
-                }
-
-                return value;
-            },
-            // Updated telephone number masking
-            maskTelephone(value) {
-                if (!value) return '';
-
-                // Remove all non-digits
-                value = value.replace(/\D/g, '');
-
-                // Format as (02) XXXX-XXXX
-                if (value.length > 10) {
-                    value = value.substring(0, 10);
-                }
-
-                let formattedValue = '';
-                if (value.length > 0) {
-                    // Always start with (02)
-                    formattedValue = '(02) ';
-
-                    if (value.length > 2) {
-                        // Add the next 4 digits after (02)
-                        formattedValue += value.substring(2, 6);
-
-                        if (value.length > 6) {
-                            // Add hyphen and the last 4 digits
-                            formattedValue += '-' + value.substring(6, 10);
-                        }
-                    }
-                }
-
-                return formattedValue;
-            },
-            // Updated phone format validation
-            validatePhoneFormat(type, value) {
-                if (!value) return true;
-
-                if (type === 'mobile') {
-                    // Keep existing mobile validation
-                    const mobilePattern = /^09\d{2}-\d{3}-\d{4}$/;
-                    const isValid = mobilePattern.test(value);
-                    if (!isValid) {
-                        this.errors[type === 'mobile' ? 'contactNo' : 'contactTel'] = 'Please enter a valid mobile number (09XX-XXX-XXXX)';
-                        return false;
-                    }
-                    return true;
-                } else {
-                    // Updated telephone validation to allow 4 digits before hyphen
-                    const telephonePattern = /^\(02\) \d{4}-\d{4}$/;
-                    const isValid = telephonePattern.test(value);
-                    if (!isValid) {
-                        const fieldName = value.includes('contactTel') ? 'contactTel' :
-                                        value.includes('fatherTel') ? 'fatherTel' :
-                                        value.includes('motherTel') ? 'motherTel' :
-                                        value.includes('guardianTel') ? 'guardianTel' : 'emergencyTel';
-                        this.errors[fieldName] = 'Please enter a valid telephone number ((02) XXXX-XXXX)';
-                        return false;
-                    }
-                    return true;
-                }
-            },
-            contactTel: '',
-            fatherTel: '',
-            motherTel: '',
-            guardianTel: '',
-        }"
-        @student-type-changed.window="resetStudentTypeFields"
-    >
-        <form @submit.prevent="handleSubmit" action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Program Information -->
+<<<<<<< HEAD
 <<<<<<< HEAD
             <div class="mb-8" x-data="{
                 isOpen: true,
@@ -383,20 +200,25 @@
                             required
                         >
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
                         <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+<<<<<<< HEAD
 >>>>>>> 8b624a3 (<<test3>>)
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                             <option value="">Select Program</option>
                             <option value="Elementary">Elementary</option>
-                            <option value="Junior High School">Junior High School</option>
+                            <option value="High School">High School</option>
                             <option value="Senior High School">Senior High School</option>
                         </select>
-                        <p x-show="errors.programType" x-text="errors.programType" class="mt-1 text-sm text-red-500"></p>
                     </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
                     <!-- Grade Level -->
@@ -422,9 +244,15 @@
                             </template>
 =======
 >>>>>>> 7fcafea (Enhance grade level selection for admission form)
+=======
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
+                        <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <option value="">Select Grade Level</option>
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                         </select>
-                        <p x-show="errors.gradeLevel" x-text="errors.gradeLevel" class="mt-1 text-sm text-red-500"></p>
                     </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
                     <!-- Strand -->
@@ -443,153 +271,18 @@
                         <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
                         <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 >>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
+=======
+                    <div id="strandContainer" style="display: none;">
+                        <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
+                        <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                             <option value="">Select Strand</option>
-                            <option value="STEM">STEM (Science, Technology, Engineering, and Mathematics)</option>
-                            <option value="ABM">ABM (Accountancy, Business, and Management)</option>
-                            <option value="HUMSS">HUMSS (Humanities and Social Sciences)</option>
-                            <option value="GAS">GAS (General Academic Strand)</option>
-                            <option value="TVL">TVL (Technical-Vocational-Livelihood)</option>
+                            <option value="STEM">STEM</option>
+                            <option value="ABM">ABM</option>
+                            <option value="TECHVOC">TECHVOC</option>
+                            <option value="HUMSS">HUMSS</option>
+                            <option value="GAS">GAS</option>
                         </select>
-                        <p x-show="errors.strand" x-text="errors.strand" class="mt-1 text-sm text-red-500"></p>
-                    </div>
-
-                    <!-- Student Type -->
-                    <div class="mb-6" x-show="showStudentType" x-transition>
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            Student Type <span class="text-red-500">*</span>
-                        </label>
-
-                        <!-- Main Student Type Selection -->
-                        <div class="space-y-2">
-                            <div class="flex items-center p-2 rounded hover:bg-gray-50">
-                                <input type="radio"
-                                    name="student_type"
-                                    value="transferee_new"
-                                    x-model="studentType"
-                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <label class="ml-3 block text-sm font-medium text-gray-700">Transferee / New Student</label>
-                            </div>
-                            <div class="flex items-center p-2 rounded hover:bg-gray-50">
-                                <input type="radio"
-                                    name="student_type"
-                                    value="existing"
-                                    x-model="studentType"
-                                    class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-                                <label class="ml-3 block text-sm font-medium text-gray-700">Existing / Returning Student</label>
-                            </div>
-                        </div>
-
-                        <!-- Transferee/New Student Fields -->
-                        <div x-show="studentType === 'transferee_new'"
-                             x-transition
-                             class="mt-4 space-y-4">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Previous School <span class="text-red-500">*</span></label>
-                                    <input type="text"
-                                        name="previous_school"
-                                        x-model="previousSchool"
-                                        @input="validateSchoolName($event.target.value)"
-                                        :class="{'border-red-500': errors.previousSchool}"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        required>
-                                    <p x-show="errors.previousSchool" x-text="errors.previousSchool" class="mt-1 text-sm text-red-500"></p>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Transfer Reason <span class="text-red-500">*</span></label>
-                                    <textarea name="transfer_reason"
-                                        x-model="transferReason"
-                                        rows="3"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        required></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Existing/Returning Student Fields -->
-                        <div x-show="studentType === 'existing'"
-                             x-transition
-                             class="mt-4">
-                            <div class="mb-4">
-                                <div class="mt-2 space-y-2">
-                                    <div class="flex items-center">
-                                        <input type="checkbox" name="is_returning" x-model="isReturningStudent">
-                                        <span class="ml-3 font-medium">Returning Student</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Student Lookup for Both Existing and Returning -->
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h3 class="text-lg font-medium mb-4">Student Lookup</h3>
-                                <div class="flex space-x-4">
-                                    <div class="flex-1">
-                                        <label class="block text-sm font-medium text-gray-700">Student ID</label>
-                                        <input type="text"
-                                            x-model="studentId"
-                                            placeholder="Enter Student ID"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                    </div>
-                                    <div class="flex items-end space-x-2">
-                                        <button type="button"
-                                            @click="searchStudent"
-                                            :disabled="isSearching || !studentId"
-                                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50">
-                                            <span x-show="!isSearching">Search</span>
-                                            <span x-show="isSearching">
-                                                <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                </svg>
-                                            </span>
-                                        </button>
-                                        <button type="button"
-                                            x-show="studentData"
-                                            @click="resetStudentTypeFields"
-                                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                            Reset
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div x-show="searchError" class="mt-2 text-sm text-red-600" x-text="searchError"></div>
-                                <div x-show="studentData" class="mt-2 text-sm text-green-600">Student information found and auto-filled.</div>
-                            </div>
-
-                            <!-- Additional Fields for Returning Students -->
-                            <div x-show="isReturningStudent" x-transition>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Previous Enrollment Period <span class="text-red-500">*</span></label>
-                                        <input type="text"
-                                            name="previous_enrollment"
-                                            x-model="previousEnrollment"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            required>
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Gap Period (in years) <span class="text-red-500">*</span></label>
-                                        <input type="number"
-                                            name="gap_period"
-                                            x-model="gapPeriod"
-                                            min="0"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            required>
-                                    </div>
-
-                                    <div class="md:col-span-2">
-                                        <label class="block text-sm font-medium text-gray-700">Reason for Return <span class="text-red-500">*</span></label>
-                                        <textarea name="return_reason"
-                                            x-model="returnReason"
-                                            rows="3"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -613,6 +306,28 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
+            <!-- Student Type -->
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Student Type <span class="text-red-500">*</span></label>
+                <div class="mt-2 space-y-2">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="student_type" value="Transferee" class="form-radio" required>
+                        <span class="ml-2">Transferee</span>
+                    </label>
+                    <label class="inline-flex items-center ml-6">
+                        <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
+                        <span class="ml-2">Existing Student</span>
+                    </label>
+                    <label class="inline-flex items-center ml-6">
+                        <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
+                        <span class="ml-2">Returning Student</span>
+                    </label>
+                </div>
+            </div>
+
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
             <!-- Personal Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
@@ -643,6 +358,7 @@
                     </div>
                     <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">Age</label>
                         <input type="number" name="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
@@ -650,13 +366,18 @@
                         <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
                         <input type="date" name="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                         <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label>
                         <input type="number" name="age" id="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
                         <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+<<<<<<< HEAD
 >>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Place of Birth <span class="text-red-500">*</span></label>
@@ -669,6 +390,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Religion <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_religion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+<<<<<<< HEAD
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
@@ -677,6 +399,8 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
                         <input type="tel" name="applicant_mobile_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                     </div>
                 </div>
             </div>
@@ -685,6 +409,7 @@
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<<<<<<< HEAD
 <<<<<<< HEAD
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Street Address</label>
@@ -733,10 +458,92 @@
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Street Address <span class="text-red-500">*</span></label>
                         <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+=======
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                        <input type="text"
+                               name="applicant_tel_no"
+                               pattern="[0-9]{7,8}"
+                               maxlength="8"
+                               title="Please enter a valid telephone number (7-8 digits)"
+                               placeholder="e.g., 87654321"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p class="mt-1 text-sm text-gray-500">Format: 7-8 digits only</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
+                        <input type="tel"
+                               name="applicant_mobile_number"
+                               pattern="[0-9]{11}"
+                               maxlength="11"
+                               title="Please enter a valid mobile number (11 digits)"
+                               placeholder="e.g., 09123456789"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                               required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p class="mt-1 text-sm text-gray-500">Format: 11 digits starting with 09</p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
+                        <input type="email"
+                               name="applicant_email"
+                               pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                               title="Please enter a valid email address"
+                               placeholder="e.g., juan.delacruz@email.com"
+                               required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <p class="mt-1 text-sm text-gray-500">Enter a valid email address</p>
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                     </div>
                 </div>
             </div>
 
+<<<<<<< HEAD
+=======
+            <!-- Current Address -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Current Address</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Province</label>
+                        <input type="text" name="applicant_address_province" value="Metro Manila" readonly class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">City <span class="text-red-500">*</span></label>
+                        <select name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="">Select City</option>
+                            <option value="Caloocan">Caloocan</option>
+                            <option value="Las Piñas">Las Piñas</option>
+                            <option value="Makati">Makati</option>
+                            <option value="Malabon">Malabon</option>
+                            <option value="Mandaluyong">Mandaluyong</option>
+                            <option value="Manila">Manila</option>
+                            <option value="Marikina">Marikina</option>
+                            <option value="Muntinlupa">Muntinlupa</option>
+                            <option value="Navotas">Navotas</option>
+                            <option value="Parañaque">Parañaque</option>
+                            <option value="Pasay">Pasay</option>
+                            <option value="Pasig">Pasig</option>
+                            <option value="Quezon City">Quezon City</option>
+                            <option value="San Juan">San Juan</option>
+                            <option value="Taguig">Taguig</option>
+                            <option value="Valenzuela">Valenzuela</option>
+                            <option value="Pateros">Pateros</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Barangay <span class="text-red-500">*</span></label>
+                        <input type="text" name="applicant_barangay" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Street Address <span class="text-red-500">*</span></label>
+                        <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+            </div>
+
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
             <!-- Educational Background -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
@@ -747,6 +554,7 @@
                                name="lrn"
                                maxlength="12"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+<<<<<<< HEAD
 >>>>>>> ca8e607 (Feat: Add LRN input validation with numeric and length constraints)
                     </div>
                     <div>
@@ -761,6 +569,12 @@
                         <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label>
                         <input type="text" name="school_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 >>>>>>> 6016cb7 (Feat: Add required field indicators and improve form validation for admission application)
+=======
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="school_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">School Address <span class="text-red-500">*</span></label>
@@ -785,6 +599,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <label class="block text-sm font-medium text-gray-700">GWA</label>
                         <input type="number" step="0.01" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 >>>>>>> 078493a (Feat: Add input validation for year of graduation field)
@@ -800,11 +615,16 @@
                         <label class="block text-sm font-medium text-gray-700">GWA <span class="text-red-500">*</span></label>
                         <input type="number" step="0.01" name="gwa" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 >>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
+=======
+                        <label class="block text-sm font-medium text-gray-700">GWA <span class="text-red-500">*</span></label>
+                        <input type="number" step="0.01" name="gwa" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                     </div>
                 </div>
             </div>
 
             <!-- Family Information -->
+<<<<<<< HEAD
 <<<<<<< HEAD
             <div class="mb-8" x-data="{
                 isOpen: true,
@@ -854,6 +674,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
                 <p class="text-sm text-gray-600 mb-4">Please provide at least one guardian's information (Father, Mother, or Guardian) <span class="text-red-500">*</span></p>
@@ -882,11 +704,13 @@
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
+<<<<<<< HEAD
 >>>>>>> 43c1001 (<test>)
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                 </div>
-                <div x-show="isOpen" x-transition>
-                    <p class="text-sm text-gray-600 mb-4">Please provide information for at least one guardian (Father, Mother, or Guardian)</p>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                     <!-- Father's Information -->
                     <div class="mb-6">
@@ -906,10 +730,13 @@
                                 <p x-show="errors.fatherFirstName" x-text="errors.fatherFirstName" class="mt-1 text-sm text-red-500"></p>
                             </div>
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                 <!-- Mother's Information -->
                 <div class="border-b pb-4 mb-4">
                     <h3 class="font-medium mb-2">Mother's Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<<<<<<< HEAD
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Given Name</label>
                             <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -965,107 +792,85 @@
                         </div>
 
                         <!-- Keep existing contact fields -->
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                            <input type="tel"
-                                name="father_contact"
-                                x-model="fatherContact"
-                                @input="fatherContact = maskMobile($event.target.value)"
-                                @blur="validatePhoneFormat('mobile', fatherContact) ? delete errors.fatherContact : errors.fatherContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                placeholder="09XX-XXX-XXXX"
-                                :class="{'border-red-500': errors.fatherContact}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.fatherContact" x-text="errors.fatherContact" class="mt-1 text-sm text-red-500"></p>
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                            <input type="tel"
-                                name="father_tel"
-                                x-model="fatherTel"
-                                @input="fatherTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', fatherTel) ? delete errors.fatherTel : errors.fatherTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
-                                placeholder="(02) XXXX-XXXX"
-                                :class="{'border-red-500': errors.fatherTel}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.fatherTel" x-text="errors.fatherTel" class="mt-1 text-sm text-red-500"></p>
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" name="mother_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                   name="mother_contact"
+                                   maxlength="11"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guardian's Information -->
+                <div class="mb-4">
+                    <h3 class="font-medium mb-2">Guardian's Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="text"
+                                   name="guardian_contact_num"
+                                   maxlength="11"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Siblings Information -->
+                <div class="mb-6" id="siblings-section">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
+                        <div class="flex items-center">
+                            <input type="checkbox"
+                                   id="only-child"
+                                   name="is_only_child"
+                                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label for="only-child" class="ml-2 text-sm text-gray-600">Only Child</label>
                         </div>
                     </div>
 
-                    <!-- Mother's Information -->
-                    <div class="mb-6">
-                        <h3 class="text-lg font-medium mb-4">Mother</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <!-- Similar structure for mother's name fields -->
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">
-                                    First Name <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text"
-                                    name="mother_first_name"
-                                    x-model="motherFirstName"
-                                    @input="validateName('motherFirstName', $event.target.value)"
-                                    :class="{'border-red-500': errors.motherFirstName}"
-                                    placeholder="Enter first name"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.motherFirstName" x-text="errors.motherFirstName" class="mt-1 text-sm text-red-500"></p>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">
-                                    Middle Name
-                                </label>
-                                <input type="text"
-                                    name="mother_middle_name"
-                                    x-model="motherMiddleName"
-                                    @input="validateName('motherMiddleName', $event.target.value)"
-                                    :class="{'border-red-500': errors.motherMiddleName}"
-                                    placeholder="Enter middle name"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.motherMiddleName" x-text="errors.motherMiddleName" class="mt-1 text-sm text-red-500"></p>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">
-                                    Last Name <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text"
-                                    name="mother_last_name"
-                                    x-model="motherLastName"
-                                    @input="validateName('motherLastName', $event.target.value)"
-                                    :class="{'border-red-500': errors.motherLastName}"
-                                    placeholder="Enter last name"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <p x-show="errors.motherLastName" x-text="errors.motherLastName" class="mt-1 text-sm text-red-500"></p>
-                            </div>
-                        </div>
-
-                        <!-- Keep existing contact fields -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                            <input type="tel"
-                                name="mother_contact"
-                                x-model="motherContact"
-                                @input="motherContact = maskMobile($event.target.value)"
-                                @blur="validatePhoneFormat('mobile', motherContact) ? delete errors.motherContact : errors.motherContact = 'Please enter a valid mobile number (09XX-XXX-XXXX)'"
-                                placeholder="09XX-XXX-XXXX"
-                                :class="{'border-red-500': errors.motherContact}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.motherContact" x-text="errors.motherContact" class="mt-1 text-sm text-red-500"></p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                            <input type="tel"
-                                name="mother_tel"
-                                x-model="motherTel"
-                                @input="motherTel = maskTelephone($event.target.value)"
-                                @blur="validatePhoneFormat('telephone', motherTel) ? delete errors.motherTel : errors.motherTel = 'Please enter a valid telephone number ((02) XXXX-XXXX)'"
-                                placeholder="(02) XXXX-XXXX"
-                                :class="{'border-red-500': errors.motherTel}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <p x-show="errors.motherTel" x-text="errors.motherTel" class="mt-1 text-sm text-red-500"></p>
+                    <div id="siblings-container" class="mt-4">
+                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4">
+                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="">Select Grade Level</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="Grade {{ $i }}">Grade {{ $i }}</option>
+                                @endfor
+                            </select>
+                            <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
 
+<<<<<<< HEAD
                     <!-- Guardian's Information -->
                     <div class="mb-6">
                         <h3 class="text-lg font-medium mb-4">Legal Guardian</h3>
@@ -1164,6 +969,11 @@
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
+=======
+                    <button type="button" id="add-sibling" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Add Sibling
+                    </button>
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                 </div>
 
 >>>>>>> 68a95b6 (Feat: Add guardian information fields and input validation)
@@ -1245,6 +1055,7 @@
             </div>
 
             <!-- Emergency Contact -->
+<<<<<<< HEAD
 <<<<<<< HEAD
             <div class="mb-8" x-data="{
                 isOpen: true,
@@ -1814,18 +1625,133 @@
                                       hover:file:bg-blue-100">
                         <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
+=======
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Complete Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="emergency_contact_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label>
+                        <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                        <input type="text"
+                               name="emergency_contact_tel"
+                               maxlength="11"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
+                        <input type="text"
+                               name="emergency_contact_mobile"
+                               maxlength="11"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+                        <input type="email" name="emergency_contact_email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
                     </div>
                 </div>
             </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             <!-- Submit button -->
 =======
             <!-- Submit Button -->
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
+=======
+            <!-- Required Documents -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Required Documents</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Birth Certificate -->
+                    <div class="document-requirement" data-required-for="Transferee,Returning Student">
+                        <label class="block text-sm font-medium text-gray-700">Birth Certificate (PSA/NSO) <span class="text-red-500">*</span></label>
+                        <input type="file"
+                               name="birth_certificate"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                    </div>
+
+                    <!-- Form 137 -->
+                    <div class="document-requirement" data-required-for="Transferee">
+                        <label class="block text-sm font-medium text-gray-700">Form 137 <span class="text-red-500">*</span></label>
+                        <input type="file"
+                               name="form_137"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                    </div>
+
+                    <!-- Form 138 -->
+                    <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
+                        <label class="block text-sm font-medium text-gray-700">Form 138 (Report Card) <span class="text-red-500">*</span></label>
+                        <input type="file"
+                               name="form_138"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                    </div>
+
+                    <!-- ID Picture -->
+                    <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
+                        <label class="block text-sm font-medium text-gray-700">2x2 ID Picture <span class="text-red-500">*</span></label>
+                        <input type="file"
+                               name="id_picture"
+                               accept=".jpg,.jpeg,.png"
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: JPG, JPEG, PNG (Max: 1MB)</p>
+                    </div>
+
+                    <!-- Good Moral Certificate -->
+                    <div class="document-requirement" data-required-for="Transferee,Returning Student">
+                        <label class="block text-sm font-medium text-gray-700">Good Moral Certificate <span class="text-red-500">*</span></label>
+                        <input type="file"
+                               name="good_moral"
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
             <div class="flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                    Submit Application
+                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+                    Create Application
                 </button>
             </div>
         </form>
@@ -2017,20 +1943,222 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     function handleSubmit() {
         // Check if at least one guardian is filled out
         const hasFather = this.fatherFirstName || this.fatherLastName;
         const hasMother = this.motherFirstName || this.motherLastName;
         const hasGuardian = this.guardianFirstName || this.guardianLastName;
+=======
+    // Function to calculate sibling age
+    function calculateSiblingAge(dateInput) {
+        const ageInput = dateInput.parentNode.querySelector('input[name$="[age]"]');
+        const birthDate = dateInput.value;
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 
-        if (!hasFather && !hasMother && !hasGuardian) {
-            alert('Please fill out information for at least one guardian (Father, Mother, or Legal Guardian)');
-            return false;
+        if (birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+
+            ageInput.value = age;
+        } else {
+            ageInput.value = '';
+        }
+    }
+
+
+    document.querySelector('input[name="siblings[0][date_of_birth]"]').addEventListener('change', function() {
+        calculateSiblingAge(this);
+    });
+
+    // Make initial sibling's age field readonly
+    document.querySelector('input[name="siblings[0][age]"]').readOnly = true;
+
+    // LRN field validation
+    document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid input (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
         }
 
-        // If validation passes, submit the form
-        this.$el.submit();
+        // Limit to 12 digits
+        if (this.value.length > 12) {
+            this.value = this.value.slice(0, 12);
+        }
+    });
+
+    // Year of Graduation field validation
+    document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid year (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 4 digits
+        if (this.value.length > 4) {
+            this.value = this.value.slice(0, 4);
+        }
+    });
+
+    // Father's contact number validation
+    document.querySelector('input[name="father_contact"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Mother's contact number validation
+    document.querySelector('input[name="mother_contact"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Emergency contact telephone validation
+    document.querySelector('input[name="emergency_contact_tel"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid telephone number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Emergency contact mobile validation
+    document.querySelector('input[name="emergency_contact_mobile"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid mobile number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Function to validate numeric input
+    function validateNumericInput(event) {
+        const input = event.target;
+        const value = input.value;
+        const isValid = /^[0-9]*$/.test(value);
+
+        if (!isValid) {
+            input.classList.add('border-red-500');
+            // Only add error message if it doesn't exist
+            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter numbers only';
+                input.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            input.classList.remove('border-red-500');
+            // Remove error message if it exists
+            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
+                input.nextElementSibling.remove();
+            }
+        }
+
+        // Enforce maximum length of 11 digits
+        if (value.replace(/[^0-9]/g, '').length > 11) {
+            input.value = value.slice(0, value.length - 1);
+        }
     }
+<<<<<<< HEAD
 =======
 =======
     // Function to calculate sibling age
@@ -2262,6 +2390,9 @@
     document.querySelector('input[name="guardian_contact_num"]').addEventListener('input', validateNumericInput);
 >>>>>>> ff81f34 (Feat: Add input validation for guardian's contact number)
 =======
+=======
+
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
     // Add event listeners for contact number fields
     const numericInputFields = [
         'guardian_contact_num',
@@ -2276,8 +2407,11 @@
         }
     });
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 1cf8ba4 (Feat: Enhance numeric input validation for multiple contact fields)
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 
     // File input validation
     const fileInputs = document.querySelectorAll('input[type="file"]');
@@ -2319,8 +2453,11 @@
         });
     });
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 67343d6 (Feat: Implement comprehensive file upload and document management for applicant submissions)
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 
     // Add this to your existing scripts
     document.addEventListener('DOMContentLoaded', function() {
@@ -2358,8 +2495,11 @@
     });
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> f775f69 (Feat: Implement dynamic document requirements based on student type)
 =======
+=======
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 
     // GWA field validation
     document.querySelector('input[name="gwa"]').addEventListener('input', function(e) {
@@ -2395,9 +2535,50 @@
             }
         }
     });
+<<<<<<< HEAD
 >>>>>>> 4c7019d (refactor: improve GWA input validation and display formatting)
 =======
 >>>>>>> 3421222 (Revert "Merge branch 'admission_v3' of https://github.com/APC-SoCIT/APC-2024-2025-T1-05-Admission-Management-System into admission_v3")
+=======
+
+    // Telephone number validation
+    const telInput = document.querySelector('input[name="applicant_tel_no"]');
+    telInput.addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 8) {
+            value = value.slice(0, 8);
+        }
+        this.value = value;
+
+        // Show validation message
+        const isValid = value.length >= 7 && value.length <= 8;
+        this.classList.toggle('border-red-500', !isValid && value.length > 0);
+    });
+
+    // Mobile number validation
+    const mobileInput = document.querySelector('input[name="applicant_mobile_number"]');
+    mobileInput.addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+        this.value = value;
+
+        // Show validation message
+        const isValid = value.length === 11 && value.startsWith('09');
+        this.classList.toggle('border-red-500', !isValid && value.length > 0);
+    });
+
+    // Email validation
+    const emailInput = document.querySelector('input[name="applicant_email"]');
+    emailInput.addEventListener('input', function() {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const isValid = emailRegex.test(this.value);
+        this.classList.toggle('border-red-500', !isValid && this.value.length > 0);
+    });
+});
+
+>>>>>>> 9c0e8cfc9e9fc1b14e176f29dd3bf23f92405b01
 </script>
 @endpush
 @endsection
