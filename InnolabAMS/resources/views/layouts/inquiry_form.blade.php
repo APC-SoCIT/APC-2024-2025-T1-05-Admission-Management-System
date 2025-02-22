@@ -1,19 +1,10 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inquiry Form</title>
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> Link to Tailwind or custom styles -->
-=======
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
->>>>>>> app_rc_jd_mp
 
     <title>{{ config('app.name', 'InnolabAMS') }}</title>
 
@@ -89,12 +80,6 @@
         color: #555;
     }
 
-<<<<<<< HEAD
-        input[type="checkbox"] {
-            margin-right: 10px;
-        }
-    </style>
-=======
     input[type="text"],
     input[type="email"],
     select,
@@ -188,7 +173,6 @@
 </style>
 
 
->>>>>>> app_rc_jd_mp
 </head>
 
 <body class="bg-gray-100">
@@ -204,8 +188,6 @@
             @yield('content')
         </div>
     </div>
-<<<<<<< HEAD
-=======
 
     <!-- Data Privacy Modal -->
     <div id="privacyModal" class="modal">
@@ -255,6 +237,5 @@
         });
     </script>
 
->>>>>>> app_rc_jd_mp
 </body>
 </html>
