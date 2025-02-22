@@ -90,7 +90,7 @@
             <div class="form-group mt-4">
                 <label>How did you learn about us? <span
                         class="text-red-500">*</span></label>
-                <div class="flex flex-col mt-2 space-y-2">
+                <div class="flex flex-col mt-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" name="source[]" value="Social Media"
                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
