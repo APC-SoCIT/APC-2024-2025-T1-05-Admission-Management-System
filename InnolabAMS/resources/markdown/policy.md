@@ -51,7 +51,7 @@ We do **NOT** sell, rent, or distribute personal information to third parties fo
 <br>
 
 ## **6. Data Retention Policy**<br>
-The personal information of applicants will be actively retained for one year following the validity of their admission results. For those who do not completed the applicaation, their personal information will be inactivated and archived. Meanwhile, the personal information of the applicant who proceed and complete the application will be retained in the database indefinitely.
+- The personal information of applicants will be actively retained for one year following the validity of their admission results. For those who do not completed the applicaation, their personal information will be inactivated and archived. Meanwhile, the personal information of the applicant who proceed and complete the application will be retained in the database indefinitely.
 <br><br>
 ---
 <br>
