@@ -1,4 +1,4 @@
-@extends('application')
+@extends('dashboard')
 @section('title', 'Application Details | InnolabAMS')
 
 @section('content')
@@ -29,7 +29,7 @@
                 </button>
                 <button type="submit" name="status" value="rejected"
                     onclick="confirmReject(event)"
-                    class="inline-flex items-center px-6 py-2 bg-grey-600 text-white font-bold rounded-lg transition-opacity hover:opacity-80">
+                    class="inline-flex items-center px-6 py-2 bg-red-600 text-white font-bold rounded-lg transition-opacity hover:opacity-80">
                     Reject
                 </button>
             </form>
@@ -128,7 +128,7 @@
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Awards/Honors:</td>
                     <td class="w-1/3 px-4 py-2">{{ $applicant->awards_honors }}</td>
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-x">GWA:</td>
-                    <td class="px-4 py-2">{{ $applicant->gwa }}</td>
+                    <td class="px-4 py-2">{{ number_format($applicant->gwa, 2, '.', '') }}</td>
                 </tr>
             </table>
         </div>

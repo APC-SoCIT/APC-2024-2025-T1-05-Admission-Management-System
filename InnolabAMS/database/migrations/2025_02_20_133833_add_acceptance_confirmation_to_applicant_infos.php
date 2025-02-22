@@ -14,18 +14,10 @@ return new class extends Migration
         });
     }
 
-    public function down()
-{
-    if (Schema::hasTable('applicant_infos')) {
+    public function down(): void
+    {
         Schema::table('applicant_infos', function (Blueprint $table) {
-            if (Schema::hasColumn('applicant_infos', 'acceptance_message')) {
-                $table->dropColumn('acceptance_message');
-            }
-            if (Schema::hasColumn('applicant_infos', 'accepted_at')) {
-                $table->dropColumn('accepted_at');
-            }
+            $table->dropColumn(['acceptance_message', 'accepted_at']);
         });
     }
-}
-
 };
