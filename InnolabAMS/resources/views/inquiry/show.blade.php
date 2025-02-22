@@ -1,4 +1,5 @@
-@extends('application') <!-- Use the application layout -->
+@extends('application')
+@section('title', 'Inquiry Details | InnolabAMS')
 
 @section('content')
 <div class="flex justify-between items-center mb-4">
@@ -114,4 +115,65 @@
 </div>
 </div>
 
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchIcon = document.getElementById("searchIcon");
+        const searchBar = document.getElementById("searchBar");
+        const userTable = document.getElementById("userTable");
+        const sortIcon = document.getElementById("sortIcon");
+        const sortdropdown = document.getElementById("sortdropdown");
+        const sortOldNew = document.getElementById("sortOldNew");
+        const sortNewOld = document.getElementById("sortNewOld");
+        let sortOrder = "asc";
+
+        // Search Bar Logic
+        searchIcon.addEventListener("click", () => {
+            if (searchBar.classList.contains("hidden")) {
+                searchBar.classList.remove("hidden");
+                searchBar.focus();
+            } else {
+                searchBar.classList.add("hidden");
+            }
+        });
+
+        searchBar.addEventListener("input", () => {
+            const filter = searchBar.value.toLowerCase();
+            const rows = userTable.querySelectorAll("td");
+
+            rows.forEach(row => {
+                const name = row.children[1].textContent.toLowerCase();
+                const email = row.children[2].textContent.toLowerCase();
+
+                if (name.includes(filter) || email.includes(filter)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+
+        // Sort Dropdown Logic
+        sortIcon.addEventListener("click", () => {
+            sortdropdown.classList.toggle("hidden");
+        });
+
+        // Sort Old - New
+        sortOldNew.addEventListener("click", () => {
+            const rows = Array.from(userTable.querySelectorAll("td"));
+            rows.sort((a, b) => parseInt(a.children[0].textContent) - parseInt(b.children[0].textContent));
+            rows.forEach(row => userTable.appendChild(row));
+            sortdropdown.classList.add("hidden");
+        });
+
+        // Sort New - Old
+        sortNewOld.addEventListener("click"), () => {
+            const rows = Array.from(userTable.querySelectorAll("td"));
+            rows.sort((a, b) => parseInt(b.children[0].textContent) - parseInt(a.children[0].textContent));
+            rows.forEach(row => userTable.appendChild(row));
+            sortdropdown.classList.add("hidden");
+        }
+    });
+</script>
+@endpush
 @endsection
