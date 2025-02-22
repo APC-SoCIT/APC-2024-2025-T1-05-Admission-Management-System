@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::table('applicant_infos', function (Blueprint $table) {
@@ -14,10 +13,15 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::table('applicant_infos', function (Blueprint $table) {
-            $table->dropColumn(['acceptance_message', 'accepted_at']);
+            if (Schema::hasColumn('applicant_infos', 'acceptance_message')) {
+                $table->dropColumn('acceptance_message');
+            }
+            if (Schema::hasColumn('applicant_infos', 'accepted_at')) {
+                $table->dropColumn('accepted_at');
+            }
         });
     }
 };
