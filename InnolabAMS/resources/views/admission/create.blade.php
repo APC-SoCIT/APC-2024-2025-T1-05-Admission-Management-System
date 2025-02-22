@@ -144,7 +144,6 @@
                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                required
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <p class="mt-1 text-sm text-gray-500">Format: 11 digits starting with 09</p>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
