@@ -18,15 +18,11 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
-    }
+
 
     .header {
         display: flex;
@@ -175,7 +171,8 @@
         font-size: 1rem;
     }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 
 <body class="bg-gray-100">
@@ -206,6 +203,16 @@
         </div>
         </>
     </div>
+
+    <script>
+        function openPrivacyPolicy() {
+            document.getElementById('privacyModal').style.display = 'flex';
+        }
+
+        function closePrivacyPolicy() {
+            document.getElementById('privacyModal').style.display = 'none';
+        }
+    </script>
 
 
     <script>
