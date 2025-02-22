@@ -7,6 +7,7 @@ use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
+use App\Http\Controllers\ApplicantController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -47,6 +48,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [ApplicantInfoController::class, 'store'])->name('store');
         Route::get('/{id}', [ApplicantInfoController::class, 'show'])->name('show');
         Route::patch('/{id}/status', [ApplicantInfoController::class, 'updateStatus'])->name('update-status'); // New route for updating status
+        Route::get('/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
+            ->name('admission.download-file');
     });
 
     // Scholarship Routes
@@ -103,8 +106,12 @@ Route::middleware('auth')->group(function () {
     //Personal Information Routes
     Route::prefix('form')->name('scholarship.')->group(function() {
         Route::get('/portal/scholarship', [ApplicantInfoController::class, 'showScholarshipForm'])->name('create'); //Added Route
-        
+
     });
+
+    // Add this route with your other admission routes
+    Route::get('admission/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
+        ->name('admission.download-file');
 
 });
 
