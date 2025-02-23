@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Application Accepted</title>
+    <title>Application Rejected</title>
     <style>
         body {
             font-family: Arial, sans-serif;
