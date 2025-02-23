@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AcceptanceEmail;
+use App\Mail\RejectionEmail;
 use App\Http\Requests\RejectApplicationRequest;
 use App\Notifications\ApplicationRejected;
 use App\Http\Requests\AcceptApplicationRequest;
@@ -365,6 +366,12 @@ class ApplicantInfoController extends Controller
 
         // Send rejection notification
         $applicant->user->notify(new ApplicationRejected($applicant));
+        Mail::to($applicant->applicant_email)->send(new RejectionEmail($applicant));
+
+        if (empty($applicant->applicant_email)) {
+            return redirect()->back()->with('error', 'Applicant email is missing or invalid.');
+        }        
+        
 
         return redirect()->route('admission.rejected')
             ->with('success', 'Application has been rejected');
