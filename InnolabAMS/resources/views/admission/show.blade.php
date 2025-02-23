@@ -206,6 +206,25 @@
             </table>
         </div>
 
+        <!-- Additional Information Section -->
+        <div class="border-b">
+            <div class="bg-gray-200 px-4 py-2 font-semibold">Additional Information</div>
+            <table class="w-full">
+                <tr class="border-b">
+                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Hobbies:</td>
+                    <td class="px-4 py-2">{{ $applicant->hobbies ?? 'Not specified' }}</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Skills:</td>
+                    <td class="px-4 py-2">{{ $applicant->skills ?? 'Not specified' }}</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Extracurricular Interest:</td>
+                    <td class="px-4 py-2">{{ $applicant->extracurricular_interest ?? 'Not specified' }}</td>
+                </tr>
+            </table>
+        </div>
+
         <!-- Emergency Contacts Section -->
         <div>
             <div class="bg-gray-200 px-4 py-2 font-semibold">Emergency Contacts</div>
