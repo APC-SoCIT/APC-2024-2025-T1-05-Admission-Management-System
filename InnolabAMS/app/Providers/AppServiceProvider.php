@@ -13,6 +13,11 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    
+    protected $policies = [
+        ApplicantInfo::class => ApplicantInfoPolicy::class,
+    ];
+
 
     public function boot()
     {

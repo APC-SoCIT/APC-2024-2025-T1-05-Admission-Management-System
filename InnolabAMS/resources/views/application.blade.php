@@ -5,8 +5,10 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 @if(auth()->user()->hasRole('Admin'))
                     {{ __('Admin Panel') }}
-                @else(auth()->user()->hasRole('Staff'))
+                @elseif(auth()->user()->hasRole('Staff'))
                     {{ __('Staff Panel') }}
+                @else(auth()->user()->hasRole('Applicant'))
+                    {{ __('Applicant Panel') }}
                
                 @endif
             </h2>

@@ -104,8 +104,9 @@ class ApplicantInfoController extends Controller
 
             \Log::info('Applicant created successfully:', ['id' => $applicant->id]);
 
-            return redirect()->route('admission.index')
-                ->with('success', 'Application submitted successfully.');
+            return redirect()
+            ->route('admission.show', $applicant->id)
+            ->with('success', 'Application created successfully');
 
         } catch (\Exception $e) {
             \Log::error('Application submission error: ' . $e->getMessage());
@@ -293,7 +294,7 @@ class ApplicantInfoController extends Controller
             \Log::info('Application created:', ['id' => $applicant->id]);
 
             return redirect()
-                ->route('admission.index')
+                ->route('admission.show',  $applicant->id)
                 ->with('success', 'Application created successfully');
         } catch (\Exception $e) {
             // Debug log
@@ -316,6 +317,8 @@ class ApplicantInfoController extends Controller
     // Add this method to your existing ApplicantInfoController class
     public function updateStatus(Request $request, $id)
     {
+        $applicant = ApplicantInfo::findOrFail($id);
+        $this->authorize('updateStatus', $applicant);
         if ($request->status === 'accepted') {
             return $this->acceptApplication($request, $id);
         }

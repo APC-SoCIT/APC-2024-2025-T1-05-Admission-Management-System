@@ -81,7 +81,7 @@ class ApplicantController extends Controller
             // Create the applicant record
             $applicant = ApplicantInfo::create($applicantData);
 
-            return redirect()->route('applicants.index')
+            return redirect()->route('applicants.show')
                 ->with('success', 'Application submitted successfully.');
 
         } catch (\Exception $e) {

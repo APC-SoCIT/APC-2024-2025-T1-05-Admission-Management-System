@@ -18,21 +18,30 @@
             <span class="text-gray-600 ml-6">Date Submitted: {{ $applicant->created_at->format('F d, Y') }}</span>
         </div>
         <div class="flex space-x-4">
+        @if (!auth()->user()->hasRole('Applicant'))
+            <!-- Only show this form to non-applicants -->
             <form method="POST" action="{{ route('admission.update-status', $applicant->id) }}" class="flex space-x-4" id="statusForm">
                 @csrf
                 @method('PATCH')
-                <button type="button"
+                <button
+                    type="button"
                     onclick="confirmAccept(event)"
                     style="background-color: #4CAF50;"
-                    class="inline-flex items-center px-6 py-2 bg-[#4CAF50] text-white font-bold rounded-lg transition-opacity hover:opacity-80">
+                    class="inline-flex items-center px-6 py-2 bg-[#4CAF50] text-white font-bold rounded-lg transition-opacity hover:opacity-80"
+                >
                     Accept
                 </button>
-                <button type="submit" name="status" value="rejected"
+                <button
+                    type="submit"
+                    name="status"
+                    value="rejected"
                     onclick="confirmReject(event)"
-                    class="inline-flex items-center px-6 py-2 bg-red-600 text-white font-bold rounded-lg transition-opacity hover:opacity-80">
+                    class="inline-flex items-center px-6 py-2 bg-red-600 text-white font-bold rounded-lg transition-opacity hover:opacity-80"
+                >
                     Reject
                 </button>
             </form>
+        @endif
         </div>
     </div>
 
