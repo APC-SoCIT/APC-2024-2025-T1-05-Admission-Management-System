@@ -106,69 +106,81 @@
 
         <!-- Content Area -->
         <div class="flex-grow p-6">
-            <!-- Welcome Message -->
             @if (Request::is('dashboard'))
                 <div class="flex justify-between items-center mb-4">
                     <h1 class="text-2xl font-semibold mx-4 my-4">{{ __('Welcome, ') . Auth::user()->name }}</h1>
+                    <button @click="refreshData()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        <i class="fa-solid fa-sync"></i> Refresh Data
+                    </button>
                 </div>
 
-                <!-- Analytics Dashboard Section -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                    <!-- Admissions Card -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-semibold text-gray-700">Admissions</h3>
-                            <i class="fa-solid fa-users-viewfinder text-blue-500"></i>
+                <div x-data="analyticsData()" x-init="initCharts(); setInterval(() => refreshData(), 5000)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Admissions</h3>
+                                <i class="fa-solid fa-users-viewfinder text-blue-500"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">New</span>
+                                    <span x-text="stats.newApplications" class="text-2xl font-bold text-blue-600"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Accepted</span>
+                                    <span x-text="stats.acceptedApplications" class="text-2xl font-bold text-green-600"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Rejected</span>
+                                    <span x-text="stats.rejectedApplications" class="text-2xl font-bold text-red-600"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">New</span>
-                                <span class="text-2xl font-bold text-blue-600">{{ $newApplicationsCount ?? 0 }}</span>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Inquiries</h3>
+                                <i class="fa-solid fa-question-circle text-purple-500"></i>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Accepted</span>
-                                <span class="text-2xl font-bold text-green-600">{{ $acceptedApplicationsCount ?? 0 }}</span>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">New</span>
+                                    <span x-text="stats.newInquiries" class="text-2xl font-bold text-purple-600"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Resolved</span>
+                                    <span x-text="stats.resolvedInquiries" class="text-2xl font-bold text-green-600"></span>
+                                </div>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Rejected</span>
-                                <span class="text-2xl font-bold text-red-600">{{ $rejectedApplicationsCount ?? 0 }}</span>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Scholarships</h3>
+                                <i class="fa-solid fa-graduation-cap text-amber-500"></i>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Applications</span>
+                                    <span x-text="stats.scholarshipApplications" class="text-2xl font-bold text-amber-600"></span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Approved</span>
+                                    <span x-text="stats.approvedScholarships" class="text-2xl font-bold text-green-600"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Inquiries Card -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-semibold text-gray-700">Inquiries</h3>
-                            <i class="fa-solid fa-question-circle text-purple-500"></i>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Admissions Trend</h3>
+                            <canvas id="admissionsChart"></canvas>
                         </div>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">New</span>
-                                <span class="text-2xl font-bold text-purple-600">{{ $newInquiriesCount ?? 0 }}</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Resolved</span>
-                                <span class="text-2xl font-bold text-green-600">{{ $resolvedInquiriesCount ?? 0 }}</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Scholarships Card -->
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-semibold text-gray-700">Scholarships</h3>
-                            <i class="fa-solid fa-graduation-cap text-amber-500"></i>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Applications</span>
-                                <span class="text-2xl font-bold text-amber-600">{{ $scholarshipApplicationsCount ?? 0 }}</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Approved</span>
-                                <span class="text-2xl font-bold text-green-600">{{ $approvedScholarshipsCount ?? 0 }}</span>
-                            </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Applications Status</h3>
+                            <canvas id="statusChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -179,4 +191,84 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function analyticsData() {
+            return {
+                stats: {
+                    newApplications: {{ $newApplicationsCount ?? 0 }},
+                    acceptedApplications: {{ $acceptedApplicationsCount ?? 0 }},
+                    rejectedApplications: {{ $rejectedApplicationsCount ?? 0 }},
+                    newInquiries: {{ $newInquiriesCount ?? 0 }},
+                    resolvedInquiries: {{ $resolvedInquiriesCount ?? 0 }},
+                    scholarshipApplications: {{ $scholarshipApplicationsCount ?? 0 }},
+                    approvedScholarships: {{ $approvedScholarshipsCount ?? 0 }}
+                },
+                charts: {},
+
+                initCharts() {
+                    this.charts.admissions = new Chart(
+                        document.getElementById('admissionsChart'),
+                        {
+                            type: 'line',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                                datasets: [{
+                                    label: 'Applications',
+                                    data: [12, 19, 3, 5, 2, 3],
+                                    borderColor: 'rgb(59, 130, 246)',
+                                    tension: 0.1
+                                }]
+                            }
+                        }
+                    );
+
+                    this.charts.status = new Chart(
+                        document.getElementById('statusChart'),
+                        {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['New', 'Accepted', 'Rejected'],
+                                datasets: [{
+                                    data: [
+                                        this.stats.newApplications,
+                                        this.stats.acceptedApplications,
+                                        this.stats.rejectedApplications
+                                    ],
+                                    backgroundColor: [
+                                        'rgb(59, 130, 246)',
+                                        'rgb(34, 197, 94)',
+                                        'rgb(239, 68, 68)'
+                                    ]
+                                }]
+                            }
+                        }
+                    );
+                },
+
+                async refreshData() {
+                    try {
+                        const response = await fetch('/api/analytics/dashboard');
+                        const data = await response.json();
+                        this.stats = data;
+                        this.updateCharts();
+                    } catch (error) {
+                        console.error('Failed to refresh data:', error);
+                    }
+                },
+
+                updateCharts() {
+                    this.charts.status.data.datasets[0].data = [
+                        this.stats.newApplications,
+                        this.stats.acceptedApplications,
+                        this.stats.rejectedApplications
+                    ];
+                    this.charts.status.update();
+                }
+            }
+        }
+    </script>
+    @endpush
 </x-app-layout>
