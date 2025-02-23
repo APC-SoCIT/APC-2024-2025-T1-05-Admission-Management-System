@@ -41,7 +41,7 @@ Route::get('/portal', function () {
         return redirect('/app');
     }
     return view('portal');
-})->middleware(['auth', 'verified'])->name('portal'); //Added Route
+})->middleware(['auth', 'verified'])->name('portal');
 
 
 //Dashboard Route
@@ -54,9 +54,12 @@ Route::middleware('auth')->group(function () {
         if (auth()->user()->hasRole('Applicant')) {
             return redirect('/portal');
         }
-        return view('application');
+        return view('dashboard');
     })->name('dashboard');
 
+    // Add only the analytics endpoint
+    Route::get('/dashboard/analytics', [DashboardController::class, 'getAnalytics'])
+        ->name('dashboard.analytics');
 });
 
 
