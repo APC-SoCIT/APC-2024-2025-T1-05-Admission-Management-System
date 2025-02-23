@@ -363,6 +363,40 @@
                 </div>
             </div>
 
+            <!-- Additional Information -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Additional Information</h2>
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Hobbies</label>
+                        <textarea
+                            name="hobbies"
+                            rows="3"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Please list your hobbies (e.g., reading, playing sports, music)"
+                        ></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Skills</label>
+                        <textarea
+                            name="skills"
+                            rows="3"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Please list your skills (e.g., computer programming, public speaking, leadership)"
+                        ></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Extracurricular Interests</label>
+                        <textarea
+                            name="extracurricular_interests"
+                            rows="3"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Please list your extracurricular interests (e.g., student council, sports teams, clubs)"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+
             <!-- Emergency Contact -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
@@ -526,7 +560,7 @@
         // Handle same as applicant address checkbox
         const sameAsApplicantCheckbox = document.getElementById('same-as-applicant-address');
         const emergencyContactAddressInput = document.querySelector('input[name="emergency_contact_address"]');
-        
+
         sameAsApplicantCheckbox.addEventListener('change', function() {
             if (this.checked) {
                 const applicantAddressFields = {
