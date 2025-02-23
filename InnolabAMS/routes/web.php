@@ -21,7 +21,9 @@ Route::get('/', function () {
     if (auth()->check()) {
         if (auth()->user()->hasRole('Applicant')) {
             return redirect('/portal');
-        } elseif (auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Staff')) {
+        } elseif (auth()->user()->hasRole('Admin')) {
+            return redirect('/dashboard');
+        } elseif (auth()->user()->hasRole('Staff')) {
             return redirect('/app');
         }
     }
@@ -31,8 +33,12 @@ Route::get('/', function () {
 
 //Admin Panel and Applicant Portal Routes
 Route::get('/app', function () {
-    if (auth()->check() && auth()->user()->hasRole('Applicant')) {
-        return redirect('/portal');
+    if (auth()->check()) {
+        if (auth()->user()->hasRole('Admin')) {
+            return redirect('/dashboard');  // Redirect Admin to dashboard
+        } elseif (auth()->user()->hasRole('Applicant')) {
+            return redirect('/portal');
+        }
     }
     return view('application');
 })->middleware(['auth', 'verified'])->name('application');
@@ -42,7 +48,18 @@ Route::get('/portal', function () {
         return redirect('/app');
     }
     return view('portal');
-})->middleware(['auth', 'verified'])->name('portal'); //Added Route
+})->middleware(['auth', 'verified'])->name('portal');
+
+Route::get('/dashboard', function () {
+    if (auth()->check()) {
+        if (auth()->user()->hasRole('Staff')) {
+            return redirect('/app');
+        } elseif (auth()->user()->hasRole('Applicant')) {
+            return redirect('/portal');
+        }
+    }
+    return view('dashboard');  // Admin stays here
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 //Dashboard Route
@@ -55,9 +72,12 @@ Route::middleware('auth')->group(function () {
         if (auth()->user()->hasRole('Applicant')) {
             return redirect('/portal');
         }
-        return view('application');
+        return view('dashboard');
     })->name('dashboard');
 
+    // Add only the analytics endpoint
+    Route::get('/dashboard/analytics', [DashboardController::class, 'getAnalytics'])
+        ->name('dashboard.analytics');
 });
 
 
