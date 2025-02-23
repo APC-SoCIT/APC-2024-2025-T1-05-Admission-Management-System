@@ -5,7 +5,7 @@
                 {{ __('Admin Panel') }}
             </h2>
 
-           
+
     </x-slot>
 
     <div class="flex">
@@ -21,7 +21,7 @@
                     </a>
                 </li>
 
-                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }" 
+                <li x-data="{ open: {{ request()->routeIs('admission.*') ? 'true' : 'false' }} }"
                     x-init="open = {{ request()->routeIs('admission.*') ? 'true' : 'false' }}">
                     <div class="w-full flex items-center justify-between py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                                 {{ request()->routeIs('admission.*') ? 'bg-gray-200' : '' }}">
@@ -110,6 +110,67 @@
             @if (Request::is('dashboard'))
                 <div class="flex justify-between items-center mb-4">
                     <h1 class="text-2xl font-semibold mx-4 my-4">{{ __('Welcome, ') . Auth::user()->name }}</h1>
+                </div>
+
+                <!-- Analytics Dashboard Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Admissions Card -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-700">Admissions</h3>
+                            <i class="fa-solid fa-users-viewfinder text-blue-500"></i>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">New</span>
+                                <span class="text-2xl font-bold text-blue-600">{{ $newApplicationsCount ?? 0 }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Accepted</span>
+                                <span class="text-2xl font-bold text-green-600">{{ $acceptedApplicationsCount ?? 0 }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Rejected</span>
+                                <span class="text-2xl font-bold text-red-600">{{ $rejectedApplicationsCount ?? 0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inquiries Card -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-700">Inquiries</h3>
+                            <i class="fa-solid fa-question-circle text-purple-500"></i>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">New</span>
+                                <span class="text-2xl font-bold text-purple-600">{{ $newInquiriesCount ?? 0 }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Resolved</span>
+                                <span class="text-2xl font-bold text-green-600">{{ $resolvedInquiriesCount ?? 0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scholarships Card -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-700">Scholarships</h3>
+                            <i class="fa-solid fa-graduation-cap text-amber-500"></i>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Applications</span>
+                                <span class="text-2xl font-bold text-amber-600">{{ $scholarshipApplicationsCount ?? 0 }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Approved</span>
+                                <span class="text-2xl font-bold text-green-600">{{ $approvedScholarshipsCount ?? 0 }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endif
 
