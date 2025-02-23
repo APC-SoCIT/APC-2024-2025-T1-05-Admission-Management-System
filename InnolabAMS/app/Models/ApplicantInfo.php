@@ -89,7 +89,7 @@ class ApplicantInfo extends Model
     ];
 
     protected $appends = [
-        'applicant_email', 
+        'applicant_email',
     ];
 
     // Define status constants for better code readability
@@ -128,5 +128,5 @@ class ApplicantInfo extends Model
         return implode(' ', array_filter($parts));
     }
 
-    
+
 }

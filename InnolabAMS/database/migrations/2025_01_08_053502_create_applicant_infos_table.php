@@ -73,9 +73,9 @@ return new class extends Migration
             $table->string('emergency_contact_email')->nullable();
 
             // Other existing fields
-            $table->enum('extracurricular_interest', ['Sports', 'Music', 'Art', 'Drama', 'Debate', 'Science Club', 'Math Club', 'Student Government', 'Volunteering', 'Dance', 'Technology Club'])->nullable();
-            $table->enum('skills', ['Communication', 'Teamwork', 'Leadership', 'Problem-Solving', 'Time Management', 'Creativity', 'Adaptability', 'Technology-related'])->nullable();
-            $table->string('hobbies', 255)->nullable();
+            $table->text('hobbies')->nullable();
+            $table->text('skills')->nullable();
+            $table->text('extracurricular_interest')->nullable();
             $table->string('participations', 255)->nullable();
             $table->string('competitions', 255)->nullable();
             $table->enum('referral_source', ['Social Media', 'Alumni', 'Online Ad', 'Website', 'School Fair', 'Other'])->nullable();

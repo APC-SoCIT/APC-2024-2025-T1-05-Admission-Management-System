@@ -56,6 +56,9 @@ class ApplicantInfoController extends Controller
                 'apply_grade_level' => 'required',
                 'student_type' => 'required',
                 // Add other validation rules but exclude files for now
+                'hobbies' => 'nullable|string|max:1000',
+                'skills' => 'nullable|string|max:1000',
+                'extracurricular_interest' => 'nullable|string|max:1000',
             ]);
 
             // Handle file uploads separately
@@ -342,7 +345,7 @@ class ApplicantInfoController extends Controller
 
         if (empty($applicant->applicant_email)) {
             return redirect()->back()->with('error', 'Applicant email is missing or invalid.');
-        }        
+        }
 
         return redirect()->route('admission.accepted')
             ->with('success', 'Application has been accepted successfully.');
@@ -370,8 +373,8 @@ class ApplicantInfoController extends Controller
 
         if (empty($applicant->applicant_email)) {
             return redirect()->back()->with('error', 'Applicant email is missing or invalid.');
-        }        
-        
+        }
+
 
         return redirect()->route('admission.rejected')
             ->with('success', 'Application has been rejected');
