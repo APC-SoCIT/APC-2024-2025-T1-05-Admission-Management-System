@@ -1,73 +1,92 @@
 @extends('application')
 
 @section('content')
-<div class="py-12" x-data="analyticsData()">
+<div class="py-6" x-data="analyticsData()">
     <!-- Statistics Cards -->
-    <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <!-- Admissions Card -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-4">Admissions</h3>
+            <div class="bg-white rounded-lg shadow-sm p-6 transition duration-300 hover:shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Admissions</h3>
+                    <i class="fas fa-user-graduate text-blue-500"></i>
+                </div>
                 <div class="grid grid-cols-3 gap-4">
                     <div class="text-center">
-                        <div class="text-2xl font-bold" x-text="stats.newApplications">0</div>
+                        <div class="text-2xl font-bold text-yellow-600" x-text="stats.newApplications">0</div>
                         <div class="text-sm text-gray-600">New</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl font-bold" x-text="stats.acceptedApplications">0</div>
+                        <div class="text-2xl font-bold text-green-600" x-text="stats.acceptedApplications">0</div>
                         <div class="text-sm text-gray-600">Accepted</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl font-bold" x-text="stats.rejectedApplications">0</div>
+                        <div class="text-2xl font-bold text-red-600" x-text="stats.rejectedApplications">0</div>
                         <div class="text-sm text-gray-600">Rejected</div>
                     </div>
                 </div>
             </div>
 
             <!-- Inquiries Card -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-4">Inquiries</h3>
+            <div class="bg-white rounded-lg shadow-sm p-6 transition duration-300 hover:shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Inquiries</h3>
+                    <i class="fas fa-question-circle text-purple-500"></i>
+                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="text-center">
-                        <div class="text-2xl font-bold" x-text="stats.newInquiries">0</div>
+                        <div class="text-2xl font-bold text-purple-600" x-text="stats.newInquiries">0</div>
                         <div class="text-sm text-gray-600">New</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl font-bold" x-text="stats.resolvedInquiries">0</div>
+                        <div class="text-2xl font-bold text-purple-600" x-text="stats.resolvedInquiries">0</div>
                         <div class="text-sm text-gray-600">Resolved</div>
                     </div>
                 </div>
             </div>
 
             <!-- Scholarships Card -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-4">Scholarships</h3>
+            <div class="bg-white rounded-lg shadow-sm p-6 transition duration-300 hover:shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Scholarships</h3>
+                    <i class="fas fa-graduation-cap text-yellow-500"></i>
+                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="text-center">
-                        <div class="text-2xl font-bold" x-text="stats.scholarshipApplications">0</div>
+                        <div class="text-2xl font-bold text-yellow-600" x-text="stats.scholarshipApplications">0</div>
                         <div class="text-sm text-gray-600">Total</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl font-bold" x-text="stats.approvedScholarships">0</div>
+                        <div class="text-2xl font-bold text-yellow-600" x-text="stats.approvedScholarships">0</div>
                         <div class="text-sm text-gray-600">Approved</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Charts -->
+        <!-- Charts Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Applications Trend Chart -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-4">Applications Trend</h3>
-                <canvas id="admissionsChart"></canvas>
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Applications Trend</h3>
+                <div class="h-64">
+                    <canvas id="admissionsChart"></canvas>
+                </div>
             </div>
 
             <!-- Application Status Chart -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-4">Application Status</h3>
-                <canvas id="statusChart"></canvas>
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Application Status</h3>
+                <div class="h-64">
+                    <canvas id="statusChart"></canvas>
+                </div>
             </div>
+        </div>
+
+        <!-- Last Updated -->
+        <div class="mt-4 text-right text-sm text-gray-600">
+            Last updated: <span x-text="new Date(stats.lastUpdated).toLocaleString()">-</span>
         </div>
     </div>
 </div>
