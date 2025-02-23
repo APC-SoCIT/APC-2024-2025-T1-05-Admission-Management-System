@@ -159,7 +159,7 @@
                                     this.stats.rejectedApplications
                                 ],
                                 backgroundColor: [
-                                    'rgb(59, 130, 246)',
+                                    'rgb(234, 179, 8)',
                                     'rgb(34, 197, 94)',
                                     'rgb(239, 68, 68)'
                                 ]
