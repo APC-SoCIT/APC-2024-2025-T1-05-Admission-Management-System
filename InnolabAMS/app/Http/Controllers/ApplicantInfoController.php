@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ApplicantInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AcceptanceEmail;
 use App\Http\Requests\RejectApplicationRequest;
 use App\Notifications\ApplicationRejected;
 use App\Http\Requests\AcceptApplicationRequest;
@@ -335,6 +337,11 @@ class ApplicantInfoController extends Controller
 
         // Send acceptance notification
         $applicant->user->notify(new ApplicationAccepted($applicant));
+        Mail::to($applicant->applicant_email)->send(new AcceptanceEmail($applicant));
+
+        if (empty($applicant->applicant_email)) {
+            return redirect()->back()->with('error', 'Applicant email is missing or invalid.');
+        }        
 
         return redirect()->route('admission.accepted')
             ->with('success', 'Application has been accepted successfully.');

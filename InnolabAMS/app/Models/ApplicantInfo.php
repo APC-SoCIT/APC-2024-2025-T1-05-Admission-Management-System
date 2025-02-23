@@ -127,4 +127,6 @@ class ApplicantInfo extends Model
 
         return implode(' ', array_filter($parts));
     }
+
+    
 }

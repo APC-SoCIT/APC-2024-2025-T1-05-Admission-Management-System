@@ -9,6 +9,7 @@ use App\Http\Controllers\FamilyInformationController;
 use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
+use App\Http\Controllers\AdmissionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -85,6 +86,8 @@ Route::middleware('auth')->group(function () {
             ->name('student.lookup');
         Route::get('/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
             ->name('admission.download-file');
+
+       
     });
 
     // Scholarship Routes
