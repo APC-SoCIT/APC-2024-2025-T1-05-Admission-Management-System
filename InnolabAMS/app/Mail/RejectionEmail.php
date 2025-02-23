@@ -22,7 +22,7 @@ class RejectionEmail extends Mailable
     public function build()
     {
         return $this->from(env('MAIL_FROM_ADDRESS'))
-            ->subject('Application Accepted')
+            ->subject('Application Rejected')
             ->view('email.rejected')
             ->with(['applicant' => $this->applicant]);
     }
