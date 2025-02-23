@@ -19,6 +19,7 @@ class ApplicantScholarship extends Model
         'parent_signature',
         'scholarship_type',
         'discount_awarded',
+        'status'
     ];
 
     /**
