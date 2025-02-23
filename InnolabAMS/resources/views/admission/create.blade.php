@@ -366,34 +366,38 @@
             <!-- Additional Information -->
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Additional Information</h2>
-                <div class="grid grid-cols-1 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Hobbies</label>
-                        <textarea
-                            name="hobbies"
-                            rows="3"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Please list your hobbies (e.g., reading, playing sports, music)"
-                        ></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Skills</label>
-                        <textarea
-                            name="skills"
-                            rows="3"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Please list your skills (e.g., computer programming, public speaking, leadership)"
-                        ></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Extracurricular Interest</label>
-                        <textarea
-                            name="extracurricular_interest"
-                            rows="3"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Please list your extracurricular interests (e.g., student council, sports teams, clubs)"
-                        ></textarea>
-                    </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Hobbies</label>
+                    <textarea
+                        name="hobbies"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Please list your hobbies (e.g., reading, playing sports, music)"
+                        data-validate="letters-only"
+                    ></textarea>
+                    <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Skills</label>
+                    <textarea
+                        name="skills"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Please list your skills (e.g., computer programming, public speaking, leadership)"
+                        data-validate="letters-only"
+                    ></textarea>
+                    <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Extracurricular Interests</label>
+                    <textarea
+                        name="extracurricular_interest"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        placeholder="Please list your extracurricular interests (e.g., student council, sports teams, clubs)"
+                        data-validate="letters-only"
+                    ></textarea>
+                    <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
                 </div>
             </div>
 
@@ -1082,6 +1086,44 @@
                 this.nextElementSibling.remove();
             }
         }
+    });
+
+    // Add this to your existing scripts
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all textareas that need letter-only validation
+        const letterOnlyFields = document.querySelectorAll('textarea[data-validate="letters-only"]');
+
+        letterOnlyFields.forEach(field => {
+            field.addEventListener('input', function() {
+                const value = this.value;
+                // Updated regex to check for any numbers or special characters except comma, period, and space
+                const isValid = /^[a-zA-Z\s,\.]*$/.test(value);
+                const errorMessage = this.parentElement.querySelector('.validation-error');
+
+                if (!isValid && value !== '') {
+                    // Show error state but don't remove the invalid characters
+                    this.classList.add('border-red-500');
+                    errorMessage.classList.remove('hidden');
+                    errorMessage.textContent = 'Please use only letters, spaces, commas, and periods';
+                } else {
+                    this.classList.remove('border-red-500');
+                    errorMessage.classList.add('hidden');
+                }
+            });
+
+            // Add validation on form submit
+            field.closest('form').addEventListener('submit', function(e) {
+                const value = field.value;
+                const isValid = /^[a-zA-Z\s,\.]*$/.test(value);
+
+                if (!isValid && value !== '') {
+                    e.preventDefault();
+                    field.classList.add('border-red-500');
+                    field.parentElement.querySelector('.validation-error').classList.remove('hidden');
+                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
     });
 </script>
 @endpush
