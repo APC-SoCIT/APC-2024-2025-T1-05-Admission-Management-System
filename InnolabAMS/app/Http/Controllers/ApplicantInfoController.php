@@ -56,9 +56,9 @@ class ApplicantInfoController extends Controller
                 'apply_grade_level' => 'required',
                 'student_type' => 'required',
                 // Add other validation rules but exclude files for now
-                'hobbies' => 'nullable|string|max:1000',
-                'skills' => 'nullable|string|max:1000',
-                'extracurricular_interest' => 'nullable|string|max:1000',
+                'hobbies' => 'nullable|string|max:65535',
+                'skills' => 'nullable|string|max:65535',
+                'extracurricular_interest' => 'nullable|string|max:65535',
             ]);
 
             // Handle file uploads separately
@@ -121,7 +121,7 @@ class ApplicantInfoController extends Controller
 
             return back()
                 ->withInput()
-                ->with('error', 'Error submitting application: ' . $e->getMessage());
+                ->with('error', 'Error submitting application. Please try again.');
         }
     }
 
