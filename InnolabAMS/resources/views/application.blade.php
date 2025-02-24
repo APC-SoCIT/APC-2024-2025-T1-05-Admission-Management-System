@@ -14,20 +14,6 @@
             </h2>
 
 
-            @if(request()->routeIs('admission.show'))
-            <div class="flex space-x-8 justify-start">
-                    <a href="#" class="text-blue-600 pb-4 text-base underline">
-                        Application
-                    </a>
-                    <a href="#" class="text-gray-600 pb-4 text-base">
-                        Attachments
-                    </a>
-                    <a href="#" class="text-gray-600 pb-4 text-base">
-                        Additional Information
-                    </a>
-            </div>
-            @endif
-
                 @unless(request()->routeIs('admission.show'))
                 <h2 class="text-base">{{ __('2025 - 2026') }}</h2>
                 @endunless
