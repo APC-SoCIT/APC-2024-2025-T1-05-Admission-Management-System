@@ -321,7 +321,6 @@ class ApplicantInfoController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $applicant = ApplicantInfo::findOrFail($id);
-        $this->authorize('updateStatus', $applicant);
         if ($request->status === 'accepted') {
             return $this->acceptApplication($request, $id);
         }
@@ -391,4 +390,5 @@ class ApplicantInfoController extends Controller
             'rejectedCount' => ApplicantInfo::where('status', 'rejected')->count(),
         ];
     }
+
 }
