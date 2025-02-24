@@ -196,8 +196,8 @@ Route::middleware('auth')->group(function () {
 
     //Personal Information Routes
     Route::prefix('form')->name('scholarship.')->group(function () {
-        Route::get('/portal/scholarship', [ApplicantInfoController::class, 'showScholarshipForm'])->name('create'); //Added Route
-
+        Route::get('/portal/scholarship', [ApplicantScholarshipController::class, 'showScholarshipForm'])->name('create');
+        Route::post('/portal/scholarship', [ApplicantScholarshipController::class, 'store'])->name('store');
     });
 
     Route::middleware(['auth'])->group(function () {

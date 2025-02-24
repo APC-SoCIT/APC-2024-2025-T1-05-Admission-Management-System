@@ -41,19 +41,30 @@ class DashboardController extends Controller
         return view('dashboard', $data);
     }
 
-    public function getAnalytics(): JsonResponse
+    public function getAnalytics(Request $request): JsonResponse
     {
-        try {
-            $data = $this->getAnalyticsData();
+        $dateRange = $request->input('dateRange', 'all');
+        $status = $request->input('status', 'all');
+        $category = $request->input('category', 'all');
 
-            // Debug log the actual data
-            Log::info('Analytics Data:', $data);
+        $query = ApplicantInfo::query();
 
-            return response()->json($data);
-        } catch (\Exception $e) {
-            Log::error('Analytics Error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to fetch analytics'], 500);
+        // Apply date filter
+        if ($dateRange !== 'all') {
+            $query->when($dateRange === 'today', fn($q) => $q->whereDate('created_at', today()))
+                 ->when($dateRange === 'week', fn($q) => $q->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]))
+                 ->when($dateRange === 'month', fn($q) => $q->whereMonth('created_at', now()->month));
         }
+
+        // Apply status filter
+        if ($status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        // Get filtered data
+        $data = $this->getAnalyticsData($query, $category);
+
+        return response()->json($data);
     }
 
     private function getMonthlyTrend(): array
@@ -74,37 +85,33 @@ class DashboardController extends Controller
         ];
     }
 
-    public function exportAnalytics(Request $request): BinaryFileResponse|Response
+    public function exportAnalytics(Request $request)
     {
         try {
-            $format = $request->input('format', 'excel');
-            $analytics = $this->getAnalyticsData();
+            $data = $this->getAnalyticsData();
+            $format = $request->query('format', 'excel');
 
             if ($format === 'excel') {
-                $tempFile = storage_path('app/temp/analytics-report.xlsx');
+                $fileName = 'analytics_' . date('Y-m-d_His') . '.xlsx';
+                $filePath = storage_path('app/public/' . $fileName);
 
-                // Ensure temp directory exists
-                if (!file_exists(dirname($tempFile))) {
-                    mkdir(dirname($tempFile), 0755, true);
-                }
+                $exporter = new AnalyticsExport($data);
+                $exporter->export($filePath);
 
-                $exporter = new AnalyticsExport($analytics);
-                $exporter->export($tempFile);
-
-                return response()->download($tempFile, 'analytics-report.xlsx', [
+                return response()->download($filePath, $fileName, [
                     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 ])->deleteFileAfterSend();
             }
 
             if ($format === 'pdf') {
-                $pdf = PDF::loadView('exports.analytics-pdf', ['analytics' => $analytics]);
+                $pdf = PDF::loadView('exports.analytics-pdf', ['analytics' => $data]);
                 return $pdf->download('analytics-report.pdf');
             }
 
             return response()->json(['error' => 'Unsupported format'], 400);
         } catch (\Exception $e) {
-            report($e); // Log the error
-            return response()->json(['error' => 'Failed to generate report'], 500);
+            Log::error('Export error: ' . $e->getMessage());
+            return back()->with('error', 'Failed to export analytics');
         }
     }
 
@@ -139,7 +146,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function getAnalyticsData(): array
+    private function getAnalyticsData($query = null, $category = 'all'): array
     {
         // Add debug logging for raw database queries
         \DB::enableQueryLog();

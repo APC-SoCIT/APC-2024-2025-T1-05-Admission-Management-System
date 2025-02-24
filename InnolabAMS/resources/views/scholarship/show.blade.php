@@ -1,89 +1,75 @@
-@section('title', 'Scholarship | InnolabAMS')
-@extends('application') <!-- Use the application layout -->
+@extends('application')
 
 @section('content')
-<!-- Title Section -->
-<div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-semibold mx-4 my-4">Scholarship</h1>
+<div class="container">
+    <h1 class="text-2xl font-semibold mb-6">Scholarship Applications</h1>
 
-    <div class="flex items-center space-x-4">
-        <!-- Search Icon and Bar -->
-        <div class="relative flex items-center">
-            <button id="searchIcon"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <input type="text" id="searchBar" placeholder="Search..."
-                class="absolute top-0 right-12 hidden bg-gray-100 text-gray-700 px-4 py-2 rounded-lg shadow-md w-64 focus:outline-none">
-        </div>
-
-        <!-- Sort Icon and Dropdown -->
-        <div class="relative">
-            <button id="sortIcon"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-2 rounded-full focus:outline-none">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <div id="sortDropdown"
-                class="absolute right-0 mt-2 hidden bg-white border border-gray-300 rounded-lg shadow-lg w-40">
-                <button id="sortOldNew" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                    Old - New
-                </button>
-                <button id="sortNewOld" class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                    New - Old
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="py-9">
-    <div class="max-xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    ID</th>
-                                <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Name</th>
-                                <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Scholarship Type</th>
-                                <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Discount</th>
-                                <th scope="col"
-                                    class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                    Action</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($scholarships as $scholarship)
-                                <tr>
-                                    <td class="w-1/12 py-2 px-4 border-b text-center">{{ $scholarship->applicant_info_id }}</td>
-                                    <td class="w-2/12 py-2 px-4 border-b text-center">{{ $applicant->name }}</td>
-                                    <td class="w-2/12 py-2 px-4 border-b text-center"></td>{{ $scholarship->scholarship_type }}</td>
-                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $scholarship->discount_awarded }}</td>
-
-
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                                        No applications found.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full">
+            <thead>
+                <tr class="bg-gray-50">
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        APPLICANT NAME
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        CURRENT SCHOLARSHIP
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        HOUSEHOLD INCOME
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        SCHOLARSHIP TYPE
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        DISCOUNT
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        STATUS
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        ACTION
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse ($scholarships as $scholarship)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {{ $scholarship->applicant_info->applicant_surname }},
+                            {{ $scholarship->applicant_info->applicant_given_name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {{ $scholarship->current_scholarship }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {{ $scholarship->annual_household_income }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {{ $scholarship->scholarship_type }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {{ $scholarship->discount_awarded }}%
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {{ $scholarship->status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                   ($scholarship->status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
+                                {{ ucfirst($scholarship->status) }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-center whitespace-nowrap text-blue-600">
+                            <a href="#" class="hover:text-blue-900">View</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                            No scholarship applications found
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 @endsection

@@ -23,6 +23,45 @@
                 Export PDF
             </button>
         </div>
+
+        <!-- Filter Controls -->
+        <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Date Range Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Date Range</label>
+                    <select x-model="filters.dateRange" class="mt-1 block w-full rounded-md border-gray-300">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+
+                <!-- Status Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Application Status</label>
+                    <select x-model="filters.status" class="mt-1 block w-full rounded-md border-gray-300">
+                        <option value="all">All Status</option>
+                        <option value="new">New</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <!-- Category Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Category</label>
+                    <select x-model="filters.category" class="mt-1 block w-full rounded-md border-gray-300">
+                        <option value="all">All Categories</option>
+                        <option value="admissions">Admissions</option>
+                        <option value="inquiries">Inquiries</option>
+                        <option value="scholarships">Scholarships</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Statistics Cards -->
@@ -135,6 +174,11 @@
             charts: {
                 admissions: null,
                 status: null
+            },
+            filters: {
+                dateRange: 'all',
+                status: 'all',
+                category: 'all'
             },
             async initData() {
                 await this.refreshData();

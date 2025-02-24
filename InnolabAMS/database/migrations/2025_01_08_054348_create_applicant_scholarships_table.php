@@ -19,9 +19,7 @@ return new class extends Migration
                 'Below 150,000',
                 '150,000 - 300,000',
                 '300,001 - 500,000',
-                '500,001 - 750,000',
-                '750,001 - 1,000,000',
-                'Above 1,000,000'
+                'Above 500,000'
             ]); // ENUM for income ranges
             $table->string('applicant_signature', 225); // Required
             $table->string('parent_signature', 225); // Required
@@ -31,13 +29,14 @@ return new class extends Migration
                 'Sports-based'
             ]); // ENUM for scholarship types
             $table->float('discount_awarded'); // Float for discounts
-            $table->timestamp('updated_at')->useCurrent(); // Timestamp
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->timestamps(); // This adds both created_at and updated_at columns
 
             // Foreign key constraint
             $table->foreign('applicant_info_id')
                 ->references('id')
-                ->on('applicant_infos') // Adjust table name to match your schema
-                ->onDelete('cascade'); // Cascade delete
+                ->on('applicant_infos')
+                ->onDelete('cascade');
         });
     }
 

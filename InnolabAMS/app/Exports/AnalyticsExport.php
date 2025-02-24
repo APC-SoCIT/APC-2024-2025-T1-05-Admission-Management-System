@@ -2,65 +2,67 @@
 
 namespace App\Exports;
 
+use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\XLSX\Writer;
-use OpenSpout\Writer\XLSX\Options;
 
 class AnalyticsExport
 {
-    protected array $analytics;
+    private $data;
 
-    public function __construct(array $analytics)
+    public function __construct(array $data)
     {
-        $this->analytics = $analytics;
+        $this->data = $data;
     }
 
-    public function export(string $filePath): void
+    public function export(string $filePath)
     {
-        $options = new Options();
-        $writer = new Writer($options);
-
-        $headerStyle = (new Style())->setFontBold();
-
+        $writer = new Writer();
         $writer->openToFile($filePath);
 
-        // Write headers
-        $writer->addRow(['Analytics Report'], $headerStyle);
-        $writer->addRow(['Generated at: ' . now()->format('Y-m-d H:i:s')]);
-        $writer->addRow([]);
+        // Add header with style
+        $headerStyle = (new Style())->setFontBold();
+        $writer->addRow(Row::fromValues([
+            'Category',
+            'Metric',
+            'Count'
+        ], $headerStyle));
 
-        // Admissions section
-        $writer->addRow(['Admissions'], $headerStyle);
-        $writer->addRow(['New', 'Accepted', 'Rejected']);
-        $writer->addRow([
-            $this->analytics['admissions']['new'],
-            $this->analytics['admissions']['accepted'],
-            $this->analytics['admissions']['rejected']
-        ]);
-        $writer->addRow([]);
+        // Add Admissions data
+        foreach ($this->data['admissions'] as $status => $count) {
+            $writer->addRow(Row::fromValues([
+                'Admissions',
+                ucfirst($status),
+                $count
+            ]));
+        }
 
-        // Inquiries section
-        $writer->addRow(['Inquiries'], $headerStyle);
-        $writer->addRow(['New', 'Resolved']);
-        $writer->addRow([
-            $this->analytics['inquiries']['new'],
-            $this->analytics['inquiries']['resolved']
-        ]);
-        $writer->addRow([]);
+        // Add Inquiries data
+        foreach ($this->data['inquiries'] as $status => $count) {
+            $writer->addRow(Row::fromValues([
+                'Inquiries',
+                ucfirst($status),
+                $count
+            ]));
+        }
 
-        // Scholarships section
-        $writer->addRow(['Scholarships'], $headerStyle);
-        $writer->addRow(['Total', 'Approved']);
-        $writer->addRow([
-            $this->analytics['scholarships']['total'],
-            $this->analytics['scholarships']['approved']
-        ]);
-        $writer->addRow([]);
+        // Add Scholarships data
+        foreach ($this->data['scholarships'] as $status => $count) {
+            $writer->addRow(Row::fromValues([
+                'Scholarships',
+                ucfirst($status),
+                $count
+            ]));
+        }
 
-        // Monthly Trend section
-        $writer->addRow(['Monthly Trend'], $headerStyle);
-        $writer->addRow($this->analytics['monthlyTrend']['labels']);
-        $writer->addRow($this->analytics['monthlyTrend']['data']);
+        // Add Monthly Trend data
+        foreach (array_combine($this->data['monthlyTrend']['labels'], $this->data['monthlyTrend']['data']) as $month => $count) {
+            $writer->addRow(Row::fromValues([
+                'Monthly Trend',
+                $month,
+                $count
+            ]));
+        }
 
         $writer->close();
     }
