@@ -12,7 +12,7 @@
     <!-- Informational Text -->
     <div class="mb-6">
         <p class="text-gray-600">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac odio ut nunc varius dictum. Donec non lacus id mauris tincidunt pharetra vel eu augue.
+            Please complete this scholarship application form accurately. Your current scholarship status and household income information will help us evaluate your eligibility for financial assistance. Required documents must be submitted in PDF, JPG, JPEG, or PNG format.
         </p>
     </div>
 
