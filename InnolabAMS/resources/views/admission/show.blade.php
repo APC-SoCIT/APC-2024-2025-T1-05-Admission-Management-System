@@ -5,10 +5,17 @@
 <div class="container mx-auto px-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('admission.index') }}"
-           class="inline-flex items-center px-4 py-2 bg-gray-500 text-white px-4 py-1 rounded-lg hover:bg-gray-700">
+    @if(auth()->user()->hasRole('Applicant'))
+        <a href="{{ route('portal') }}"
+        class="inline-flex items-center px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-700">
             <i class="fas fa-arrow-left mr-2"></i>Back
         </a>
+    @else
+        <a href="{{ route('admission.index') }}"
+        class="inline-flex items-center px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-700">
+            <i class="fas fa-arrow-left mr-2"></i>Back
+        </a>
+    @endif
     </div>
 
     <!-- Application Info Header -->
