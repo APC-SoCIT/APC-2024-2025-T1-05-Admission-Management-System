@@ -1,7 +1,7 @@
 @extends('application')
 
 @section('content')
-<div class="py-6" x-data="analyticsData()">
+<div class="py-6" x-data="analyticsData()" x-init="initData()">
     <!-- Add this after the title -->
     <div class="max-w-7xl mx-auto px-4 mb-6">
         <div class="flex justify-end space-x-4">
@@ -77,7 +77,7 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-yellow-600" x-text="stats.scholarshipApplications">0</div>
+                        <div class="text-2xl font-bold text-yellow-600" x-text="stats.totalScholarships">0</div>
                         <div class="text-sm text-gray-600">Total</div>
                     </div>
                     <div class="text-center">
@@ -125,33 +125,47 @@
                 rejectedApplications: 0,
                 newInquiries: 0,
                 resolvedInquiries: 0,
-                scholarshipApplications: 0,
+                totalScholarships: 0,
                 approvedScholarships: 0,
                 monthlyTrend: {
                     labels: [],
                     data: []
                 }
             },
-            charts: {},
-
-            init() {
-                this.refreshData();
-                this.initCharts();
-                // Refresh data every 5 minutes
-                setInterval(() => this.refreshData(), 300000);
+            charts: {
+                admissions: null,
+                status: null
             },
-
+            async initData() {
+                await this.refreshData();
+                this.initCharts();
+                // Set up periodic refresh every 30 seconds
+                setInterval(() => this.refreshData(), 30000);
+            },
             async refreshData() {
                 try {
                     const response = await fetch('/dashboard/analytics');
                     const data = await response.json();
-                    this.stats = data;
-                    this.updateCharts();
+
+                    // Update stats with proper key mapping
+                    this.stats = {
+                        newApplications: data.admissions.new,
+                        acceptedApplications: data.admissions.accepted,
+                        rejectedApplications: data.admissions.rejected,
+                        newInquiries: data.inquiries.new,
+                        resolvedInquiries: data.inquiries.resolved,
+                        totalScholarships: data.scholarships.total,
+                        approvedScholarships: data.scholarships.approved,
+                        monthlyTrend: data.monthlyTrend
+                    };
+
+                    if (this.charts.admissions || this.charts.status) {
+                        this.updateCharts();
+                    }
                 } catch (error) {
                     console.error('Failed to refresh data:', error);
                 }
             },
-
             initCharts() {
                 this.charts.admissions = new Chart(
                     document.getElementById('admissionsChart'),
@@ -191,7 +205,6 @@
                     }
                 );
             },
-
             updateCharts() {
                 if (this.charts.admissions) {
                     this.charts.admissions.data.labels = this.stats.monthlyTrend.labels;

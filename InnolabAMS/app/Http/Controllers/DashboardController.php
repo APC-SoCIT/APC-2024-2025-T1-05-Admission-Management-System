@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -39,28 +43,17 @@ class DashboardController extends Controller
 
     public function getAnalytics(): JsonResponse
     {
-        $analytics = [
-            // Admissions Statistics
-            'newApplications' => ApplicantInfo::where('status', 'new')->count(),
-            'acceptedApplications' => ApplicantInfo::where('status', 'accepted')->count(),
-            'rejectedApplications' => ApplicantInfo::where('status', 'rejected')->count(),
+        try {
+            $data = $this->getAnalyticsData();
 
-            // Inquiries Statistics
-            'newInquiries' => LeadInfo::where('inquiry_status', 'New')->count(),
-            'resolvedInquiries' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
+            // Debug log the actual data
+            Log::info('Analytics Data:', $data);
 
-            // Scholarship Statistics
-            'scholarshipApplications' => ApplicantScholarship::count(),
-            'approvedScholarships' => ApplicantScholarship::where('scholarship_type', 'approved')->count(),
-
-            // Monthly Trend Data (last 6 months)
-            'monthlyTrend' => $this->getMonthlyTrend(),
-
-            // Last Updated Timestamp
-            'lastUpdated' => now()->toIso8601String()
-        ];
-
-        return response()->json($analytics);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            Log::error('Analytics Error: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch analytics'], 500);
+        }
     }
 
     private function getMonthlyTrend(): array
@@ -115,22 +108,65 @@ class DashboardController extends Controller
         }
     }
 
-    private function getAnalyticsData(): array
+    private function debugAnalytics(): void
     {
-        return [
-            'admissions' => [
+        // Debug Admissions
+        \Log::info('Admission Statuses:', [
+            'all_statuses' => ApplicantInfo::distinct()->pluck('status')->toArray(),
+            'counts' => [
                 'new' => ApplicantInfo::where('status', 'new')->count(),
                 'accepted' => ApplicantInfo::where('status', 'accepted')->count(),
                 'rejected' => ApplicantInfo::where('status', 'rejected')->count(),
-            ],
-            'inquiries' => [
+            ]
+        ]);
+
+        // Debug Inquiries
+        \Log::info('Inquiry Statuses:', [
+            'all_statuses' => LeadInfo::distinct()->pluck('inquiry_status')->toArray(),
+            'counts' => [
                 'new' => LeadInfo::where('inquiry_status', 'New')->count(),
                 'resolved' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
-            ],
-            'scholarships' => [
+            ]
+        ]);
+
+        // Debug Scholarships
+        \Log::info('Scholarship Statuses:', [
+            'all_statuses' => ApplicantScholarship::distinct()->pluck('status')->toArray(),
+            'counts' => [
                 'total' => ApplicantScholarship::count(),
                 'approved' => ApplicantScholarship::where('status', 'approved')->count(),
-            ],
+            ]
+        ]);
+    }
+
+    private function getAnalyticsData(): array
+    {
+        // Add debug logging for raw database queries
+        \DB::enableQueryLog();
+
+        $admissionCounts = [
+            'new' => \DB::table('applicant_infos')->where('status', 'new')->count(),
+            'accepted' => \DB::table('applicant_infos')->where('status', 'accepted')->count(),
+            'rejected' => \DB::table('applicant_infos')->where('status', 'rejected')->count(),
+        ];
+
+        $inquiryCounts = [
+            'new' => \DB::table('lead_info')->where('inquiry_status', 'New')->count(),
+            'resolved' => \DB::table('lead_info')->where('inquiry_status', 'Resolved')->count(),
+        ];
+
+        $scholarshipCounts = [
+            'total' => \DB::table('applicant_scholarships')->count(),
+            'approved' => \DB::table('applicant_scholarships')->where('status', 'approved')->count(),
+        ];
+
+        // Log the actual SQL queries being executed
+        Log::info('SQL Queries:', \DB::getQueryLog());
+
+        return [
+            'admissions' => $admissionCounts,
+            'inquiries' => $inquiryCounts,
+            'scholarships' => $scholarshipCounts,
             'monthlyTrend' => $this->getMonthlyTrend(),
         ];
     }
