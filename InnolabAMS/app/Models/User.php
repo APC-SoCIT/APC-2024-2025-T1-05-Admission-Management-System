@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasRoles, HasFactory, Notifiable;
+    use HasRoles, HasFactory, Notifiable, HasApiTokens, HasProfilePhoto;
 
     /**
      * The attributes that are mass assignable.
@@ -47,8 +50,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function applicantInfo()
-{
-    return $this->hasOne(ApplicantInfo::class);
-}
+    public function applicant_info()
+    {
+        return $this->hasOne(ApplicantInfo::class, 'user_id');
+    }
 }
