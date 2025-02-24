@@ -391,4 +391,10 @@ class ApplicantInfoController extends Controller
         ];
     }
 
+    public function someMethod()
+    {
+        $applicant = \App\Models\ApplicantInfo::where('user_id', auth()->id())->first();
+        return view('some.view', compact('applicant'));
+    }
+
 }

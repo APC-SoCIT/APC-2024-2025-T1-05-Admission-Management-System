@@ -14,7 +14,7 @@
                 <li>
                     <a href="{{ route('portal') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                     {{ request()->routeIs('personal_information.create') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-user w-6 text-center"></i>
+                    <i class="fa-solid fa-house w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Home') }}</span>
                     </a>
                 </li>
@@ -25,14 +25,14 @@
 
                     <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.personal_info') }}"
                     class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
-                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
+                    <i class="fa-solid fa-file w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Application Form') }}</span>
                     </a>
                 <li>
                     <a href="{{ route('scholarship.create') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                               {{ request()->routeIs('scholarship.create') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
+                              <i class="fa-solid fa-handshake w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Scholarship Form') }}</span>
                     </a>
                 </li>
