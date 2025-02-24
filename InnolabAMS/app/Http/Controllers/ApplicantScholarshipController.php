@@ -72,7 +72,7 @@ class ApplicantScholarshipController extends Controller
      */
     public function show()
     {
-        $scholarships = ApplicantScholarship::with('applicant_i nfo')->get();
+        $scholarships = ApplicantScholarship::with('applicant_info')->get();
         return view('scholarship.show', compact('scholarships'));
     }
 
