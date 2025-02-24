@@ -78,6 +78,9 @@ Route::middleware('auth')->group(function () {
     // Add only the analytics endpoint
     Route::get('/dashboard/analytics', [DashboardController::class, 'getAnalytics'])
         ->name('dashboard.analytics');
+
+    Route::get('/dashboard/export', [DashboardController::class, 'exportAnalytics'])
+        ->name('dashboard.export');
 });
 
 
@@ -107,7 +110,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
             ->name('admission.download-file');
 
-       
+
     });
 
     // Scholarship Routes
@@ -121,7 +124,7 @@ Route::middleware('auth')->group(function () {
             }
             return app (ApplicantScholarshipController::class)->show();
         })->name('scholarship.show');
-        
+
     });
     // Inquiry routes
     Route::prefix('inquiries')->group(function () {
