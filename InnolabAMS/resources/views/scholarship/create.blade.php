@@ -6,7 +6,7 @@
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold">Scholarship</h1>
-        
+
     </div>
 
     <!-- Informational Text -->
@@ -21,8 +21,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Current Scholarship -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Current Scholarship</label>
-                <input type="text" class="w-full border-gray-300 rounded-lg shadow-sm" placeholder="Enter scholarship details">
+                <label class="block text-sm font-medium text-gray-700">Current Scholarship <span class="text-red-500">*</span></label>
+                <input type="text"
+                       name="current_scholarship"
+                       class="w-full border-gray-300 rounded-lg shadow-sm"
+                       placeholder="Enter scholarship details"
+                       required>
             </div>
 
             <!-- Annual Household Income -->
@@ -41,16 +45,32 @@
         <!-- Signatures Section -->
         <div class="grid grid-cols-2 gap-6 mt-6">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Applicant Signature</label>
-                <div class="border border-gray-300 rounded-lg p-4 text-center">
-                    <p class="text-gray-500">Signature Placeholder</p>
-                </div>
+                <label class="block text-sm font-medium text-gray-700">Applicant Signature <span class="text-red-500">*</span></label>
+                <input type="file"
+                       name="applicant_signature"
+                       accept=".pdf,.jpg,.jpeg,.png"
+                       required
+                       class="mt-1 block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-md file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-blue-50 file:text-blue-700
+                              hover:file:bg-blue-100">
+                <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Parent Signature</label>
-                <div class="border border-gray-300 rounded-lg p-4 text-center">
-                    <p class="text-gray-500">Signature Placeholder</p>
-                </div>
+                <label class="block text-sm font-medium text-gray-700">Parent Signature <span class="text-red-500">*</span></label>
+                <input type="file"
+                       name="parent_signature"
+                       accept=".pdf,.jpg,.jpeg,.png"
+                       required
+                       class="mt-1 block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-md file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-blue-50 file:text-blue-700
+                              hover:file:bg-blue-100">
+                <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
             </div>
         </div>
 
