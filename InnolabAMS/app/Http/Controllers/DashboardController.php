@@ -74,37 +74,33 @@ class DashboardController extends Controller
         ];
     }
 
-    public function exportAnalytics(Request $request): BinaryFileResponse|Response
+    public function exportAnalytics(Request $request)
     {
         try {
-            $format = $request->input('format', 'excel');
-            $analytics = $this->getAnalyticsData();
+            $data = $this->getAnalyticsData();
+            $format = $request->query('format', 'excel');
 
             if ($format === 'excel') {
-                $tempFile = storage_path('app/temp/analytics-report.xlsx');
+                $fileName = 'analytics_' . date('Y-m-d_His') . '.xlsx';
+                $filePath = storage_path('app/public/' . $fileName);
 
-                // Ensure temp directory exists
-                if (!file_exists(dirname($tempFile))) {
-                    mkdir(dirname($tempFile), 0755, true);
-                }
+                $exporter = new AnalyticsExport($data);
+                $exporter->export($filePath);
 
-                $exporter = new AnalyticsExport($analytics);
-                $exporter->export($tempFile);
-
-                return response()->download($tempFile, 'analytics-report.xlsx', [
+                return response()->download($filePath, $fileName, [
                     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 ])->deleteFileAfterSend();
             }
 
             if ($format === 'pdf') {
-                $pdf = PDF::loadView('exports.analytics-pdf', ['analytics' => $analytics]);
+                $pdf = PDF::loadView('exports.analytics-pdf', ['analytics' => $data]);
                 return $pdf->download('analytics-report.pdf');
             }
 
             return response()->json(['error' => 'Unsupported format'], 400);
         } catch (\Exception $e) {
-            report($e); // Log the error
-            return response()->json(['error' => 'Failed to generate report'], 500);
+            Log::error('Export error: ' . $e->getMessage());
+            return back()->with('error', 'Failed to export analytics');
         }
     }
 
