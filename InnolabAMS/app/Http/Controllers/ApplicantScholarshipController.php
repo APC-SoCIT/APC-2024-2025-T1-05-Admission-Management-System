@@ -33,7 +33,7 @@ class ApplicantScholarshipController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ApplicantScholarship $applicantScholarship)
+    public function show()
     {
         $scholarships = ApplicantScholarship::all();
         // Fetch all scholarship from the database

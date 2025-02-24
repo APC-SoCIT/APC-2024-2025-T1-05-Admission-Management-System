@@ -84,14 +84,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Extension Name</label>
-                        <input
-                            type="text"
-                            name="applicant_extension"
-                            data-validate="extension-name"
-                            class="mt-1 block w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            placeholder="Jr., Sr., III, etc."
-                        >
-                        <p class="validation-error text-red-500 text-sm mt-1 hidden">Please use only letters, periods, and hyphens</p>
+                        <input type="text" name="applicant_extension" placeholder="Jr., II, III, etc." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Sex <span class="text-red-500">*</span></label>
@@ -130,27 +123,27 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <input
-                            type="text"
-                            name="applicant_tel_no"
-                            data-validate="numbers-only"
-                            class="mt-1 block w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        >
-                        <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter numbers only</p>
+                        <input type="text"
+                               name="applicant_tel_no"
+                               pattern="[0-9]{7,8}"
+                               maxlength="8"
+                               title="Please enter a valid telephone number (7-8 digits)"
+                               placeholder="8xxxxxxx"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
-
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
-                        <input
-                            type="text"
-                            name="applicant_mobile_number"
-                            data-validate="numbers-only"
-                            class="mt-1 block w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required
-                        >
-                        <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter numbers only</p>
+                        <input type="tel"
+                               name="applicant_mobile_number"
+                               pattern="[0-9]{11}"
+                               maxlength="11"
+                               title="Please enter a valid mobile number (11 digits)"
+                               placeholder="09xxxxxxxxx"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                               required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
-
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
                         <input type="email"
@@ -344,7 +337,7 @@
 
                     <div id="siblings-container" class="mt-4">
                         <div class="sibling-entry grid grid-cols-5 gap-4 mb-4 relative">
-                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" data-validate="name-with-special">
+                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -586,156 +579,171 @@
                 emergencyContactAddressInput.value = '';
             }
         });
+    });
 
-        // Get all number-only input fields
-        const numberOnlyFields = document.querySelectorAll('input[data-validate="numbers-only"]');
+    // Function to validate input and show error message
+    function validateInput(event) {
+        const input = event.target;
+        const value = input.value;
 
-        numberOnlyFields.forEach(field => {
-            field.addEventListener('input', function() {
-                const value = this.value;
-                const isValid = /^\d*$/.test(value);
-                const errorMessage = this.parentElement.querySelector('.validation-error');
-
-                if (!isValid && value !== '') {
-                    // Only change the border color, keep the text color
-                    this.classList.add('border-red-500');
-                    this.classList.remove('border-gray-300');
-                    errorMessage.classList.remove('hidden');
-                } else {
-                    this.classList.remove('border-red-500');
-                    this.classList.add('border-gray-300');
-                    errorMessage.classList.add('hidden');
-                }
-            });
-
-            // Add validation on form submit
-            field.closest('form').addEventListener('submit', function(e) {
-                const value = field.value;
-                const isValid = /^\d*$/.test(value);
-
-                if (!isValid && value !== '') {
-                    e.preventDefault();
-                    field.classList.add('border-red-500');
-                    field.parentElement.querySelector('.validation-error').classList.remove('hidden');
-                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            });
-        });
-
-        // Extension name validation
-        const extensionField = document.querySelector('input[data-validate="extension-name"]');
-        if (extensionField) {
-            extensionField.addEventListener('input', function() {
-                const value = this.value;
-                const isValid = /^[a-zA-Z\s\.\-]*$/.test(value);
-                const errorMessage = this.parentElement.querySelector('.validation-error');
-
-                if (!isValid && value !== '') {
-                    this.classList.add('border-red-500');
-                    this.classList.remove('border-gray-300');
-                    errorMessage.classList.remove('hidden');
-                    errorMessage.textContent = 'Please use only letters, spaces, periods, and hyphens';
-                } else {
-                    this.classList.remove('border-red-500');
-                    this.classList.add('border-gray-300');
-                    errorMessage.classList.add('hidden');
-                }
-            });
+        // Skip validation for sibling fields
+        if (input.name.startsWith('siblings[')) {
+            // Clear any existing error messages for sibling fields
+            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
+                input.nextElementSibling.remove();
+            }
+            input.classList.remove('border-red-500');
+            return;
         }
 
-        // Sibling name validation
-        function setupSiblingValidation(field) {
-            field.addEventListener('input', function() {
-                const value = this.value;
-                const isValid = /^[a-zA-Z\s\.\-]*$/.test(value);
-                const errorMessage = this.parentElement.querySelector('.validation-error');
-
-                if (!isValid && value !== '') {
-                    this.classList.add('border-red-500');
-                    this.classList.remove('border-gray-300');
-                    errorMessage.classList.remove('hidden');
-                    errorMessage.textContent = 'Please use only letters, spaces, periods, and hyphens';
-                } else {
-                    this.classList.remove('border-red-500');
-                    this.classList.add('border-gray-300');
-                    errorMessage.classList.add('hidden');
-                }
-            });
+        // Skip validation for fields that allow special characters and numbers
+        if (input.name === 'applicant_barangay' ||
+            input.name === 'applicant_address_street' ||
+            input.name === 'school_address' ||
+            input.name === 'emergency_contact_address' ||
+            input.name === 'awards_honors' ||
+            input.name === 'previous_program' ||
+            input.name === 'school_name' ||
+            input.name === 'applicant_extension' ||
+            input.name.includes('school_attended')) {
+            return;
         }
 
-        // Set up validation for existing sibling name fields
-        document.querySelectorAll('input[name="siblings[0][full_name]"]').forEach(setupSiblingValidation);
+        const isValid = /^[a-zA-Z\s]*$/.test(value);
 
-        // Add validation for new sibling fields
-        document.querySelector('.add-sibling-btn')?.addEventListener('click', function() {
-            const siblingForm = document.querySelector('.sibling-form').cloneNode(true);
-            const newInputs = siblingForm.querySelectorAll('input[name="siblings[0][full_name]"]');
-            newInputs.forEach(input => {
-                input.value = '';
-                setupSiblingValidation(input);
-            });
-            this.parentElement.insertBefore(siblingForm, this);
-        });
-
-        // Form submit validation
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const validateField = (field) => {
-                const value = field.value;
-                const isValid = /^[a-zA-Z\s\.\-]*$/.test(value);
-
-                if (!isValid && value !== '') {
-                    e.preventDefault();
-                    field.classList.add('border-red-500');
-                    field.classList.remove('border-gray-300');
-                    field.parentElement.querySelector('.validation-error').classList.remove('hidden');
-                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            };
-
-            // Validate extension name
-            if (extensionField) {
-                validateField(extensionField);
+        if (!isValid) {
+            input.classList.add('border-red-500');
+            // Only add error message if it doesn't exist
+            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid input';
+                input.parentNode.appendChild(errorMessage);
             }
-
-            // Validate all sibling names
-            document.querySelectorAll('input[name="siblings[0][full_name]"]').forEach(validateField);
-        });
-
-        // Show/hide strand selection based on program selection
-        document.querySelector('select[name="apply_program"]').addEventListener('change', function() {
-            const strandContainer = document.getElementById('strandContainer');
-            const gradeLevelSelect = document.querySelector('select[name="apply_grade_level"]');
-            const program = this.value;
-
-            // Update grade level options based on selected program
-            gradeLevelSelect.innerHTML = ''; // Clear existing options
-            let gradeOptions = '';
-
-            if (program === 'Elementary') {
-                gradeOptions = generateGradeOptions(1, 6);
-                strandContainer.style.display = 'none';
-            } else if (program === 'High School') {
-                gradeOptions = generateGradeOptions(7, 10);
-                strandContainer.style.display = 'none';
-            } else if (program === 'Senior High School') {
-                gradeOptions = generateGradeOptions(11, 12);
-                strandContainer.style.display = 'block';
+        } else {
+            input.classList.remove('border-red-500');
+            // Remove error message if it exists
+            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
+                input.nextElementSibling.remove();
             }
+        }
+    }
 
-            gradeLevelSelect.innerHTML = gradeOptions;
-        });
+    // Add event listeners to fields that should only accept letters
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+        // Skip validation for sibling fields and other excluded fields
+        if (!input.name.startsWith('siblings[') && ![
+            'applicant_tel_no',
+            'applicant_mobile_number',
+            'father_contact',
+            'mother_contact',
+            'emergency_contact_tel',
+            'emergency_contact_mobile',
+            'emergency_contact_email',
+            'applicant_barangay',
+            'applicant_address_street',
+            'school_address',
+            'emergency_contact_address',
+            'awards_honors',
+            'previous_program',
+            'school_name'
+        ].includes(input.name)) {
+            input.addEventListener('input', validateInput);
+        }
+    });
 
-        // Function to generate grade options
-        function generateGradeOptions(start, end) {
-            let options = '<option value="">Select Grade Level</option>';
-            for (let i = start; i <= end; i++) {
-                options += `<option value="${i}">Grade ${i}</option>`;
-            }
-            return options;
+    // Show/hide strand selection based on program selection
+    document.querySelector('select[name="apply_program"]').addEventListener('change', function() {
+        const strandContainer = document.getElementById('strandContainer');
+        const gradeLevelSelect = document.querySelector('select[name="apply_grade_level"]');
+        const program = this.value;
+
+        // Update grade level options based on selected program
+        gradeLevelSelect.innerHTML = ''; // Clear existing options
+        let gradeOptions = '';
+
+        if (program === 'Elementary') {
+            gradeOptions = generateGradeOptions(1, 6);
+            strandContainer.style.display = 'none';
+        } else if (program === 'High School') {
+            gradeOptions = generateGradeOptions(7, 10);
+            strandContainer.style.display = 'none';
+        } else if (program === 'Senior High School') {
+            gradeOptions = generateGradeOptions(11, 12);
+            strandContainer.style.display = 'block';
         }
 
-        // Function to calculate age based on birthdate
-        function calculateAge(birthDate) {
+        gradeLevelSelect.innerHTML = gradeOptions;
+    });
+
+    // Function to generate grade options
+    function generateGradeOptions(start, end) {
+        let options = '<option value="">Select Grade Level</option>';
+        for (let i = start; i <= end; i++) {
+            options += `<option value="${i}">Grade ${i}</option>`;
+        }
+        return options;
+    }
+
+    // Function to calculate age based on birthdate
+    function calculateAge(birthDate) {
+        const today = new Date();
+        const birth = new Date(birthDate);
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        return age;
+    }
+
+    // Event listener for birthdate change
+    document.getElementById('applicant_date_birth').addEventListener('change', function() {
+        const ageInput = document.getElementById('age');
+        const birthDate = this.value;
+        if (birthDate) {
+            const age = calculateAge(birthDate);
+            ageInput.value = age;
+        } else {
+            ageInput.value = '';
+        }
+    });
+
+    // Sibling entries handling
+    let siblingCount = 1;
+    document.getElementById('add-sibling').addEventListener('click', function() {
+        const container = document.getElementById('siblings-container');
+        const newEntry = document.createElement('div');
+        newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4 relative';
+        newEntry.innerHTML = `
+            <input type="text" name="siblings[${siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <input type="date" name="siblings[${siblingCount}][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <input type="number" name="siblings[${siblingCount}][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <select name="siblings[${siblingCount}][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <option value="">Select Grade Level</option>
+                ${generateGradeOptions(1, 12)}
+            </select>
+            <div class="flex items-center">
+                <input type="text" name="siblings[${siblingCount}][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <button type="button" onclick="removeSibling(this)" class="ml-2 text-red-500 hover:text-red-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        `;
+        container.appendChild(newEntry);
+        siblingCount++;
+    });
+
+    // Function to calculate sibling age
+    function calculateSiblingAge(dateInput) {
+        const ageInput = dateInput.parentNode.querySelector('input[name$="[age]"]');
+        const birthDate = dateInput.value;
+
+        if (birthDate) {
             const today = new Date();
             const birth = new Date(birthDate);
             let age = today.getFullYear() - birth.getFullYear();
@@ -744,315 +752,376 @@
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
                 age--;
             }
-            return age;
+
+            ageInput.value = age;
+        } else {
+            ageInput.value = '';
+        }
+    }
+
+    // Add the removeSibling function
+    function removeSibling(button) {
+        const siblingEntry = button.closest('.sibling-entry');
+        siblingEntry.remove();
+
+        // Reindex remaining sibling entries
+        const siblingEntries = document.querySelectorAll('.sibling-entry');
+        siblingEntries.forEach((entry, index) => {
+            entry.querySelectorAll('input, select').forEach(input => {
+                const fieldName = input.name.split('[')[2]?.split(']')[0];
+                if (fieldName) {
+                    input.name = `siblings[${index}][${fieldName}]`;
+                }
+            });
+        });
+
+        siblingCount = siblingEntries.length;
+    }
+
+    document.querySelector('input[name="siblings[0][date_of_birth]"]').addEventListener('change', function() {
+        calculateSiblingAge(this);
+    });
+
+    // Make initial sibling's age field readonly
+    document.querySelector('input[name="siblings[0][age]"]').readOnly = true;
+
+    // LRN field validation
+    document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid input (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
         }
 
-        // Event listener for birthdate change
-        document.getElementById('applicant_date_birth').addEventListener('change', function() {
-            const ageInput = document.getElementById('age');
-            const birthDate = this.value;
-            if (birthDate) {
-                const age = calculateAge(birthDate);
-                ageInput.value = age;
-            } else {
-                ageInput.value = '';
+        // Limit to 12 digits
+        if (this.value.length > 12) {
+            this.value = this.value.slice(0, 12);
+        }
+    });
+
+    // Year of Graduation field validation
+    document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid year (numbers only)';
+                this.parentNode.appendChild(errorMessage);
             }
-        });
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
 
-        // Sibling entries handling
-        let siblingCount = 1;
-        document.getElementById('add-sibling').addEventListener('click', function() {
-            const container = document.getElementById('siblings-container');
-            const newEntry = document.createElement('div');
-            newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4 relative';
-            newEntry.innerHTML = `
-                <input type="text" name="siblings[${siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" data-validate="name-with-special">
-                <input type="date" name="siblings[${siblingCount}][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <input type="number" name="siblings[${siblingCount}][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <select name="siblings[${siblingCount}][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="">Select Grade Level</option>
-                    ${generateGradeOptions(1, 12)}
-                </select>
-                <div class="flex items-center">
-                    <input type="text" name="siblings[${siblingCount}][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <button type="button" onclick="removeSibling(this)" class="ml-2 text-red-500 hover:text-red-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-            `;
-            container.appendChild(newEntry);
-            siblingCount++;
-        });
+        // Limit to 4 digits
+        if (this.value.length > 4) {
+            this.value = this.value.slice(0, 4);
+        }
+    });
 
-        // Function to calculate sibling age
-        function calculateSiblingAge(dateInput) {
-            const ageInput = dateInput.parentNode.querySelector('input[name$="[age]"]');
-            const birthDate = dateInput.value;
+    // Father's contact number validation
+    document.querySelector('input[name="father_contact"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
 
-            if (birthDate) {
-                const today = new Date();
-                const birth = new Date(birthDate);
-                let age = today.getFullYear() - birth.getFullYear();
-                const monthDiff = today.getMonth() - birth.getMonth();
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
 
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-                    age--;
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Mother's contact number validation
+    document.querySelector('input[name="mother_contact"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Emergency contact telephone validation
+    document.querySelector('input[name="emergency_contact_tel"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid telephone number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Emergency contact mobile validation
+    document.querySelector('input[name="emergency_contact_mobile"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid mobile number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+
+    // Function to validate numeric input
+    function validateNumericInput(event) {
+        const input = event.target;
+        const value = input.value;
+        const isValid = /^[0-9]*$/.test(value);
+
+        if (!isValid) {
+            input.classList.add('border-red-500');
+            // Only add error message if it doesn't exist
+            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter numbers only';
+                input.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            input.classList.remove('border-red-500');
+            // Remove error message if it exists
+            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
+                input.nextElementSibling.remove();
+            }
+        }
+
+        // Enforce maximum length of 11 digits
+        if (value.replace(/[^0-9]/g, '').length > 11) {
+            input.value = value.slice(0, value.length - 1);
+        }
+    }
+
+    // Add event listeners for contact number fields
+    const numericInputFields = [
+        'guardian_contact_num',
+        'emergency_contact_tel',
+        'emergency_contact_mobile'
+    ];
+
+    numericInputFields.forEach(fieldName => {
+        const input = document.querySelector(`input[name="${fieldName}"]`);
+        if (input) {
+            input.addEventListener('input', validateNumericInput);
+        }
+    });
+
+    // File input validation
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const maxSize = input.name === 'id_picture' ? 1024 * 1024 : 2048 * 1024; // 1MB or 2MB
+            const allowedTypes = input.accept.split(',');
+
+            // Remove any existing error messages
+            const existingError = input.parentElement.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            if (file) {
+                // Check file size
+                if (file.size > maxSize) {
+                    const error = document.createElement('p');
+                    error.className = 'error-message text-red-500 text-sm mt-1';
+                    error.textContent = `File size must be less than ${maxSize/1024/1024}MB`;
+                    input.parentElement.appendChild(error);
+                    input.value = ''; // Clear the input
+                    return;
                 }
 
-                ageInput.value = age;
-            } else {
-                ageInput.value = '';
+                // Check file type
+                const fileType = '.' + file.name.split('.').pop().toLowerCase();
+                if (!allowedTypes.includes(fileType)) {
+                    const error = document.createElement('p');
+                    error.className = 'error-message text-red-500 text-sm mt-1';
+                    error.textContent = 'Invalid file type';
+                    input.parentElement.appendChild(error);
+                    input.value = ''; // Clear the input
+                    return;
+                }
             }
+        });
+    });
+
+    // Add this to your existing scripts
+    document.addEventListener('DOMContentLoaded', function() {
+        const studentTypeInputs = document.querySelectorAll('input[name="student_type"]');
+        const documentRequirements = document.querySelectorAll('.document-requirement');
+
+        function updateDocumentRequirements(selectedType) {
+            documentRequirements.forEach(requirement => {
+                const requiredFor = requirement.dataset.requiredFor.split(',');
+                const input = requirement.querySelector('input[type="file"]');
+
+                if (requiredFor.includes(selectedType)) {
+                    requirement.style.display = 'block';
+                    input.required = true;
+                } else {
+                    requirement.style.display = 'none';
+                    input.required = false;
+                    input.value = ''; // Clear the input when hidden
+                }
+            });
         }
 
-        // Add the removeSibling function
-        function removeSibling(button) {
-            const siblingEntry = button.closest('.sibling-entry');
-            siblingEntry.remove();
+        // Initially hide all document requirements
+        documentRequirements.forEach(requirement => {
+            requirement.style.display = 'none';
+            requirement.querySelector('input[type="file"]').required = false;
+        });
 
-            // Reindex remaining sibling entries
-            const siblingEntries = document.querySelectorAll('.sibling-entry');
-            siblingEntries.forEach((entry, index) => {
-                entry.querySelectorAll('input, select').forEach(input => {
-                    const fieldName = input.name.split('[')[2]?.split(']')[0];
-                    if (fieldName) {
-                        input.name = `siblings[${index}][${fieldName}]`;
-                    }
-                });
+        // Add change event listener to student type radio buttons
+        studentTypeInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                updateDocumentRequirements(this.value);
+            });
+        });
+    });
+
+    // GWA field validation
+    document.querySelector('input[name="gwa"]').addEventListener('input', function(e) {
+        // If there's a decimal point, limit decimal places to 2 without rounding
+        if (this.value.includes('.')) {
+            const parts = this.value.split('.');
+            const whole = parts[0].slice(0, 2); // Limit whole number to 2 digits
+            const decimal = parts[1] ? parts[1].slice(0, 2) : ''; // Limit decimal to 2 digits
+            this.value = decimal ? `${whole}.${decimal}` : `${whole}.`;
+        } else if (this.value.length > 2) {
+            this.value = this.value.slice(0, 2);
+        }
+
+        // Check format: XX.XX (numbers between 0-9, exactly 2 digits before and after decimal)
+        const isValid = /^(\d{0,2})(\.)?(\d{0,2})$/.test(this.value);
+
+        // Additional validation to ensure the value is between 0 and 100
+        const numValue = parseFloat(this.value);
+        const isValidRange = isNaN(numValue) || (numValue >= 0 && numValue <= 100);
+
+        if (!isValid || !isValidRange) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid GWA (e.g., 90.78)';
+                this.parentNode.appendChild(errorMessage);
+            }
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
+            }
+        }
+    });
+
+    // Add this to your existing scripts
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all textareas that need letter-only validation
+        const letterOnlyFields = document.querySelectorAll('textarea[data-validate="letters-only"]');
+
+        letterOnlyFields.forEach(field => {
+            field.addEventListener('input', function() {
+                const value = this.value;
+                // Updated regex to check for any numbers or special characters except comma, period, and space
+                const isValid = /^[a-zA-Z\s,\.]*$/.test(value);
+                const errorMessage = this.parentElement.querySelector('.validation-error');
+
+                if (!isValid && value !== '') {
+                    // Show error state but don't remove the invalid characters
+                    this.classList.add('border-red-500');
+                    errorMessage.classList.remove('hidden');
+                    errorMessage.textContent = 'Please use only letters, spaces, commas, and periods';
+                } else {
+                    this.classList.remove('border-red-500');
+                    errorMessage.classList.add('hidden');
+                }
             });
 
-            siblingCount = siblingEntries.length;
-        }
+            // Add validation on form submit
+            field.closest('form').addEventListener('submit', function(e) {
+                const value = field.value;
+                const isValid = /^[a-zA-Z\s,\.]*$/.test(value);
 
-        document.querySelector('input[name="siblings[0][date_of_birth]"]').addEventListener('change', function() {
-            calculateSiblingAge(this);
-        });
-
-        // Make initial sibling's age field readonly
-        document.querySelector('input[name="siblings[0][age]"]').readOnly = true;
-
-        // LRN field validation
-        document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
-            const isValid = /^[0-9]*$/.test(this.value);
-
-            if (!isValid) {
-                this.classList.add('border-red-500');
-                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('span');
-                    errorMessage.className = 'error-message text-red-500 text-sm';
-                    errorMessage.textContent = 'Please enter a valid input (numbers only)';
-                    this.parentNode.appendChild(errorMessage);
+                if (!isValid && value !== '') {
+                    e.preventDefault();
+                    field.classList.add('border-red-500');
+                    field.parentElement.querySelector('.validation-error').classList.remove('hidden');
+                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-            } else {
-                this.classList.remove('border-red-500');
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                    this.nextElementSibling.remove();
-                }
-            }
-
-            // Limit to 12 digits
-            if (this.value.length > 12) {
-                this.value = this.value.slice(0, 12);
-            }
-        });
-
-        // Year of Graduation field validation
-        document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
-            const isValid = /^[0-9]*$/.test(this.value);
-
-            if (!isValid) {
-                this.classList.add('border-red-500');
-                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('span');
-                    errorMessage.className = 'error-message text-red-500 text-sm';
-                    errorMessage.textContent = 'Please enter a valid year (numbers only)';
-                    this.parentNode.appendChild(errorMessage);
-                }
-            } else {
-                this.classList.remove('border-red-500');
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                    this.nextElementSibling.remove();
-                }
-            }
-
-            // Limit to 4 digits
-            if (this.value.length > 4) {
-                this.value = this.value.slice(0, 4);
-            }
-        });
-
-        // Father's contact number validation
-        document.querySelector('input[name="father_contact"]').addEventListener('input', function(e) {
-            const isValid = /^[0-9]*$/.test(this.value);
-
-            if (!isValid) {
-                this.classList.add('border-red-500');
-                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('span');
-                    errorMessage.className = 'error-message text-red-500 text-sm';
-                    errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
-                    this.parentNode.appendChild(errorMessage);
-                }
-            } else {
-                this.classList.remove('border-red-500');
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                    this.nextElementSibling.remove();
-                }
-            }
-
-            // Limit to 11 digits
-            if (this.value.length > 11) {
-                this.value = this.value.slice(0, 11);
-            }
-        });
-
-        // Mother's contact number validation
-        document.querySelector('input[name="mother_contact"]').addEventListener('input', function(e) {
-            const isValid = /^[0-9]*$/.test(this.value);
-
-            if (!isValid) {
-                this.classList.add('border-red-500');
-                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('span');
-                    errorMessage.className = 'error-message text-red-500 text-sm';
-                    errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
-                    this.parentNode.appendChild(errorMessage);
-                }
-            } else {
-                this.classList.remove('border-red-500');
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                    this.nextElementSibling.remove();
-                }
-            }
-
-            // Limit to 11 digits
-            if (this.value.length > 11) {
-                this.value = this.value.slice(0, 11);
-            }
-        });
-
-        // Emergency contact telephone validation
-        document.querySelector('input[name="emergency_contact_tel"]').addEventListener('input', function(e) {
-            const isValid = /^[0-9]*$/.test(this.value);
-
-            if (!isValid) {
-                this.classList.add('border-red-500');
-                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('span');
-                    errorMessage.className = 'error-message text-red-500 text-sm';
-                    errorMessage.textContent = 'Please enter a valid telephone number (numbers only)';
-                    this.parentNode.appendChild(errorMessage);
-                }
-            } else {
-                this.classList.remove('border-red-500');
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                    this.nextElementSibling.remove();
-                }
-            }
-
-            // Limit to 11 digits
-            if (this.value.length > 11) {
-                this.value = this.value.slice(0, 11);
-            }
-        });
-
-        // Emergency contact mobile validation
-        document.querySelector('input[name="emergency_contact_mobile"]').addEventListener('input', function(e) {
-            const isValid = /^[0-9]*$/.test(this.value);
-
-            if (!isValid) {
-                this.classList.add('border-red-500');
-                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('span');
-                    errorMessage.className = 'error-message text-red-500 text-sm';
-                    errorMessage.textContent = 'Please enter a valid mobile number (numbers only)';
-                    this.parentNode.appendChild(errorMessage);
-                }
-            } else {
-                this.classList.remove('border-red-500');
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                    this.nextElementSibling.remove();
-                }
-            }
-
-            // Limit to 11 digits
-            if (this.value.length > 11) {
-                this.value = this.value.slice(0, 11);
-            }
-        });
-
-        // GWA field validation
-        document.querySelector('input[name="gwa"]').addEventListener('input', function(e) {
-            // If there's a decimal point, limit decimal places to 2 without rounding
-            if (this.value.includes('.')) {
-                const parts = this.value.split('.');
-                const whole = parts[0].slice(0, 2); // Limit whole number to 2 digits
-                const decimal = parts[1] ? parts[1].slice(0, 2) : ''; // Limit decimal to 2 digits
-                this.value = decimal ? `${whole}.${decimal}` : `${whole}.`;
-            } else if (this.value.length > 2) {
-                this.value = this.value.slice(0, 2);
-            }
-
-            // Check format: XX.XX (numbers between 0-9, exactly 2 digits before and after decimal)
-            const isValid = /^(\d{0,2})(\.)?(\d{0,2})$/.test(this.value);
-
-            // Additional validation to ensure the value is between 0 and 100
-            const numValue = parseFloat(this.value);
-            const isValidRange = isNaN(numValue) || (numValue >= 0 && numValue <= 100);
-
-            if (!isValid || !isValidRange) {
-                this.classList.add('border-red-500');
-                if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('span');
-                    errorMessage.className = 'error-message text-red-500 text-sm';
-                    errorMessage.textContent = 'Please enter a valid GWA (e.g., 90.78)';
-                    this.parentNode.appendChild(errorMessage);
-                }
-            } else {
-                this.classList.remove('border-red-500');
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                    this.nextElementSibling.remove();
-                }
-            }
-        });
-
-        // Add this to your existing scripts
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all textareas that need letter-only validation
-            const letterOnlyFields = document.querySelectorAll('textarea[data-validate="letters-only"]');
-
-            letterOnlyFields.forEach(field => {
-                field.addEventListener('input', function() {
-                    const value = this.value;
-                    // Updated regex to check for any numbers or special characters except comma, period, and space
-                    const isValid = /^[a-zA-Z\s,\.]*$/.test(value);
-                    const errorMessage = this.parentElement.querySelector('.validation-error');
-
-                    if (!isValid && value !== '') {
-                        // Show error state but don't remove the invalid characters
-                        this.classList.add('border-red-500');
-                        errorMessage.classList.remove('hidden');
-                        errorMessage.textContent = 'Please use only letters, spaces, commas, and periods';
-                    } else {
-                        this.classList.remove('border-red-500');
-                        errorMessage.classList.add('hidden');
-                    }
-                });
-
-                // Add validation on form submit
-                field.closest('form').addEventListener('submit', function(e) {
-                    const value = field.value;
-                    const isValid = /^[a-zA-Z\s,\.]*$/.test(value);
-
-                    if (!isValid && value !== '') {
-                        e.preventDefault();
-                        field.classList.add('border-red-500');
-                        field.parentElement.querySelector('.validation-error').classList.remove('hidden');
-                        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                });
             });
         });
     });

@@ -111,8 +111,18 @@ Route::middleware('auth')->group(function () {
     });
 
     // Scholarship Routes
-    Route::get('/scholarship', [ApplicantScholarshipController::class, 'show'])->name('scholarship.show');
-
+    Route::middleware('auth')->group(function () {
+        Route::get('/scholarship', function(){
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app (ApplicantScholarshipController::class)->show();
+        })->name('scholarship.show');
+        
+    });
     // Inquiry routes
     Route::prefix('inquiries')->group(function () {
         Route::get('/', [LeadInfoController::class, 'index'])->name('inquiry.index'); // List all inquiries
@@ -127,14 +137,17 @@ Route::middleware('auth')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/users', function () {
             if (auth()->user()->hasRole('Staff')) {
-                return redirect('/dashboard')->with('error', 'You do not have access to this page.');
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
             }
             return app(UserController::class)->show();
         })->name('user.show');
 
         Route::post('/users', function () {
             if (auth()->user()->hasRole('Staff')) {
-                return redirect('/dashboard')->with('error', 'You do not have access to this page.');
+                return redirect('/app');
             }
             return app(AddUserController::class)->store(request());
         })->name('user.store');
