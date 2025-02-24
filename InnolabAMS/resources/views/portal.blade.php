@@ -18,7 +18,7 @@
                         <span class="font-semibold ml-6">{{ __('Home') }}</span>
                     </a>
                 </li>
-                {{-- If an applicant record exists, go to the admission.show route; otherwise, go to the form.personal_info route --}}
+                <!-- If an applicant record exists, go to the admission.show route; otherwise, go to the form.personal_info route -->
                     @php
                         $applicant = auth()->user()->applicantInfo;
                     @endphp
