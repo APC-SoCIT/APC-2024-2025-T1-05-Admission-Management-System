@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ApplicantScholarship extends Model
 {
     use HasFactory;
-    protected $table = 'applicant_scholarships';
 
+    protected $table = 'applicant_scholarships';
+    const CREATED_AT = null; // Disable created_at since we don't have this column
+    const UPDATED_AT = 'updated_at'; // Specify the updated_at column name
 
     protected $fillable = [
         'applicant_info_id',
@@ -19,6 +21,14 @@ class ApplicantScholarship extends Model
         'parent_signature',
         'scholarship_type',
         'discount_awarded',
+        'status'
+    ];
+
+    // Set default values
+    protected $attributes = [
+        'scholarship_type' => 'Financial Assistance',
+        'discount_awarded' => 0,
+        'status' => 'pending'
     ];
 
     /**
@@ -28,5 +38,10 @@ class ApplicantScholarship extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function applicant_info()
+    {
+        return $this->belongsTo(ApplicantInfo::class);
     }
 }

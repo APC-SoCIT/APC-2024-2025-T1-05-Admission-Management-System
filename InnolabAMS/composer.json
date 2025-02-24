@@ -6,9 +6,17 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-dompdf": "^3.1",
         "guzzlehttp/guzzle": "^7.2",
+        "laravel/fortify": "^1.25",
         "laravel/framework": "^11.0",
-        "laravel/tinker": "^2.9"
+        "laravel/jetstream": "^5.3",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.9",
+        "livewire/livewire": "^3.0",
+        "openspout/openspout": "^4.28",
+        "spatie/laravel-permission": "^6.15",
+        "symfony/mailer": "^7.1"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^1.0",

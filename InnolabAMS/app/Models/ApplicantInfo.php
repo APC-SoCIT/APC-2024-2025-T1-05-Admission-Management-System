@@ -15,7 +15,7 @@ class ApplicantInfo extends Model
     'user_id',
     'status',
     'apply_program',
-    'apply_grade_level', 
+    'apply_grade_level',
     'apply_strand',
     'applicant_surname',
     'applicant_given_name',
@@ -28,27 +28,37 @@ class ApplicantInfo extends Model
     'applicant_tel_no',
     'applicant_address_street',
     'applicant_address_province',
+    'applicant_barangay',
     'applicant_address_city',
     'applicant_nationality',
     'applicant_religion',
     'applicant_mobile_number',
+    'applicant_email',
     'applicant_photo',
     'lrn',
     'school_name',
     'school_address',
     'previous_program',
-    'year_of_graduation', 
+    'year_of_graduation',
     'awards_honors',
     'gwa',
-    'father_name',
-    'father_occupation',
+    'student_type',
+    'father_given_name',
+    'father_middle_name',
+    'father_surname',
     'father_contact',
-    'mother_name',
-    'mother_occupation',
+    'mother_given_name',
+    'mother_middle_name',
+    'mother_surname',
     'mother_contact',
+    'guardian_given_name',
+    'guardian_middle_name',
+    'guardian_surname',
+    'guardian_contact_num',
+    'guardian_occupation',
     'siblings',
     'emergency_contact_name',
-    'emergency_contact_address', 
+    'emergency_contact_address',
     'emergency_contact_tel',
     'emergency_contact_mobile',
     'emergency_contact_email',
@@ -57,11 +67,29 @@ class ApplicantInfo extends Model
     'hobbies',
     'participations',
     'competitions',
-    'referral_source'
+    'referral_source',
+    'birth_certificate_path',
+    'form_137_path',
+    'form_138_path',
+    'id_picture_path',
+    'good_moral_path',
+    'rejection_reason',
+    'is_only_child',
+    'acceptance_message',
+    'accepted_at'
     ];
 
     protected $casts = [
         'applicant_date_birth' => 'date',
+        'is_only_child' => 'boolean',
+    ];
+
+    protected $dates = [
+        'accepted_at'
+    ];
+
+    protected $appends = [
+        'applicant_email',
     ];
 
     // Define status constants for better code readability
@@ -99,4 +127,6 @@ class ApplicantInfo extends Model
 
         return implode(' ', array_filter($parts));
     }
+
+
 }

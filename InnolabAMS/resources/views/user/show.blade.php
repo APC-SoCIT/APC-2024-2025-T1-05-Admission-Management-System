@@ -1,5 +1,5 @@
 @section('title', 'Users | InnolabAMS')
-@extends('dashboard') <!-- Use the dashboard layout -->
+@extends('application') <!-- Use the application layout -->
 
 @section('content') <!-- Define the content section -->
 <div class="flex justify-between items-center mb-4">
@@ -63,6 +63,10 @@
                                 </th>
                                 <th scope="col"
                                     class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
+                                    Role
+                                </th>
+                                <th scope="col"
+                                    class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
                                     Date Created
                                 </th>
                                 <th scope="col"
@@ -77,6 +81,7 @@
                                     <td class="w-1/12 py-2 px-4 border-b text-center">{{ $user->id }}</td>
                                     <td class="w-2/12 py-2 px-4 border-b text-center">{{ $user->name }}</td>
                                     <td class="w-3/12 py-2 px-4 border-b text-center">{{ $user->email }}</td>
+                                    <td class="w-3/12 py-2 px-4 border-b text-center">{{ $user->role }}</td>
                                     <td class="w-3/12 py-2 px-4 border-b text-center">
                                         {{ $user->created_at->format('Y-m-d H:i:s') }}
                                     </td>

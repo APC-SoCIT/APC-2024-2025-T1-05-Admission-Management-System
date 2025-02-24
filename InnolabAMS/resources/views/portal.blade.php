@@ -12,41 +12,28 @@
         <div class="w-70 h-screen bg-gray-100 text-gray-800 border-r border-gray-300 flex-shrink-0">
             <ul class="space-y-6 p-6">
                 <li>
-                    <a href="{{ route('form.personal_info') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
+                    <a href="{{ route('portal') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                     {{ request()->routeIs('personal_information.create') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-user w-6 text-center"></i>
-                        <span class="font-semibold ml-6">{{ __('Personal Information') }}</span>
+                    <i class="fa-solid fa-house w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Home') }}</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('educational-background.create') }}" 
-                    class="flex items-center py-2 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
-                            {{ request()->routeIs('educational-background.*') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
-                        <span class="font-semibold ml-6">{{ __('Educational Background') }}</span>
+                <!-- If an applicant record exists, go to the admission.show route; otherwise, go to the form.personal_info route -->
+                    @php
+                        $applicant = auth()->user()->applicantInfo;
+                    @endphp
+
+                    <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.personal_info') }}"
+                    class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
+                    <i class="fa-solid fa-file w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Application Form') }}</span>
                     </a>
-                </li>
-                <li>
-                    <a href="{{ route('family-information.create') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
-                    {{ request()->routeIs('family-information.create') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-users w-6 text-center"></i>
-                        <span class="font-semibold ml-6">{{ __('Family Information') }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('additional_info.create') }}" 
-                    class="flex items-center py-2 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
-                            {{ request()->routeIs('additional_info.*') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
-                        <span class="font-semibold ml-6">{{ __('Additional Information') }}</span>
-                    </a>
-                </li>
                 <li>
                     <a href="{{ route('scholarship.create') }}"
                        class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
                               {{ request()->routeIs('scholarship.create') ? 'bg-gray-200' : '' }}">
-                        <i class="fa-solid fa-graduation-cap w-6 text-center"></i>
-                        <span class="font-semibold ml-6">{{ __('Scholarship') }}</span>
+                              <i class="fa-solid fa-handshake w-6 text-center"></i>
+                        <span class="font-semibold ml-6">{{ __('Scholarship Form') }}</span>
                     </a>
                 </li>
             </ul>
