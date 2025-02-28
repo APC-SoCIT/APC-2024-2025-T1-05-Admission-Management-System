@@ -128,8 +128,8 @@
                     <div>
                         <h4 class="font-bold mb-4">School Information</h4>
                         <p class="italic mb-2">To the east over mountain high.</p>
-                        <p>Created by ICT 201 Batch 4.</p>
-                        <p>2020-2021</p>
+                        <p>Powered by InnoLab</p>
+                        <p>2024-2025</p>
                     </div>
                 </div>
             </div>
