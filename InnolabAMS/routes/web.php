@@ -207,4 +207,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get('/srccmsths', function () {
+    return view('srccmsths.home');
+})->name('srccmsths.home');
+
 require __DIR__ . '/auth.php';
