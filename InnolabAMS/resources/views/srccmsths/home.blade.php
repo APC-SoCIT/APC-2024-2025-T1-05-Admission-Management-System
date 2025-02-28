@@ -70,7 +70,7 @@
         </p>
     </div>
 
-    <!-- Carousel/Slider -->
+    <!-- Main Carousel/Slider -->
     <div class="carousel-container mb-12">
         <!-- Slide 1 -->
         <div class="carousel-slide active">
@@ -121,70 +121,117 @@
         </blockquote>
     </div>
 
-    <!-- Achievements Section -->
+    <!-- Achievements Section with Carousel -->
     <div class="container mx-auto px-4 mb-16">
         <h2 class="text-4xl font-bold text-blue-600 text-center mb-12">ACHIEVEMENTS</h2>
 
-        <!-- Brigada Eskwela Section -->
-        <div class="max-w-5xl mx-auto mb-16">
-            <h3 class="text-3xl font-bold text-blue-600 mb-10 text-center">BRIGADA ESKWELA</h3>
+        <!-- Achievements Carousel -->
+        <div class="achievements-carousel-container max-w-5xl mx-auto">
+            <!-- Brigada Eskwela Slide -->
+            <div class="achievements-slide active">
+                <h3 class="text-3xl font-bold text-blue-600 mb-10 text-center">BRIGADA ESKWELA</h3>
 
-            <div class="grid md:grid-cols-2 gap-8 items-center mb-8">
-                <div>
-                    <img src="{{ asset('static/images/srccmsths/brigada-eskwela.jpg') }}" alt="Brigada Eskwela Award" class="rounded-lg shadow-lg">
+                <div class="grid md:grid-cols-2 gap-8 items-center mb-8">
+                    <div>
+                        <img src="{{ asset('static/images/srccmsths/brigada-eskwela.jpg') }}" alt="Brigada Eskwela Award" class="rounded-lg shadow-lg">
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-blue-700 mb-4">2020</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>1st Place - Best Brigada Eskwela Implementer - Division Level (Medium School Category)</li>
+                            <li>Regional Awardee</li>
+                        </ul>
+
+                        <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">Mr. Mark Anthony Galan</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Division Rank 1 - Best Brigada Eskwela Coordinator (Medium School Category)</li>
+                            <li>Regional Awardee - Brigada Eskwela Coordinator</li>
+                        </ul>
+
+                        <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">2019</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>2nd Place - Best Brigada Eskwela Implementer - Division Level</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="text-xl font-bold text-blue-700 mb-4">2020</h4>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>1st Place - Best Brigada Eskwela Implementer - Division Level (Medium School Category)</li>
-                        <li>Regional Awardee</li>
-                    </ul>
 
-                    <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">Mr. Mark Anthony Galan</h4>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>Division Rank 1 - Best Brigada Eskwela Coordinator (Medium School Category)</li>
-                        <li>Regional Awardee - Brigada Eskwela Coordinator</li>
-                    </ul>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h4 class="text-xl font-bold text-blue-700 mb-4">Mr. Judd Lawrence D. Guy-joco</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Best Brigada Eskwela Coordinator - Secondary Level</li>
+                            <li>1st Place - 2018 Regional Brigada Eskwela Table Evaluation Best Presenter - Secondary Level</li>
+                        </ul>
 
-                    <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">2019</h4>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>2nd Place - Best Brigada Eskwela Implementer - Division Level</li>
-                    </ul>
+                        <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">2017</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>2nd Place - Best Brigada Eskwela Implementer - Division Level</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="{{ asset('static/images/srccmsths/brigada-coordinator.jpg') }}" alt="Brigada Eskwela Coordinator" class="rounded-lg shadow-lg">
+                    </div>
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <h4 class="text-xl font-bold text-blue-700 mb-4">Mr. Judd Lawrence D. Guy-joco</h4>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>Best Brigada Eskwela Coordinator - Secondary Level</li>
-                        <li>1st Place - 2018 Regional Brigada Eskwela Table Evaluation Best Presenter - Secondary Level</li>
-                    </ul>
+            <!-- Best Performing School Slide -->
+            <div class="achievements-slide">
+                <h3 class="text-3xl font-bold text-blue-600 mb-10 text-center">BEST PERFORMING SCHOOL</h3>
 
-                    <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">2017</h4>
-                    <ul class="list-disc pl-5 space-y-2">
-                        <li>2nd Place - Best Brigada Eskwela Implementer - Division Level</li>
-                    </ul>
-                </div>
-                <div>
-                    <img src="{{ asset('static/images/srccmsths/brigada-coordinator.jpg') }}" alt="Brigada Eskwela Coordinator" class="rounded-lg shadow-lg">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <img src="{{ asset('static/images/srccmsths/best-performing.jpg') }}" alt="Best Performing School Award" class="rounded-lg shadow-lg">
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-lg shadow">
+                        <p class="text-lg italic">
+                            SRCCMSTHS was recognized as the BEST PERFORMING SCHOOL in DepEd TAPAT, Secondary Level alongside Taguig Science High School in the #DepEdStakeholdersSummit2019.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Best Performing School Section -->
-        <div class="max-w-5xl mx-auto">
-            <h3 class="text-3xl font-bold text-blue-600 mb-10 text-center">BEST PERFORMING SCHOOL</h3>
+            <!-- Additional Achievements Slide - You can add more slides here -->
+            <div class="achievements-slide">
+                <h3 class="text-3xl font-bold text-blue-600 mb-10 text-center">ACADEMIC EXCELLENCE</h3>
 
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <img src="{{ asset('static/images/srccmsths/best-performing.jpg') }}" alt="Best Performing School Award" class="rounded-lg shadow-lg">
-                </div>
-                <div class="bg-gray-50 p-8 rounded-lg shadow">
-                    <p class="text-lg italic">
-                        SRCCMSTHS was recognized as the BEST PERFORMING SCHOOL in DepEd TAPAT, Secondary Level alongside Taguig Science High School in the #DepEdStakeholdersSummit2019.
+                <div class="text-center max-w-3xl mx-auto p-8 bg-blue-50 rounded-lg shadow">
+                    <p class="text-lg mb-6">
+                        Our students consistently achieve top honors in regional and national academic competitions in:
                     </p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-white rounded shadow">
+                            <h4 class="font-bold text-blue-700">Mathematics</h4>
+                            <p>Regional champions 2018-2020</p>
+                        </div>
+                        <div class="p-4 bg-white rounded shadow">
+                            <h4 class="font-bold text-blue-700">Science</h4>
+                            <p>National finalists 2019</p>
+                        </div>
+                        <div class="p-4 bg-white rounded shadow">
+                            <h4 class="font-bold text-blue-700">Robotics</h4>
+                            <p>First place 2020</p>
+                        </div>
+                        <div class="p-4 bg-white rounded shadow">
+                            <h4 class="font-bold text-blue-700">Journalism</h4>
+                            <p>Best school paper 2019</p>
+                        </div>
+                        <div class="p-4 bg-white rounded shadow">
+                            <h4 class="font-bold text-blue-700">Debate</h4>
+                            <p>Regional champions 2020</p>
+                        </div>
+                        <div class="p-4 bg-white rounded shadow">
+                            <h4 class="font-bold text-blue-700">Research</h4>
+                            <p>International recognition</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Achievements Carousel Indicators -->
+            <div class="carousel-indicators mt-8">
+                <div class="carousel-indicator active"></div>
+                <div class="carousel-indicator"></div>
+                <div class="carousel-indicator"></div>
             </div>
         </div>
     </div>
