@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\ApplicantInfo;
 use Illuminate\Pagination\Paginator;
 use URL;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,9 +15,7 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-
-
-    public function boot()
+    public function boot(): void
     {
         Paginator::useTailwind();
 
@@ -31,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
                 'rejectedApplicationsCount' => ApplicantInfo::where('status', 'rejected')->count(),
             ]);
         });
+
+        Blade::component('layouts.srccmsths', 'srccmsths-layout');
     }
 
     public const HOME = '/';  // Change this if needed
