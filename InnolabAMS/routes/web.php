@@ -21,7 +21,6 @@ Route::get('/', function () {
     return view('srccmsths.home');
 })->name('home');
 
-// Login Route with Auth Logic
 Route::get('/login', function () {
     if (auth()->check()) {
         if (auth()->user()->hasRole('Applicant')) {
