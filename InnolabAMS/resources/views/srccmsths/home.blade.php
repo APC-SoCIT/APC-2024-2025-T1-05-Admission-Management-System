@@ -4,12 +4,7 @@
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo and School Name -->
-                <div class="flex items-center space-x-3">
-                    <img src="{{ asset('static/images/school-logo-srccmsths.png') }}"
-                         alt="SRCCMSTHS Logo"
-                         class="w-10 h-10">
-                    <span class="text-xl font-bold">SRCCMSTHS</span>
-                </div>
+
 
                 <!-- Main Navigation -->
                 <nav class="hidden md:flex items-center space-x-6">
@@ -52,7 +47,7 @@
         </div>
     </header>
 
-    <!-- Hero Section with School Name -->
+    <!-- Hero Section with School Name (simplified without the large background logo) -->
     <div class="relative bg-blue-600 text-white py-20">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-3xl md:text-5xl font-bold mb-6 leading-tight">
@@ -60,10 +55,8 @@
                 SCIENCE AND TECHNOLOGY HIGH SCHOOL
             </h1>
         </div>
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0 z-0" style="background-image: url('{{ asset('static/images/school-background-srccmsths.jpg') }}'); background-size: cover; background-position: center;">
-            <div class="absolute inset-0 bg-blue-600 opacity-80"></div>
-        </div>
+        <!-- Just a simple blue background instead of the image with the large logo -->
+        <div class="absolute inset-0 z-0 bg-blue-600"></div>
         <!-- Wave Decoration -->
         <div class="absolute bottom-0 left-0 right-0">
             <div class="wave-divider"></div>

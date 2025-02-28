@@ -157,7 +157,7 @@
                     <div>
                         <h3 class="text-lg font-bold mb-4">Senator Renato "Compañero" Cayetano Memorial Science and Technology High School</h3>
                         <p class="mb-2">To the east over mountain high.</p>
-                        <p>Created by ICT 201 Batch 4.<br>2020-2021</p>
+                        <p>Powered by Team Innolab.<br>2024-2025</p>
                     </div>
 
                     <!-- Social Media Links -->
