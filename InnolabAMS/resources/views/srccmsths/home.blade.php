@@ -64,73 +64,132 @@
         <div class="absolute inset-0 z-0" style="background-image: url('{{ asset('static/images/school-background-srccmsths.jpg') }}'); background-size: cover; background-position: center;">
             <div class="absolute inset-0 bg-blue-600 opacity-80"></div>
         </div>
-
         <!-- Wave Decoration -->
         <div class="absolute bottom-0 left-0 right-0">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full">
-                <path fill="#ffffff" fill-opacity="1" d="M0,96L80,106.7C160,117,320,139,480,149.3C640,160,800,160,960,138.7C1120,117,1280,75,1360,53.3L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
-            </svg>
+            <div class="wave-divider"></div>
         </div>
     </div>
 
     <!-- Tagline -->
     <div class="bg-white py-10">
         <p class="text-center text-blue-600 text-2xl italic">
-            Developing globally competitive students.
+            {{ $schoolTagline }}
         </p>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 ml-64">
-        <!-- Top Bar -->
-        <div class="bg-blue-600 text-white h-24 flex justify-end items-center px-8">
-            <a href="{{ route('login') }}"
-               class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors">
-                Login
-            </a>
+    <!-- Carousel/Slider -->
+    <div class="carousel-container mb-12">
+        <!-- Slide 1 -->
+        <div class="carousel-slide active">
+            <img src="{{ asset('static/images/srccmsths/slide1.jpg') }}" alt="Research Competition" class="w-full">
+            <div class="p-4 bg-gray-100">
+                <p class="text-center">Research Competition - Applied Science Category - 1st Runner-Up</p>
+            </div>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="bg-white p-8">
-            <h1 class="text-3xl text-blue-600 font-bold text-center mb-12">ACHIEVEMENTS</h1>
+        <!-- Slide 2 -->
+        <div class="carousel-slide">
+            <img src="{{ asset('static/images/srccmsths/slide2.jpg') }}" alt="Regional Schools Press Conference" class="w-full">
+            <div class="p-4 bg-gray-100">
+                <p class="text-center">Regional Schools Press Conference Awardees</p>
+            </div>
+        </div>
 
-            <!-- Brigada Eskwela Section -->
-            <div class="max-w-4xl mx-auto mb-16">
-                <h2 class="text-2xl font-bold text-blue-600 mb-8">BRIGADA ESKWELA</h2>
+        <!-- Slide 3 -->
+        <div class="carousel-slide">
+            <img src="{{ asset('static/images/srccmsths/slide3.jpg') }}" alt="School Performance" class="w-full">
+            <div class="p-4 bg-gray-100">
+                <p class="text-center">School Performance and Cultural Activities</p>
+            </div>
+        </div>
 
-                <div class="space-y-8">
-                    <div>
-                        <h3 class="font-bold text-lg">Mr. Mark Anthony Galan</h3>
-                        <ul class="list-disc pl-5 space-y-2 mt-3">
-                            <li>Division Rank 1 - Best Brigada Eskwela Coordinator (Medium School Category)</li>
-                            <li>Regional Awardee - Brigada Eskwela Coordinator</li>
-                        </ul>
-                    </div>
+        <!-- Slide 4 -->
+        <div class="carousel-slide">
+            <img src="{{ asset('static/images/srccmsths/slide4.jpg') }}" alt="Virtual Graduation" class="w-full">
+            <div class="p-4 bg-gray-100">
+                <p class="text-center">Virtual Graduation Ceremony</p>
+            </div>
+        </div>
 
-                    <div>
-                        <h3 class="font-bold text-lg">2019</h3>
-                        <ul class="list-disc pl-5 mt-2">
-                            <li>2nd Place - Best Brigada Eskwela Implementer - Division Level</li>
-                        </ul>
-                    </div>
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators">
+            <div class="carousel-indicator active"></div>
+            <div class="carousel-indicator"></div>
+            <div class="carousel-indicator"></div>
+            <div class="carousel-indicator"></div>
+        </div>
+    </div>
 
-                    <div>
-                        <h3 class="font-bold text-lg">2018</h3>
-                        <ul class="list-disc pl-5 mt-2">
-                            <li>1st Place - Best Brigada Eskwela Implementer - Division Level</li>
-                            <li>5th Place - Best Brigada Eskwela Implementer - Regional Level</li>
-                        </ul>
-                    </div>
+    <!-- Quote Section -->
+    <div class="container mx-auto px-4 py-10 border-t border-b border-gray-200 mb-12">
+        <blockquote class="text-center italic text-lg text-gray-700 max-w-4xl mx-auto">
+            "Everybody talks about the new normal. Let's forget that. Let's think about the new future. We have an opportunity to shape the future. God put us at this time of COVID-19. You are the batch that graduated at the time of COVID-19. I believe you will all do great things for the city and your country."
+            <footer class="text-gray-600 mt-4 font-semibold">- Mayor Lino Edgardo S. Cayetano</footer>
+        </blockquote>
+    </div>
+
+    <!-- Achievements Section -->
+    <div class="container mx-auto px-4 mb-16">
+        <h2 class="text-4xl font-bold text-blue-600 text-center mb-12">ACHIEVEMENTS</h2>
+
+        <!-- Brigada Eskwela Section -->
+        <div class="max-w-5xl mx-auto mb-16">
+            <h3 class="text-3xl font-bold text-blue-600 mb-10 text-center">BRIGADA ESKWELA</h3>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center mb-8">
+                <div>
+                    <img src="{{ asset('static/images/srccmsths/brigada-eskwela.jpg') }}" alt="Brigada Eskwela Award" class="rounded-lg shadow-lg">
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-blue-700 mb-4">2020</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>1st Place - Best Brigada Eskwela Implementer - Division Level (Medium School Category)</li>
+                        <li>Regional Awardee</li>
+                    </ul>
+
+                    <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">Mr. Mark Anthony Galan</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Division Rank 1 - Best Brigada Eskwela Coordinator (Medium School Category)</li>
+                        <li>Regional Awardee - Brigada Eskwela Coordinator</li>
+                    </ul>
+
+                    <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">2019</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>2nd Place - Best Brigada Eskwela Implementer - Division Level</li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Best Performing School Section -->
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-2xl font-bold text-blue-600 mb-8">BEST PERFORMING SCHOOL</h2>
-                <div class="bg-gray-50 rounded-lg p-8">
-                    <p class="text-lg text-center italic">
-                        SRCCMSTHS was recognized as the BEST PERFORMING SCHOOL in DepEd TAPAT, Secondary Level
-                        alongside Taguig Science High School in the #DepEdStakeholdersSummit2019.
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h4 class="text-xl font-bold text-blue-700 mb-4">Mr. Judd Lawrence D. Guy-joco</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Best Brigada Eskwela Coordinator - Secondary Level</li>
+                        <li>1st Place - 2018 Regional Brigada Eskwela Table Evaluation Best Presenter - Secondary Level</li>
+                    </ul>
+
+                    <h4 class="text-xl font-bold text-blue-700 mt-6 mb-4">2017</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>2nd Place - Best Brigada Eskwela Implementer - Division Level</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="{{ asset('static/images/srccmsths/brigada-coordinator.jpg') }}" alt="Brigada Eskwela Coordinator" class="rounded-lg shadow-lg">
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Performing School Section -->
+        <div class="max-w-5xl mx-auto">
+            <h3 class="text-3xl font-bold text-blue-600 mb-10 text-center">BEST PERFORMING SCHOOL</h3>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <img src="{{ asset('static/images/srccmsths/best-performing.jpg') }}" alt="Best Performing School Award" class="rounded-lg shadow-lg">
+                </div>
+                <div class="bg-gray-50 p-8 rounded-lg shadow">
+                    <p class="text-lg italic">
+                        SRCCMSTHS was recognized as the BEST PERFORMING SCHOOL in DepEd TAPAT, Secondary Level alongside Taguig Science High School in the #DepEdStakeholdersSummit2019.
                     </p>
                 </div>
             </div>
