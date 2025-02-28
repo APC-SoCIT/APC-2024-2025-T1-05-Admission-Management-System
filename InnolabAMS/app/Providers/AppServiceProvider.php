@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\View;
 use App\Models\ApplicantInfo;
 use Illuminate\Pagination\Paginator;
 use URL;
-use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    public function boot(): void
+
+
+    public function boot()
     {
         Paginator::useTailwind();
 
@@ -30,22 +31,5 @@ class AppServiceProvider extends ServiceProvider
                 'rejectedApplicationsCount' => ApplicantInfo::where('status', 'rejected')->count(),
             ]);
         });
-
-        // Register components for SRCCMSTHS site
-        Blade::component('layouts.srccmsths', 'srccmsths-layout');
-
-        // Share school data with SRCCMSTHS views
-        View::composer('srccmsths.*', function ($view) {
-            $view->with([
-                'schoolName' => 'SENATOR RENATO "COMPAÑERO" CAYETANO MEMORIAL SCIENCE AND TECHNOLOGY HIGH SCHOOL',
-                'schoolTagline' => 'Developing globally competitive students.',
-                'schoolAchievements' => [
-                    'best_performing' => 'BEST PERFORMING SCHOOL in DepEd TAPAT, Secondary Level alongside Taguig Science High School in the #DepEdStakeholdersSummit2019.'
-                ]
-            ]);
-        });
     }
-
-    public const HOME = '/';  // Change this if needed
-    public const LOGIN = '/login';  // Add this for login redirects
 }

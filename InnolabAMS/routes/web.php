@@ -16,12 +16,8 @@ use Illuminate\Support\Facades\URL;
 $url = config('app.url');
 URL::forceRootUrl($url);
 
-// SRCCMSTHS Landing Page Route
+//Login Routes
 Route::get('/', function () {
-    return view('srccmsths.home');
-})->name('home');
-
-Route::get('/login', function () {
     if (auth()->check()) {
         if (auth()->user()->hasRole('Applicant')) {
             return redirect('/portal');
@@ -32,7 +28,8 @@ Route::get('/login', function () {
         }
     }
     return view('auth.login');
-})->name('login');
+});
+
 
 //Admin Panel and Applicant Portal Routes
 Route::get('/app', function () {
@@ -209,9 +206,5 @@ Route::middleware('auth')->group(function () {
     });
 
 });
-
-Route::get('/srccmsths', function () {
-    return view('srccmsths.home');
-})->name('srccmsths.home');
 
 require __DIR__ . '/auth.php';
