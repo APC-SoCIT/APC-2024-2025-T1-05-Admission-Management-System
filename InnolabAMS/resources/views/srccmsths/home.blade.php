@@ -1,9 +1,9 @@
 <x-srccmsths-layout>
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen">
         <!-- Hero Section with School Logo and Name -->
         <div class="relative bg-blue-600 text-white py-12">
             <div class="container mx-auto px-4">
-                <div class="flex flex-col items-center justify-center">
+                <div class="flex flex-col items-center justify-center relative z-10">
                     <!-- School Logo -->
                     <img src="{{ asset('static/images/school-logo-srccmsths.png') }}"
                          alt="SRCCMSTHS Logo"
