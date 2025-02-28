@@ -136,5 +136,11 @@
             </div>
         </div>
     </footer>
+    <div class="absolute top-4 right-4">
+        <a href="{{ route('login') }}"
+           class="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-blue-50 transition-colors">
+            Login
+        </a>
+    </div>
 </div>
 @endsection

@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
-    
+
 
 
     public function boot()
@@ -32,4 +32,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
     }
+
+    public const HOME = '/';  // Change this if needed
+    public const LOGIN = '/login';  // Add this for login redirects
 }
