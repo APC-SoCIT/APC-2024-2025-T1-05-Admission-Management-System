@@ -164,10 +164,10 @@
                     <div>
                         <h3 class="text-lg font-bold mb-4">Facebook</h3>
                         <ul class="space-y-2">
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">Cayetano SciTech News & Updates</a></li>
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">SRCCMSTHS SSG</a></li>
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">SRCCMSTHS CAT</a></li>
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">DEPED PENS - George Tizon</a></li>
+                            <li><a href="https://www.facebook.com/profile.php?id=100083844947925" class="hover:text-blue-200 transition-colors">Cayetano SciTech News & Updates</a></li>
+                            <li><a href="https://www.facebook.com/SrccmsthsSSLG" class="hover:text-blue-200 transition-colors">SRCCMSTHS SSG</a></li>
+                            <li><a href="https://www.facebook.com/SRCCMSTHSCAT" class="hover:text-blue-200 transition-colors">SRCCMSTHS CAT</a></li>
+                            <li><a href="https://www.facebook.com/depedpensgeorge.tizon" class="hover:text-blue-200 transition-colors">DEPED PENS - George Tizon</a></li>
                         </ul>
                     </div>
 
@@ -175,14 +175,7 @@
                     <div>
                         <h3 class="text-lg font-bold mb-4">Instagram</h3>
                         <ul class="space-y-2">
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">SRCCMSTHS SSG</a></li>
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">SRCCMSTHS CAT</a></li>
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">CIC-CCR</a></li>
-                        </ul>
-
-                        <h3 class="text-lg font-bold mt-4 mb-2">Twitter</h3>
-                        <ul>
-                            <li><a href="#" class="hover:text-blue-200 transition-colors">SRCCMSTHS SSG</a></li>
+                            <li><a href="https://www.instagram.com/srcc_sslg/?hl=en" class="hover:text-blue-200 transition-colors">SRCCMSTHS SSG</a></li>
                         </ul>
                     </div>
                 </div>
