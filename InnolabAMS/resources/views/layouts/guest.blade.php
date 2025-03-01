@@ -140,11 +140,15 @@
                             <!-- Quick Links - Only for Student/Applicant -->
                             <template x-if="userType === 'applicant'">
                                 <div class="mt-6 space-y-3">
-                                    <a href="{{ route('register') }}" class="flex items-center text-blue-600 hover:text-blue-700">
+                                    <a href="{{ route('register') }}"
+                                       class="flex items-center text-blue-600 hover:text-blue-700"
+                                       @click.prevent="window.location.href='{{ route('register') }}'">
                                         <i class="fas fa-user-plus mr-2"></i>
                                         <span>Want to apply? Create an Account</span>
                                     </a>
-                                    <a href="{{ route('lead_info.create') }}" class="flex items-center text-blue-600 hover:text-blue-700">
+                                    <a href="{{ route('lead_info.create') }}"
+                                       class="flex items-center text-blue-600 hover:text-blue-700"
+                                       @click.prevent="window.location.href='{{ route('lead_info.create') }}'">
                                         <i class="fas fa-question-circle mr-2"></i>
                                         <span>Need Help? Inquire Now</span>
                                     </a>
