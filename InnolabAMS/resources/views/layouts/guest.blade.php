@@ -60,12 +60,24 @@
         </style>
     </head>
 
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col pt-6 sm:pt-0 bg-school">
-            <!-- Header - Top Left -->
-            <div class="absolute top-4 left-4 flex items-center space-x-4">
-                <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-24">
-                <h2 class="text-xl font-bold text-white">Your Innovation Solution Partner</h2>
+    <body class="font-sans antialiased bg-gray-100 text-black"
+        x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true }">
+        <div class="min-h-screen flex flex-col bg-school">
+            <!-- Header Section -->
+            <div class="relative w-full bg-white/80 backdrop-blur-sm">
+                <!-- Heading Section with Flexbox for Logo and Text -->
+                <div class="flex items-center py-6 ml-20">
+                    <!-- Logo -->
+                    <img src="{{ asset('/static/images/innolab_logo3.png') }}"
+                         alt="Logo"
+                         class="w-20 h-20 rounded-full mr-2">
+
+                    <!-- Text Next to Logo -->
+                    <div>
+                        <h2 class="text-2xl font-bold mb-1">InnolabAMS</h2>
+                        <h3 class="text-lg">Your innovation solution partner.</h3>
+                    </div>
+                </div>
             </div>
 
             <!-- Main Content -->
