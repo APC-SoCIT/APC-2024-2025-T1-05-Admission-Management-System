@@ -131,7 +131,7 @@
                             <div class="flex flex-col space-y-3">
                                 <a href="{{ route('register') }}" class="flex items-center text-blue-600 hover:text-blue-700">
                                     <i class="fas fa-user-plus mr-2"></i>
-                                    <span>New Student? Create an Account</span>
+                                    <span>Want to apply? Create an Account</span>
                                 </a>
                                 <a href="{{ route('lead_info.create') }}" class="flex items-center text-blue-600 hover:text-blue-700">
                                     <i class="fas fa-question-circle mr-2"></i>
