@@ -67,128 +67,40 @@
         line-height: 1.8;
         padding: 25px;
     }
-
-    /* Authentication Cards */
-    .auth-options {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 30px;
-    }
-
-    .auth-card {
-        display: none;
-        opacity: 0;
-        transform: translateY(-20px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .auth-card.active {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .auth-button {
-        padding: 12px 24px;
-        background: linear-gradient(135deg, #1e40af, #3b82f6);
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        font-weight: 600;
-        text-align: center;
-        width: 200px;
-    }
-
-    .auth-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
-
-    .auth-button.active {
-        background: linear-gradient(135deg, #1e3a8a, #1e40af);
-        transform: scale(0.98);
-    }
 </style>
 
 
-<body class="font-sans antialiased bg-gradient-to-b from-blue-100 to-white">
-    <div class="min-h-screen flex flex-col">
-        <!-- Hero Section -->
-        <div class="relative w-full bg-center bg-cover h-[400px]"
-             style="background-image: url('{{ asset('static/images/school-background-srccmsths.jpg') }}')">
-            <div class="absolute inset-0 bg-black/40"></div>
-            <div class="relative z-10 container mx-auto px-6 py-8">
-                <div class="flex items-center justify-center mt-8">
-                    <img src="{{ asset('static/images/school-logo-srccmsths.png') }}"
-                         alt="SRCCMSTHS Logo"
-                         class="w-32 h-32">
-                </div>
-                <h1 class="text-4xl font-bold text-center text-white mt-6">
-                    InnolabAMS
-                </h1>
-                <p class="text-xl text-center text-white mt-2">
-                    Empowering Education Through Innovation
-                </p>
+<body class="font-sans antialiased bg-gray-100 text-black"
+    x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true }">
+    <div class="relative w-full">
+        <!-- Heading Section with Flexbox for Logo and Text -->
+        <div class="flex items-center mt-10 ml-20">
+            <!-- Logo -->
+            <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-20 h-20 rounded-full mr-2">
+
+            <!-- Text Next to Logo -->
+            <div>
+                <h2 class="text-2xl font-bold mb-1">InnolabAMS</h2>
+                <h3 class="text-lg">Your innovation solution partner.</h3>
             </div>
         </div>
+    </div>
 
-        <!-- Main Content -->
-        <div class="flex-grow container mx-auto px-6 py-8">
-            <div class="max-w-md mx-auto">
-                <!-- Auth Options -->
-                <div class="auth-options">
-                    <button onclick="showAuth('signin')" class="auth-button">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Sign In
-                    </button>
-                    <button onclick="showAuth('register')" class="auth-button">
-                        <i class="fas fa-user-plus mr-2"></i>Register
-                    </button>
-                </div>
+    <div class="max-h-screen flex flex-col justify-center items-center mt-10 py-10 bg-gray-100">
 
-                <!-- Auth Cards -->
-                <div id="signin-card" class="auth-card bg-white rounded-lg shadow-xl overflow-hidden">
-                    <div class="p-6">
-                        {{ $slot }}
-                    </div>
-                </div>
 
-                <div id="register-card" class="auth-card bg-white rounded-lg shadow-xl overflow-hidden">
-                    <div class="p-6">
-                        @include('auth.register')
-                    </div>
-                </div>
-
-                <!-- Action Links -->
-                <div class="mt-6 text-center space-y-4">
-                    <div>
-                        <span class="text-gray-600">Have a question? </span>
-                        <a href="{{ route('lead_info.create') }}"
-                           class="text-blue-600 hover:text-blue-800 font-medium">
-                            Inquire Now
-                        </a>
-                    </div>
-
-                    <!-- New: Check Out Our School Button -->
-                    <a href="/school-tour"
-                       class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
-                        <i class="fas fa-school mr-2"></i>
-                        Check Out Our School
-                    </a>
-                </div>
-            </div>
+        <div class="w-full sm:max-w-md mt-4 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            {{ $slot }}
         </div>
 
-        <!-- Footer -->
-        <footer class="bg-gray-800 text-white py-6">
-            <div class="container mx-auto px-6 text-center">
-                <p class="text-sm">
-                    Copyright © {{ date('Y') }} Senator Renato "Compañero" Cayetano Memorial Science and Technology High School.
-                    <br>All Rights Reserved. Developed by Team Innolab
-                </p>
-            </div>
-        </footer>
+        <!-- Inquire Now Link -->
+        <div class="mt-4 text-center">
+            <span class="text-sm text-black">Have a question? </span>
+            <a href="{{ route('lead_info.create') }}"
+                class="underline text-sm text-black hover:text-indigo-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{ __('Inquire Now') }}
+            </a>
+        </div>
     </div>
 
     <!-- Data Privacy Modal -->
@@ -206,36 +118,7 @@
         </>
     </div>
 
-    <script>
-        function showAuth(type) {
-            // Hide all cards
-            document.querySelectorAll('.auth-card').forEach(card => {
-                card.classList.remove('active');
-            });
 
-            // Remove active state from buttons
-            document.querySelectorAll('.auth-button').forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // Show selected card and activate button
-            if (type === 'signin') {
-                document.getElementById('signin-card').classList.add('active');
-                document.querySelector('button[onclick="showAuth(\'signin\')"]').classList.add('active');
-            } else {
-                document.getElementById('register-card').classList.add('active');
-                document.querySelector('button[onclick="showAuth(\'register\')"]').classList.add('active');
-            }
-        }
-
-        // Show signin by default if there are validation errors
-        window.addEventListener('load', () => {
-            const hasErrors = document.querySelector('.auth-card .text-red-500');
-            if (hasErrors) {
-                showAuth(hasErrors.closest('#register-card') ? 'register' : 'signin');
-            }
-        });
-    </script>
 </body>
 
 <script>
@@ -247,5 +130,10 @@
         document.getElementById('privacyModal').style.display = 'none';
     }
 </script>
+
+<!-- Footer -->
+<footer class="w-full text-center text-sm py-10  text-gray-500 mt-4">
+    <p>Copyright © 2025. All Rights Reserved. Developed by Team Innolab</p>
+</footer>
 
 </html>
