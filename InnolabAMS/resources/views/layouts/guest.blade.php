@@ -63,16 +63,12 @@
     <body class="font-sans antialiased bg-gray-100 text-black"
         x-data="{ userType: null, showHelp: false }">
         <div class="min-h-screen flex flex-col bg-school">
-            <!-- Welcome Banner -->
-            <div class="bg-white/90 backdrop-blur-sm shadow-sm py-4">
-                <div class="container mx-auto px-4">
-                    <div class="flex items-center space-x-4">
-                        <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-16 h-16">
-                        <div>
-                            <h1 class="text-2xl font-bold text-gray-800">Welcome to InnolabAMS</h1>
-                            <p class="text-gray-600">Your innovation solution partner.</p>
-                        </div>
-                    </div>
+            <!-- Welcome Header -->
+            <div class="flex items-center p-4 ml-4">
+                <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-16 h-16">
+                <div class="ml-4">
+                    <h1 class="text-2xl font-bold text-white">Welcome to InnolabAMS</h1>
+                    <p class="text-white/90">Your innovation solution partner.</p>
                 </div>
             </div>
 
@@ -99,42 +95,30 @@
                     </div>
                 </div>
 
-                <!-- Login Form -->
-                <div class="w-full sm:max-w-md">
+                <!-- Login Forms - Shown only when a user type is selected -->
+                <div x-show="userType"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     class="w-full sm:max-w-md">
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                         <div class="p-6">
-                            <!-- Help Icon -->
-                            <button @click="showHelp = !showHelp"
-                                    class="absolute top-4 right-4 text-gray-400 hover:text-blue-500">
-                                <i class="fas fa-question-circle text-xl"></i>
-                            </button>
-
-                            <!-- Help Panel -->
-                            <div x-show="showHelp"
-                                 class="bg-blue-50 p-4 rounded-lg mb-4 text-sm">
-                                <h3 class="font-semibold mb-2">Need Help?</h3>
-                                <ul class="list-disc list-inside space-y-2 text-gray-600">
-                                    <li>For new students: Click "Create an Account" below</li>
-                                    <li>Forgot password? Click "Forgot your password?" to reset</li>
-                                    <li>Have questions? Click "Inquire Now" for assistance</li>
-                                </ul>
-                            </div>
-
+                            <!-- Sign In Form -->
                             {{ $slot }}
-                        </div>
 
-                        <!-- Quick Links -->
-                        <div class="bg-gray-50 px-6 py-4">
-                            <div class="flex flex-col space-y-3">
-                                <a href="{{ route('register') }}" class="flex items-center text-blue-600 hover:text-blue-700">
-                                    <i class="fas fa-user-plus mr-2"></i>
-                                    <span>Want to apply? Create an Account</span>
-                                </a>
-                                <a href="{{ route('lead_info.create') }}" class="flex items-center text-blue-600 hover:text-blue-700">
-                                    <i class="fas fa-question-circle mr-2"></i>
-                                    <span>Need Help? Inquire Now</span>
-                                </a>
-                            </div>
+                            <!-- Quick Links - Only shown for applicants -->
+                            <template x-if="userType === 'applicant'">
+                                <div class="mt-6 space-y-3">
+                                    <a href="{{ route('register') }}" class="flex items-center text-blue-600 hover:text-blue-700">
+                                        <i class="fas fa-user-plus mr-2"></i>
+                                        <span>Want to apply? Create an Account</span>
+                                    </a>
+                                    <a href="{{ route('lead_info.create') }}" class="flex items-center text-blue-600 hover:text-blue-700">
+                                        <i class="fas fa-question-circle mr-2"></i>
+                                        <span>Need Help? Inquire Now</span>
+                                    </a>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>
