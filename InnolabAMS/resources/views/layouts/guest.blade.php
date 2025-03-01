@@ -61,40 +61,95 @@
     </head>
 
     <body class="font-sans antialiased bg-gray-100 text-black"
-        x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true }">
+        x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true, showHelp: false }">
         <div class="min-h-screen flex flex-col bg-school">
-            <!-- Header Section -->
-            <div class="relative w-full bg-white/80 backdrop-blur-sm">
-                <!-- Heading Section with Flexbox for Logo and Text -->
-                <div class="flex items-center py-6 ml-20">
-                    <!-- Logo -->
-                    <img src="{{ asset('/static/images/innolab_logo3.png') }}"
-                         alt="Logo"
-                         class="w-20 h-20 rounded-full mr-2">
-
-                    <!-- Text Next to Logo -->
-                    <div>
-                        <h2 class="text-2xl font-bold mb-1">InnolabAMS</h2>
-                        <h3 class="text-lg">Your innovation solution partner.</h3>
+            <!-- Welcome Banner -->
+            <div class="bg-white/90 backdrop-blur-sm shadow-sm py-4">
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center space-x-4">
+                        <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-16 h-16">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-800">Welcome to InnolabAMS</h1>
+                            <p class="text-gray-600">Your innovation solution partner.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Main Content -->
-            <div class="flex-1 flex flex-col items-center justify-center">
-                <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                    {{ $slot }}
+            <div class="flex-1 flex flex-col items-center justify-center p-4">
+                <!-- User Type Selection -->
+                <div class="w-full max-w-md mb-6 text-center">
+                    <h2 class="text-xl font-semibold text-white mb-4">I am a...</h2>
+                    <div class="flex justify-center space-x-4">
+                        <button @click="userType = 'applicant'"
+                                class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all"
+                                :class="{ 'ring-2 ring-blue-500': userType === 'applicant' }">
+                            <i class="fas fa-user-graduate text-3xl mb-2 text-blue-600"></i>
+                            <span class="font-medium">Student/Applicant</span>
+                            <span class="text-sm text-gray-500">Apply for admission</span>
+                        </button>
 
-                    <!-- Inquire Now Section -->
-                    <div class="mt-4 text-center">
-                        <span class="text-sm text-gray-600">Have a question? </span>
-                        <a href="{{ route('lead_info.create') }}"
-                            class="underline text-sm text-gray-600 hover:text-indigo-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Inquire Now') }}
-                        </a>
+                        <button @click="userType = 'admin'"
+                                class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all"
+                                :class="{ 'ring-2 ring-blue-500': userType === 'admin' }">
+                            <i class="fas fa-user-shield text-3xl mb-2 text-blue-600"></i>
+                            <span class="font-medium">Staff/Admin</span>
+                            <span class="text-sm text-gray-500">Manage admissions</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Login Form with Context -->
+                <div class="w-full sm:max-w-md">
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+
+                            <!-- Help Icon -->
+                            <button @click="showHelp = !showHelp"
+                                    class="absolute top-4 right-4 text-gray-400 hover:text-blue-500">
+                                <i class="fas fa-question-circle text-xl"></i>
+                            </button>
+
+                            <!-- Help Panel -->
+                            <div x-show="showHelp"
+                                 class="bg-blue-50 p-4 rounded-lg mb-4 text-sm">
+                                <h3 class="font-semibold mb-2">Need Help?</h3>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                    <li>For new students: Click "Register" below to create an account</li>
+                                    <li>Forgot password? Click "Forgot your password?" to reset</li>
+                                    <li>Have questions? Click "Inquire Now" for assistance</li>
+                                </ul>
+                            </div>
+
+                            {{ $slot }}
+                        </div>
+
+                        <!-- Quick Links -->
+                        <div class="bg-gray-50 px-6 py-4">
+                            <div class="flex flex-col space-y-3">
+                                <a href="{{ route('register') }}" class="flex items-center text-blue-600 hover:text-blue-700">
+                                    <i class="fas fa-user-plus mr-2"></i>
+                                    <span>New Student? Create an Account</span>
+                                </a>
+                                <a href="{{ route('lead_info.create') }}" class="flex items-center text-blue-600 hover:text-blue-700">
+                                    <i class="fas fa-question-circle mr-2"></i>
+                                    <span>Need Help? Inquire Now</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Footer with Help -->
+            <footer class="bg-white/90 backdrop-blur-sm py-4 mt-auto">
+                <div class="container mx-auto px-4 text-center">
+                    <p class="text-sm text-gray-600">Having technical issues? Contact our support team at support@innolabams.com</p>
+                    <p class="text-sm text-gray-500 mt-2">© {{ date('Y') }} InnolabAMS. All rights reserved.</p>
+                </div>
+            </footer>
         </div>
 
         <!-- Data Privacy Modal -->
@@ -120,10 +175,5 @@
                 document.getElementById('privacyModal').style.display = 'none';
             }
         </script>
-
-        <!-- Footer -->
-        <footer class="w-full text-center text-sm py-10 text-gray-500 mt-4">
-            <p>Copyright © 2025. All Rights Reserved. Developed by Team Innolab</p>
-        </footer>
     </body>
 </html>
