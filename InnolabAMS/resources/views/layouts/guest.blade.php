@@ -146,7 +146,7 @@
             <!-- Footer with Help -->
             <footer class="bg-white/90 backdrop-blur-sm py-4 mt-auto">
                 <div class="container mx-auto px-4 text-center">
-                    <p class="text-sm text-gray-600">Having technical issues? Contact our support team at support@innolabams.com</p>
+                    <p class="text-sm text-gray-600">Having technical issues? Contact our support team at innolabdevelopers@gmail.com</p>
                     <p class="text-sm text-gray-500 mt-2">© {{ date('Y') }} InnolabAMS. All rights reserved.</p>
                 </div>
             </footer>
