@@ -80,7 +80,7 @@
             <div class="flex-1 flex flex-col items-center justify-center p-4">
                 <!-- User Type Selection -->
                 <div class="w-full max-w-md mb-6 text-center">
-                    <h2 class="text-xl font-semibold text-white mb-4">I am a...</h2>
+                    <h2 class="text-xl font-semibold text-white mb-4">I am a</h2>
                     <div class="flex justify-center space-x-4">
                         <button @click="userType = 'applicant'"
                                 class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all"
@@ -146,8 +146,8 @@
             <!-- Footer with Help -->
             <footer class="bg-white/90 backdrop-blur-sm py-4 mt-auto">
                 <div class="container mx-auto px-4 text-center">
-                    <p class="text-sm text-gray-600">Having technical issues? Contact our support team at innolabdevelopers@gmail.com</p>
-                    <p class="text-sm text-gray-500 mt-2">© {{ date('Y') }} InnolabAMS. All rights reserved.</p>
+                    <p class="text-sm text-white-600">Having technical issues? Contact our support team at innolabdevelopers@gmail.com</p>
+                    <p class="text-sm text-white-500 mt-2">© {{ date('Y') }} InnolabAMS. All rights reserved.</p>
                 </div>
             </footer>
         </div>
