@@ -63,7 +63,7 @@
     <body class="font-sans antialiased bg-gray-100 text-black"
         x-data="{ userType: null, showHelp: false }">
         <div class="min-h-screen flex flex-col bg-school">
-            <!-- Welcome Header -->
+            <!-- Welcome Header - Always visible -->
             <div class="flex items-center p-4 ml-4">
                 <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-16 h-16">
                 <div class="ml-4">
@@ -74,20 +74,22 @@
 
             <!-- Main Content -->
             <div class="flex-1 flex flex-col items-center justify-center p-4">
-                <!-- User Type Selection -->
-                <div class="w-full max-w-md mb-6">
+                <!-- User Type Selection - Only shown when no type is selected -->
+                <div x-show="!userType"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     class="w-full max-w-md mb-6">
                     <div class="flex justify-center space-x-4">
                         <button @click="userType = 'applicant'"
-                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48"
-                                :class="{ 'ring-2 ring-blue-500': userType === 'applicant' }">
+                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
                             <i class="fas fa-user-graduate text-4xl mb-3 text-blue-600"></i>
                             <span class="font-medium text-lg">Student/Applicant</span>
                             <span class="text-sm text-gray-500">Apply for admission</span>
                         </button>
 
                         <button @click="userType = 'admin'"
-                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48"
-                                :class="{ 'ring-2 ring-blue-500': userType === 'admin' }">
+                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
                             <i class="fas fa-user-shield text-4xl mb-3 text-blue-600"></i>
                             <span class="font-medium text-lg">Staff/Admin</span>
                             <span class="text-sm text-gray-500">Manage admissions</span>
@@ -95,13 +97,22 @@
                     </div>
                 </div>
 
-                <!-- Login Forms - Shown only when a user type is selected -->
+                <!-- Login Form - Shown only when a type is selected -->
                 <div x-show="userType"
                      x-transition:enter="transition ease-out duration-300"
                      x-transition:enter-start="opacity-0 transform scale-90"
                      x-transition:enter-end="opacity-100 transform scale-100"
                      class="w-full sm:max-w-md">
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                        <!-- Back Button -->
+                        <div class="p-4 border-b">
+                            <button @click="userType = null"
+                                    class="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                <span>Back to selection</span>
+                            </button>
+                        </div>
+
                         <div class="p-6 relative">
                             <!-- Help Icon - Only for Student/Applicant -->
                             <template x-if="userType === 'applicant'">
@@ -111,7 +122,7 @@
                                 </button>
                             </template>
 
-                            <!-- Help Panel - Only for Student/Applicant -->
+                            <!-- Help Panel -->
                             <div x-show="showHelp && userType === 'applicant'"
                                  x-transition
                                  class="bg-blue-50 p-4 rounded-lg mb-4 text-sm">
