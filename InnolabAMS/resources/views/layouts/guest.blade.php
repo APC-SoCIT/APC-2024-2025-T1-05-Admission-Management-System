@@ -61,7 +61,7 @@
     </head>
 
     <body class="font-sans antialiased bg-gray-100 text-black"
-        x-data="{ showAuthLinks: false, activeButton: '', buttonsVisible: true, showHelp: false }">
+        x-data="{ userType: null, showHelp: false }">
         <div class="min-h-screen flex flex-col bg-school">
             <!-- Welcome Banner -->
             <div class="bg-white/90 backdrop-blur-sm shadow-sm py-4">
@@ -79,33 +79,30 @@
             <!-- Main Content -->
             <div class="flex-1 flex flex-col items-center justify-center p-4">
                 <!-- User Type Selection -->
-                <div class="w-full max-w-md mb-6 text-center">
-                    <h2 class="text-xl font-semibold text-white mb-4">I am a</h2>
+                <div class="w-full max-w-md mb-6">
                     <div class="flex justify-center space-x-4">
                         <button @click="userType = 'applicant'"
-                                class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all"
+                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48"
                                 :class="{ 'ring-2 ring-blue-500': userType === 'applicant' }">
-                            <i class="fas fa-user-graduate text-3xl mb-2 text-blue-600"></i>
-                            <span class="font-medium">Student/Applicant</span>
+                            <i class="fas fa-user-graduate text-4xl mb-3 text-blue-600"></i>
+                            <span class="font-medium text-lg">Student/Applicant</span>
                             <span class="text-sm text-gray-500">Apply for admission</span>
                         </button>
 
                         <button @click="userType = 'admin'"
-                                class="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all"
+                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48"
                                 :class="{ 'ring-2 ring-blue-500': userType === 'admin' }">
-                            <i class="fas fa-user-shield text-3xl mb-2 text-blue-600"></i>
-                            <span class="font-medium">Staff/Admin</span>
+                            <i class="fas fa-user-shield text-4xl mb-3 text-blue-600"></i>
+                            <span class="font-medium text-lg">Staff/Admin</span>
                             <span class="text-sm text-gray-500">Manage admissions</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Login Form with Context -->
+                <!-- Login Form -->
                 <div class="w-full sm:max-w-md">
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                         <div class="p-6">
-                            <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
-
                             <!-- Help Icon -->
                             <button @click="showHelp = !showHelp"
                                     class="absolute top-4 right-4 text-gray-400 hover:text-blue-500">
@@ -117,7 +114,7 @@
                                  class="bg-blue-50 p-4 rounded-lg mb-4 text-sm">
                                 <h3 class="font-semibold mb-2">Need Help?</h3>
                                 <ul class="list-disc list-inside space-y-2 text-gray-600">
-                                    <li>For new students: Click "Register" below to create an account</li>
+                                    <li>For new students: Click "Create an Account" below</li>
                                     <li>Forgot password? Click "Forgot your password?" to reset</li>
                                     <li>Have questions? Click "Inquire Now" for assistance</li>
                                 </ul>
@@ -143,11 +140,11 @@
                 </div>
             </div>
 
-            <!-- Footer with Help -->
-            <footer class="bg-white/90 backdrop-blur-sm py-4 mt-auto">
+            <!-- Footer -->
+            <footer class="bg-white/90 backdrop-blur-sm py-4">
                 <div class="container mx-auto px-4 text-center">
-                    <p class="text-sm text-white-600">Having technical issues? Contact our support team at innolabdevelopers@gmail.com</p>
-                    <p class="text-sm text-white-500 mt-2">© {{ date('Y') }} InnolabAMS. All rights reserved.</p>
+                    <p class="text-sm text-gray-600">Having technical issues? Contact our support team at innolabdevelopers@gmail.com</p>
+                    <p class="text-sm text-gray-500 mt-2">© {{ date('Y') }} InnolabAMS. All rights reserved.</p>
                 </div>
             </footer>
         </div>
