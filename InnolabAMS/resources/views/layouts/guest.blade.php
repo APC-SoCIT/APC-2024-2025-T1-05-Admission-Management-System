@@ -67,6 +67,49 @@
         line-height: 1.8;
         padding: 25px;
     }
+
+    /* Authentication Cards */
+    .auth-options {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .auth-card {
+        display: none;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .auth-card.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .auth-button {
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        font-weight: 600;
+        text-align: center;
+        width: 200px;
+    }
+
+    .auth-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .auth-button.active {
+        background: linear-gradient(135deg, #1e3a8a, #1e40af);
+        transform: scale(0.98);
+    }
 </style>
 
 
@@ -94,10 +137,26 @@
         <!-- Main Content -->
         <div class="flex-grow container mx-auto px-6 py-8">
             <div class="max-w-md mx-auto">
-                <!-- Auth Card -->
-                <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <!-- Auth Options -->
+                <div class="auth-options">
+                    <button onclick="showAuth('signin')" class="auth-button">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                    </button>
+                    <button onclick="showAuth('register')" class="auth-button">
+                        <i class="fas fa-user-plus mr-2"></i>Register
+                    </button>
+                </div>
+
+                <!-- Auth Cards -->
+                <div id="signin-card" class="auth-card bg-white rounded-lg shadow-xl overflow-hidden">
                     <div class="p-6">
                         {{ $slot }}
+                    </div>
+                </div>
+
+                <div id="register-card" class="auth-card bg-white rounded-lg shadow-xl overflow-hidden">
+                    <div class="p-6">
+                        @include('auth.register')
                     </div>
                 </div>
 
@@ -147,6 +206,36 @@
         </>
     </div>
 
+    <script>
+        function showAuth(type) {
+            // Hide all cards
+            document.querySelectorAll('.auth-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Remove active state from buttons
+            document.querySelectorAll('.auth-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected card and activate button
+            if (type === 'signin') {
+                document.getElementById('signin-card').classList.add('active');
+                document.querySelector('button[onclick="showAuth(\'signin\')"]').classList.add('active');
+            } else {
+                document.getElementById('register-card').classList.add('active');
+                document.querySelector('button[onclick="showAuth(\'register\')"]').classList.add('active');
+            }
+        }
+
+        // Show signin by default if there are validation errors
+        window.addEventListener('load', () => {
+            const hasErrors = document.querySelector('.auth-card .text-red-500');
+            if (hasErrors) {
+                showAuth(hasErrors.closest('#register-card') ? 'register' : 'signin');
+            }
+        });
+    </script>
 </body>
 
 <script>
