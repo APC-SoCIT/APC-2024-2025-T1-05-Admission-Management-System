@@ -102,11 +102,31 @@
                      x-transition:enter-end="opacity-100 transform scale-100"
                      class="w-full sm:max-w-md">
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <div class="p-6">
+                        <div class="p-6 relative">
+                            <!-- Help Icon - Only for Student/Applicant -->
+                            <template x-if="userType === 'applicant'">
+                                <button @click="showHelp = !showHelp"
+                                        class="absolute top-4 right-4 text-gray-400 hover:text-blue-500 transition-colors duration-200">
+                                    <i class="fas fa-question-circle text-xl"></i>
+                                </button>
+                            </template>
+
+                            <!-- Help Panel - Only for Student/Applicant -->
+                            <div x-show="showHelp && userType === 'applicant'"
+                                 x-transition
+                                 class="bg-blue-50 p-4 rounded-lg mb-4 text-sm">
+                                <h3 class="font-semibold mb-2">Need Help?</h3>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                    <li>For new students: Click "Create an Account" below</li>
+                                    <li>Forgot password? Click "Forgot your password?" to reset</li>
+                                    <li>Have questions? Click "Inquire Now" for assistance</li>
+                                </ul>
+                            </div>
+
                             <!-- Sign In Form -->
                             {{ $slot }}
 
-                            <!-- Quick Links - Only shown for applicants -->
+                            <!-- Quick Links - Only for Student/Applicant -->
                             <template x-if="userType === 'applicant'">
                                 <div class="mt-6 space-y-3">
                                     <a href="{{ route('register') }}" class="flex items-center text-blue-600 hover:text-blue-700">
