@@ -142,18 +142,7 @@
                                     <template x-if="userType === 'apply'">
                                         <a href="{{ route('register') }}"
                                            class="flex items-center text-blue-600 hover:text-blue-700">
-                                            <i class="fas fa-user-plus mr-2"></i>
-                                            <span>Create an Account to Apply</span>
-                                        </a>
                                     </template>
-                                @endif
-
-                                @if(Route::currentRouteName() === 'register')
-                                    <a href="{{ route('login') }}"
-                                       class="flex items-center text-gray-600 hover:text-blue-600">
-                                        <i class="fas fa-sign-in-alt mr-2"></i>
-                                        <span>Already registered?</span>
-                                    </a>
                                 @endif
                             </div>
                         </div>
