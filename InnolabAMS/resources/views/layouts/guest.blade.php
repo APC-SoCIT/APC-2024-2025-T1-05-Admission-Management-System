@@ -130,23 +130,6 @@
                                     <li>Forgot password? Click "Forgot your password?" to reset</li>
                                 </ul>
                             </div>
-
-                            <!-- Sign In Form -->
-                            <div class="bg-white p-6 rounded-lg shadow-md">
-                                <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
-                                {{ $slot }}
-
-                                <div class="flex items-center justify-between mt-4">
-                                    <a href="{{ route('register') }}"
-                                       class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200">
-                                        Register
-                                    </a>
-                                    <a href="{{ route('password.request') }}"
-                                       class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200">
-                                        Forgot your password?
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
