@@ -122,31 +122,43 @@
 
                             <!-- Help Panel -->
                             <div x-show="showHelp"
-                                 x-transition
-                                 class="bg-blue-50 p-4 rounded-lg mb-4 text-sm">
-                                <h3 class="font-semibold mb-2">Need Help?</h3>
+                                 class="bg-blue-50 p-4 rounded-lg mb-6 text-sm border-l-4 border-blue-500">
+                                <h3 class="font-semibold text-blue-800 mb-2">Need Help?</h3>
                                 <ul class="list-disc list-inside space-y-2 text-gray-600">
-                                    <li x-show="userType === 'apply'">New applicant? Click "Create an Account" below</li>
-                                    <li x-show="userType === 'apply'">Already applied? Sign in to check your status</li>
-                                    <li x-show="userType === 'inquire'">Have questions? Fill out our inquiry form</li>
+                                    <li>New applicant? Click "Register" below</li>
+                                    <li>Already applied? Sign in to check your status</li>
                                     <li>Forgot password? Click "Forgot your password?" to reset</li>
                                 </ul>
                             </div>
 
                             <!-- Sign In Form -->
-                            {{ $slot }}
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+                                {{ $slot }}
+
+                                <div class="flex items-center justify-between mt-4">
+                                    <a href="{{ route('register') }}"
+                                       class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                                        Register
+                                    </a>
+                                    <a href="{{ route('password.request') }}"
+                                       class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                                        Forgot your password?
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Footer -->
-            <footer class="bg-white/90 backdrop-blur-sm py-4">
+            <footer class="fixed bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm py-4">
                 <div class="container mx-auto px-4 text-center">
                     <p class="text-sm text-white font-medium">
                         Having technical issues? Contact our support team at
                         <a href="mailto:innolabdevelopers@gmail.com"
-                           class="text-white hover:text-blue-100 underline">
+                           class="text-white hover:text-blue-200 underline">
                             innolabdevelopers@gmail.com
                         </a>
                     </p>
