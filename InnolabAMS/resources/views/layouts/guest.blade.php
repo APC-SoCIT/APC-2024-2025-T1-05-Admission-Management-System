@@ -63,7 +63,7 @@
     <body class="font-sans antialiased bg-gray-100 text-black"
         x-data="{ userType: null, showHelp: false }">
         <div class="min-h-screen flex flex-col bg-school">
-            <!-- Welcome Header - Always visible -->
+            <!-- Welcome Header -->
             <div class="flex items-center p-4 ml-4">
                 <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-16 h-16">
                 <div class="ml-4">
@@ -74,35 +74,7 @@
 
             <!-- Main Content -->
             <div class="flex-1 flex flex-col items-center justify-center p-4 pb-32">
-                <!-- User Type Selection - Only shown when no type is selected -->
-                <div x-show="!userType"
-                     x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0 transform scale-90"
-                     x-transition:enter-end="opacity-100 transform scale-100"
-                     class="w-full max-w-md mb-6">
-                    <div class="flex justify-center space-x-4">
-                        <button @click="userType = 'apply'"
-                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
-                            <i class="fas fa-file-alt text-4xl mb-3 text-blue-600"></i>
-                            <span class="font-medium text-lg">Apply Now</span>
-                            <span class="text-sm text-gray-500">Start your admission process</span>
-                        </button>
-
-                        <a href="{{ route('lead_info.create') }}"
-                           class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
-                            <i class="fas fa-info-circle text-4xl mb-3 text-blue-600"></i>
-                            <span class="font-medium text-lg">Inquire</span>
-                            <span class="text-center text-sm text-gray-500">Learn more about admission</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Login Form - Shown only when apply is selected -->
-                <div x-show="userType === 'apply'"
-                     x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0 transform scale-90"
-                     x-transition:enter-end="opacity-100 transform scale-100"
-                     class="w-full sm:max-w-md">
+                <div class="w-full sm:max-w-md">
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                         <!-- Back Button -->
                         <div class="p-4 border-b">
@@ -113,10 +85,10 @@
                             </button>
                         </div>
 
-                        <div class="p-6 relative">
+                        <div class="p-6">
                             <!-- Help Icon -->
                             <button @click="showHelp = !showHelp"
-                                    class="absolute top-4 right-4 text-gray-400 hover:text-blue-500 transition-colors duration-200">
+                                    class="absolute top-4 right-4 text-gray-400 hover:text-blue-500">
                                 <i class="fas fa-question-circle text-xl"></i>
                             </button>
 
@@ -131,22 +103,7 @@
                                 </ul>
                             </div>
 
-                            <!-- Sign In Form -->
-                            <div class="bg-white p-6 rounded-lg shadow-md">
-                                <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
-                                {{ $slot }}
-
-                                <div class="flex items-center justify-between mt-4">
-                                    <a href="{{ route('register') }}"
-                                       class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200">
-                                        Register
-                                    </a>
-                                    <a href="{{ route('password.request') }}"
-                                       class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200">
-                                        Forgot your password?
-                                    </a>
-                                </div>
-                            </div>
+                            {{ $slot }}
                         </div>
                     </div>
                 </div>
