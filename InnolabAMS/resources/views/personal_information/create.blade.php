@@ -4,7 +4,7 @@
 @section('content') <!-- Define the content section -->
 <div class="container mx-auto px-6 py-4">
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-semibold">Applicantion Form</h1>
+        <h1 class="text-2xl font-semibold">Application Form</h1>
         <a href="{{ url()->previous() }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
             <i class="fas fa-arrow-left mr-2"></i>Back
         </a>
