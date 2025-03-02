@@ -92,7 +92,7 @@
                            class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
                             <i class="fas fa-info-circle text-4xl mb-3 text-blue-600"></i>
                             <span class="font-medium text-lg">Inquire</span>
-                            <span class="text-sm text-gray-500">Learn more about admission</span>
+                            <span class="text-center text-sm text-gray-500">Learn more about admission</span>
                         </a>
                     </div>
                 </div>
