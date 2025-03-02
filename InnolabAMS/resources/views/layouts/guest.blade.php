@@ -88,17 +88,17 @@
                             <span class="text-sm text-gray-500">Start your admission process</span>
                         </button>
 
-                        <button @click="userType = 'inquire'"
-                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
+                        <a href="{{ route('lead_info.create') }}"
+                           class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
                             <i class="fas fa-info-circle text-4xl mb-3 text-blue-600"></i>
                             <span class="font-medium text-lg">Inquire</span>
                             <span class="text-sm text-gray-500">Learn more about admission</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Login Form - Shown only when a type is selected -->
-                <div x-show="userType"
+                <!-- Login Form - Shown only when apply is selected -->
+                <div x-show="userType === 'apply'"
                      x-transition:enter="transition ease-out duration-300"
                      x-transition:enter-start="opacity-0 transform scale-90"
                      x-transition:enter-end="opacity-100 transform scale-100"
