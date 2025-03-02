@@ -81,18 +81,18 @@
                      x-transition:enter-end="opacity-100 transform scale-100"
                      class="w-full max-w-md mb-6">
                     <div class="flex justify-center space-x-4">
-                        <button @click="userType = 'applicant'"
+                        <button @click="userType = 'apply'"
                                 class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
-                            <i class="fas fa-user-graduate text-4xl mb-3 text-blue-600"></i>
-                            <span class="font-medium text-lg">Student/Applicant</span>
-                            <span class="text-sm text-gray-500">Apply for admission</span>
+                            <i class="fas fa-file-alt text-4xl mb-3 text-blue-600"></i>
+                            <span class="font-medium text-lg">Apply Now</span>
+                            <span class="text-sm text-gray-500">Start your admission process</span>
                         </button>
 
-                        <button @click="userType = 'admin'"
+                        <button @click="userType = 'inquire'"
                                 class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
-                            <i class="fas fa-user-shield text-4xl mb-3 text-blue-600"></i>
-                            <span class="font-medium text-lg">Staff/Admin</span>
-                            <span class="text-sm text-gray-500">Manage admissions</span>
+                            <i class="fas fa-info-circle text-4xl mb-3 text-blue-600"></i>
+                            <span class="font-medium text-lg">Inquire</span>
+                            <span class="text-sm text-gray-500">Learn more about admission</span>
                         </button>
                     </div>
                 </div>
@@ -109,51 +109,50 @@
                             <button @click="userType = null"
                                     class="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
                                 <i class="fas fa-arrow-left mr-2"></i>
-                                <span>Back to selection</span>
+                                <span>Back to options</span>
                             </button>
                         </div>
 
                         <div class="p-6 relative">
-                            <!-- Help Icon - Only for Student/Applicant -->
-                            <template x-if="userType === 'applicant'">
-                                <button @click="showHelp = !showHelp"
-                                        class="absolute top-4 right-4 text-gray-400 hover:text-blue-500 transition-colors duration-200">
-                                    <i class="fas fa-question-circle text-xl"></i>
-                                </button>
-                            </template>
+                            <!-- Help Icon -->
+                            <button @click="showHelp = !showHelp"
+                                    class="absolute top-4 right-4 text-gray-400 hover:text-blue-500 transition-colors duration-200">
+                                <i class="fas fa-question-circle text-xl"></i>
+                            </button>
 
                             <!-- Help Panel -->
-                            <div x-show="showHelp && userType === 'applicant'"
+                            <div x-show="showHelp"
                                  x-transition
                                  class="bg-blue-50 p-4 rounded-lg mb-4 text-sm">
                                 <h3 class="font-semibold mb-2">Need Help?</h3>
                                 <ul class="list-disc list-inside space-y-2 text-gray-600">
-                                    <li>For new students: Click "Create an Account" below</li>
+                                    <li x-show="userType === 'apply'">New applicant? Click "Create an Account" below</li>
+                                    <li x-show="userType === 'apply'">Already applied? Sign in to check your status</li>
+                                    <li x-show="userType === 'inquire'">Have questions? Fill out our inquiry form</li>
                                     <li>Forgot password? Click "Forgot your password?" to reset</li>
-                                    <li>Have questions? Click "Inquire Now" for assistance</li>
                                 </ul>
                             </div>
 
                             <!-- Sign In Form -->
                             {{ $slot }}
 
-                            <!-- Quick Links - Only for Student/Applicant -->
-                            <template x-if="userType === 'applicant'">
-                                <div class="mt-6 space-y-3">
+                            <!-- Quick Links -->
+                            <div class="mt-6 space-y-3">
+                                <template x-if="userType === 'apply'">
                                     <a href="{{ route('register') }}"
-                                       class="flex items-center text-blue-600 hover:text-blue-700"
-                                       @click.prevent="window.location.href='{{ route('register') }}'">
+                                       class="flex items-center text-blue-600 hover:text-blue-700">
                                         <i class="fas fa-user-plus mr-2"></i>
-                                        <span>Want to apply? Create an Account</span>
+                                        <span>Create an Account to Apply</span>
                                     </a>
+                                </template>
+                                <template x-if="userType === 'inquire'">
                                     <a href="{{ route('lead_info.create') }}"
-                                       class="flex items-center text-blue-600 hover:text-blue-700"
-                                       @click.prevent="window.location.href='{{ route('lead_info.create') }}'">
+                                       class="flex items-center text-blue-600 hover:text-blue-700">
                                         <i class="fas fa-question-circle mr-2"></i>
-                                        <span>Need Help? Inquire Now</span>
+                                        <span>Submit an Inquiry</span>
                                     </a>
-                                </div>
-                            </template>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>
