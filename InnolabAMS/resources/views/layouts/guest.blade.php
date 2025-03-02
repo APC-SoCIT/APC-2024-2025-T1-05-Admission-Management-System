@@ -135,16 +135,6 @@
 
                             <!-- Sign In Form -->
                             {{ $slot }}
-
-                            <!-- Quick Links -->
-                            <div class="mt-6 space-y-3">
-                                @if(Route::currentRouteName() !== 'register')
-                                    <template x-if="userType === 'apply'">
-                                        <a href="{{ route('register') }}"
-                                           class="flex items-center text-blue-600 hover:text-blue-700">
-                                    </template>
-                                @endif
-                            </div>
                         </div>
                     </div>
                 </div>
