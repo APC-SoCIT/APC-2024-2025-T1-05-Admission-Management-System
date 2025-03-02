@@ -74,7 +74,35 @@
 
             <!-- Main Content -->
             <div class="flex-1 flex flex-col items-center justify-center p-4 pb-32">
-                <div class="w-full sm:max-w-md">
+                <!-- User Type Selection -->
+                <div x-show="!userType"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     class="w-full max-w-md mb-6">
+                    <div class="flex justify-center space-x-4">
+                        <button @click="userType = 'apply'"
+                                class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
+                            <i class="fas fa-file-alt text-4xl mb-3 text-blue-600"></i>
+                            <span class="font-medium text-lg">Apply Now</span>
+                            <span class="text-sm text-gray-500">Start your admission process</span>
+                        </button>
+
+                        <a href="{{ route('lead_info.create') }}"
+                           class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
+                            <i class="fas fa-info-circle text-4xl mb-3 text-blue-600"></i>
+                            <span class="font-medium text-lg">Inquire</span>
+                            <span class="text-sm text-gray-500">Learn more about admission</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Login/Register Form Container -->
+                <div x-show="userType === 'apply'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-90"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     class="w-full sm:max-w-md">
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                         <!-- Back Button -->
                         <div class="p-4 border-b">
