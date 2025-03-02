@@ -59,12 +59,18 @@
         </div>
 
         <div class="flex items-center justify-between mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            <a class="flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
                 href="{{ route('login') }}">
+                <i class="fas fa-arrow-left mr-2"></i>
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button
+                class="ms-4 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800
+                       transition-all duration-200 ease-in-out transform hover:scale-105"
+                x-data=""
+                @click="$el.classList.add('opacity-75'); $el.innerHTML='Processing...'">
+                <i class="fas fa-user-plus mr-2"></i>
                 {{ __('Register') }}
             </x-primary-button>
         </div>
