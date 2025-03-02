@@ -73,7 +73,7 @@
             </div>
 
             <!-- Main Content -->
-            <div class="flex-1 flex flex-col items-center justify-center p-4">
+            <div class="flex-1 flex flex-col items-center justify-center p-4 pb-32">
                 <!-- User Type Selection - Only shown when no type is selected -->
                 <div x-show="!userType"
                      x-transition:enter="transition ease-out duration-300"
