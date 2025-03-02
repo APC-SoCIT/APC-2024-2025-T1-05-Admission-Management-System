@@ -153,16 +153,16 @@
             </div>
 
             <!-- Footer -->
-            <footer class="fixed bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm py-4">
-                <div class="container mx-auto px-4 text-center">
-                    <p class="text-sm text-white font-medium">
+            <footer class="fixed bottom-0 left-0 right-0 w-full bg-black/50 backdrop-blur-sm py-4">
+                <div class="container mx-auto px-4 flex flex-col items-center justify-center">
+                    <p class="text-sm text-white font-medium text-center w-full">
                         Having technical issues? Contact our support team at
                         <a href="mailto:innolabdevelopers@gmail.com"
                            class="text-white hover:text-blue-200 underline">
                             innolabdevelopers@gmail.com
                         </a>
                     </p>
-                    <p class="text-sm text-white font-medium mt-2">
+                    <p class="text-sm text-white font-medium mt-2 text-center w-full">
                         © {{ date('Y') }} InnolabAMS. All rights reserved.
                     </p>
                 </div>
