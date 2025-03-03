@@ -204,7 +204,7 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">LRN <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Learner Reference Number <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: 123456789012 </label>
                         <input type="text"
                                name="lrn"
                                maxlength="12"
