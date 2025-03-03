@@ -21,7 +21,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'middle_name',
+        'last_name',
         'email',
         'password',
         'role',
@@ -53,5 +55,11 @@ class User extends Authenticatable
     public function applicant_info()
     {
         return $this->hasOne(ApplicantInfo::class, 'user_id');
+    }
+
+    // Add accessor for full name
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->middle_name} {$this->last_name}";
     }
 }
