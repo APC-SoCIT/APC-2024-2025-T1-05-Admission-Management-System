@@ -226,7 +226,6 @@
                         <label class="block text-sm font-medium text-gray-700">Year of Graduation <span class="text-red-500">*</span></label>
                         <input type="text"
                                name="year_of_graduation"
-                               placeholder="2024"
                                maxlength="4"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
