@@ -415,7 +415,7 @@
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label>
-                        <input type="text" name="emergency_contact_address" placeholder="123 Main St." required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <div class="mt-2">
                             <input type="checkbox" id="same-as-applicant-address" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <label for="same-as-applicant-address" class="ml-2 text-sm text-gray-600">Same as Applicant's Address</label>
