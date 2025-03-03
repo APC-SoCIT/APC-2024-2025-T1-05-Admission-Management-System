@@ -128,7 +128,6 @@
                                pattern="[0-9]{7,8}"
                                maxlength="8"
                                title="Please enter a valid telephone number (7-8 digits)"
-                               placeholder="8xxxxxxx"
                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     </div>
