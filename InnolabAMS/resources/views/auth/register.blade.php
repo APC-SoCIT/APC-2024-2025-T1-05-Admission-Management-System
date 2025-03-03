@@ -3,14 +3,37 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" class="!text-black">
-                {{ __('Name') }} <span class="text-red-500">*</span>
-            </x-input-label>
-            <x-text-input id="name" class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded"
-                type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <!-- Replace the Name field with First, Middle, Last name fields -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- First Name -->
+            <div>
+                <x-input-label for="first_name" class="!text-black">
+                    {{ __('First Name') }} <span class="text-red-500">*</span>
+                </x-input-label>
+                <x-text-input id="first_name" class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded"
+                    type="text" name="first_name" :value="old('first_name')" required autofocus />
+                <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+            </div>
+
+            <!-- Middle Name -->
+            <div>
+                <x-input-label for="middle_name" class="!text-black">
+                    {{ __('Middle Name') }} <span class="text-red-500">*</span>
+                </x-input-label>
+                <x-text-input id="middle_name" class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded"
+                    type="text" name="middle_name" :value="old('middle_name')" required />
+                <x-input-error :messages="$errors->get('middle_name')" class="mt-2" />
+            </div>
+
+            <!-- Last Name -->
+            <div>
+                <x-input-label for="last_name" class="!text-black">
+                    {{ __('Last Name') }} <span class="text-red-500">*</span>
+                </x-input-label>
+                <x-text-input id="last_name" class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded"
+                    type="text" name="last_name" :value="old('last_name')" required />
+                <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+            </div>
         </div>
 
         <!-- Email Address -->
