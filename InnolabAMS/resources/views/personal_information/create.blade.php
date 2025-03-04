@@ -1240,6 +1240,7 @@
     languageButtons.forEach(button => {
         button.addEventListener('click', function() {
             const selectedLang = this.dataset.lang;
+            console.log('Language button clicked:', selectedLang); // Debug log
 
             // Remove active state from all buttons
             languageButtons.forEach(btn => {
@@ -1255,26 +1256,30 @@
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({ lang: selectedLang })
             })
             .then(response => {
+                console.log('Response status:', response.status); // Debug log
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.text().then(text => {
+                        throw new Error(`Network response was not ok: ${text}`);
+                    });
                 }
                 return response.json();
             })
             .then(data => {
+                console.log('Response data:', data); // Debug log
                 if (data.status === 'success') {
                     window.location.reload();
                 } else {
-                    throw new Error('Language switch failed');
+                    throw new Error(data.message || 'Language switch failed');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to switch language. Please try again.');
+                console.error('Error details:', error); // Debug log
+                alert('Failed to switch language. Please try again. Error: ' + error.message);
             });
         });
     });
