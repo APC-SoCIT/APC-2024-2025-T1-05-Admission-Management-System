@@ -63,6 +63,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+
 //Dashboard Route
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
@@ -188,7 +189,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [EducationalBackgroundController::class, 'store'])->name('store');
         Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
     });
-
     //Additional InfoRoutes
     Route::prefix('additional_info')->name('additional_info.')->group(function () {
         Route::get('/create', [AdditionalInfoController::class, 'create'])->name('create');
@@ -205,9 +205,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admission/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
             ->name('admission.download-file');
     });
-
 });
 
-Route::post('language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
 
 require __DIR__ . '/auth.php';
