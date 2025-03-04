@@ -40,18 +40,18 @@
 
                 <!-- Program Information -->
                 <div class="mb-8">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">{{ __('form.program_info') }}</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('form.program') }} <span class="text-red-500">*</span></label>
                             <div class="flex items-center">
                                 <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select Program</option>
+                                    <option value="">{{ __('form.select') }} {{ __('form.program') }}</option>
                                     <option value="Elementary">Elementary</option>
                                     <option value="High School">High School</option>
                                     <option value="Senior High School">Senior High School</option>
                                 </select>
-                                <x-form-tooltip text="Choose the educational program you wish to enroll in" />
+                                <x-form-tooltip text="{{ __('form.program_tooltip') }}" />
                             </div>
                         </div>
                         <div>
@@ -101,7 +101,7 @@
 
                 <!-- Personal Information -->
                 <div class="mb-8">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">{{ __('form.personal_info') }}</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
@@ -179,7 +179,7 @@
 
                 <!-- Contact Information -->
                 <div class="mb-8">
-                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">{{ __('form.contact_info') }}</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
