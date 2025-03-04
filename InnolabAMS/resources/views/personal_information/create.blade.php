@@ -12,7 +12,7 @@
 
     <!-- Language Selection Section -->
     <div class="mb-8">
-        <h2 class="text-xl font-semibold mb-4">Choose Your Preferred Language</h2>
+        <h2 class="text-xl font-semibold mb-4">{{ __('form.choose_language') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
