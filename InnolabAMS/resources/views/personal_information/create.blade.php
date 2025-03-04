@@ -12,22 +12,22 @@
 
     <!-- Language Selection Section -->
     <div class="mb-8">
-        <h2 class="text-xl font-semibold mb-4">Choose Your Preferred Language</h2>
+        <h2 class="text-xl font-semibold mb-4">{{ __('language.choose_language') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
                     data-lang="en">
                 <img src="{{ asset('static/images/flags/en.png') }}" alt="English" class="w-12 h-12 mb-2">
-                <span class="font-medium">English</span>
-                <span class="text-sm text-gray-500">Default</span>
+                <span class="font-medium">{{ __('language.english') }}</span>
+                <span class="text-sm text-gray-500">{{ __('language.default') }}</span>
             </button>
 
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
                     data-lang="tl">
                 <img src="{{ asset('static/images/flags/ph.png') }}" alt="Filipino" class="w-12 h-12 mb-2">
-                <span class="font-medium">Filipino</span>
-                <span class="text-sm text-gray-500">Tagalog</span>
+                <span class="font-medium">{{ __('language.filipino') }}</span>
+                <span class="text-sm text-gray-500">{{ __('language.tagalog') }}</span>
             </button>
         </div>
     </div>
