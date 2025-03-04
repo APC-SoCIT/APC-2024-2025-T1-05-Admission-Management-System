@@ -521,6 +521,7 @@
                         <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123 Main St., Manila</span>
                         <div class="flex items-center">
                             <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter the complete address of the emergency contact" />
                         </div>
                         <div class="mt-2">
                             <input type="checkbox" id="same-as-applicant-address" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
