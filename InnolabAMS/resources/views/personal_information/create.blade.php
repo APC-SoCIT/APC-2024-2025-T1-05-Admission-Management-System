@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                        <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
                         <div class="flex items-center">
                             <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter your middle name if applicable. Leave blank if none" />
