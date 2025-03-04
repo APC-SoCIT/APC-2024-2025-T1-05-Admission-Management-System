@@ -10,16 +10,25 @@ class LanguageController extends Controller
 {
     public function switchLang(Request $request)
     {
-        $lang = $request->lang;
-        \Log::info('Language switch attempted', ['lang' => $lang]);
+        try {
+            $lang = $request->input('lang');
 
-        if (in_array($lang, ['en', 'tl'])) {
+            if (!in_array($lang, ['en', 'tl'])) {
+                throw new \Exception('Invalid language selected');
+            }
+
             Session::put('locale', $lang);
             App::setLocale($lang);
-            \Log::info('Language switched successfully');
-            return response()->json(['status' => 'success']);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Language switched successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 400);
         }
-        \Log::error('Invalid language selected');
-        return response()->json(['status' => 'error'], 400);
     }
 }
