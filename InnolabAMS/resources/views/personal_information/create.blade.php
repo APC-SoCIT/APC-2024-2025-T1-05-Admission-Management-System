@@ -13,7 +13,7 @@
     <!-- Language Selection Section -->
     <div class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Choose Your Preferred Language</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
                     data-lang="en">
@@ -25,17 +25,9 @@
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
                     data-lang="tl">
-                <img src="{{ asset('images/flags/ph.png') }}" alt="Tagalog" class="w-12 h-12 mb-2">
-                <span class="font-medium">Tagalog</span>
-                <span class="text-sm text-gray-500">Filipino</span>
-            </button>
-
-            <button type="button"
-                    class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
-                    data-lang="tl-en">
-                <img src="{{ asset('images/flags/taglish.png') }}" alt="Taglish" class="w-12 h-12 mb-2">
-                <span class="font-medium">Taglish</span>
-                <span class="text-sm text-gray-500">Mix</span>
+                <img src="{{ asset('images/flags/ph.png') }}" alt="Filipino" class="w-12 h-12 mb-2">
+                <span class="font-medium">Filipino</span>
+                <span class="text-sm text-gray-500">Tagalog</span>
             </button>
         </div>
     </div>
@@ -1281,12 +1273,6 @@
                 'program_info': 'Impormasyon ng Programa',
                 'personal_info': 'Personal na Impormasyon',
                 'contact_info': 'Impormasyon sa Pakikipag-ugnayan',
-                // Add more translations as needed
-            },
-            'tl-en': {
-                'program_info': 'Program Info',
-                'personal_info': 'Personal Info',
-                'contact_info': 'Contact Info',
                 // Add more translations as needed
             }
         };
