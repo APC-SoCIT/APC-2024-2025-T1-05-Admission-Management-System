@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -14,12 +15,11 @@ class LanguageController extends Controller
         try {
             $lang = $request->input('lang');
 
-            if (!in_array($lang, ['en', 'fil'])) {
-                throw new \Exception('Invalid language selected');
-            }
+            // Verify language exists in database
+            $language = Language::where('code', $lang)->firstOrFail();
 
-            Session::put('locale', $lang);
-            App::setLocale($lang);
+            Session::put('locale', $language->code);
+            App::setLocale($language->code);
 
             return response()->json([
                 'status' => 'success',
