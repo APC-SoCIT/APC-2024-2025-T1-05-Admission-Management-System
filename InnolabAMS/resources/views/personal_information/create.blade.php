@@ -12,7 +12,7 @@
 
     <!-- Language Selection Section -->
     <div class="mb-8">
-        <h2 class="text-xl font-semibold mb-4">{{ __('form.choose_language') }}</h2>
+        <h2 class="text-xl font-semibold mb-4">Choose Your Preferred Language</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
@@ -1254,7 +1254,6 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
                 body: JSON.stringify({ lang: selectedLang })
@@ -1265,10 +1264,15 @@
                 }
                 return response.json();
             })
-            .then(() => {
-                // Show the form and reload the page
-                applicationForm.classList.remove('hidden');
-                window.location.reload();
+            .then(data => {
+                if (data.status === 'success') {
+                    // Show the form
+                    applicationForm.classList.remove('hidden');
+                    // Reload the page to apply new language
+                    window.location.reload();
+                } else {
+                    throw new Error('Language switch failed');
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
