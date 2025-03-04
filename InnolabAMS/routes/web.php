@@ -32,7 +32,7 @@ Route::get('/', function () {
 });
 
 // Language Routes
-Route::post('/language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
+Route::post('language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
 
 
 
