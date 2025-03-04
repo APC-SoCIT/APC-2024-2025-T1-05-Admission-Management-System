@@ -31,7 +31,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// Language Route
+// Language Routes
 Route::post('/language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
 
 
