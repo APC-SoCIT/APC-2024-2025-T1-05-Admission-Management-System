@@ -10,642 +10,675 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow-lg p-6">
-        <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+    <!-- Language Selection Section -->
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Choose Your Preferred Language</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button type="button"
+                    class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
+                    data-lang="en">
+                <img src="{{ asset('images/flags/en.png') }}" alt="English" class="w-12 h-12 mb-2">
+                <span class="font-medium">English</span>
+                <span class="text-sm text-gray-500">Default</span>
+            </button>
 
-            <!-- Program Information -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                <option value="">Select Program</option>
-                                <option value="Elementary">Elementary</option>
-                                <option value="High School">High School</option>
-                                <option value="Senior High School">Senior High School</option>
-                            </select>
-                            <x-form-tooltip text="Choose the educational program you wish to enroll in" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                <option value="">Select Grade Level</option>
-                            </select>
-                            <x-form-tooltip text="Select your intended grade level for enrollment" />
-                        </div>
-                    </div>
-                    <div id="strandContainer" style="display: none;">
-                        <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
-                        <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Select Strand</option>
-                            <option value="STEM">STEM</option>
-                            <option value="ABM">ABM</option>
-                            <option value="TECHVOC">TECHVOC</option>
-                            <option value="HUMSS">HUMSS</option>
-                            <option value="GAS">GAS</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+            <button type="button"
+                    class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
+                    data-lang="tl">
+                <img src="{{ asset('images/flags/ph.png') }}" alt="Tagalog" class="w-12 h-12 mb-2">
+                <span class="font-medium">Tagalog</span>
+                <span class="text-sm text-gray-500">Filipino</span>
+            </button>
 
-            <!-- Student Type -->
-            <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700">Student Type <span class="text-red-500">*</span></label>
-                <div class="flex items-center mb-2">
-                    <div class="mt-2 space-y-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" name="student_type" value="Transferee" class="form-radio" required>
-                            <span class="ml-2">Transferee</span>
-                        </label>
-                        <label class="inline-flex items-center ml-6">
-                            <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
-                            <span class="ml-2">Existing Student</span>
-                        </label>
-                        <label class="inline-flex items-center ml-6">
-                            <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
-                            <span class="ml-2">Returning Student</span>
-                        </label>
-                    </div>
-                    <x-form-tooltip text="Select your current student status" />
-                </div>
-            </div>
+            <button type="button"
+                    class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
+                    data-lang="tl-en">
+                <img src="{{ asset('images/flags/taglish.png') }}" alt="Taglish" class="w-12 h-12 mb-2">
+                <span class="font-medium">Taglish</span>
+                <span class="text-sm text-gray-500">Mix</span>
+            </button>
+        </div>
+    </div>
 
-            <!-- Personal Information -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your legal last name exactly as it appears on official documents" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Given Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_given_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your first name exactly as it appears on official documents" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your middle name if applicable. Leave blank if none" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Extension Name</label> <span class="block text-sm font-medium text-gray-700">Example: Jr., II, III, etc.</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_extension" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Add name extensions like Jr., Sr., III if applicable" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Sex <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">Select Sex</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                            <x-form-tooltip text="Select your biological sex as it appears on official documents" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Day/Month/Year</span>
-                        <div class="flex items-center">
-                            <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label>
-                        <input type="number" name="age" id="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Place of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Manila</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_place_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the city or municipality where you were born" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Nationality <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Filipino</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_nationality" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your nationality as it appears on your passport or government-issued ID" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Religion <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Catholic</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_religion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your religious affiliation" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Application Form (Initially Hidden) -->
+    <div id="application-form" class="hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <form action="{{ route('admission.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-            <!-- Contact Information -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <div class="flex items-center">
-                            <input type="text"
-                                   name="applicant_tel_no"
-                                   pattern="[0-9]{7,8}"
-                                   maxlength="8"
-                                   title="Please enter a valid telephone number (7-8 digits)"
-                                   placeholder="8xxxxxxx"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <input type="tel"
-                                   name="applicant_mobile_number"
-                                   pattern="[0-9]{11}"
-                                   maxlength="11"
-                                   title="Please enter a valid mobile number (11 digits)"
-                                   placeholder="09xxxxxxxxx"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                   required
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan.santos@example.com</span>
-                        <div class="flex items-center">
-                            <input type="email"
-                                   name="applicant_email"
-                                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                                   title="Please enter a valid email address"
-                                   required
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Current Address -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Current Address</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Province</label>
-                        <input type="text" name="applicant_address_province" value="Metro Manila" readonly class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">City <span class="text-red-500">*</span></label>
-                        <select name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Select City</option>
-                            <option value="Caloocan">Caloocan</option>
-                            <option value="Las Piñas">Las Piñas</option>
-                            <option value="Makati">Makati</option>
-                            <option value="Malabon">Malabon</option>
-                            <option value="Mandaluyong">Mandaluyong</option>
-                            <option value="Manila">Manila</option>
-                            <option value="Marikina">Marikina</option>
-                            <option value="Muntinlupa">Muntinlupa</option>
-                            <option value="Navotas">Navotas</option>
-                            <option value="Parañaque">Parañaque</option>
-                            <option value="Pasay">Pasay</option>
-                            <option value="Pasig">Pasig</option>
-                            <option value="Quezon City">Quezon City</option>
-                            <option value="San Juan">San Juan</option>
-                            <option value="Taguig">Taguig</option>
-                            <option value="Valenzuela">Valenzuela</option>
-                            <option value="Pateros">Pateros</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Barangay <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Poblacion</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_barangay" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your barangay or subdivision" />
-                        </div>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Street Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123 Main St.</span>
-                        <div class="flex items-center">
-                            <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your street address" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Educational Background -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Learner Reference Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123456789012</span>
-                        <div class="flex items-center">
-                            <input type="text"
-                                   name="lrn"
-                                   maxlength="12"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your 12-digit Learner Reference Number assigned by the Department of Education (DepEd). This unique identifier is required for all K-12 students." />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Manila National High School</span>
-                        <div class="flex items-center">
-                            <input type="text" name="school_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the name of the school you attended" />
-                        </div>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">School Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123 Main St., Manila</span>
-                        <div class="flex items-center">
-                            <input type="text" name="school_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the complete address of the school" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Previous Program <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Bachelor of Science in Computer Science</span>
-                        <div class="flex items-center">
-                            <input type="text" name="previous_program" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the program you previously studied" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Year of Graduation <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 2024</span>
-                        <div class="flex items-center">
-                            <input type="text"
-                                   name="year_of_graduation"
-                                   maxlength="4"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the year you graduated from your previous program" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Awards/Honors</label> <span class="block text-sm font-medium text-gray-700">Example: Best in Mathematics, Dean's List, etc.</span>
-                        <div class="flex items-center">
-                            <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter any awards or honors you received" />
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label> <span class="block text-sm font-medium text-gray-700">Example: 1.8</span>
-                        <div class="flex items-center">
-                            <input type="text" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your General Weighted Average (GWA) if applicable" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Family Information -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
-                <p class="text-sm text-gray-600 mb-4">Please provide at least one guardian's information (Father, Mother, or Guardian) <span class="text-red-500">*</span></p>
-
-                <!-- Father's Information -->
-                <div class="border-b pb-4 mb-4">
-                    <h3 class="font-medium mb-2">Father's Information</h3>
+                <!-- Program Information -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Program Information</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
+                            <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
                             <div class="flex items-center">
-                                <input type="text" name="father_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your father's first name" />
+                                <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <option value="">Select Program</option>
+                                    <option value="Elementary">Elementary</option>
+                                    <option value="High School">High School</option>
+                                    <option value="Senior High School">Senior High School</option>
+                                </select>
+                                <x-form-tooltip text="Choose the educational program you wish to enroll in" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
+                            <div class="flex items-center">
+                                <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <option value="">Select Grade Level</option>
+                                </select>
+                                <x-form-tooltip text="Select your intended grade level for enrollment" />
+                            </div>
+                        </div>
+                        <div id="strandContainer" style="display: none;">
+                            <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
+                            <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="">Select Strand</option>
+                                <option value="STEM">STEM</option>
+                                <option value="ABM">ABM</option>
+                                <option value="TECHVOC">TECHVOC</option>
+                                <option value="HUMSS">HUMSS</option>
+                                <option value="GAS">GAS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Type -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">Student Type <span class="text-red-500">*</span></label>
+                    <div class="flex items-center mb-2">
+                        <div class="mt-2 space-y-2">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="student_type" value="Transferee" class="form-radio" required>
+                                <span class="ml-2">Transferee</span>
+                            </label>
+                            <label class="inline-flex items-center ml-6">
+                                <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
+                                <span class="ml-2">Existing Student</span>
+                            </label>
+                            <label class="inline-flex items-center ml-6">
+                                <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
+                                <span class="ml-2">Returning Student</span>
+                            </label>
+                        </div>
+                        <x-form-tooltip text="Select your current student status" />
+                    </div>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                            <div class="flex items-center">
+                                <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your legal last name exactly as it appears on official documents" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Given Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
+                            <div class="flex items-center">
+                                <input type="text" name="applicant_given_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your first name exactly as it appears on official documents" />
                             </div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
                             <div class="flex items-center">
-                                <input type="text" name="father_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your father's middle name" />
+                                <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your middle name if applicable. Leave blank if none" />
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                            <label class="block text-sm font-medium text-gray-700">Extension Name</label> <span class="block text-sm font-medium text-gray-700">Example: Jr., II, III, etc.</span>
                             <div class="flex items-center">
-                                <input type="text" name="father_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your father's last name" />
+                                <input type="text" name="applicant_extension" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Add name extensions like Jr., Sr., III if applicable" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Sex <span class="text-red-500">*</span></label>
+                            <div class="flex items-center">
+                                <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">Select Sex</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <x-form-tooltip text="Select your biological sex as it appears on official documents" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Day/Month/Year</span>
+                            <div class="flex items-center">
+                                <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label>
+                            <input type="number" name="age" id="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Place of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Manila</span>
+                            <div class="flex items-center">
+                                <input type="text" name="applicant_place_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the city or municipality where you were born" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nationality <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Filipino</span>
+                            <div class="flex items-center">
+                                <input type="text" name="applicant_nationality" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your nationality as it appears on your passport or government-issued ID" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Religion <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Catholic</span>
+                            <div class="flex items-center">
+                                <input type="text" name="applicant_religion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your religious affiliation" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="applicant_tel_no"
+                                       pattern="[0-9]{7,8}"
+                                       maxlength="8"
+                                       title="Please enter a valid telephone number (7-8 digits)"
+                                       placeholder="8xxxxxxx"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
+                            <div class="flex items-center">
+                                <input type="tel"
+                                       name="applicant_mobile_number"
+                                       pattern="[0-9]{11}"
+                                       maxlength="11"
+                                       title="Please enter a valid mobile number (11 digits)"
+                                       placeholder="09xxxxxxxxx"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                       required
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan.santos@example.com</span>
                             <div class="flex items-center">
-                                <input type="text"
-                                       name="father_contact"
-                                       maxlength="11"
-                                       placeholder="09xxxxxxxxx"
+                                <input type="email"
+                                       name="applicant_email"
+                                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                                       title="Please enter a valid email address"
+                                       required
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Mother's Information -->
-                <div class="border-b pb-4 mb-4">
-                    <h3 class="font-medium mb-2">Mother's Information</h3>
+                <!-- Current Address -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Current Address</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class="block text-sm font-medium text-gray-700">Example: Maria</span>
-                            <div class="flex items-center">
-                                <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your mother's first name" />
-                            </div>
+                            <label class="block text-sm font-medium text-gray-700">Province</label>
+                            <input type="text" name="applicant_address_province" value="Metro Manila" readonly class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
-                            <div class="flex items-center">
-                                <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your mother's middle name" />
-                            </div>
+                            <label class="block text-sm font-medium text-gray-700">City <span class="text-red-500">*</span></label>
+                            <select name="applicant_address_city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="">Select City</option>
+                                <option value="Caloocan">Caloocan</option>
+                                <option value="Las Piñas">Las Piñas</option>
+                                <option value="Makati">Makati</option>
+                                <option value="Malabon">Malabon</option>
+                                <option value="Mandaluyong">Mandaluyong</option>
+                                <option value="Manila">Manila</option>
+                                <option value="Marikina">Marikina</option>
+                                <option value="Muntinlupa">Muntinlupa</option>
+                                <option value="Navotas">Navotas</option>
+                                <option value="Parañaque">Parañaque</option>
+                                <option value="Pasay">Pasay</option>
+                                <option value="Pasig">Pasig</option>
+                                <option value="Quezon City">Quezon City</option>
+                                <option value="San Juan">San Juan</option>
+                                <option value="Taguig">Taguig</option>
+                                <option value="Valenzuela">Valenzuela</option>
+                                <option value="Pateros">Pateros</option>
+                            </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                            <label class="block text-sm font-medium text-gray-700">Barangay <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Poblacion</span>
                             <div class="flex items-center">
-                                <input type="text" name="mother_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your mother's last name" />
+                                <input type="text" name="applicant_barangay" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your barangay or subdivision" />
                             </div>
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <label class="block text-sm font-medium text-gray-700">Street Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123 Main St.</span>
                             <div class="flex items-center">
-                                <input type="text"
-                                       name="mother_contact"
-                                       maxlength="11"
-                                       placeholder="09xxxxxxxxx"
-                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your street address" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Guardian's Information -->
-                <div class="mb-4">
-                    <h3 class="font-medium mb-2">Guardian's Information</h3>
+                <!-- Educational Background -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
-                            <div class="flex items-center">
-                                <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your guardian's first name" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
-                            <div class="flex items-center">
-                                <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your guardian's middle name" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
-                            <div class="flex items-center">
-                                <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <x-form-tooltip text="Enter your guardian's last name" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <label class="block text-sm font-medium text-gray-700">Learner Reference Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123456789012</span>
                             <div class="flex items-center">
                                 <input type="text"
-                                       name="guardian_contact_num"
-                                       maxlength="11"
-                                       placeholder="09xxxxxxxxx"
+                                       name="lrn"
+                                       maxlength="12"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your 12-digit Learner Reference Number assigned by the Department of Education (DepEd). This unique identifier is required for all K-12 students." />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Manila National High School</span>
+                            <div class="flex items-center">
+                                <input type="text" name="school_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the name of the school you attended" />
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">School Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123 Main St., Manila</span>
+                            <div class="flex items-center">
+                                <input type="text" name="school_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the complete address of the school" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Previous Program <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Bachelor of Science in Computer Science</span>
+                            <div class="flex items-center">
+                                <input type="text" name="previous_program" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the program you previously studied" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Year of Graduation <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 2024</span>
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="year_of_graduation"
+                                       maxlength="4"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the year you graduated from your previous program" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Awards/Honors</label> <span class="block text-sm font-medium text-gray-700">Example: Best in Mathematics, Dean's List, etc.</span>
+                            <div class="flex items-center">
+                                <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter any awards or honors you received" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label> <span class="block text-sm font-medium text-gray-700">Example: 1.8</span>
+                            <div class="flex items-center">
+                                <input type="text" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter your General Weighted Average (GWA) if applicable" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Siblings Information -->
-                <div class="mb-6" id="siblings-section">
+                <!-- Family Information -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Family Information</h2>
+                    <p class="text-sm text-gray-600 mb-4">Please provide at least one guardian's information (Father, Mother, or Guardian) <span class="text-red-500">*</span></p>
+
+                    <!-- Father's Information -->
+                    <div class="border-b pb-4 mb-4">
+                        <h3 class="font-medium mb-2">Father's Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="father_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your father's first name" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="father_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your father's middle name" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="father_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your father's last name" />
+                                </div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                                <div class="flex items-center">
+                                    <input type="text"
+                                           name="father_contact"
+                                           maxlength="11"
+                                           placeholder="09xxxxxxxxx"
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mother's Information -->
+                    <div class="border-b pb-4 mb-4">
+                        <h3 class="font-medium mb-2">Mother's Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class="block text-sm font-medium text-gray-700">Example: Maria</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your mother's first name" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your mother's middle name" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="mother_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your mother's last name" />
+                                </div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                                <div class="flex items-center">
+                                    <input type="text"
+                                           name="mother_contact"
+                                           maxlength="11"
+                                           placeholder="09xxxxxxxxx"
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guardian's Information -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
-                        <div class="flex items-center">
-                            <input type="checkbox"
-                                   id="only-child"
-                                   name="is_only_child"
-                                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <label for="only-child" class="ml-2 text-sm text-gray-600">Only Child</label>
-                        </div>
-                    </div>
-
-                    <div id="siblings-container" class="mt-4">
-                        <div class="sibling-entry grid grid-cols-5 gap-4 mb-4 relative">
-                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">Select Grade Level</option>
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="Grade {{ $i }}">Grade {{ $i }}</option>
-                                @endfor
-                            </select>
-                            <div class="flex items-center">
-                                <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <button type="button" onclick="removeSibling(this)" class="ml-2 text-red-500 hover:text-red-700" style="display: none;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
+                        <h3 class="font-medium mb-2">Guardian's Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your guardian's first name" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your guardian's middle name" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                                <div class="flex items-center">
+                                    <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <x-form-tooltip text="Enter your guardian's last name" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                                <div class="flex items-center">
+                                    <input type="text"
+                                           name="guardian_contact_num"
+                                           maxlength="11"
+                                           placeholder="09xxxxxxxxx"
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <button type="button" id="add-sibling" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                        Add Sibling
+                    <!-- Siblings Information -->
+                    <div class="mb-6" id="siblings-section">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Siblings</label>
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                       id="only-child"
+                                       name="is_only_child"
+                                       class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <label for="only-child" class="ml-2 text-sm text-gray-600">Only Child</label>
+                            </div>
+                        </div>
+
+                        <div id="siblings-container" class="mt-4">
+                            <div class="sibling-entry grid grid-cols-5 gap-4 mb-4 relative">
+                                <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">Select Grade Level</option>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <option value="Grade {{ $i }}">Grade {{ $i }}</option>
+                                    @endfor
+                                </select>
+                                <div class="flex items-center">
+                                    <input type="text" name="siblings[0][school_attended]" placeholder="School Attended" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <button type="button" onclick="removeSibling(this)" class="ml-2 text-red-500 hover:text-red-700" style="display: none;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" id="add-sibling" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                            Add Sibling
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Additional Information</h2>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Hobbies</label>
+                        <textarea
+                            name="hobbies"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Please list your hobbies (e.g., reading, playing sports, music)"
+                            data-validate="letters-only"
+                        ></textarea>
+                        <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Skills</label>
+                        <textarea
+                            name="skills"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Please list your skills (e.g., computer programming, public speaking, leadership)"
+                            data-validate="letters-only"
+                        ></textarea>
+                        <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Extracurricular Interests</label>
+                        <textarea
+                            name="extracurricular_interest"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Please list your extracurricular interests (e.g., student council, sports teams, clubs)"
+                            data-validate="letters-only"
+                        ></textarea>
+                        <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
+                    </div>
+                </div>
+
+                <!-- Emergency Contact -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Complete Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan Dela Cruz</span>
+                            <div class="flex items-center">
+                                <input type="text" name="emergency_contact_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the complete name of the emergency contact" />
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123 Main St., Manila</span>
+                            <div class="flex items-center">
+                                <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the complete address of the emergency contact" />
+                            </div>
+                            <div class="mt-2">
+                                <input type="checkbox" id="same-as-applicant-address" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <label for="same-as-applicant-address" class="ml-2 text-sm text-gray-600">Same as Applicant's Address</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="emergency_contact_tel"
+                                       maxlength="11"
+                                       placeholder="02 xxxx-xxxx"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="emergency_contact_mobile"
+                                       maxlength="11"
+                                       placeholder="09xxxxxxxxx"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan@example.com</span>
+                            <div class="flex items-center">
+                                <input type="email" name="emergency_contact_email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <x-form-tooltip text="Enter the email address of the emergency contact" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Required Documents -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Required Documents</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Birth Certificate -->
+                        <div class="document-requirement" data-required-for="Transferee,Returning Student">
+                            <label class="block text-sm font-medium text-gray-700">Birth Certificate (PSA/NSO) <span class="text-red-500">*</span></label>
+                            <input type="file"
+                                   name="birth_certificate"
+                                   accept=".pdf,.jpg,.jpeg,.png"
+                                   class="mt-1 block w-full text-sm text-gray-500
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-md file:border-0
+                                          file:text-sm file:font-semibold
+                                          file:bg-blue-50 file:text-blue-700
+                                          hover:file:bg-blue-100">
+                            <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                        </div>
+
+                        <!-- Form 137 -->
+                        <div class="document-requirement" data-required-for="Transferee">
+                            <label class="block text-sm font-medium text-gray-700">Form 137 <span class="text-red-500">*</span></label>
+                            <input type="file"
+                                   name="form_137"
+                                   accept=".pdf,.jpg,.jpeg,.png"
+                                   class="mt-1 block w-full text-sm text-gray-500
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-md file:border-0
+                                          file:text-sm file:font-semibold
+                                          file:bg-blue-50 file:text-blue-700
+                                          hover:file:bg-blue-100">
+                            <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                        </div>
+
+                        <!-- Form 138 -->
+                        <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
+                            <label class="block text-sm font-medium text-gray-700">Form 138 (Report Card) <span class="text-red-500">*</span></label>
+                            <input type="file"
+                                   name="form_138"
+                                   accept=".pdf,.jpg,.jpeg,.png"
+                                   class="mt-1 block w-full text-sm text-gray-500
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-md file:border-0
+                                          file:text-sm file:font-semibold
+                                          file:bg-blue-50 file:text-blue-700
+                                          hover:file:bg-blue-100">
+                            <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                        </div>
+
+                        <!-- ID Picture -->
+                        <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
+                            <label class="block text-sm font-medium text-gray-700">2x2 ID Picture <span class="text-red-500">*</span></label>
+                            <input type="file"
+                                   name="id_picture"
+                                   accept=".jpg,.jpeg,.png"
+                                   class="mt-1 block w-full text-sm text-gray-500
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-md file:border-0
+                                          file:text-sm file:font-semibold
+                                          file:bg-blue-50 file:text-blue-700
+                                          hover:file:bg-blue-100">
+                            <p class="mt-1 text-sm text-gray-500">Accepted formats: JPG, JPEG, PNG (Max: 1MB)</p>
+                        </div>
+
+                        <!-- Good Moral Certificate -->
+                        <div class="document-requirement" data-required-for="Transferee,Returning Student">
+                            <label class="block text-sm font-medium text-gray-700">Good Moral Certificate <span class="text-red-500">*</span></label>
+                            <input type="file"
+                                   name="good_moral"
+                                   accept=".pdf,.jpg,.jpeg,.png"
+                                   class="mt-1 block w-full text-sm text-gray-500
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-md file:border-0
+                                          file:text-sm file:font-semibold
+                                          file:bg-blue-50 file:text-blue-700
+                                          hover:file:bg-blue-100">
+                            <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+                        Create Application
                     </button>
                 </div>
-            </div>
-
-            <!-- Additional Information -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Additional Information</h2>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Hobbies</label>
-                    <textarea
-                        name="hobbies"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="Please list your hobbies (e.g., reading, playing sports, music)"
-                        data-validate="letters-only"
-                    ></textarea>
-                    <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Skills</label>
-                    <textarea
-                        name="skills"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="Please list your skills (e.g., computer programming, public speaking, leadership)"
-                        data-validate="letters-only"
-                    ></textarea>
-                    <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Extracurricular Interests</label>
-                    <textarea
-                        name="extracurricular_interest"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="Please list your extracurricular interests (e.g., student council, sports teams, clubs)"
-                        data-validate="letters-only"
-                    ></textarea>
-                    <p class="validation-error text-red-500 text-sm mt-1 hidden">Please enter only letters and spaces</p>
-                </div>
-            </div>
-
-            <!-- Emergency Contact -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Complete Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan Dela Cruz</span>
-                        <div class="flex items-center">
-                            <input type="text" name="emergency_contact_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the complete name of the emergency contact" />
-                        </div>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123 Main St., Manila</span>
-                        <div class="flex items-center">
-                            <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the complete address of the emergency contact" />
-                        </div>
-                        <div class="mt-2">
-                            <input type="checkbox" id="same-as-applicant-address" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <label for="same-as-applicant-address" class="ml-2 text-sm text-gray-600">Same as Applicant's Address</label>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <div class="flex items-center">
-                            <input type="text"
-                                   name="emergency_contact_tel"
-                                   maxlength="11"
-                                   placeholder="02 xxxx-xxxx"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <input type="text"
-                                   name="emergency_contact_mobile"
-                                   maxlength="11"
-                                   placeholder="09xxxxxxxxx"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan@example.com</span>
-                        <div class="flex items-center">
-                            <input type="email" name="emergency_contact_email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the email address of the emergency contact" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Required Documents -->
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Required Documents</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Birth Certificate -->
-                    <div class="document-requirement" data-required-for="Transferee,Returning Student">
-                        <label class="block text-sm font-medium text-gray-700">Birth Certificate (PSA/NSO) <span class="text-red-500">*</span></label>
-                        <input type="file"
-                               name="birth_certificate"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               class="mt-1 block w-full text-sm text-gray-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-md file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-blue-50 file:text-blue-700
-                                      hover:file:bg-blue-100">
-                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
-                    </div>
-
-                    <!-- Form 137 -->
-                    <div class="document-requirement" data-required-for="Transferee">
-                        <label class="block text-sm font-medium text-gray-700">Form 137 <span class="text-red-500">*</span></label>
-                        <input type="file"
-                               name="form_137"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               class="mt-1 block w-full text-sm text-gray-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-md file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-blue-50 file:text-blue-700
-                                      hover:file:bg-blue-100">
-                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
-                    </div>
-
-                    <!-- Form 138 -->
-                    <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
-                        <label class="block text-sm font-medium text-gray-700">Form 138 (Report Card) <span class="text-red-500">*</span></label>
-                        <input type="file"
-                               name="form_138"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               class="mt-1 block w-full text-sm text-gray-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-md file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-blue-50 file:text-blue-700
-                                      hover:file:bg-blue-100">
-                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
-                    </div>
-
-                    <!-- ID Picture -->
-                    <div class="document-requirement" data-required-for="Transferee,Existing Student,Returning Student">
-                        <label class="block text-sm font-medium text-gray-700">2x2 ID Picture <span class="text-red-500">*</span></label>
-                        <input type="file"
-                               name="id_picture"
-                               accept=".jpg,.jpeg,.png"
-                               class="mt-1 block w-full text-sm text-gray-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-md file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-blue-50 file:text-blue-700
-                                      hover:file:bg-blue-100">
-                        <p class="mt-1 text-sm text-gray-500">Accepted formats: JPG, JPEG, PNG (Max: 1MB)</p>
-                    </div>
-
-                    <!-- Good Moral Certificate -->
-                    <div class="document-requirement" data-required-for="Transferee,Returning Student">
-                        <label class="block text-sm font-medium text-gray-700">Good Moral Certificate <span class="text-red-500">*</span></label>
-                        <input type="file"
-                               name="good_moral"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               class="mt-1 block w-full text-sm text-gray-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-md file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-blue-50 file:text-blue-700
-                                      hover:file:bg-blue-100">
-                        <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, JPG, JPEG, PNG (Max: 2MB)</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
-                    Create Application
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -1207,6 +1240,66 @@
             }
         }
     });
+
+    // Language selection
+    const languageButtons = document.querySelectorAll('.language-btn');
+    const applicationForm = document.getElementById('application-form');
+
+    languageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const selectedLang = this.dataset.lang;
+
+            // Remove active state from all buttons
+            languageButtons.forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
+            });
+
+            // Add active state to selected button
+            this.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+
+            // Show the form
+            applicationForm.classList.remove('hidden');
+
+            // Scroll to form
+            applicationForm.scrollIntoView({ behavior: 'smooth' });
+
+            // Update form language
+            updateFormLanguage(selectedLang);
+        });
+    });
+
+    function updateFormLanguage(lang) {
+        // Example translations object
+        const translations = {
+            'en': {
+                'program_info': 'Program Information',
+                'personal_info': 'Personal Information',
+                'contact_info': 'Contact Information',
+                // Add more translations as needed
+            },
+            'tl': {
+                'program_info': 'Impormasyon ng Programa',
+                'personal_info': 'Personal na Impormasyon',
+                'contact_info': 'Impormasyon sa Pakikipag-ugnayan',
+                // Add more translations as needed
+            },
+            'tl-en': {
+                'program_info': 'Program Info',
+                'personal_info': 'Personal Info',
+                'contact_info': 'Contact Info',
+                // Add more translations as needed
+            }
+        };
+
+        // Update text content based on selected language
+        Object.keys(translations[lang]).forEach(key => {
+            const elements = document.querySelectorAll(`[data-translate="${key}"]`);
+            elements.forEach(element => {
+                element.textContent = translations[lang][key];
+            });
+        });
+    }
+});
 </script>
 @endpush
 @endsection
