@@ -257,6 +257,7 @@
                                    name="lrn"
                                    maxlength="12"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your 12-digit Learner Reference Number assigned by the Department of Education (DepEd). This unique identifier is required for all K-12 students." />
                         </div>
                     </div>
                     <div>
