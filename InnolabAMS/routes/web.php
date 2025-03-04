@@ -31,6 +31,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+// Language Route
+Route::post('/language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
+
+
 
 //Admin Panel and Applicant Portal Routes
 Route::get('/app', function () {
@@ -207,6 +211,5 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::post('/language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
 
 require __DIR__ . '/auth.php';
