@@ -20,18 +20,24 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
-                        <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                            <option value="">Select Program</option>
-                            <option value="Elementary">Elementary</option>
-                            <option value="High School">High School</option>
-                            <option value="Senior High School">Senior High School</option>
-                        </select>
+                        <div class="flex items-center">
+                            <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <option value="">Select Program</option>
+                                <option value="Elementary">Elementary</option>
+                                <option value="High School">High School</option>
+                                <option value="Senior High School">Senior High School</option>
+                            </select>
+                            <x-form-tooltip text="Choose the educational program you wish to enroll in" />
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
-                        <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                            <option value="">Select Grade Level</option>
-                        </select>
+                        <div class="flex items-center">
+                            <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <option value="">Select Grade Level</option>
+                            </select>
+                            <x-form-tooltip text="Select your intended grade level for enrollment" />
+                        </div>
                     </div>
                     <div id="strandContainer" style="display: none;">
                         <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
@@ -50,19 +56,22 @@
             <!-- Student Type -->
             <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700">Student Type <span class="text-red-500">*</span></label>
-                <div class="mt-2 space-y-2">
-                    <label class="inline-flex items-center">
-                        <input type="radio" name="student_type" value="Transferee" class="form-radio" required>
-                        <span class="ml-2">Transferee</span>
-                    </label>
-                    <label class="inline-flex items-center ml-6">
-                        <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
-                        <span class="ml-2">Existing Student</span>
-                    </label>
-                    <label class="inline-flex items-center ml-6">
-                        <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
-                        <span class="ml-2">Returning Student</span>
-                    </label>
+                <div class="flex items-center mb-2">
+                    <div class="mt-2 space-y-2">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="student_type" value="Transferee" class="form-radio" required>
+                            <span class="ml-2">Transferee</span>
+                        </label>
+                        <label class="inline-flex items-center ml-6">
+                            <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
+                            <span class="ml-2">Existing Student</span>
+                        </label>
+                        <label class="inline-flex items-center ml-6">
+                            <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
+                            <span class="ml-2">Returning Student</span>
+                        </label>
+                    </div>
+                    <x-form-tooltip text="Select your current student status" />
                 </div>
             </div>
 
@@ -71,48 +80,82 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Dela Cruz </label>
-                        <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your legal last name exactly as it appears on official documents" />
+                        </div>
+                        <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Given Name <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Juan </label>
-                        <input type="text" name="applicant_given_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Given Name <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_given_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your first name exactly as it appears on official documents" />
+                        </div>
+                        <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Santos </label>
-                        <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your middle name if applicable. Leave blank if none" />
+                        </div>
+                        <span class="block text-sm font-medium text-gray-700">Example: Santos</span>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Extension Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Jr., II, III, etc. </label>
-                        <input type="text" name="applicant_extension" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Extension Name</label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_extension" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Add name extensions like Jr., Sr., III if applicable" />
+                        </div>
+                        <span class="block text-sm font-medium text-gray-700">Example: Jr., II, III, etc.</span>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Sex <span class="text-red-500">*</span></label>
-                        <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Select Sex</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
+                        <div class="flex items-center">
+                            <select name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="">Select Sex</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <x-form-tooltip text="Select your biological sex as it appears on official documents" />
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
-                        <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="flex items-center">
+                            <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label>
                         <input type="number" name="age" id="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Place of Birth <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Manila </label>
-                        <input type="text" name="applicant_place_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Place of Birth <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_place_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter the city or municipality where you were born" />
+                        </div>
+                        <span class="block text-sm font-medium text-gray-700">Example: Manila</span>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Nationality <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Filipino </label>
-                        <input type="text" name="applicant_nationality" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Nationality <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_nationality" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your nationality as it appears on your passport or government-issued ID" />
+                        </div>
+                        <span class="block text-sm font-medium text-gray-700">Example: Filipino</span>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Religion <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Catholic </label>
-                        <input type="text" name="applicant_religion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Religion <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_religion" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your religious affiliation" />
+                        </div>
+                        <span class="block text-sm font-medium text-gray-700">Example: Catholic</span>
                     </div>
                 </div>
             </div>
@@ -123,35 +166,41 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <input type="text"
-                               name="applicant_tel_no"
-                               pattern="[0-9]{7,8}"
-                               maxlength="8"
-                               title="Please enter a valid telephone number (7-8 digits)"
-                               placeholder="8xxxxxxx"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="flex items-center">
+                            <input type="text"
+                                   name="applicant_tel_no"
+                                   pattern="[0-9]{7,8}"
+                                   maxlength="8"
+                                   title="Please enter a valid telephone number (7-8 digits)"
+                                   placeholder="8xxxxxxx"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
-                        <input type="tel"
-                               name="applicant_mobile_number"
-                               pattern="[0-9]{11}"
-                               maxlength="11"
-                               title="Please enter a valid mobile number (11 digits)"
-                               placeholder="09xxxxxxxxx"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                               required
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="flex items-center">
+                            <input type="tel"
+                                   name="applicant_mobile_number"
+                                   pattern="[0-9]{11}"
+                                   maxlength="11"
+                                   title="Please enter a valid mobile number (11 digits)"
+                                   placeholder="09xxxxxxxxx"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                   required
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: juan@gmail.com </label>
-                        <input type="email"
-                               name="applicant_email"
-                               pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                               title="Please enter a valid email address"
-                               required
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="email"
+                                   name="applicant_email"
+                                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                                   title="Please enter a valid email address"
+                                   required
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,12 +237,18 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Barangay <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Barangay 112 </label>
-                        <input type="text" name="applicant_barangay" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Barangay <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_barangay" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your barangay or subdivision" />
+                        </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Street Address <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: 123 Main St. </label>
-                        <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Street Address <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="applicant_address_street" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your street address" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -203,38 +258,52 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Learner Reference Number <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: 123456789012 </label>
-                        <input type="text"
-                               name="lrn"
-                               maxlength="12"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Learner Reference Number <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text"
+                                   name="lrn"
+                                   maxlength="12"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Don Bosco Technical Institute </label>
-                        <input type="text" name="school_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="school_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">School Address <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: 123 Main St. </label>
-                        <input type="text" name="school_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">School Address <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="school_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Previous Program <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Bachelor of Science in Information Technology </label>
-                        <input type="text" name="previous_program" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Previous Program <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="previous_program" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Year of Graduation <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: 2024 </label>
-                        <input type="text"
-                               name="year_of_graduation"
-                               maxlength="4"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Year of Graduation <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text"
+                                   name="year_of_graduation"
+                                   maxlength="4"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Awards/Honors</label> <span class= "block text-sm font-medium text-gray-700"> Example: Best in Programming </label>
-                        <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Awards/Honors</label>
+                        <div class="flex items-center">
+                            <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label> <span class= "block text-sm font-medium text-gray-700"> Example: 95.50 </label>
-                        <input type="text" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label>
+                        <div class="flex items-center">
+                            <input type="text" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -249,24 +318,32 @@
                     <h3 class="font-medium mb-2">Father's Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Juan </label>
-                            <input type="text" name="father_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="father_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Santos </label>
-                            <input type="text" name="father_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="father_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Dela Cruz </label>
-                            <input type="text" name="father_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="father_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-                            <input type="text"
-                                   name="father_contact"
-                                   maxlength="11"
-                                   placeholder="09xxxxxxxxx"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="father_contact"
+                                       maxlength="11"
+                                       placeholder="09xxxxxxxxx"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -276,24 +353,32 @@
                     <h3 class="font-medium mb-2">Mother's Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Maria </label>
-                            <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="mother_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Santos </label>
-                            <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="mother_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Dela Cruz </label>
-                            <input type="text" name="mother_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="mother_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-                            <input type="text"
-                                   name="mother_contact"
-                                   maxlength="11"
-                                   placeholder="09xxxxxxxxx"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="mother_contact"
+                                       maxlength="11"
+                                       placeholder="09xxxxxxxxx"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -303,24 +388,32 @@
                     <h3 class="font-medium mb-2">Guardian's Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Given Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Juan </label>
-                            <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Given Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="guardian_given_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Middle Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Santos </label>
-                            <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="guardian_middle_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Last Name</label> <span class= "block text-sm font-medium text-gray-700"> Example: Dela Cruz </label>
-                            <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <div class="flex items-center">
+                                <input type="text" name="guardian_surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-                            <input type="text"
-                                   name="guardian_contact_num"
-                                   maxlength="11"
-                                   placeholder="09xxxxxxxxx"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="guardian_contact_num"
+                                       maxlength="11"
+                                       placeholder="09xxxxxxxxx"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -366,8 +459,8 @@
                 </div>
             </div>
 
-                        <!-- Additional Information -->
-                        <div class="mb-8">
+            <!-- Additional Information -->
+            <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Additional Information</h2>
 
                 <div class="mb-4">
@@ -409,12 +502,16 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Complete Name <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: Juan Dela Cruz </label>
-                        <input type="text" name="emergency_contact_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Complete Name <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="emergency_contact_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: 123 Main St. </label>
-                        <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Complete Address <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="text" name="emergency_contact_address" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                         <div class="mt-2">
                             <input type="checkbox" id="same-as-applicant-address" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <label for="same-as-applicant-address" class="ml-2 text-sm text-gray-600">Same as Applicant's Address</label>
@@ -422,23 +519,29 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <input type="text"
-                               name="emergency_contact_tel"
-                               maxlength="11"
-                               placeholder="02 xxxx-xxxx"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="flex items-center">
+                            <input type="text"
+                                   name="emergency_contact_tel"
+                                   maxlength="11"
+                                   placeholder="02 xxxx-xxxx"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
-                        <input type="text"
-                               name="emergency_contact_mobile"
-                               maxlength="11"
-                               placeholder="09xxxxxxxxx"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="flex items-center">
+                            <input type="text"
+                                   name="emergency_contact_mobile"
+                                   maxlength="11"
+                                   placeholder="09xxxxxxxxx"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label> <span class= "block text-sm font-medium text-gray-700"> Example: juan@gmail.com </label>
-                        <input type="email" name="emergency_contact_email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <label class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+                        <div class="flex items-center">
+                            <input type="email" name="emergency_contact_email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
                     </div>
                 </div>
             </div>
