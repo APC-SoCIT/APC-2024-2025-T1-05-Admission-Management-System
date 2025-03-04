@@ -1238,49 +1238,44 @@
     const applicationForm = document.getElementById('application-form');
 
     languageButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const selectedLang = this.dataset.lang;
-            console.log('Language button clicked:', selectedLang); // Debug log
+        button.addEventListener('click', async function() {
+            // Show loading state
+            button.disabled = true;
+            const originalText = button.innerHTML;
+            button.innerHTML = 'Switching...';
 
-            // Remove active state from all buttons
-            languageButtons.forEach(btn => {
-                btn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
-            });
+            try {
+                const response = await fetch('/language/switch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        lang: this.dataset.lang
+                    })
+                });
 
-            // Add active state to selected button
-            this.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+                const data = await response.json();
 
-            // Make AJAX call to switch language
-            fetch('/language/switch', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ lang: selectedLang })
-            })
-            .then(response => {
-                console.log('Response status:', response.status); // Debug log
-                if (!response.ok) {
-                    return response.text().then(text => {
-                        throw new Error(`Network response was not ok: ${text}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data); // Debug log
                 if (data.status === 'success') {
-                    window.location.reload();
+                    // Show success feedback
+                    button.classList.add('bg-green-100');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
                 } else {
-                    throw new Error(data.message || 'Language switch failed');
+                    throw new Error(data.message || 'Failed to switch language');
                 }
-            })
-            .catch(error => {
-                console.error('Error details:', error); // Debug log
-                alert('Failed to switch language. Please try again. Error: ' + error.message);
-            });
+            } catch (error) {
+                console.error('Error:', error);
+                button.classList.add('bg-red-100');
+                alert('Failed to switch language. Please try again.');
+            } finally {
+                // Reset button state
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
         });
     });
 
