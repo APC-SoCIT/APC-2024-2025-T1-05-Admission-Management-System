@@ -1249,14 +1249,31 @@
             // Add active state to selected button
             this.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
 
-            // Show the form
-            applicationForm.classList.remove('hidden');
-
-            // Scroll to form
-            applicationForm.scrollIntoView({ behavior: 'smooth' });
-
-            // Update form language
-            updateFormLanguage(selectedLang);
+            // Make AJAX call to switch language
+            fetch('/language/switch', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ lang: selectedLang })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(() => {
+                // Show the form and reload the page
+                applicationForm.classList.remove('hidden');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to switch language. Please try again.');
+            });
         });
     });
 
