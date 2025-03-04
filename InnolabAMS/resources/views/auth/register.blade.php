@@ -3,7 +3,6 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Replace the Name field with First, Middle, Last name fields -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- First Name -->
             <div>
