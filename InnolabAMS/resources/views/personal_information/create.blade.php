@@ -185,7 +185,7 @@
                         </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan.santos@example.com</span>
                         <div class="flex items-center">
                             <input type="email"
                                    name="applicant_email"
