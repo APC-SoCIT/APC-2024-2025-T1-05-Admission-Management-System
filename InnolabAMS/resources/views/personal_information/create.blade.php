@@ -17,7 +17,7 @@
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
                     data-lang="en">
-                <img src="{{ asset('images/flags/en.png') }}" alt="English" class="w-12 h-12 mb-2">
+                <img src="{{ asset('public/static/images/flags/en.png') }}" alt="English" class="w-12 h-12 mb-2">
                 <span class="font-medium">English</span>
                 <span class="text-sm text-gray-500">Default</span>
             </button>
@@ -25,7 +25,7 @@
             <button type="button"
                     class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
                     data-lang="tl">
-                <img src="{{ asset('images/flags/ph.png') }}" alt="Filipino" class="w-12 h-12 mb-2">
+                <img src="{{ asset('public/static/images/flags/ph.png') }}" alt="Filipino" class="w-12 h-12 mb-2">
                 <span class="font-medium">Filipino</span>
                 <span class="text-sm text-gray-500">Tagalog</span>
             </button>
