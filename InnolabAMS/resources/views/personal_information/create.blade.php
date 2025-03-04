@@ -15,19 +15,23 @@
         <h2 class="text-xl font-semibold mb-4">{{ __('language.choose_language') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button type="button"
-                    class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
-                    data-lang="en">
-                <img src="{{ asset('static/images/flags/en.png') }}" alt="English" class="w-12 h-12 mb-2">
-                <span class="font-medium">{{ __('language.english') }}</span>
-                <span class="text-sm text-gray-500">{{ __('language.default') }}</span>
+                    data-lang="en"
+                    class="language-btn flex items-center space-x-2 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <img src="{{ asset('images/flags/en.png') }}" alt="English" class="w-8 h-8">
+                <div class="text-left">
+                    <div class="font-medium">{{ __('language.english') }}</div>
+                    <div class="text-sm text-gray-500">{{ __('language.default') }}</div>
+                </div>
             </button>
 
             <button type="button"
-                    class="language-btn p-4 border rounded-lg hover:bg-blue-50 transition-colors duration-200 flex flex-col items-center"
-                    data-lang="tl">
-                <img src="{{ asset('static/images/flags/ph.png') }}" alt="Filipino" class="w-12 h-12 mb-2">
-                <span class="font-medium">{{ __('language.filipino') }}</span>
-                <span class="text-sm text-gray-500">{{ __('language.tagalog') }}</span>
+                    data-lang="fil"
+                    class="language-btn flex items-center space-x-2 p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <img src="{{ asset('images/flags/fil.png') }}" alt="Filipino" class="w-8 h-8">
+                <div class="text-left">
+                    <div class="font-medium">{{ __('language.filipino') }}</div>
+                    <div class="text-sm text-gray-500">{{ __('language.tagalog') }}</div>
+                </div>
             </button>
         </div>
     </div>
