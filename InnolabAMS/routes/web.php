@@ -10,6 +10,7 @@ use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
 use App\Http\Controllers\AdmissionController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -206,5 +207,7 @@ Route::middleware('auth')->group(function () {
     });
 
 });
+
+Route::post('language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
 
 require __DIR__ . '/auth.php';
