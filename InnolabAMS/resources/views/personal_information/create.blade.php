@@ -1254,6 +1254,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
                 body: JSON.stringify({ lang: selectedLang })
@@ -1266,9 +1267,6 @@
             })
             .then(data => {
                 if (data.status === 'success') {
-                    // Show the form
-                    applicationForm.classList.remove('hidden');
-                    // Reload the page to apply new language
                     window.location.reload();
                 } else {
                     throw new Error('Language switch failed');
