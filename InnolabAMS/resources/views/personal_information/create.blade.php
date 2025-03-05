@@ -176,11 +176,9 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
                         <div class="flex items-center space-x-2">
-                            <select name="country_code"
-                                    class="mt-1 w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="+63" selected>🇵🇭 +63</option>
-                                <!-- Add more country codes as needed -->
-                            </select>
+                            <div class="mt-1 w-20 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-500">
+                                +63
+                            </div>
                             <input type="tel"
                                    name="applicant_mobile_number"
                                    id="applicant_mobile_number"
@@ -189,7 +187,7 @@
                                    maxlength="14"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
-                        <p class="text-sm text-gray-500 mt-1">Format: 0XXX XXX XXXX</p>
+                        <p class="text-sm text-gray-500 mt-1">Format: 0XXX XXX XXXX (Philippine number only)</p>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan.santos@example.com</span>
@@ -1250,24 +1248,13 @@
             }
         });
 
-        // Format on blur to ensure proper display
+        // Validate on blur
         mobileInput.addEventListener('blur', function() {
-            const countryCode = document.querySelector('select[name="country_code"]').value;
             let value = this.value.replace(/\D/g, '');
 
             if (value.length === 11 && value[0] === '0') {
-                // Remove leading zero when displaying with country code
-                value = value.substring(1);
-                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-            }
-        });
-
-        // Handle country code changes
-        document.querySelector('select[name="country_code"]').addEventListener('change', function() {
-            const mobileValue = mobileInput.value.replace(/\D/g, '');
-            if (mobileValue.length > 0) {
-                // Reformat number based on new country code
-                mobileInput.dispatchEvent(new Event('blur'));
+                // Format with spaces
+                this.value = value.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '$1$2 $3 $4');
             }
         });
     });
