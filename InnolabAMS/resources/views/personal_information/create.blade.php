@@ -163,7 +163,7 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label> <span class="block text-sm font-medium text-gray-700">Format: (0X) XXXX-XXXX</span>
                         <div class="flex items-center">
                             <input type="tel"
                                    name="applicant_tel_no"
