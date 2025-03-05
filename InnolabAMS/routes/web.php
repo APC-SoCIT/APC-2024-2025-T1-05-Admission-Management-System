@@ -31,11 +31,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// Language Routes
-Route::post('language/switch', [LanguageController::class, 'switchLang'])->name('switch.lang');
-
-
-
 //Admin Panel and Applicant Portal Routes
 Route::get('/app', function () {
     if (auth()->check()) {
