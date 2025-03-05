@@ -698,7 +698,29 @@
         const input = event.target;
         const value = input.value;
 
-        // Skip validation checks (same as before)...
+        // Skip validation for sibling fields
+        if (input.name.startsWith('siblings[')) {
+            // Clear any existing error messages for sibling fields
+            const existingError = input.parentElement.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+            input.classList.remove('border-red-500');
+            return;
+        }
+
+        // Skip validation for fields that allow special characters and numbers
+        if (input.name === 'applicant_barangay' ||
+            input.name === 'applicant_address_street' ||
+            input.name === 'school_address' ||
+            input.name === 'emergency_contact_address' ||
+            input.name === 'awards_honors' ||
+            input.name === 'previous_program' ||
+            input.name === 'school_name' ||
+            input.name === 'applicant_extension' ||
+            input.name.includes('school_attended')) {
+            return;
+        }
 
         const isValid = /^[a-zA-Z\s]*$/.test(value);
 
@@ -708,25 +730,14 @@
             existingError.remove();
         }
 
-        if (!isValid && value !== '') {
+        if (!isValid && value !== '') {  // Only show error if field is not empty
             input.classList.add('border-red-500');
             const errorMessage = document.createElement('span');
-            errorMessage.className = 'error-message text-red-500 text-sm absolute -bottom-5 left-0';
+            errorMessage.className = 'error-message text-red-500 text-sm';
             errorMessage.textContent = 'Please enter a valid input';
-
-            // Create a relative container if it doesn't exist
-            if (input.parentElement.style.position !== 'relative') {
-                input.parentElement.style.position = 'relative';
-            }
-
-            // Add margin bottom to input container to make room for error
-            input.parentElement.classList.add('mb-6');
-
             input.parentElement.appendChild(errorMessage);
         } else {
             input.classList.remove('border-red-500');
-            // Remove margin when there's no error
-            input.parentElement.classList.remove('mb-6');
         }
     }
 
