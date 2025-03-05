@@ -182,12 +182,12 @@
                             <input type="tel"
                                    name="applicant_mobile_number"
                                    id="applicant_mobile_number"
-                                   placeholder="0956 907 9870"
+                                   placeholder="912 345 1234"
                                    required
-                                   maxlength="14"
+                                   maxlength="12"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
-                        <p class="text-sm text-gray-500 mt-1">Format: 0XXX XXX XXXX (Philippine number only)</p>
+                        <p class="text-sm text-gray-500 mt-1">Format: XXX XXX XXXX (Philippine number only)</p>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan.santos@example.com</span>
@@ -1225,16 +1225,16 @@
             // Remove any non-digit characters
             let value = this.value.replace(/\D/g, '');
 
-            // Always ensure there's a leading zero
-            if (value.length > 0 && value[0] !== '0') {
-                value = '0' + value;
+            // Remove leading zero if present
+            if (value.startsWith('0')) {
+                value = value.substring(1);
             }
 
             // Format with spaces
             if (value.length > 0) {
                 let formattedNumber = '';
                 for (let i = 0; i < value.length; i++) {
-                    if (i === 4 || i === 7) {
+                    if (i === 3 || i === 6) {
                         formattedNumber += ' ';
                     }
                     formattedNumber += value[i];
@@ -1242,9 +1242,10 @@
                 this.value = formattedNumber;
             }
 
-            // Validate length (including leading zero)
-            if (value.length > 11) {
-                this.value = this.value.slice(0, 14); // Account for spaces
+            // Limit to 10 digits (excluding spaces)
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
             }
         });
 
@@ -1252,9 +1253,9 @@
         mobileInput.addEventListener('blur', function() {
             let value = this.value.replace(/\D/g, '');
 
-            if (value.length === 11 && value[0] === '0') {
-                // Format with spaces
-                this.value = value.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '$1$2 $3 $4');
+            if (value.length === 10) {
+                // Format with spaces for 10 digits
+                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
             }
         });
     });
