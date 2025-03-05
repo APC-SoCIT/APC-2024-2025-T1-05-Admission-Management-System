@@ -64,11 +64,19 @@
                             <div class="space-y-3">
                                 @php
                                     $statusColor = [
+                                        'new' => 'bg-blue-100 text-blue-800',
                                         'pending' => 'bg-yellow-100 text-yellow-800',
                                         'accepted' => 'bg-green-100 text-green-800',
                                         'rejected' => 'bg-red-100 text-red-800'
                                     ];
-                                    $status = $applicant?->status ?? 'pending';
+
+                                    // Default status is 'new' for fresh accounts
+                                    $status = 'new';
+
+                                    // If applicant info exists, use its status
+                                    if ($applicant) {
+                                        $status = strtolower($applicant->status);
+                                    }
                                 @endphp
 
                                 <div class="flex items-center space-x-2">
@@ -77,8 +85,10 @@
                                     </span>
                                 </div>
                                 <p class="text-sm text-gray-600">
-                                    @if($status === 'pending')
-                                        Complete your application form to proceed.
+                                    @if($status === 'new')
+                                        Please complete your application form to proceed.
+                                    @elseif($status === 'pending')
+                                        Your application is being reviewed by our admissions team.
                                     @elseif($status === 'accepted')
                                         Congratulations! Your application has been accepted.
                                     @else
