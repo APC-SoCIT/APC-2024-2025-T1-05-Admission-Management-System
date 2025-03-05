@@ -914,7 +914,42 @@
     // Make initial sibling's age field readonly
     document.querySelector('input[name="siblings[0][age]"]').readOnly = true;
 
-    // LRN field validation
+    // Year of Graduation field validation
+    document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
+        const errorContainer = this.parentElement.querySelector('.error-message');
+        const currentYear = new Date().getFullYear();
+
+        // Remove any existing error messages
+        if (errorContainer) {
+            errorContainer.remove();
+        }
+        this.classList.remove('border-red-500');
+
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'error-message text-red-500 text-sm mt-1';
+            errorMessage.textContent = 'Please enter numbers only';
+            this.parentElement.appendChild(errorMessage);
+        } else if (this.value.length === 4) {
+            const year = parseInt(this.value);
+            if (year < 1900 || year > currentYear + 10) {
+                this.classList.add('border-red-500');
+                const errorMessage = document.createElement('p');
+                errorMessage.className = 'error-message text-red-500 text-sm mt-1';
+                errorMessage.textContent = `Please enter a valid year between 1900 and ${currentYear + 10}`;
+                this.parentElement.appendChild(errorMessage);
+            }
+        }
+
+        // Limit to 4 digits
+        if (this.value.length > 4) {
+            this.value = this.value.slice(0, 4);
+        }
+    });
+
+    // Simplified LRN field validation
     document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
         const isValid = /^\d*$/.test(this.value);
         const errorContainer = this.parentElement.nextElementSibling;
@@ -940,44 +975,6 @@
         // Limit to 12 digits
         if (this.value.length > 12) {
             this.value = this.value.slice(0, 12);
-        }
-    });
-
-    // Year of Graduation field validation
-    document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
-        const errorContainer = this.parentElement.querySelector('.error-message');
-
-        // Remove any existing error messages
-        if (errorContainer) {
-            errorContainer.remove();
-        }
-
-        if (!isValid) {
-            this.classList.add('border-red-500');
-            const errorMessage = document.createElement('p');
-            errorMessage.className = 'error-message text-red-500 text-sm mt-1';
-            errorMessage.textContent = 'Please enter numbers only';
-            this.parentElement.appendChild(errorMessage);
-        } else {
-            this.classList.remove('border-red-500');
-
-            // Additional validation for reasonable year range (e.g., between 1900 and current year + 10)
-            const year = parseInt(this.value);
-            const currentYear = new Date().getFullYear();
-
-            if (this.value.length === 4 && (year < 1900 || year > currentYear + 10)) {
-                this.classList.add('border-red-500');
-                const errorMessage = document.createElement('p');
-                errorMessage.className = 'error-message text-red-500 text-sm mt-1';
-                errorMessage.textContent = 'Please enter a valid year between 1900 and ' + (currentYear + 10);
-                this.parentElement.appendChild(errorMessage);
-            }
-        }
-
-        // Limit to 4 digits
-        if (this.value.length > 4) {
-            this.value = this.value.slice(0, 4);
         }
     });
 
