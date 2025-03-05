@@ -167,7 +167,7 @@ Route::middleware('auth')->group(function () {
 
     //Applicant Panel Routes
 
-    //Personal Information Routes
+    //Application Form Routes
     Route::prefix('form')->name('form.')->group(function () {
         Route::get('/portal/application-form', [ApplicantInfoController::class, 'showApplicationForm'])->name('application'); //Changed Route
         Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store');
