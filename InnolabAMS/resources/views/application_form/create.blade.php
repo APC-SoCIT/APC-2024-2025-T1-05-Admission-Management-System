@@ -922,11 +922,16 @@
         const isValid = /^\d{0,4}$/.test(value); // Allow up to 4 digits
         const year = parseInt(value);
 
-        // Remove any existing error messages
-        const errorContainer = this.parentElement.querySelector('.error-message');
-        if (errorContainer) {
-            errorContainer.remove();
+        // Find or create error container
+        let errorContainer = this.parentElement.parentElement.querySelector('.error-container');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'error-container mt-1';
+            this.parentElement.parentElement.appendChild(errorContainer);
         }
+
+        // Clear existing error messages
+        errorContainer.innerHTML = '';
         this.classList.remove('border-red-500');
 
         // Only validate if there's a value
@@ -936,7 +941,7 @@
                 const errorMessage = document.createElement('p');
                 errorMessage.className = 'error-message text-red-500 text-sm mt-1';
                 errorMessage.textContent = 'Please enter numbers only';
-                this.parentElement.appendChild(errorMessage);
+                errorContainer.appendChild(errorMessage);
             } else if (value.length === 4) {
                 // Only validate year range when 4 digits are entered
                 if (year < 1900 || year > currentYear + 10) {
@@ -944,7 +949,7 @@
                     const errorMessage = document.createElement('p');
                     errorMessage.className = 'error-message text-red-500 text-sm mt-1';
                     errorMessage.textContent = `Please enter a valid year between 1900 and ${currentYear + 10}`;
-                    this.parentElement.appendChild(errorMessage);
+                    errorContainer.appendChild(errorMessage);
                 }
             }
         }
