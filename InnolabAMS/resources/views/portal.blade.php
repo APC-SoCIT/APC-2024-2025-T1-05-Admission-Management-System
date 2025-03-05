@@ -31,19 +31,13 @@
 
                     @php
                         $applicant = auth()->user()->applicantInfo;
-                        $applicationStatus = $applicant ? 'complete' : 'pending';
                     @endphp
 
                     <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.application') }}"
-                       class="flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200
+                       class="flex items-center px-4 py-3 rounded-lg transition-all duration-200
                               {{ request()->routeIs('form.application') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-file w-5 h-5"></i>
-                            <span class="ml-3 font-medium">{{ __('Application Form') }}</span>
-                        </div>
-                        <span class="px-2 py-1 text-xs rounded-full {{ $applicationStatus === 'complete' ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600' }}">
-                            {{ ucfirst($applicationStatus) }}
-                        </span>
+                        <i class="fa-solid fa-file w-5 h-5"></i>
+                        <span class="ml-3 font-medium">{{ __('Application Form') }}</span>
                     </a>
 
                     <a href="{{ route('scholarship.create') }}"
@@ -76,14 +70,28 @@
                                 <i class="fa-solid fa-clipboard-check text-blue-500"></i>
                             </div>
                             <div class="space-y-3">
-                                <div class="flex items-center">
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ $applicationStatus === 'complete' ? '100%' : '45%' }}"></div>
-                                    </div>
-                                    <span class="ml-4 text-sm text-gray-600">{{ $applicationStatus === 'complete' ? '100%' : '45%' }}</span>
+                                @php
+                                    $statusColor = [
+                                        'pending' => 'bg-yellow-100 text-yellow-800',
+                                        'accepted' => 'bg-green-100 text-green-800',
+                                        'rejected' => 'bg-red-100 text-red-800'
+                                    ];
+                                    $status = $applicant?->status ?? 'pending';
+                                @endphp
+
+                                <div class="flex items-center space-x-2">
+                                    <span class="px-3 py-1 rounded-full text-sm font-medium {{ $statusColor[$status] }}">
+                                        {{ ucfirst($status) }}
+                                    </span>
                                 </div>
                                 <p class="text-sm text-gray-600">
-                                    {{ $applicationStatus === 'complete' ? 'Your application is complete!' : 'Complete your application form to proceed.' }}
+                                    @if($status === 'pending')
+                                        Complete your application form to proceed.
+                                    @elseif($status === 'accepted')
+                                        Congratulations! Your application has been accepted.
+                                    @else
+                                        Unfortunately, your application was not accepted.
+                                    @endif
                                 </p>
                             </div>
                         </div>
@@ -95,7 +103,7 @@
                                 <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.application') }}"
                                    class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                     <i class="fa-solid fa-arrow-right mr-2"></i>
-                                    {{ $applicationStatus === 'complete' ? 'View Application' : 'Continue Application' }}
+                                    {{ $status === 'complete' ? 'View Application' : 'Continue Application' }}
                                 </a>
                                 <a href="{{ route('scholarship.create') }}"
                                    class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
