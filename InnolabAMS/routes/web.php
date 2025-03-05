@@ -115,14 +115,14 @@ Route::middleware('auth')->group(function () {
 
     // Scholarship Routes
     Route::middleware('auth')->group(function () {
-        Route::get('/scholarship', function(){
+        Route::get('/scholarship', function () {
             if (auth()->user()->hasRole('Staff')) {
                 return redirect('/app');
             }
             if (auth()->user()->hasRole('Applicant')) {
                 return redirect('/portal');
             }
-            return app (ApplicantScholarshipController::class)->show();
+            return app(ApplicantScholarshipController::class)->show();
         })->name('scholarship.show');
 
     });
@@ -138,22 +138,54 @@ Route::middleware('auth')->group(function () {
 
     // User Routes
     Route::middleware('auth')->group(function () {
-        Route::get('/users', function () {
-            if (auth()->user()->hasRole('Staff')) {
-                return redirect('/app');
-            }
-            if (auth()->user()->hasRole('Applicant')) {
-                return redirect('/portal');
-            }
-            return app(UserController::class)->show();
-        })->name('user.show');
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('/', function () {
+                if (auth()->user()->hasRole('Staff')) {
+                    return redirect('/app');
+                }
+                if (auth()->user()->hasRole('Applicant')) {
+                    return redirect('/portal');
+                }
+                return app(UserController::class)->show();
+            })->name('show');
 
-        Route::post('/users', function () {
-            if (auth()->user()->hasRole('Staff')) {
-                return redirect('/app');
-            }
-            return app(AddUserController::class)->store(request());
-        })->name('user.store');
+            Route::get('/admin', function () {
+                if (auth()->user()->hasRole('Staff')) {
+                    return redirect('/app');
+                }
+                if (auth()->user()->hasRole('Applicant')) {
+                    return redirect('/portal');
+                }
+                return app(UserController::class)->showAdmins();
+            })->name('admin');
+
+            Route::get('/staff', function () {
+                if (auth()->user()->hasRole('Staff')) {
+                    return redirect('/app');
+                }
+                if (auth()->user()->hasRole('Applicant')) {
+                    return redirect('/portal');
+                }
+                return app(UserController::class)->showStaffs();
+            })->name('staff');
+
+            Route::get('/applicant', function () {
+                if (auth()->user()->hasRole('Staff')) {
+                    return redirect('/app');
+                }
+                if (auth()->user()->hasRole('Applicant')) {
+                    return redirect('/portal');
+                }
+                return app(UserController::class)->showApplicants();
+            })->name('applicant');
+
+            Route::post('/', function () {
+                if (auth()->user()->hasRole('Staff')) {
+                    return redirect('/app');
+                }
+                return app(AddUserController::class)->store(request());
+            })->name('store');
+        });
     });
 
     // Profile Routes
