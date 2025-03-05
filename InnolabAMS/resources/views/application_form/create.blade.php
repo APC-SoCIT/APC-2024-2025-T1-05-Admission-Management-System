@@ -730,6 +730,7 @@
             input.name === 'previous_program' ||
             input.name === 'school_name' ||
             input.name === 'applicant_extension' ||
+            input.name === 'year_of_graduation' ||
             input.name.includes('school_attended')) {
             return;
         }
