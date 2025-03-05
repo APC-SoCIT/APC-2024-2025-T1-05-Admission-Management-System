@@ -96,8 +96,8 @@ class ApplicantInfoController extends Controller
 
             // Add file paths, status and user_id
             $applicantData = array_merge($applicantData, $paths, [
-                'status' => 'new',
-                'user_id' => auth()->id() // Add the authenticated user's ID
+                'status' => 'pending',
+                'user_id' => auth()->id()
             ]);
 
             \Log::info('Final applicant data:', $applicantData);
@@ -275,8 +275,8 @@ class ApplicantInfoController extends Controller
             \Log::info('Validated data:', $validated);
 
             // Ensure user_id is set
-            $validated['user_id'] = auth()->id() ?? 1; // Fallback to ID 1 if no auth user
-            $validated['status'] = 'new';
+            $validated['user_id'] = auth()->id();
+            $validated['status'] = 'pending';
 
             // Handle siblings data - convert to JSON
             if (isset($validated['siblings'])) {
