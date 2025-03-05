@@ -1210,6 +1210,18 @@
 
     // GWA field validation
     document.querySelector('input[name="gwa"]').addEventListener('input', function(e) {
+        // Find or create error container
+        let errorContainer = this.parentElement.parentElement.querySelector('.error-container');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'error-container mt-1';
+            this.parentElement.parentElement.appendChild(errorContainer);
+        }
+
+        // Clear existing error messages
+        errorContainer.innerHTML = '';
+        this.classList.remove('border-red-500');
+
         // If there's a decimal point, limit decimal places to 2 without rounding
         if (this.value.includes('.')) {
             const parts = this.value.split('.');
@@ -1220,6 +1232,9 @@
             this.value = this.value.slice(0, 2);
         }
 
+        // Check if input contains any non-numeric characters (except decimal point)
+        const hasInvalidChars = /[^\d.]/.test(this.value);
+
         // Check format: XX.XX (numbers between 0-9, exactly 2 digits before and after decimal)
         const isValid = /^(\d{0,2})(\.)?(\d{0,2})$/.test(this.value);
 
@@ -1227,19 +1242,12 @@
         const numValue = parseFloat(this.value);
         const isValidRange = isNaN(numValue) || (numValue >= 0 && numValue <= 100);
 
-        if (!isValid || !isValidRange) {
+        if (hasInvalidChars || !isValid || (!isValidRange && !isNaN(numValue))) {
             this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid GWA (e.g., 90.78)';
-                this.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
-            }
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'text-red-500 text-sm';
+            errorMessage.textContent = 'Please enter a valid GWA (e.g., 90.78)';
+            errorContainer.appendChild(errorMessage);
         }
     });
 
