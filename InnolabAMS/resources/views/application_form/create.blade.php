@@ -946,19 +946,32 @@
     // Year of Graduation field validation
     document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
         const isValid = /^[0-9]*$/.test(this.value);
+        const errorContainer = this.parentElement.querySelector('.error-message');
+
+        // Remove any existing error messages
+        if (errorContainer) {
+            errorContainer.remove();
+        }
 
         if (!isValid) {
             this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid year (numbers only)';
-                this.parentNode.appendChild(errorMessage);
-            }
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'error-message text-red-500 text-sm mt-1';
+            errorMessage.textContent = 'Please enter numbers only';
+            this.parentElement.appendChild(errorMessage);
         } else {
             this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
+
+            // Additional validation for reasonable year range (e.g., between 1900 and current year + 10)
+            const year = parseInt(this.value);
+            const currentYear = new Date().getFullYear();
+
+            if (this.value.length === 4 && (year < 1900 || year > currentYear + 10)) {
+                this.classList.add('border-red-500');
+                const errorMessage = document.createElement('p');
+                errorMessage.className = 'error-message text-red-500 text-sm mt-1';
+                errorMessage.textContent = 'Please enter a valid year between 1900 and ' + (currentYear + 10);
+                this.parentElement.appendChild(errorMessage);
             }
         }
 
