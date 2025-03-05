@@ -39,16 +39,20 @@ class RoleSeeder extends Seeder
 
         // Create admin user and assign role
         $admin = User::create([
-            'name' => 'Admin',
+            'first_name' => 'Admin',
+            'middle_name' => 'System',
+            'last_name' => 'User',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'), 
+            'password' => Hash::make('password'),
             'role' => 'Admin'
         ]);
         $admin->assignRole($adminRole);
 
         // Create staff user and assign role
         $staff = User::create([
-            'name' => 'Staff',
+            'first_name' => 'Staff',
+            'middle_name' => 'System',
+            'last_name' => 'User',
             'email' => 'staff@example.com',
             'password' => Hash::make('password'),
             'role' => 'Staff'
@@ -57,7 +61,9 @@ class RoleSeeder extends Seeder
 
         // Create applicant user and assign role
         $applicant = User::create([
-            'name' => 'Applicant',
+            'first_name' => 'Applicant',
+            'middle_name' => 'System',
+            'last_name' => 'User',
             'email' => 'applicant@example.com',
             'password' => Hash::make('password'),
             'role' => 'Applicant'
