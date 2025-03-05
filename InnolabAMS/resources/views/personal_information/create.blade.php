@@ -701,8 +701,9 @@
         // Skip validation for sibling fields
         if (input.name.startsWith('siblings[')) {
             // Clear any existing error messages for sibling fields
-            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
-                input.nextElementSibling.remove();
+            const existingError = input.parentElement.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
             }
             input.classList.remove('border-red-500');
             return;
@@ -723,21 +724,20 @@
 
         const isValid = /^[a-zA-Z\s]*$/.test(value);
 
-        if (!isValid) {
+        // Remove any existing error messages first
+        const existingError = input.parentElement.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+
+        if (!isValid && value !== '') {  // Only show error if field is not empty
             input.classList.add('border-red-500');
-            // Only add error message if it doesn't exist
-            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid input';
-                input.parentNode.appendChild(errorMessage);
-            }
+            const errorMessage = document.createElement('span');
+            errorMessage.className = 'error-message text-red-500 text-sm';
+            errorMessage.textContent = 'Please enter a valid input';
+            input.parentElement.appendChild(errorMessage);
         } else {
             input.classList.remove('border-red-500');
-            // Remove error message if it exists
-            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
-                input.nextElementSibling.remove();
-            }
         }
     }
 
