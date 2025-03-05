@@ -916,36 +916,41 @@
 
     // Year of Graduation field validation
     document.querySelector('input[name="year_of_graduation"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
-        const errorContainer = this.parentElement.querySelector('.error-message');
         const currentYear = new Date().getFullYear();
+        const value = this.value;
+        const isValid = /^\d{0,4}$/.test(value); // Allow up to 4 digits
+        const year = parseInt(value);
 
         // Remove any existing error messages
+        const errorContainer = this.parentElement.querySelector('.error-message');
         if (errorContainer) {
             errorContainer.remove();
         }
         this.classList.remove('border-red-500');
 
-        if (!isValid) {
-            this.classList.add('border-red-500');
-            const errorMessage = document.createElement('p');
-            errorMessage.className = 'error-message text-red-500 text-sm mt-1';
-            errorMessage.textContent = 'Please enter numbers only';
-            this.parentElement.appendChild(errorMessage);
-        } else if (this.value.length === 4) {
-            const year = parseInt(this.value);
-            if (year < 1900 || year > currentYear + 10) {
+        // Only validate if there's a value
+        if (value) {
+            if (!isValid) {
                 this.classList.add('border-red-500');
                 const errorMessage = document.createElement('p');
                 errorMessage.className = 'error-message text-red-500 text-sm mt-1';
-                errorMessage.textContent = `Please enter a valid year between 1900 and ${currentYear + 10}`;
+                errorMessage.textContent = 'Please enter numbers only';
                 this.parentElement.appendChild(errorMessage);
+            } else if (value.length === 4) {
+                // Only validate year range when 4 digits are entered
+                if (year < 1900 || year > currentYear + 10) {
+                    this.classList.add('border-red-500');
+                    const errorMessage = document.createElement('p');
+                    errorMessage.className = 'error-message text-red-500 text-sm mt-1';
+                    errorMessage.textContent = `Please enter a valid year between 1900 and ${currentYear + 10}`;
+                    this.parentElement.appendChild(errorMessage);
+                }
             }
         }
 
         // Limit to 4 digits
-        if (this.value.length > 4) {
-            this.value = this.value.slice(0, 4);
+        if (value.length > 4) {
+            this.value = value.slice(0, 4);
         }
     });
 
