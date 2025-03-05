@@ -253,7 +253,8 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Educational Background</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Learner Reference Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 123456789012</span>
+                        <label class="block text-sm font-medium text-gray-700">Learner Reference Number <span class="text-red-500">*</span></label>
+                        <span class="block text-sm font-medium text-gray-700">Example: 123456789012</span>
                         <div class="flex items-center">
                             <input type="text"
                                    name="lrn"
@@ -261,6 +262,7 @@
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter your 12-digit Learner Reference Number assigned by the Department of Education (DepEd). This unique identifier is required for all K-12 students." />
                         </div>
+                        <div class="error-container mt-1"></div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">School Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Manila National High School</span>
@@ -914,21 +916,25 @@
 
     // LRN field validation
     document.querySelector('input[name="lrn"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
+        const isValid = /^\d*$/.test(this.value);
+        const errorContainer = this.parentElement.nextElementSibling;
+
+        // Clear existing error messages
+        errorContainer.innerHTML = '';
+        this.classList.remove('border-red-500');
 
         if (!isValid) {
             this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid input (numbers only)';
-                this.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
-            }
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'text-red-500 text-sm';
+            errorMessage.textContent = 'Please enter numbers only';
+            errorContainer.appendChild(errorMessage);
+        } else if (this.value.length > 0 && this.value.length !== 12) {
+            this.classList.add('border-red-500');
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'text-red-500 text-sm';
+            errorMessage.textContent = 'LRN must be exactly 12 digits';
+            errorContainer.appendChild(errorMessage);
         }
 
         // Limit to 12 digits
