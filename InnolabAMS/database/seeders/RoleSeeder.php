@@ -19,9 +19,11 @@ class RoleSeeder extends Seeder
 
         // Create permissions if they don't exist
         $permissions = [
+            'view dashboard',
             'view admissions',
             'view scholarships',
             'view inquiries',
+            'view users',
             'view personal information',
             'view educational background',
             'view family information',
@@ -33,8 +35,20 @@ class RoleSeeder extends Seeder
         }
 
         // Assign permissions to roles
-        $adminRole->syncPermissions(['view admissions', 'view scholarships', 'view inquiries']);
-        $staffRole->syncPermissions(['view admissions', 'view scholarships', 'view inquiries']);
+        $adminRole->syncPermissions([
+            'view dashboard',
+            'view admissions',
+            'view scholarships',
+            'view inquiries',
+            'view users'
+        ]);
+
+        $staffRole->syncPermissions([
+            'view admissions',
+            'view scholarships',
+            'view inquiries'
+        ]);
+
         $applicantRole->syncPermissions([
             'view personal information',
             'view educational background',
