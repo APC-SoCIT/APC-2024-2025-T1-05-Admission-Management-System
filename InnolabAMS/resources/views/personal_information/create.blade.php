@@ -126,7 +126,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Age is automatically calculated based on the date of birth</span>
                         <input type="number" name="age" id="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
                     </div>
                     <div>
