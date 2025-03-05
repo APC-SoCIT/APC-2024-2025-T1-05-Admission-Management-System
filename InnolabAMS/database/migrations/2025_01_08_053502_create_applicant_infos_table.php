@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('applicant_barangay', 255);
             $table->string('applicant_nationality', 255);
             $table->string('applicant_religion', 255)->nullable();
-            $table->string('applicant_mobile_number', 12);
+            $table->string('applicant_mobile_number', 20);
             $table->string('applicant_email', 255)->nullable();
             $table->string('applicant_photo', 255)->nullable();
 
