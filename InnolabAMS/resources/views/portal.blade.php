@@ -8,10 +8,17 @@
     </x-slot>
 
     <div class="flex min-h-screen">
-        <!-- Fixed Sidebar with full height -->
-        @unless(request()->routeIs('form.application'))
+        <!-- Fixed Sidebar - Now always visible -->
         <div class="w-72 bg-white shadow-lg border-r border-gray-200 flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
             <div class="p-6">
+                <div class="mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="{{ auth()->user()->profile_photo_url }}" class="h-12 w-12 rounded-full">
+                        <div>
+                            <h3 class="font-medium text-gray-900">{{ Auth::user()->name }}</h3>
+                        </div>
+                    </div>
+                </div>
                 <nav class="space-y-2">
                     <a href="{{ route('portal') }}"
                        class="flex items-center px-4 py-3 rounded-lg transition-all duration-200
@@ -40,9 +47,8 @@
                 </nav>
             </div>
         </div>
-        @endunless
 
-        <!-- Enhanced Content Area -->
+        <!-- Main Content Area -->
         <div class="flex-grow bg-gray-50">
             @if (Request::is('portal'))
                 <div class="p-8">
