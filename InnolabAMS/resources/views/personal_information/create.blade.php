@@ -79,12 +79,17 @@
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Personal Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700">Surname <span class="text-red-500">*</span></label>
+                        <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
                         <div class="flex items-center">
-                            <input type="text" name="applicant_surname" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="text"
+                                   name="applicant_surname"
+                                   required
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter your legal last name exactly as it appears on official documents" />
                         </div>
+                        <div class="error-container mt-1"></div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Given Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan</span>
@@ -724,18 +729,23 @@
 
         const isValid = /^[a-zA-Z\s]*$/.test(value);
 
-        // Remove any existing error messages first
-        const existingError = input.parentElement.querySelector('.error-message');
-        if (existingError) {
-            existingError.remove();
+        // Find or create error container
+        let errorContainer = input.parentElement.parentElement.querySelector('.error-container');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'error-container mt-1';
+            input.parentElement.parentElement.appendChild(errorContainer);
         }
 
-        if (!isValid && value !== '') {  // Only show error if field is not empty
+        // Clear existing error messages
+        errorContainer.innerHTML = '';
+
+        if (!isValid && value !== '') {
             input.classList.add('border-red-500');
-            const errorMessage = document.createElement('span');
-            errorMessage.className = 'error-message text-red-500 text-sm';
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'error-message text-red-500 text-sm mt-1';
             errorMessage.textContent = 'Please enter a valid input';
-            input.parentElement.appendChild(errorMessage);
+            errorContainer.appendChild(errorMessage);
         } else {
             input.classList.remove('border-red-500');
         }
