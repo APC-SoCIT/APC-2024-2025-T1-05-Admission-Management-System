@@ -13,7 +13,7 @@
             <ul class="space-y-6 p-6">
                 <li>
                     <a href="{{ route('portal') }}" class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out
-                    {{ request()->routeIs('personal_information.create') ? 'bg-gray-200' : '' }}">
+                    {{ request()->routeIs('application_form.create') ? 'bg-gray-200' : '' }}">
                     <i class="fa-solid fa-house w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Home') }}</span>
                     </a>
