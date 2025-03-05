@@ -175,13 +175,21 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
+                        <div class="flex items-center space-x-2">
+                            <select name="country_code"
+                                    class="mt-1 w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="+63" selected>🇵🇭 +63</option>
+                                <!-- Add more country codes as needed -->
+                            </select>
                             <input type="tel"
                                    name="applicant_mobile_number"
-                                   placeholder="09xxxxxxxxx"
+                                   id="applicant_mobile_number"
+                                   placeholder="0956 907 9870"
                                    required
+                                   maxlength="14"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
+                        <p class="text-sm text-gray-500 mt-1">Format: 0XXX XXX XXXX</p>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: juan.santos@example.com</span>
@@ -1210,6 +1218,58 @@
                 this.nextElementSibling.remove();
             }
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileInput = document.getElementById('applicant_mobile_number');
+
+        mobileInput.addEventListener('input', function(e) {
+            // Remove any non-digit characters
+            let value = this.value.replace(/\D/g, '');
+
+            // Always ensure there's a leading zero
+            if (value.length > 0 && value[0] !== '0') {
+                value = '0' + value;
+            }
+
+            // Format with spaces
+            if (value.length > 0) {
+                let formattedNumber = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i === 4 || i === 7) {
+                        formattedNumber += ' ';
+                    }
+                    formattedNumber += value[i];
+                }
+                this.value = formattedNumber;
+            }
+
+            // Validate length (including leading zero)
+            if (value.length > 11) {
+                this.value = this.value.slice(0, 14); // Account for spaces
+            }
+        });
+
+        // Format on blur to ensure proper display
+        mobileInput.addEventListener('blur', function() {
+            const countryCode = document.querySelector('select[name="country_code"]').value;
+            let value = this.value.replace(/\D/g, '');
+
+            if (value.length === 11 && value[0] === '0') {
+                // Remove leading zero when displaying with country code
+                value = value.substring(1);
+                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+            }
+        });
+
+        // Handle country code changes
+        document.querySelector('select[name="country_code"]').addEventListener('change', function() {
+            const mobileValue = mobileInput.value.replace(/\D/g, '');
+            if (mobileValue.length > 0) {
+                // Reformat number based on new country code
+                mobileInput.dispatchEvent(new Event('blur'));
+            }
+        });
     });
 </script>
 @endpush
