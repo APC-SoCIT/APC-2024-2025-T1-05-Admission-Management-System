@@ -16,7 +16,6 @@
                         <img src="{{ auth()->user()->profile_photo_url }}" class="h-12 w-12 rounded-full">
                         <div>
                             <h3 class="font-medium text-gray-900">{{ Auth::user()->name }}</h3>
-                            <p class="text-sm text-gray-500">Applicant</p>
                         </div>
                     </div>
                 </div>
