@@ -11,15 +11,6 @@
         <!-- Improved Sidebar with Visual Indicators -->
         <div class="w-72 h-screen bg-white shadow-lg border-r border-gray-200 flex-shrink-0">
             <div class="p-6">
-                <div class="mb-8">
-                    <div class="flex items-center space-x-3">
-                        <img src="{{ auth()->user()->profile_photo_url }}" class="h-12 w-12 rounded-full">
-                        <div>
-                            <h3 class="font-medium text-gray-900">{{ Auth::user()->name }}</h3>
-                        </div>
-                    </div>
-                </div>
-
                 <nav class="space-y-2">
                     <a href="{{ route('portal') }}"
                        class="flex items-center px-4 py-3 rounded-lg transition-all duration-200
