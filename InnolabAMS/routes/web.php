@@ -169,8 +169,8 @@ Route::middleware('auth')->group(function () {
 
     //Personal Information Routes
     Route::prefix('form')->name('form.')->group(function () {
-        Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showPersonalInfoForm'])->name('personal_info'); //Added Route
-        Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store'); //Added Route
+        Route::get('/portal/application-form', [ApplicantInfoController::class, 'showApplicationForm'])->name('application'); //Changed Route
+        Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store');
     });
 
 
