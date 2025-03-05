@@ -119,7 +119,8 @@
                             <p class="text-sm text-gray-600 mb-4">
                                 Having trouble with your application? Our support team is here to help.
                             </p>
-                            <a href="#" class="inline-flex items-center text-sm text-blue-600 hover:text-blue-700">
+                            <a href="mailto:innolabdevelopers@gmail.com"
+                               class="inline-flex items-center text-sm text-blue-600 hover:text-blue-700">
                                 <i class="fa-solid fa-headset mr-2"></i>
                                 Contact Support
                             </a>
