@@ -7,9 +7,9 @@
         </div>
     </x-slot>
 
-    <div class="flex">
-        <!-- Improved Sidebar with Visual Indicators -->
-        <div class="w-72 h-screen bg-white shadow-lg border-r border-gray-200 flex-shrink-0">
+    <div class="flex min-h-screen">
+        <!-- Fixed Sidebar with full height -->
+        <div class="w-72 bg-white shadow-lg border-r border-gray-200 flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
             <div class="p-6">
                 <nav class="space-y-2">
                     <a href="{{ route('portal') }}"
