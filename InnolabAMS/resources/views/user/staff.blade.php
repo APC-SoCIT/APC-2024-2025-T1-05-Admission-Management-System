@@ -63,79 +63,54 @@
         </nav>
     </div>
 
-    <!-- Table -->
-    <div class="py-9">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 table-fixed">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col"
-                                        class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                        ID
-                                    </th>
-                                    <th scope="col"
-                                        class="w-2/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                        Name
-                                    </th>
-                                    <th scope="col"
-                                        class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                        Email
-                                    </th>
-                                    <th scope="col"
-                                        class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                        Role
-                                    </th>
-                                    <th scope="col"
-                                        class="w-3/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                        Date Created
-                                    </th>
-                                    <th scope="col"
-                                        class="w-1/12 px-6 py-3 text-center text-sm font-black text-black uppercase tracking-wider">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="userTable">
-                                @forelse ($staffUsers as $staff)
+    <!-- Table Section -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200" id="usersTable">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-black text-black  uppercase tracking-wider">ID</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-black text-black uppercase tracking-wider">Name</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-black text-black uppercase tracking-wider">Email</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-black text-black uppercase tracking-wider">Role</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-black text-black uppercase tracking-wider">Date Created</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-black text-black uppercase tracking-wider">Action</th>
+                </tr>
+            </thead>
+            <tbody id="userTable">
+                @forelse ($staffUsers as $staff)
 
-                                    <tr>
-                                        <td class="w-1/12 py-2 px-4 border-b text-center">{{ $staff->id }}</td>
-                                        <td class="w-2/12 py-2 px-4 border-b text-center">{{ $staff->name }}</td>
-                                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $staff->email }}</td>
-                                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $staff->role }}</td>
-                                        <td class="w-3/12 py-2 px-4 border-b text-center">
-                                            {{ $staff->created_at->format('Y-m-d H:i:s') }}
-                                        </td>
-                                        <td class="w-1/12 py-2 px-4 border-b text-center">
-                                            <button class="text-red-600 py-1 px-2 rounded delete-button"
-                                                data-id="{{ $staff->id }}">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                    <tr>
+                        <td class="w-1/12 py-2 px-4 border-b text-center">{{ $staff->id }}</td>
+                        <td class="w-2/12 py-2 px-4 border-b text-center">{{ $staff->name }}</td>
+                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $staff->email }}</td>
+                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $staff->role }}</td>
+                        <td class="w-3/12 py-2 px-4 border-b text-center">
+                            {{ $staff->created_at->format('Y-m-d H:i:s') }}
+                        </td>
+                        <td class="w-1/12 py-2 px-4 border-b text-center">
+                            <button class="text-red-600 py-1 px-2 rounded delete-button" data-id="{{ $staff->id }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
 
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                                            No users found.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+                @empty
+                    <tr>
+                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                            No users found.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 
-   <!-- Pagination Section -->
-   <div class="flex items-center justify-between mt-4">
+
+    <!-- Pagination Section -->
+    <div class="flex items-center justify-between mt-4">
         <div class="text-sm text-gray-700">
-            Showing {{ $staffUsers->firstItem() ?? 0 }} to {{ $staffUsers->lastItem() ?? 0 }} of {{ $staffUsers->total() }} applications
+            Showing {{ $staffUsers->firstItem() ?? 0 }} to {{ $staffUsers->lastItem() ?? 0 }} of {{ $staffUsers->total() }}
+            applications
         </div>
         <div class="flex space-x-2">
             @if($staffUsers->previousPageUrl())
