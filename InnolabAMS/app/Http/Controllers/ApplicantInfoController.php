@@ -201,10 +201,10 @@ class ApplicantInfoController extends Controller
         }
     }
 
-    //Personal Information Form
-    public function showPersonalInfoForm()
+    //Change method name from showPersonalInfoForm to showApplicationForm
+    public function showApplicationForm()
     {
-        return view('personal_information.create');
+        return view('application_form.create');
     }
 
     public function storeForm(Request $request)
