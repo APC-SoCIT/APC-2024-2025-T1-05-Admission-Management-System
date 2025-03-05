@@ -94,7 +94,6 @@ class ApplicantInfo extends Model
 
     // Define status constants for better code readability
     const STATUS_NEW = 'new';
-    const STATUS_PENDING = 'pending';
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_REJECTED = 'rejected';
 
