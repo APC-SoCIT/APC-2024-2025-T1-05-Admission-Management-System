@@ -23,7 +23,7 @@
                         $applicant = auth()->user()->applicantInfo;
                     @endphp
 
-                    <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.personal_info') }}"
+                    <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.application') }}"
                     class="flex items-center py-4 px-6 hover:bg-gray-300 rounded transition duration-200 ease-in-out">
                     <i class="fa-solid fa-file w-6 text-center"></i>
                         <span class="font-semibold ml-6">{{ __('Application Form') }}</span>
