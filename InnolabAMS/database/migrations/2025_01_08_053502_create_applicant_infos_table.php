@@ -79,7 +79,7 @@ return new class extends Migration
             $table->string('participations', 255)->nullable();
             $table->string('competitions', 255)->nullable();
             $table->enum('referral_source', ['Social Media', 'Alumni', 'Online Ad', 'Website', 'School Fair', 'Other'])->nullable();
-            $table->enum('status', ['new', 'pending', 'accepted', 'rejected'])->default('new');
+            $table->enum('status', ['new', 'accepted', 'rejected'])->default('new');
 
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
