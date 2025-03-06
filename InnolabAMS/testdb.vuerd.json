@@ -4,9 +4,9 @@
   "settings": {
     "width": 2500,
     "height": 2500,
-    "scrollTop": -369.7671,
-    "scrollLeft": -151.3236,
-    "zoomLevel": 0.79,
+    "scrollTop": -825,
+    "scrollLeft": -1175.9024,
+    "zoomLevel": 0.82,
     "show": 436,
     "database": 4,
     "databaseName": "applicationdb",
@@ -4510,7 +4510,7 @@
         "comment": "",
         "dataType": "TINYINT(1)",
         "default": "",
-        "options": 0,
+        "options": 8,
         "ui": {
           "keys": 0,
           "widthName": 68,
@@ -4519,7 +4519,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1741232056367,
+          "updateAt": 1741242156171,
           "createAt": 1741231882504
         }
       },
@@ -4750,7 +4750,7 @@
         "comment": "",
         "dataType": "VARCHAR",
         "default": "",
-        "options": 0,
+        "options": 8,
         "ui": {
           "keys": 0,
           "widthName": 60,
@@ -4759,7 +4759,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1741232419447,
+          "updateAt": 1741242147595,
           "createAt": 1741231976154
         }
       },
@@ -7450,7 +7450,8 @@
       -1,
       {
         "name": 1741231888638,
-        "dataType": 1741232056366
+        "dataType": 1741232056366,
+        "options(notNull)": 1741242156171
       }
     ],
     "csaJMm24VDZfkH2FzEE_1": [
@@ -7558,7 +7559,8 @@
       -1,
       {
         "name": 1741231977870,
-        "dataType": 1741232419447
+        "dataType": 1741232419447,
+        "options(notNull)": 1741242147593
       }
     ],
     "qE4Xi1SAH3Ydgjy2vIt9g": [
