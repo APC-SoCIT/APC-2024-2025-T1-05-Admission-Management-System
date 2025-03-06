@@ -175,9 +175,6 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
                         <div class="flex items-center space-x-2">
-                            <div class="mt-1 w-20 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-500">
-                                +63
-                            </div>
                             <input type="tel"
                                    name="applicant_mobile_number"
                                    id="applicant_mobile_number"
@@ -1253,6 +1250,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         const mobileInput = document.getElementById('applicant_mobile_number');
+        let displayValue = '';
 
         mobileInput.addEventListener('input', function(e) {
             // Remove any non-digit characters
@@ -1272,13 +1270,15 @@
                     }
                     formattedNumber += value[i];
                 }
-                this.value = formattedNumber;
+                displayValue = value.length === 10 ? '+63 ' + formattedNumber : formattedNumber;
+                this.value = displayValue;
             }
 
-            // Limit to 10 digits (excluding spaces)
+            // Limit to 10 digits (excluding spaces and prefix)
             if (value.length > 10) {
                 value = value.slice(0, 10);
-                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+                displayValue = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+                this.value = displayValue;
             }
         });
 
@@ -1287,8 +1287,8 @@
             let value = this.value.replace(/\D/g, '');
 
             if (value.length === 10) {
-                // Format with spaces for 10 digits
-                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+                // Format with +63 prefix and spaces for 10 digits
+                this.value = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
             }
         });
     });
