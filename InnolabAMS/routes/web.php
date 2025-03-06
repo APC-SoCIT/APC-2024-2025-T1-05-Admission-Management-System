@@ -10,6 +10,7 @@ use App\Http\Controllers\EducationalBackgroundController;
 use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
 use App\Http\Controllers\AdmissionController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -29,7 +30,6 @@ Route::get('/', function () {
     }
     return view('auth.login');
 });
-
 
 //Admin Panel and Applicant Portal Routes
 Route::get('/app', function () {
@@ -60,6 +60,7 @@ Route::get('/dashboard', function () {
     }
     return view('dashboard');  // Admin stays here
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 //Dashboard Route
@@ -198,10 +199,10 @@ Route::middleware('auth')->group(function () {
 
     //Applicant Panel Routes
 
-    //Personal Information Routes
+    //Application Form Routes
     Route::prefix('form')->name('form.')->group(function () {
-        Route::get('/portal/personal-information', [ApplicantInfoController::class, 'showPersonalInfoForm'])->name('personal_info'); //Added Route
-        Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store'); //Added Route
+        Route::get('/portal/application-form', [ApplicantInfoController::class, 'showApplicationForm'])->name('application'); //Changed Route
+        Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store');
     });
 
 
@@ -219,7 +220,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [EducationalBackgroundController::class, 'store'])->name('store');
         Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
     });
-
     //Additional InfoRoutes
     Route::prefix('additional_info')->name('additional_info.')->group(function () {
         Route::get('/create', [AdditionalInfoController::class, 'create'])->name('create');
@@ -236,7 +236,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admission/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
             ->name('admission.download-file');
     });
-
 });
+
 
 require __DIR__ . '/auth.php';

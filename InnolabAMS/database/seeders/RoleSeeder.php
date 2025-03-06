@@ -12,24 +12,44 @@ class RoleSeeder extends Seeder
 {
     public function run()
     {
-        // Create roles
-        $adminRole = Role::create(['name' => 'Admin']);
-        $staffRole = Role::create(['name' => 'Staff']);
-        $applicantRole = Role::create(['name' => 'Applicant']);
+        // Create roles if they don't exist
+        $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+        $staffRole = Role::firstOrCreate(['name' => 'Staff']);
+        $applicantRole = Role::firstOrCreate(['name' => 'Applicant']);
 
-        // Create permissions
-        Permission::create(['name' => 'view admissions']);
-        Permission::create(['name' => 'view scholarships']);
-        Permission::create(['name' => 'view inquiries']);
-        Permission::create(['name' => 'view personal information']);
-        Permission::create(['name' => 'view educational background']);
-        Permission::create(['name' => 'view family information']);
-        Permission::create(['name' => 'view additional information']);
+        // Create permissions if they don't exist
+        $permissions = [
+            'view dashboard',
+            'view admissions',
+            'view scholarships',
+            'view inquiries',
+            'view users',
+            'view personal information',
+            'view educational background',
+            'view family information',
+            'view additional information'
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
 
         // Assign permissions to roles
-        $adminRole->givePermissionTo(['view admissions', 'view scholarships', 'view inquiries']);
-        $staffRole->givePermissionTo(['view admissions', 'view scholarships', 'view inquiries']);
-        $applicantRole->givePermissionTo([
+        $adminRole->syncPermissions([
+            'view dashboard',
+            'view admissions',
+            'view scholarships',
+            'view inquiries',
+            'view users'
+        ]);
+
+        $staffRole->syncPermissions([
+            'view admissions',
+            'view scholarships',
+            'view inquiries'
+        ]);
+
+        $applicantRole->syncPermissions([
             'view personal information',
             'view educational background',
             'view family information',
@@ -37,31 +57,41 @@ class RoleSeeder extends Seeder
             'view scholarships'
         ]);
 
-        // Create admin user and assign role
-        $admin = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'), 
-            'role' => 'Admin'
-        ]);
-        $admin->assignRole($adminRole);
+        // Create users if they don't exist
+        if (!User::where('email', 'admin@example.com')->exists()) {
+            $admin = User::create([
+                'first_name' => 'Admin',
+                'middle_name' => 'System',
+                'last_name' => 'User',
+                'email' => 'admin@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'Admin'
+            ]);
+            $admin->assignRole($adminRole);
+        }
 
-        // Create staff user and assign role
-        $staff = User::create([
-            'name' => 'Staff',
-            'email' => 'staff@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'Staff'
-        ]);
-        $staff->assignRole($staffRole);
+        if (!User::where('email', 'staff@example.com')->exists()) {
+            $staff = User::create([
+                'first_name' => 'Staff',
+                'middle_name' => 'System',
+                'last_name' => 'User',
+                'email' => 'staff@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'Staff'
+            ]);
+            $staff->assignRole($staffRole);
+        }
 
-        // Create applicant user and assign role
-        $applicant = User::create([
-            'name' => 'Applicant',
-            'email' => 'applicant@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'Applicant'
-        ]);
-        $applicant->assignRole($applicantRole);
+        if (!User::where('email', 'applicant@example.com')->exists()) {
+            $applicant = User::create([
+                'first_name' => 'Applicant',
+                'middle_name' => 'System',
+                'last_name' => 'User',
+                'email' => 'applicant@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'Applicant'
+            ]);
+            $applicant->assignRole($applicantRole);
+        }
     }
 }
