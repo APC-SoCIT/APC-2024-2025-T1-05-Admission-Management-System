@@ -163,12 +163,20 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Telephone Number</label> <span class="block text-sm font-medium text-gray-700">Format: (0X) XXXX-XXXX</span>
-                        <div class="flex items-center">
+                        <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
+                        <span class="block text-sm font-medium text-gray-700">Format: (0X) XXXX-XXXX</span>
+                        <div class="flex items-center gap-2">
+                            <select name="area_code" id="tel_area_code" class="mt-1 w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="02">02</option>
+                                <option value="52">52</option>
+                                <option value="36">36</option>
+                                <option value="47">47</option>
+                                <!-- Add other area codes as needed -->
+                            </select>
                             <input type="tel"
                                    name="applicant_tel_no"
+                                   id="applicant_tel_no"
                                    maxlength="15"
-                                   oninput="this.value = this.value.slice(0, 15)"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -1289,6 +1297,67 @@
             if (value.length === 10) {
                 // Format with +63 prefix and spaces for 10 digits
                 this.value = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const telInput = document.getElementById('applicant_tel_no');
+        const areaCodeSelect = document.getElementById('tel_area_code');
+
+        function formatPhoneNumber(value, areaCode) {
+            // Remove all non-digit characters
+            let cleaned = value.replace(/\D/g, '');
+
+            // Remove area code if it's at the start of the number
+            if (cleaned.startsWith(areaCode)) {
+                cleaned = cleaned.substring(areaCode.length);
+            }
+
+            let formatted = '';
+
+            // Format based on area code
+            if (areaCode === '02') {
+                // Format for Metro Manila (02): XX XXXX XXXX
+                if (cleaned.length > 4) {
+                    formatted = cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
+                } else {
+                    formatted = cleaned;
+                }
+                if (cleaned.length > 8) {
+                    formatted = formatted.slice(0, 9) + cleaned.slice(8);
+                }
+            } else {
+                // Format for other area codes: XXXX XXXX
+                if (cleaned.length > 4) {
+                    formatted = cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
+                } else {
+                    formatted = cleaned;
+                }
+            }
+
+            return areaCode + ' ' + formatted;
+        }
+
+        telInput.addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            const areaCode = areaCodeSelect.value;
+
+            // Limit total length based on area code
+            const maxLength = areaCode === '02' ? 8 : 8; // Adjust lengths as needed
+            if (value.length > maxLength) {
+                value = value.slice(0, maxLength);
+            }
+
+            // Format and set the value
+            this.value = formatPhoneNumber(value, areaCode);
+        });
+
+        // Handle area code changes
+        areaCodeSelect.addEventListener('change', function() {
+            if (telInput.value) {
+                const cleaned = telInput.value.replace(/\D/g, '');
+                telInput.value = formatPhoneNumber(cleaned, this.value);
             }
         });
     });
