@@ -169,7 +169,7 @@
                             <select name="area_code" id="tel_area_code" class="mt-1 w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <option value="02">02</option>
                                 <option value="078">78</option>
-                                <option value="074">074</option>
+                                <option value="074">74</option>
                                 <option value="044">044</option>
                                 <option value="045">045</option>
                                 <option value="043">043</option>
