@@ -1331,10 +1331,13 @@
             // Remove all non-digit characters
             let cleaned = value.replace(/\D/g, '');
 
-            // Remove area code if it's at the start
-            if (cleaned.startsWith(areaCode)) {
-                cleaned = cleaned.substring(areaCode.length);
-            }
+            // Remove any area code from the beginning of the number
+            const allAreaCodes = Array.from(areaCodeSelect.options).map(opt => opt.value);
+            allAreaCodes.forEach(code => {
+                if (cleaned.startsWith(code)) {
+                    cleaned = cleaned.substring(code.length);
+                }
+            });
 
             // Limit digits based on area code
             if (areaCode === '02') {
@@ -1365,14 +1368,9 @@
             }
         });
 
-        // Handle area code changes
+        // Handle area code changes - clear input and add new area code
         areaCodeSelect.addEventListener('change', function() {
-            const value = telInput.value.replace(/\D/g, '');
-            if (value) {
-                telInput.value = formatPhoneNumber(value, this.value);
-            } else {
-                telInput.value = this.value + ' ';
-            }
+            telInput.value = this.value + ' ';
         });
     });
 </script>
