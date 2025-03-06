@@ -61,8 +61,8 @@ class RoleSeeder extends Seeder
         if (!User::where('email', 'admin@example.com')->exists()) {
             $admin = User::create([
                 'first_name' => 'Admin',
-                'middle_name' => 'System',
-                'last_name' => 'User',
+                'middle_name' => '',
+                'last_name' => '',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Admin'
@@ -73,8 +73,8 @@ class RoleSeeder extends Seeder
         if (!User::where('email', 'staff@example.com')->exists()) {
             $staff = User::create([
                 'first_name' => 'Staff',
-                'middle_name' => 'System',
-                'last_name' => 'User',
+                'middle_name' => '',
+                'last_name' => '',
                 'email' => 'staff@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Staff'
@@ -85,8 +85,8 @@ class RoleSeeder extends Seeder
         if (!User::where('email', 'applicant@example.com')->exists()) {
             $applicant = User::create([
                 'first_name' => 'Applicant',
-                'middle_name' => 'System',
-                'last_name' => 'User',
+                'middle_name' => '',
+                'last_name' => '',
                 'email' => 'applicant@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Applicant'
