@@ -175,10 +175,10 @@
                                 <option value="043">43</option>
                                 <option value="046">46</option>
                                 <option value="049">49</option>
-                                <option value="048">048</option>
-                                <option value="052">052</option>
-                                <option value="054">054</option>
-                                <option value="032">032</option>
+                                <option value="048">48</option>
+                                <option value="052">52</option>
+                                <option value="054">54</option>
+                                <option value="032">32</option>
                                 <option value="033">033</option>
                                 <option value="034">034</option>
                                 <option value="035">035</option>
