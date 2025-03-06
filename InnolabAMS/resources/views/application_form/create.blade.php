@@ -168,9 +168,32 @@
                         <div class="flex items-center gap-2">
                             <select name="area_code" id="tel_area_code" class="mt-1 w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <option value="02">02</option>
-                                <option value="52">52</option>
-                                <option value="36">36</option>
-                                <option value="47">47</option>
+                                <option value="078">078</option>
+                                <option value="074">074</option>
+                                <option value="044">044</option>
+                                <option value="045">045</option>
+                                <option value="043">043</option>
+                                <option value="046">046</option>
+                                <option value="049">049</option>
+                                <option value="048">048</option>
+                                <option value="052">052</option>
+                                <option value="054">054</option>
+                                <option value="032">032</option>
+                                <option value="033">033</option>
+                                <option value="034">034</option>
+                                <option value="035">035</option>
+                                <option value="053">053</option>
+                                <option value="055">055</option>
+                                <option value="062">062</option>
+                                <option value="065">065</option>
+                                <option value="088">088</option>
+                                <option value="082">082</option>
+                                <option value="084">084</option>
+                                <option value="087">087</option>
+                                <option value="064">064</option>
+                                <option value="085">085</option>
+                                <option value="086">086</option>
+                                <option value="068">068</option>
                             </select>
                             <input type="tel"
                                    name="applicant_tel_no"
@@ -1304,55 +1327,51 @@
         const telInput = document.getElementById('applicant_tel_no');
         const areaCodeSelect = document.getElementById('tel_area_code');
 
-        telInput.addEventListener('input', function(e) {
-            // Remove any non-digit characters from input
-            let value = this.value.replace(/\D/g, '');
+        function formatPhoneNumber(value, areaCode) {
+            // Remove all non-digit characters
+            let cleaned = value.replace(/\D/g, '');
 
-            // Remove area code if user typed it
-            const areaCode = areaCodeSelect.value;
-            if (value.startsWith(areaCode)) {
-                value = value.substring(areaCode.length);
+            // Remove area code if it's at the start
+            if (cleaned.startsWith(areaCode)) {
+                cleaned = cleaned.substring(areaCode.length);
             }
 
-            // Format the number
-            let formattedNumber = '';
-            if (value.length > 0) {
-                formattedNumber = areaCode + ' ' + value;
-
-                // Add space after first 4 digits (after area code)
-                if (value.length > 4) {
-                    formattedNumber = areaCode + ' ' + value.substring(0, 4) + ' ' + value.substring(4);
+            // Limit digits based on area code
+            if (areaCode === '02') {
+                cleaned = cleaned.slice(0, 8); // 8 digits for Metro Manila
+                if (cleaned.length > 4) {
+                    return areaCode + ' ' + cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
                 }
+                return areaCode + ' ' + cleaned;
+            } else {
+                cleaned = cleaned.slice(0, 7); // 7 digits for other regions
+                if (cleaned.length > 3) {
+                    return areaCode + ' ' + cleaned.slice(0, 3) + ' ' + cleaned.slice(3);
+                }
+                return areaCode + ' ' + cleaned;
             }
+        }
 
-            // Update input value
-            this.value = formattedNumber;
+        telInput.addEventListener('input', function(e) {
+            const areaCode = areaCodeSelect.value;
+            this.value = formatPhoneNumber(this.value, areaCode);
+        });
+
+        // Initialize with area code on focus
+        telInput.addEventListener('focus', function() {
+            if (!this.value) {
+                const areaCode = areaCodeSelect.value;
+                this.value = areaCode + ' ';
+            }
         });
 
         // Handle area code changes
         areaCodeSelect.addEventListener('change', function() {
             const value = telInput.value.replace(/\D/g, '');
             if (value) {
-                // Remove old area code if present
-                const oldAreaCode = telInput.value.split(' ')[0];
-                let number = value;
-                if (value.startsWith(oldAreaCode)) {
-                    number = value.substring(oldAreaCode.length);
-                }
-
-                // Format with new area code
-                let formattedNumber = this.value + ' ' + number;
-                if (number.length > 4) {
-                    formattedNumber = this.value + ' ' + number.substring(0, 4) + ' ' + number.substring(4);
-                }
-                telInput.value = formattedNumber;
-            }
-        });
-
-        // Initialize with selected area code
-        telInput.addEventListener('focus', function() {
-            if (!this.value) {
-                this.value = areaCodeSelect.value + ' ';
+                telInput.value = formatPhoneNumber(value, this.value);
+            } else {
+                telInput.value = this.value + ' ';
             }
         });
     });
