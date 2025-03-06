@@ -190,10 +190,10 @@
                                 <option value="082">82</option>
                                 <option value="084">84</option>
                                 <option value="087">87</option>
-                                <option value="064">064</option>
-                                <option value="085">085</option>
-                                <option value="086">086</option>
-                                <option value="068">068</option>
+                                <option value="064">64</option>
+                                <option value="085">85</option>
+                                <option value="086">86</option>
+                                <option value="068">68</option>
                             </select>
                             <input type="tel"
                                    name="applicant_tel_no"
