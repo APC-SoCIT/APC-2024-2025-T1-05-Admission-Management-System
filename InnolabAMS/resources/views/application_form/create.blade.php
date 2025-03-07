@@ -1114,30 +1114,50 @@
         });
     });
 
+    // Guardian's contact number validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileInput = document.getElementById('guardian_contact_num');
+        let displayValue = '';
 
+        mobileInput.addEventListener('input', function(e) {
+            // Remove any non-digit characters
+            let value = this.value.replace(/\D/g, '');
 
-    document.querySelector('input[name="father_contact"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
-
-        if (!isValid) {
-            this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
-                this.parentNode.appendChild(errorMessage);
+            // Remove leading zero if present
+            if (value.startsWith('0')) {
+                value = value.substring(1);
             }
-        } else {
-            this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
-            }
-        }
 
-        // Limit to 11 digits
-        if (this.value.length > 11) {
-            this.value = this.value.slice(0, 11);
-        }
+            // Format with spaces
+            if (value.length > 0) {
+                let formattedNumber = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i === 3 || i === 6) {
+                        formattedNumber += ' ';
+                    }
+                    formattedNumber += value[i];
+                }
+                displayValue = value.length === 10 ? '+63 ' + formattedNumber : formattedNumber;
+                this.value = displayValue;
+            }
+
+            // Limit to 10 digits (excluding spaces and prefix)
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+                displayValue = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+                this.value = displayValue;
+            }
+        });
+
+        // Validate on blur
+        mobileInput.addEventListener('blur', function() {
+            let value = this.value.replace(/\D/g, '');
+
+            if (value.length === 10) {
+                // Format with +63 prefix and spaces for 10 digits
+                this.value = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+            }
+        });
     });
 
     // Emergency contact telephone validation
@@ -1351,6 +1371,7 @@
         }
     });
 
+    // Applicant's contact number validation
     document.addEventListener('DOMContentLoaded', function() {
         const mobileInput = document.getElementById('applicant_mobile_number');
         let displayValue = '';
