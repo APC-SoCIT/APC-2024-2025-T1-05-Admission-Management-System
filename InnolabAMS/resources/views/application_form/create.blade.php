@@ -1098,7 +1098,6 @@
 
     // Add event listeners for contact number fields
     const numericInputFields = [
-        'guardian_contact_num',
         'emergency_contact_tel',
         'emergency_contact_mobile'
     ];
