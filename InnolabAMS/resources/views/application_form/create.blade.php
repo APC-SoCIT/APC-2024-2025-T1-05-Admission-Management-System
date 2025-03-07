@@ -560,12 +560,12 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Telephone No.</label>
+                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
                         <div class="flex items-center">
                             <input type="tel"
                                    name="emergency_contact_tel"
-                                   id="emergency_contact_tel"
-                                   maxlength="15"
+                                   maxlength="11"
+                                   placeholder="02 xxxx-xxxx"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -574,8 +574,8 @@
                         <div class="flex items-center">
                             <input type="text"
                                    name="emergency_contact_mobile"
-                                   id="emergency_contact_mobile"
-                                   maxlength="15"
+                                   maxlength="11"
+                                   placeholder="09xxxxxxxxx"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -1331,126 +1331,6 @@
         // Handle area code changes - clear input and add new area code
         areaCodeSelect.addEventListener('change', function() {
             telInput.value = this.value + ' ';
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Configuration object for all phone fields
-        const phoneFields = {
-            // Mobile number fields
-            'applicant_mobile_number': { type: 'mobile' },
-            'father_contact': { type: 'mobile' },
-            'mother_contact': { type: 'mobile' },
-            'guardian_contact': { type: 'mobile' },
-            'emergency_contact_mobile': { type: 'mobile' },
-            // Landline fields
-            'applicant_tel_no': {
-                type: 'landline',
-                areaCodeSelectId: 'tel_area_code'
-            },
-            'emergency_contact_tel': {
-                type: 'landline',
-                areaCodeSelectId: 'emergency_area_code'
-            }
-        };
-
-        // Format mobile numbers (+63 XXX XXX XXXX)
-        function formatMobileNumber(value) {
-            let cleaned = value.replace(/\D/g, '');
-
-            // Remove leading 0 or 63
-            if (cleaned.startsWith('0')) {
-                cleaned = cleaned.substring(1);
-            } else if (cleaned.startsWith('63')) {
-                cleaned = cleaned.substring(2);
-            }
-
-            // Limit to 10 digits
-            cleaned = cleaned.slice(0, 10);
-
-            // Format the number
-            if (cleaned.length > 0) {
-                let formatted = '+63 ';
-                if (cleaned.length > 3) {
-                    formatted += cleaned.slice(0, 3) + ' ';
-                    if (cleaned.length > 6) {
-                        formatted += cleaned.slice(3, 6) + ' ' + cleaned.slice(6);
-                    } else {
-                        formatted += cleaned.slice(3);
-                    }
-                } else {
-                    formatted += cleaned;
-                }
-                return formatted;
-            }
-            return '';
-        }
-
-        // Format landline numbers
-        function formatLandlineNumber(value, areaCode) {
-            let cleaned = value.replace(/\D/g, '');
-
-            // Remove any area code from the beginning
-            if (cleaned.startsWith(areaCode)) {
-                cleaned = cleaned.substring(areaCode.length);
-            }
-
-            // Format based on area code
-            if (areaCode === '02') {
-                cleaned = cleaned.slice(0, 8); // 8 digits for Metro Manila
-                if (cleaned.length > 4) {
-                    return areaCode + ' ' + cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
-                }
-                return areaCode + ' ' + cleaned;
-            } else {
-                cleaned = cleaned.slice(0, 7); // 7 digits for other regions
-                if (cleaned.length > 3) {
-                    return areaCode + ' ' + cleaned.slice(0, 3) + ' ' + cleaned.slice(3);
-                }
-                return areaCode + ' ' + cleaned;
-            }
-        }
-
-        // Setup phone number formatting for all fields
-        function setupPhoneField(inputId, config) {
-            const input = document.getElementById(inputId);
-            if (!input) return;
-
-            if (config.type === 'mobile') {
-                // Mobile number setup
-                input.addEventListener('input', function(e) {
-                    this.value = formatMobileNumber(this.value);
-                });
-
-                input.addEventListener('focus', function() {
-                    if (!this.value) {
-                        this.value = '+63 ';
-                    }
-                });
-            } else if (config.type === 'landline') {
-                // Landline setup
-                const areaCodeSelect = document.getElementById(config.areaCodeSelectId);
-                if (!areaCodeSelect) return;
-
-                input.addEventListener('input', function(e) {
-                    this.value = formatLandlineNumber(this.value, areaCodeSelect.value);
-                });
-
-                input.addEventListener('focus', function() {
-                    if (!this.value) {
-                        this.value = areaCodeSelect.value + ' ';
-                    }
-                });
-
-                areaCodeSelect.addEventListener('change', function() {
-                    input.value = this.value + ' ';
-                });
-            }
-        }
-
-        // Initialize all phone fields
-        Object.entries(phoneFields).forEach(([inputId, config]) => {
-            setupPhoneField(inputId, config);
         });
     });
 </script>
