@@ -370,15 +370,13 @@
                             </div>
                         </div>
                         <div class="md:col-span-2">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
-                                <div class="flex items-center space-x-2">
-                                    <input type="tel"
-                                           name="father_contact"
-                                           id="father_contact"
-                                           maxlength="12"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                </div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="father_contact"
+                                       maxlength="11"
+                                       placeholder="09xxxxxxxxx"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
                     </div>
@@ -410,15 +408,13 @@
                             </div>
                         </div>
                         <div class="md:col-span-2">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
-                                <div class="flex items-center space-x-2">
-                                    <input type="tel"
-                                           name="mother_contact"
-                                           id="mother_contact"
-                                           maxlength="12"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                </div>
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <div class="flex items-center">
+                                <input type="text"
+                                       name="mother_contact"
+                                       maxlength="11"
+                                       placeholder="09xxxxxxxxx"
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
                     </div>
@@ -450,18 +446,17 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
-                            <div class="flex items-center space-x-2">
-                                <input type="tel"
+                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <div class="flex items-center">
+                                <input type="text"
                                        name="guardian_contact_num"
-                                       id="guardian_contact_num"
-                                       maxlength="12"
+                                       maxlength="11"
+                                       placeholder="09xxxxxxxxx"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <!-- Siblings Information -->
                 <div class="mb-6" id="siblings-section">
@@ -565,42 +560,12 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
-                        <span class="block text-sm font-medium text-gray-700">Choose your area code and it will automatically format the number</span>
-                        <div class="flex items-center gap-2">
-                            <select name="area_code" id="tel_area_code" class="mt-1 w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="02">02</option>
-                                <option value="078">78</option>
-                                <option value="074">74</option>
-                                <option value="044">44</option>
-                                <option value="045">45</option>
-                                <option value="043">43</option>
-                                <option value="046">46</option>
-                                <option value="049">49</option>
-                                <option value="048">48</option>
-                                <option value="052">52</option>
-                                <option value="054">54</option>
-                                <option value="032">32</option>
-                                <option value="033">33</option>
-                                <option value="034">34</option>
-                                <option value="035">35</option>
-                                <option value="053">53</option>
-                                <option value="055">55</option>
-                                <option value="062">62</option>
-                                <option value="065">65</option>
-                                <option value="088">88</option>
-                                <option value="082">82</option>
-                                <option value="084">84</option>
-                                <option value="087">87</option>
-                                <option value="064">64</option>
-                                <option value="085">85</option>
-                                <option value="086">86</option>
-                                <option value="068">68</option>
-                            </select>
+                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
+                        <div class="flex items-center">
                             <input type="tel"
                                    name="emergency_contact_tel"
-                                   id="emergency_contact_tel"
-                                   maxlength="15"
+                                   maxlength="11"
+                                   placeholder="02 xxxx-xxxx"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -1053,142 +1018,53 @@
     });
 
     // Father's contact number validation
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileInput = document.getElementById('father_contact');
-        let displayValue = '';
+    document.querySelector('input[name="father_contact"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
 
-        mobileInput.addEventListener('input', function(e) {
-            // Remove any non-digit characters
-            let value = this.value.replace(/\D/g, '');
-
-            // Remove leading zero if present
-            if (value.startsWith('0')) {
-                value = value.substring(1);
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
             }
-
-            // Format with spaces
-            if (value.length > 0) {
-                let formattedNumber = '';
-                for (let i = 0; i < value.length; i++) {
-                    if (i === 3 || i === 6) {
-                        formattedNumber += ' ';
-                    }
-                    formattedNumber += value[i];
-                }
-                displayValue = value.length === 10 ? '+63 ' + formattedNumber : formattedNumber;
-                this.value = displayValue;
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
             }
+        }
 
-            // Limit to 10 digits (excluding spaces and prefix)
-            if (value.length > 10) {
-                value = value.slice(0, 10);
-                displayValue = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-                this.value = displayValue;
-            }
-        });
-
-        // Validate on blur
-        mobileInput.addEventListener('blur', function() {
-            let value = this.value.replace(/\D/g, '');
-
-            if (value.length === 10) {
-                // Format with +63 prefix and spaces for 10 digits
-                this.value = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-            }
-        });
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
     });
-
 
     // Mother's contact number validation
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileInput = document.getElementById('mother_contact');
-        let displayValue = '';
+    document.querySelector('input[name="mother_contact"]').addEventListener('input', function(e) {
+        const isValid = /^[0-9]*$/.test(this.value);
 
-        mobileInput.addEventListener('input', function(e) {
-            // Remove any non-digit characters
-            let value = this.value.replace(/\D/g, '');
-
-            // Remove leading zero if present
-            if (value.startsWith('0')) {
-                value = value.substring(1);
+        if (!isValid) {
+            this.classList.add('border-red-500');
+            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
+                const errorMessage = document.createElement('span');
+                errorMessage.className = 'error-message text-red-500 text-sm';
+                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
+                this.parentNode.appendChild(errorMessage);
             }
-
-            // Format with spaces
-            if (value.length > 0) {
-                let formattedNumber = '';
-                for (let i = 0; i < value.length; i++) {
-                    if (i === 3 || i === 6) {
-                        formattedNumber += ' ';
-                    }
-                    formattedNumber += value[i];
-                }
-                displayValue = value.length === 10 ? '+63 ' + formattedNumber : formattedNumber;
-                this.value = displayValue;
+        } else {
+            this.classList.remove('border-red-500');
+            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
+                this.nextElementSibling.remove();
             }
+        }
 
-            // Limit to 10 digits (excluding spaces and prefix)
-            if (value.length > 10) {
-                value = value.slice(0, 10);
-                displayValue = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-                this.value = displayValue;
-            }
-        });
-
-        // Validate on blur
-        mobileInput.addEventListener('blur', function() {
-            let value = this.value.replace(/\D/g, '');
-
-            if (value.length === 10) {
-                // Format with +63 prefix and spaces for 10 digits
-                this.value = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-            }
-        });
-    });
-
-    // Guardian's contact number validation
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileInput = document.getElementById('guardian_contact_num');
-        let displayValue = '';
-
-        mobileInput.addEventListener('input', function(e) {
-            // Remove any non-digit characters
-            let value = this.value.replace(/\D/g, '');
-
-            // Remove leading zero if present
-            if (value.startsWith('0')) {
-                value = value.substring(1);
-            }
-
-            // Format with spaces
-            if (value.length > 0) {
-                let formattedNumber = '';
-                for (let i = 0; i < value.length; i++) {
-                    if (i === 3 || i === 6) {
-                        formattedNumber += ' ';
-                    }
-                    formattedNumber += value[i];
-                }
-                displayValue = value.length === 10 ? '+63 ' + formattedNumber : formattedNumber;
-                this.value = displayValue;
-            }
-
-            // Limit to 10 digits (excluding spaces and prefix)
-            if (value.length > 10) {
-                value = value.slice(0, 10);
-                displayValue = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-                this.value = displayValue;
-            }
-        });
-
-        // Validate on blur
-        mobileInput.addEventListener('blur', function() {
-            let value = this.value.replace(/\D/g, '');
-
-            if (value.length === 10) {
-                // Format with +63 prefix and spaces for 10 digits
-                this.value = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-            }
-        });
+        // Limit to 11 digits
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
     });
 
     // Emergency contact telephone validation
@@ -1241,58 +1117,6 @@
         }
     });
 
-    // Emergency telephone number validation
-    document.addEventListener('DOMContentLoaded', function() {
-        const telInput = document.getElementById('emergency_contact_tel');
-        const areaCodeSelect = document.getElementById('tel_area_code');
-
-        function formatPhoneNumber(value, areaCode) {
-            // Remove all non-digit characters
-            let cleaned = value.replace(/\D/g, '');
-
-            // Remove any area code from the beginning of the number
-            const allAreaCodes = Array.from(areaCodeSelect.options).map(opt => opt.value);
-            allAreaCodes.forEach(code => {
-                if (cleaned.startsWith(code)) {
-                    cleaned = cleaned.substring(code.length);
-                }
-            });
-
-            // Limit digits based on area code
-            if (areaCode === '02') {
-                cleaned = cleaned.slice(0, 8); // 8 digits for Metro Manila
-                if (cleaned.length > 4) {
-                    return areaCode + ' ' + cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
-                }
-                return areaCode + ' ' + cleaned;
-            } else {
-                cleaned = cleaned.slice(0, 7); // 7 digits for other regions
-                if (cleaned.length > 3) {
-                    return areaCode + ' ' + cleaned.slice(0, 3) + ' ' + cleaned.slice(3);
-                }
-                return areaCode + ' ' + cleaned;
-            }
-        }
-
-        telInput.addEventListener('input', function(e) {
-            const areaCode = areaCodeSelect.value;
-            this.value = formatPhoneNumber(this.value, areaCode);
-        });
-
-        // Initialize with area code on focus
-        telInput.addEventListener('focus', function() {
-            if (!this.value) {
-                const areaCode = areaCodeSelect.value;
-                this.value = areaCode + ' ';
-            }
-        });
-
-        // Handle area code changes - clear input and add new area code
-        areaCodeSelect.addEventListener('change', function() {
-            telInput.value = this.value + ' ';
-        });
-    });
-
     // Function to validate numeric input
     function validateNumericInput(event) {
         const input = event.target;
@@ -1321,6 +1145,13 @@
             input.value = value.slice(0, value.length - 1);
         }
     }
+
+    // Add event listeners for contact number fields
+    const numericInputFields = [
+        'guardian_contact_num',
+        'emergency_contact_tel',
+        'emergency_contact_mobile'
+    ];
 
     numericInputFields.forEach(fieldName => {
         const input = document.querySelector(`input[name="${fieldName}"]`);
@@ -1447,7 +1278,6 @@
         }
     });
 
-    // Applicant's contact number validation
     document.addEventListener('DOMContentLoaded', function() {
         const mobileInput = document.getElementById('applicant_mobile_number');
         let displayValue = '';
@@ -1493,7 +1323,6 @@
         });
     });
 
-    // Applicant's telephone number validation
     document.addEventListener('DOMContentLoaded', function() {
         const telInput = document.getElementById('applicant_tel_no');
         const areaCodeSelect = document.getElementById('tel_area_code');
