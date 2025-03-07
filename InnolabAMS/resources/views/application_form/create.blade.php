@@ -450,17 +450,18 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-                            <div class="flex items-center">
-                                <input type="text"
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
+                            <div class="flex items-center space-x-2">
+                                <input type="tel"
                                        name="guardian_contact_num"
-                                       maxlength="11"
-                                       placeholder="09xxxxxxxxx"
+                                       id="guardian_contact_num"
+                                       maxlength="12"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Siblings Information -->
                 <div class="mb-6" id="siblings-section">
@@ -1241,7 +1242,6 @@
 
     // Add event listeners for contact number fields
     const numericInputFields = [
-        'guardian_contact_num',
         'emergency_contact_tel',
         'emergency_contact_mobile'
     ];
