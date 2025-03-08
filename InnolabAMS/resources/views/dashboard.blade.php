@@ -169,7 +169,8 @@
                 monthlyTrend: {
                     labels: [],
                     data: []
-                }
+                },
+                lastUpdated: null
             },
             charts: {
                 admissions: null,
@@ -190,19 +191,11 @@
                 try {
                     const response = await fetch('/dashboard/analytics');
                     const data = await response.json();
+                    console.log('Received data:', data); // Debug line
 
-                    // Update stats
-                    this.stats = {
-                        newApplications: data.admissions.new,
-                        acceptedApplications: data.admissions.accepted,
-                        rejectedApplications: data.admissions.rejected,
-                        newInquiries: data.inquiries.new,
-                        resolvedInquiries: data.inquiries.resolved,
-                        totalScholarships: data.scholarships.total,
-                        approvedScholarships: data.scholarships.approved,
-                        monthlyTrend: data.monthlyTrend,
-                        lastUpdated: data.lastUpdated
-                    };
+                    // Update stats with all data
+                    this.stats = data;
+                    console.log('Updated stats:', this.stats); // Debug line
 
                     if (this.charts.admissions || this.charts.status) {
                         this.updateCharts();
@@ -267,13 +260,21 @@
                 }
             },
             formatDateTime(dateString) {
-                if (!dateString) return '-';
+                console.log('Formatting date string:', dateString); // Debug line
+                if (!dateString) {
+                    console.log('Date string is empty or null'); // Debug line
+                    return '-';
+                }
 
                 try {
-                    // Parse the date string and ensure it's treated as Manila/Singapore time
-                    const date = new Date(dateString + ' GMT+0800');
+                    const date = new Date(dateString);
+                    console.log('Parsed date:', date); // Debug line
 
-                    // Format the date
+                    if (isNaN(date.getTime())) {
+                        console.log('Invalid date parsing result'); // Debug line
+                        return dateString;
+                    }
+
                     const options = {
                         year: 'numeric',
                         month: 'long',
@@ -281,13 +282,16 @@
                         hour: '2-digit',
                         minute: '2-digit',
                         second: '2-digit',
-                        hour12: true
+                        hour12: true,
+                        timeZone: 'Asia/Manila'
                     };
 
-                    return date.toLocaleString('en-US', options);
+                    const formatted = date.toLocaleString('en-US', options);
+                    console.log('Formatted date:', formatted); // Debug line
+                    return formatted;
                 } catch (error) {
                     console.error('Date formatting error:', error);
-                    return dateString; // Return the original string if parsing fails
+                    return dateString;
                 }
             }
         }
