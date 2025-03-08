@@ -148,7 +148,7 @@
 
         <!-- Last Updated -->
         <div class="mt-4 text-right text-sm text-gray-600">
-            Last updated: <span x-text="new Date(stats.lastUpdated).toLocaleString()">-</span>
+            Last updated: <span x-text="stats.lastUpdated || 'Never'">-</span>
         </div>
     </div>
 </div>
@@ -166,6 +166,7 @@
                 resolvedInquiries: 0,
                 totalScholarships: 0,
                 approvedScholarships: 0,
+                lastUpdated: null,
                 monthlyTrend: {
                     labels: [],
                     data: []
@@ -200,6 +201,7 @@
                         resolvedInquiries: data.inquiries.resolved,
                         totalScholarships: data.scholarships.total,
                         approvedScholarships: data.scholarships.approved,
+                        lastUpdated: data.lastUpdated,
                         monthlyTrend: data.monthlyTrend
                     };
 
