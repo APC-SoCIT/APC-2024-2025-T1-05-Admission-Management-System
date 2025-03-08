@@ -35,7 +35,7 @@
                             <select id="apply_grade_level" name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 <option value="">Select Grade Level</option>
                             </select>
-                            <x-form-tooltip text="Select your intended grade level for enrollment" />
+                            <x-form-tooltip text="Your grade level will automatically be selected based on the program you choose" />
                         </div>
                     </div>
                     <div id="strandContainer" class="hidden">
