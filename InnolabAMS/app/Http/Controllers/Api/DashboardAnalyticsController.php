@@ -32,7 +32,7 @@ class DashboardAnalyticsController extends Controller
             // Monthly Trend Data (last 6 months)
             'monthlyTrend' => $this->getMonthlyTrend(),
 
-            // Last Updated Timestamp - formatted for Asia/Manila timezone
+            // Last Updated Timestamp - use ISO format with timezone
             'lastUpdated' => now()
                 ->timezone('Asia/Manila')
                 ->format('Y-m-d H:i:s')
