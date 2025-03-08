@@ -75,7 +75,7 @@
     <div class="min-h-screen flex flex-col bg-school">
         <!-- Welcome Header -->
         <div class="flex items-center p-4 ml-4">
-            <img src="{{ asset('/static/images/innolab_logo3.png') }}" alt="Logo" class="w-16 h-16">
+            <img src="{{ asset('/static/images/innolab_logo4.png') }}" alt="Logo" class="w-16 h-16">
             <div class="ml-4">
                 <h1 class="text-2xl font-bold text-white">Welcome to InnolabAMS</h1>
                 <p class="text-white/90">Your innovation solution partner.</p>
