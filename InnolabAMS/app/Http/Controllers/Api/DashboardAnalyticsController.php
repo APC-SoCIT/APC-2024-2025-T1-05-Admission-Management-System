@@ -15,28 +15,29 @@ class DashboardAnalyticsController extends Controller
         // Set timezone to Asia/Manila
         date_default_timezone_set('Asia/Manila');
 
+        $currentTime = now()->timezone('Asia/Manila');
+
         $analytics = [
-            // Admissions Statistics
-            'newApplications' => ApplicantInfo::where('status', 'new')->count(),
-            'acceptedApplications' => ApplicantInfo::where('status', 'accepted')->count(),
-            'rejectedApplications' => ApplicantInfo::where('status', 'rejected')->count(),
-
-            // Inquiries Statistics
-            'newInquiries' => LeadInfo::where('inquiry_status', 'New')->count(),
-            'resolvedInquiries' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
-
-            // Scholarship Statistics
-            'scholarshipApplications' => ApplicantScholarship::count(),
-            'approvedScholarships' => ApplicantScholarship::where('status', 'approved')->count(),
-
-            // Monthly Trend Data (last 6 months)
+            'admissions' => [
+                'new' => ApplicantInfo::where('status', 'new')->count(),
+                'accepted' => ApplicantInfo::where('status', 'accepted')->count(),
+                'rejected' => ApplicantInfo::where('status', 'rejected')->count(),
+            ],
+            'inquiries' => [
+                'new' => LeadInfo::where('inquiry_status', 'New')->count(),
+                'resolved' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
+            ],
+            'scholarships' => [
+                'total' => ApplicantScholarship::count(),
+                'approved' => ApplicantScholarship::where('status', 'approved')->count(),
+            ],
             'monthlyTrend' => $this->getMonthlyTrend(),
-
-            // Last Updated Timestamp - use ISO format with timezone
-            'lastUpdated' => now()
-                ->timezone('Asia/Manila')
-                ->format('Y-m-d H:i:s')
+            'lastUpdated' => $currentTime->format('Y-m-d H:i:s'),
+            'timezone' => 'Asia/Manila'
         ];
+
+        // Log the response for debugging
+        \Log::info('Analytics response:', $analytics);
 
         return response()->json($analytics);
     }
