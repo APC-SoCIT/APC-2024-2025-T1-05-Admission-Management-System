@@ -148,7 +148,7 @@
 
         <!-- Last Updated -->
         <div class="mt-4 text-right text-sm text-gray-600">
-            Last updated: <span x-text="new Date(stats.lastUpdated).toLocaleString()">-</span>
+            Last updated: <span x-text="formatDateTime(stats.lastUpdated)">-</span>
         </div>
     </div>
 </div>
@@ -264,6 +264,23 @@
                     ];
                     this.charts.status.update();
                 }
+            },
+            formatDateTime(dateString) {
+                if (!dateString) return '-';
+
+                // Create a date object and format it for Asia/Manila timezone
+                const options = {
+                    timeZone: 'Asia/Manila',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                };
+
+                return new Date(dateString).toLocaleString('en-US', options);
             }
         }
     }
