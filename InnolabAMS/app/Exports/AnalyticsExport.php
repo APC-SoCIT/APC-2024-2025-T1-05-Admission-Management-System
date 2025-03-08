@@ -17,28 +17,11 @@ class AnalyticsExport
 
     public function export(string $filePath)
     {
-        // Set timezone to Asia/Manila
-        date_default_timezone_set('Asia/Manila');
-
         $writer = new Writer();
         $writer->openToFile($filePath);
 
-        // Add header with style and generated timestamp
+        // Add header with style
         $headerStyle = (new Style())->setFontBold();
-
-        // Add report title and timestamp
-        $writer->addRow(Row::fromValues([
-            'Analytics Report'
-        ], $headerStyle));
-
-        $writer->addRow(Row::fromValues([
-            'Generated at: ' . now()->timezone('Asia/Manila')->format('Y-m-d H:i:s')
-        ]));
-
-        // Add blank row for spacing
-        $writer->addRow(Row::fromValues(['']));
-
-        // Add data headers
         $writer->addRow(Row::fromValues([
             'Category',
             'Metric',
