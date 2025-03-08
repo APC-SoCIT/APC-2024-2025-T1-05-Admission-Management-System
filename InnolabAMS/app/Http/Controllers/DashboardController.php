@@ -175,7 +175,7 @@ class DashboardController extends Controller
             'inquiries' => $inquiryCounts,
             'scholarships' => $scholarshipCounts,
             'monthlyTrend' => $this->getMonthlyTrend(),
-            'lastUpdated' => now()->timezone('Asia/Manila')->format('Y-m-d H:i:s'),
+            'lastUpdated' => now()->timezone('Asia/Manila')->format('F j, Y g:i A'),
         ];
     }
 }
