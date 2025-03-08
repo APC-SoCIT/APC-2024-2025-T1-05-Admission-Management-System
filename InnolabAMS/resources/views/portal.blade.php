@@ -46,7 +46,7 @@
                 <!-- Hero Welcome Section -->
                 <div class="bg-gradient-to-r from-blue-600 to-blue-700">
                     <div class="p-8 max-w-5xl mx-auto">
-                        <h1 class="text-3xl font-bold mb-2 text-white">
+                        <h1 class="text-3xl font-bold mb-2 text-blue-100">
                             {{ __('Welcome back, ') . Auth::user()->name }}! 👋
                         </h1>
                         <p class="text-blue-100">Let's continue with your admission journey.</p>
