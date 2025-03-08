@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Analytics Report</title>
+    <title>Insights Report</title>
     <style>
         body {
             font-family: Arial, sans-serif;
