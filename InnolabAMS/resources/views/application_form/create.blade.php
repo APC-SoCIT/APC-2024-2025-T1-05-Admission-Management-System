@@ -855,10 +855,79 @@
         }
     }
 
+    // Function to validate age based on Philippine educational system requirements
+    async function validateAge(birthDate, ageInput, errorContainer) {
+        const today = await getServerTime();
+        const birth = new Date(birthDate);
+
+        // Clear existing error messages
+        if (errorContainer) {
+            errorContainer.innerHTML = '';
+            errorContainer.classList.add('hidden');
+        }
+
+        // Validate birth date is not in the future
+        if (birth > today) {
+            if (errorContainer) {
+                errorContainer.innerHTML = 'Date of birth cannot be in the future';
+                errorContainer.classList.remove('hidden');
+            }
+            ageInput.value = 'Invalid';
+            ageInput.classList.add('border-red-500');
+            return false;
+        }
+
+        // Calculate age
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        // Validate minimum age (3 years for preschool admission consideration)
+        if (age < 3) {
+            if (errorContainer) {
+                errorContainer.innerHTML = 'Applicant must be at least 3 years old for school admission';
+                errorContainer.classList.remove('hidden');
+            }
+            ageInput.value = age;
+            ageInput.classList.add('border-red-500');
+            return false;
+        }
+
+        // Validate maximum reasonable age (30 years for school admission)
+        if (age > 30) {
+            if (errorContainer) {
+                errorContainer.innerHTML = 'Please verify the date of birth - age exceeds typical school admission range';
+                errorContainer.classList.remove('hidden');
+            }
+            ageInput.value = age;
+            ageInput.classList.add('border-red-500');
+            return false;
+        }
+
+        // Valid age
+        ageInput.value = age;
+        ageInput.classList.remove('border-red-500');
+        return true;
+    }
+
     // Updated function to calculate age based on birthdate using server time
     async function calculateAge(birthDate) {
-        const today = await getServerTime(); // Get server time instead of local time
+        const today = await getServerTime();
         const birth = new Date(birthDate);
+
+        // Check if date is valid
+        if (isNaN(birth.getTime())) {
+            return 'Invalid';
+        }
+
+        // Check if birth date is in the future
+        if (birth > today) {
+            return 'Invalid';
+        }
+
         let age = today.getFullYear() - birth.getFullYear();
         const monthDiff = today.getMonth() - birth.getMonth();
 
@@ -873,11 +942,21 @@
     document.getElementById('applicant_date_birth').addEventListener('change', async function() {
         const ageInput = document.getElementById('age');
         const birthDate = this.value;
+
+        // Find or create error container
+        let errorContainer = this.parentElement.querySelector('.date-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('p');
+            errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
+            this.parentElement.appendChild(errorContainer);
+        }
+
         if (birthDate) {
-            const age = await calculateAge(birthDate);
-            ageInput.value = age;
+            await validateAge(birthDate, ageInput, errorContainer);
         } else {
             ageInput.value = '';
+            ageInput.classList.remove('border-red-500');
+            errorContainer.classList.add('hidden');
         }
     });
 
@@ -908,18 +987,110 @@
         siblingCount++;
     });
 
-    // Updated function to calculate sibling age
+    // Updated function to calculate and validate sibling age
     async function calculateSiblingAge(dateInput) {
-        const ageInput = dateInput.parentNode.querySelector('input[name$="[age]"]');
+        const siblingEntry = dateInput.closest('.sibling-entry');
+        const ageInput = siblingEntry.querySelector('input[name$="[age]"]');
         const birthDate = dateInput.value;
 
+        // Find or create error container
+        let errorContainer = siblingEntry.querySelector('.sibling-date-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('p');
+            errorContainer.className = 'sibling-date-error text-red-500 text-sm mt-1 hidden';
+            dateInput.parentElement.appendChild(errorContainer);
+        }
+
         if (birthDate) {
-            const age = await calculateAge(birthDate);
-            ageInput.value = age;
+            await validateAge(birthDate, ageInput, errorContainer);
         } else {
             ageInput.value = '';
+            ageInput.classList.remove('border-red-500');
+            errorContainer.classList.add('hidden');
         }
     }
+
+    // Function to validate date of birth on form submission
+    async function validateDatesBeforeSubmit() {
+        const applicantBirthDate = document.getElementById('applicant_date_birth').value;
+        const ageInput = document.getElementById('age');
+
+        // Find or create error container for applicant
+        let errorContainer = document.getElementById('applicant_date_birth').parentElement.querySelector('.date-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('p');
+            errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
+            document.getElementById('applicant_date_birth').parentElement.appendChild(errorContainer);
+        }
+
+        // Validate applicant's date of birth
+        const isApplicantAgeValid = await validateAge(applicantBirthDate, ageInput, errorContainer);
+
+        // Validate siblings' dates of birth if not marked as only child
+        const onlyChildCheckbox = document.getElementById('only-child');
+        let areSiblingAgesValid = true;
+
+        if (!onlyChildCheckbox.checked) {
+            const siblingDateInputs = document.querySelectorAll('input[name$="[date_of_birth]"]');
+
+            for (const dateInput of siblingDateInputs) {
+                const siblingEntry = dateInput.closest('.sibling-entry');
+                const siblingAgeInput = siblingEntry.querySelector('input[name$="[age]"]');
+
+                // Skip if no date entered
+                if (!dateInput.value) continue;
+
+                // Find or create error container for sibling
+                let siblingErrorContainer = siblingEntry.querySelector('.sibling-date-error');
+                if (!siblingErrorContainer) {
+                    siblingErrorContainer = document.createElement('p');
+                    siblingErrorContainer.className = 'sibling-date-error text-red-500 text-sm mt-1 hidden';
+                    dateInput.parentElement.appendChild(siblingErrorContainer);
+                }
+
+                // Validate sibling's date of birth
+                const isSiblingAgeValid = await validateAge(dateInput.value, siblingAgeInput, siblingErrorContainer);
+                if (!isSiblingAgeValid) {
+                    areSiblingAgesValid = false;
+                }
+            }
+        }
+
+        return isApplicantAgeValid && areSiblingAgesValid;
+    }
+
+    // Add form submission validation for date of birth
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+
+        if (form) {
+            const originalSubmit = form.onsubmit;
+
+            form.onsubmit = async function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                // Validate dates of birth
+                const areDatesValid = await validateDatesBeforeSubmit();
+
+                if (!areDatesValid) {
+                    // Scroll to the first error message
+                    const firstError = document.querySelector('.date-error:not(.hidden), .sibling-date-error:not(.hidden)');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return false;
+                }
+
+                // If dates are valid, proceed with original submit handler or submit the form
+                if (originalSubmit) {
+                    return originalSubmit.call(form);
+                } else {
+                    form.submit();
+                }
+            };
+        }
+    });
 
     // Add the removeSibling function
     function removeSibling(button) {
