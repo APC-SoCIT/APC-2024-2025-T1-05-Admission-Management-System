@@ -111,132 +111,167 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
             ->name('admission.download-file');
 
-
     });
+});
 
-    // Scholarship Routes
-    Route::middleware('auth')->group(function () {
-        Route::get('/scholarship', function () {
+// Scholarship Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/scholarship', function () {
+        if (auth()->user()->hasRole('Staff')) {
+            return redirect('/app');
+        }
+        if (auth()->user()->hasRole('Applicant')) {
+            return redirect('/portal');
+        }
+        return app(ApplicantScholarshipController::class)->show();
+    })->name('scholarship.show');
+
+});
+// Inquiry routes
+Route::middleware('auth')->group(function () {
+    Route::prefix('user')->prefix('inquiries')->name('inquiry.')->group(function () {
+        Route::get('/', function () {
             if (auth()->user()->hasRole('Staff')) {
                 return redirect('/app');
             }
             if (auth()->user()->hasRole('Applicant')) {
                 return redirect('/portal');
             }
-            return app(ApplicantScholarshipController::class)->show();
-        })->name('scholarship.show');
+            return app(LeadInfoController::class)->index();
+        })->name('index');
 
-    });
-    // Inquiry routes
-    Route::prefix('inquiries')->group(function () {
-        Route::get('/', [LeadInfoController::class, 'index'])->name('inquiry.index'); // List all inquiries
-        Route::get('/{id}', [LeadInfoController::class, 'show'])->name('inquiry.show'); // Show single inquiry details
-        // Route to update the inquiry
-        Route::put('/{id}', [LeadInfoController::class, 'update'])->name('update');
-        // Route to delete an inquiry
-        Route::delete('/{id}', [LeadInfoController::class, 'destroy'])->name('destroy');
-    });
+        Route::get('/{id}', function ($id) {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app(LeadInfoController::class)->show($id);
+        })->name('show');
 
-    // User Routes
-    Route::middleware('auth')->group(function () {
-        Route::prefix('user')->name('user.')->group(function () {
-            Route::get('/', function () {
-                if (auth()->user()->hasRole('Staff')) {
-                    return redirect('/app');
-                }
-                if (auth()->user()->hasRole('Applicant')) {
-                    return redirect('/portal');
-                }
-                return app(UserController::class)->show();
-            })->name('show');
+        Route::put('/{id}', function ($id) {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app(LeadInfoController::class)->update(request(), $id);
+        })->name('update');
 
-            Route::get('/admin', function () {
-                if (auth()->user()->hasRole('Staff')) {
-                    return redirect('/app');
-                }
-                if (auth()->user()->hasRole('Applicant')) {
-                    return redirect('/portal');
-                }
-                return app(UserController::class)->showAdmins();
-            })->name('admin');
-
-            Route::get('/staff', function () {
-                if (auth()->user()->hasRole('Staff')) {
-                    return redirect('/app');
-                }
-                if (auth()->user()->hasRole('Applicant')) {
-                    return redirect('/portal');
-                }
-                return app(UserController::class)->showStaffs();
-            })->name('staff');
-
-            Route::get('/applicant', function () {
-                if (auth()->user()->hasRole('Staff')) {
-                    return redirect('/app');
-                }
-                if (auth()->user()->hasRole('Applicant')) {
-                    return redirect('/portal');
-                }
-                return app(UserController::class)->showApplicants();
-            })->name('applicant');
-
-            Route::post('/', function () {
-                if (auth()->user()->hasRole('Staff')) {
-                    return redirect('/app');
-                }
-                return app(AddUserController::class)->store(request());
-            })->name('store');
-        });
-    });
-
-    // Profile Routes
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile', 'edit')->name('profile.edit');
-        Route::patch('/profile', 'update')->name('profile.update');
-        Route::delete('/profile', 'destroy')->name('profile.destroy');
-    });
-
-
-    //Applicant Panel Routes
-
-    //Application Form Routes
-    Route::prefix('form')->name('form.')->group(function () {
-        Route::get('/portal/application-form', [ApplicantInfoController::class, 'showApplicationForm'])->name('application'); //Changed Route
-        Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store');
-    });
-
-
-    //Family Information Routes
-    Route::prefix('family-information')->name('family-information.')->group(function () {
-        Route::get('/create', [FamilyInformationController::class, 'create'])->name('create');
-        Route::post('/', [FamilyInformationController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [FamilyInformationController::class, 'edit'])->name('edit');
-        Route::patch('/{id}', [FamilyInformationController::class, 'update'])->name('update');
-    });
-
-    //Educational Background Routes
-    Route::prefix('educational-background')->name('educational-background.')->group(function () {
-        Route::get('/create', [EducationalBackgroundController::class, 'create'])->name('create');
-        Route::post('/', [EducationalBackgroundController::class, 'store'])->name('store');
-        Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
-    });
-    //Additional InfoRoutes
-    Route::prefix('additional_info')->name('additional_info.')->group(function () {
-        Route::get('/create', [AdditionalInfoController::class, 'create'])->name('create');
-        Route::post('/', [AdditionalInfoController::class, 'store'])->name('store');
-    });
-
-    //Personal Information Routes
-    Route::prefix('form')->name('scholarship.')->group(function () {
-        Route::get('/portal/scholarship', [ApplicantScholarshipController::class, 'showScholarshipForm'])->name('create');
-        Route::post('/portal/scholarship', [ApplicantScholarshipController::class, 'store'])->name('store');
-    });
-
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/admission/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
-            ->name('admission.download-file');
+        Route::delete('/{id}', function ($id) {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app(LeadInfoController::class)->destroy($id);
+        })->name('destroy');
     });
 });
+
+// User Routes
+Route::middleware('auth')->group(function () {
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('/', function () {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app(UserController::class)->show();
+        })->name('show');
+
+        Route::get('/admin', function () {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app(UserController::class)->showAdmins();
+        })->name('admin');
+
+        Route::get('/staff', function () {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app(UserController::class)->showStaffs();
+        })->name('staff');
+
+        Route::get('/applicant', function () {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            if (auth()->user()->hasRole('Applicant')) {
+                return redirect('/portal');
+            }
+            return app(UserController::class)->showApplicants();
+        })->name('applicant');
+
+        Route::post('/', function () {
+            if (auth()->user()->hasRole('Staff')) {
+                return redirect('/app');
+            }
+            return app(AddUserController::class)->store(request());
+        })->name('store');
+    });
+});
+
+// Profile Routes
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('/profile', 'edit')->name('profile.edit');
+    Route::patch('/profile', 'update')->name('profile.update');
+    Route::delete('/profile', 'destroy')->name('profile.destroy');
+});
+
+
+//Applicant Panel Routes
+
+//Application Form Routes
+Route::prefix('form')->name('form.')->group(function () {
+    Route::get('/portal/application-form', [ApplicantInfoController::class, 'showApplicationForm'])->name('application'); //Changed Route
+    Route::post('/', [ApplicantInfoController::class, 'storeForm'])->name('store');
+});
+
+
+//Family Information Routes
+Route::prefix('family-information')->name('family-information.')->group(function () {
+    Route::get('/create', [FamilyInformationController::class, 'create'])->name('create');
+    Route::post('/', [FamilyInformationController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [FamilyInformationController::class, 'edit'])->name('edit');
+    Route::patch('/{id}', [FamilyInformationController::class, 'update'])->name('update');
+});
+
+//Educational Background Routes
+Route::prefix('educational-background')->name('educational-background.')->group(function () {
+    Route::get('/create', [EducationalBackgroundController::class, 'create'])->name('create');
+    Route::post('/', [EducationalBackgroundController::class, 'store'])->name('store');
+    Route::patch('/{id}', [EducationalBackgroundController::class, 'update'])->name('update');
+});
+//Additional InfoRoutes
+Route::prefix('additional_info')->name('additional_info.')->group(function () {
+    Route::get('/create', [AdditionalInfoController::class, 'create'])->name('create');
+    Route::post('/', [AdditionalInfoController::class, 'store'])->name('store');
+});
+
+//Personal Information Routes
+Route::prefix('form')->name('scholarship.')->group(function () {
+    Route::get('/portal/scholarship', [ApplicantScholarshipController::class, 'showScholarshipForm'])->name('create');
+    Route::post('/portal/scholarship', [ApplicantScholarshipController::class, 'store'])->name('store');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admission/{id}/download/{documentType}', [ApplicantInfoController::class, 'downloadFile'])
+        ->name('admission.download-file');
+});
+
 
 
 require __DIR__ . '/auth.php';
