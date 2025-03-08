@@ -12,32 +12,25 @@ class DashboardAnalyticsController extends Controller
 {
     public function index(): JsonResponse
     {
-        // Set timezone to Asia/Manila
-        date_default_timezone_set('Asia/Manila');
-
         $analytics = [
-            'admissions' => [
-                'new' => ApplicantInfo::where('status', 'new')->count(),
-                'accepted' => ApplicantInfo::where('status', 'accepted')->count(),
-                'rejected' => ApplicantInfo::where('status', 'rejected')->count(),
-            ],
+            // Admissions Statistics
+            'newApplications' => ApplicantInfo::where('status', 'new')->count(),
+            'acceptedApplications' => ApplicantInfo::where('status', 'accepted')->count(),
+            'rejectedApplications' => ApplicantInfo::where('status', 'rejected')->count(),
 
-            'inquiries' => [
-                'new' => LeadInfo::where('inquiry_status', 'New')->count(),
-                'resolved' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
-            ],
+            // Inquiries Statistics
+            'newInquiries' => LeadInfo::where('inquiry_status', 'New')->count(),
+            'resolvedInquiries' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
 
-            'scholarships' => [
-                'total' => ApplicantScholarship::count(),
-                'approved' => ApplicantScholarship::where('status', 'approved')->count(),
-            ],
+            // Scholarship Statistics
+            'scholarshipApplications' => ApplicantScholarship::count(),
+            'approvedScholarships' => ApplicantScholarship::where('status', 'approved')->count(),
 
+            // Monthly Trend Data (last 6 months)
             'monthlyTrend' => $this->getMonthlyTrend(),
 
-            // Ensure lastUpdated is properly formatted
-            'lastUpdated' => now()
-                ->timezone('Asia/Manila')
-                ->format('Y-m-d H:i:s')
+            // Last Updated Timestamp
+            'lastUpdated' => now()->toIso8601String()
         ];
 
         return response()->json($analytics);
