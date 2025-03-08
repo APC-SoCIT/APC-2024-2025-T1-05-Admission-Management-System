@@ -21,9 +21,8 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
                         <div class="flex items-center">
-                            <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <select id="apply_program" name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 <option value="">Select Program</option>
-                                <option value="Elementary">Elementary</option>
                                 <option value="High School">High School</option>
                                 <option value="Senior High School">Senior High School</option>
                             </select>
@@ -33,13 +32,13 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
                         <div class="flex items-center">
-                            <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <select id="apply_grade_level" name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 <option value="">Select Grade Level</option>
                             </select>
                             <x-form-tooltip text="Select your intended grade level for enrollment" />
                         </div>
                     </div>
-                    <div id="strandContainer" style="display: none;">
+                    <div id="strandContainer" class="hidden">
                         <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
                         <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option value="">Select Strand</option>
@@ -1525,18 +1524,14 @@
     function handleProgramSelection() {
         const programSelect = document.getElementById('apply_program');
         const gradeLevelSelect = document.getElementById('apply_grade_level');
-        const strandContainer = document.getElementById('strand-container');
+        const strandContainer = document.getElementById('strandContainer');
 
         if (!programSelect || !gradeLevelSelect) return;
 
-        // Clear existing options
-        gradeLevelSelect.innerHTML = '';
-
-        // Create default option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = 'Select Grade Level';
-        gradeLevelSelect.appendChild(defaultOption);
+        // Clear all existing options from grade level select
+        while (gradeLevelSelect.options.length > 0) {
+            gradeLevelSelect.remove(0);
+        }
 
         // Set appropriate grade level based on program
         if (programSelect.value === 'High School') {
@@ -1544,8 +1539,10 @@
             const option = document.createElement('option');
             option.value = '7';
             option.textContent = 'Grade 7';
-            option.selected = true;
             gradeLevelSelect.appendChild(option);
+
+            // Auto-select Grade 7
+            gradeLevelSelect.value = '7';
 
             // Make grade level read-only by disabling the select
             gradeLevelSelect.disabled = true;
@@ -1558,8 +1555,10 @@
             const option = document.createElement('option');
             option.value = '11';
             option.textContent = 'Grade 11';
-            option.selected = true;
             gradeLevelSelect.appendChild(option);
+
+            // Auto-select Grade 11
+            gradeLevelSelect.value = '11';
 
             // Make grade level read-only by disabling the select
             gradeLevelSelect.disabled = true;
@@ -1568,7 +1567,13 @@
             if (strandContainer) strandContainer.classList.remove('hidden');
         }
         else {
-            // If no program selected, enable grade level
+            // If no program selected, add a placeholder option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select Grade Level';
+            gradeLevelSelect.appendChild(defaultOption);
+
+            // Enable grade level select
             gradeLevelSelect.disabled = false;
 
             // Hide strand selection
@@ -1590,32 +1595,42 @@
         }
     }
 
+    // Replace the program dropdown options
+    function replaceProgramOptions() {
+        const programSelect = document.getElementById('apply_program');
+        if (!programSelect) return;
+
+        // Clear all existing options
+        while (programSelect.options.length > 0) {
+            programSelect.remove(0);
+        }
+
+        // Add default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select Program';
+        programSelect.appendChild(defaultOption);
+
+        // Add only High School and Senior High School options
+        const hsOption = document.createElement('option');
+        hsOption.value = 'High School';
+        hsOption.textContent = 'High School';
+        programSelect.appendChild(hsOption);
+
+        const shsOption = document.createElement('option');
+        shsOption.value = 'Senior High School';
+        shsOption.textContent = 'Senior High School';
+        programSelect.appendChild(shsOption);
+    }
+
     // Add initialization to the document ready event
     document.addEventListener('DOMContentLoaded', function() {
-        // Set up program dropdown with only High School and Senior High School
+        // Replace program options with only High School and Senior High School
+        replaceProgramOptions();
+
+        // Set up event listener for program change
         const programSelect = document.getElementById('apply_program');
         if (programSelect) {
-            // Clear existing options
-            programSelect.innerHTML = '';
-
-            // Add default option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Select Program';
-            programSelect.appendChild(defaultOption);
-
-            // Add only High School and Senior High School options
-            const hsOption = document.createElement('option');
-            hsOption.value = 'High School';
-            hsOption.textContent = 'High School';
-            programSelect.appendChild(hsOption);
-
-            const shsOption = document.createElement('option');
-            shsOption.value = 'Senior High School';
-            shsOption.textContent = 'Senior High School';
-            programSelect.appendChild(shsOption);
-
-            // Add event listener
             programSelect.addEventListener('change', handleProgramSelection);
         }
 
