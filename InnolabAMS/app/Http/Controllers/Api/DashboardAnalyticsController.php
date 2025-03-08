@@ -12,6 +12,9 @@ class DashboardAnalyticsController extends Controller
 {
     public function index(): JsonResponse
     {
+        // Set timezone to Asia/Manila
+        date_default_timezone_set('Asia/Manila');
+
         $analytics = [
             // Admissions Statistics
             'newApplications' => ApplicantInfo::where('status', 'new')->count(),
@@ -29,8 +32,10 @@ class DashboardAnalyticsController extends Controller
             // Monthly Trend Data (last 6 months)
             'monthlyTrend' => $this->getMonthlyTrend(),
 
-            // Last Updated Timestamp
-            'lastUpdated' => now()->toIso8601String()
+            // Last Updated Timestamp - formatted for Asia/Manila timezone
+            'lastUpdated' => now()
+                ->timezone('Asia/Manila')
+                ->format('Y-m-d H:i:s')
         ];
 
         return response()->json($analytics);
