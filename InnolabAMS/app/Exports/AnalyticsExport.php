@@ -32,7 +32,7 @@ class AnalyticsExport
         $writer->addRow(Row::fromValues([
             'Report Information',
             'Generated at',
-            now()->timezone('Asia/Manila')->format('Y-m-d H:i:s')
+            now()->timezone('Asia/Manila')->format('F j, Y g:i A')
         ]));
 
         // Add empty row as separator
