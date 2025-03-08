@@ -32,10 +32,14 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
                         <div class="flex items-center">
-                            <select id="apply_grade_level" name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <!-- Replace select with input for read-only display -->
+                            <input type="text" id="grade_level_display" class="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+
+                            <!-- Hidden select field that will still contain the actual value for form submission -->
+                            <select id="apply_grade_level" name="apply_grade_level" class="hidden" required>
                                 <option value="">Select Grade Level</option>
                             </select>
-                            <x-form-tooltip text="Your grade level will automatically be selected based on the program you choose" />
+                            <x-form-tooltip text="Grade level is automatically set based on your program selection" />
                         </div>
                     </div>
                     <div id="strandContainer" class="hidden">
@@ -1524,11 +1528,12 @@
     function handleProgramSelection() {
         const programSelect = document.getElementById('apply_program');
         const gradeLevelSelect = document.getElementById('apply_grade_level');
+        const gradeLevelDisplay = document.getElementById('grade_level_display');
         const strandContainer = document.getElementById('strandContainer');
 
-        if (!programSelect || !gradeLevelSelect) return;
+        if (!programSelect || !gradeLevelSelect || !gradeLevelDisplay) return;
 
-        // Clear all existing options from grade level select
+        // Clear the hidden select
         while (gradeLevelSelect.options.length > 0) {
             gradeLevelSelect.remove(0);
         }
@@ -1541,11 +1546,9 @@
             option.textContent = 'Grade 7';
             gradeLevelSelect.appendChild(option);
 
-            // Auto-select Grade 7
+            // Set the value for the hidden select and display in the text input
             gradeLevelSelect.value = '7';
-
-            // Make grade level read-only by disabling the select
-            gradeLevelSelect.disabled = true;
+            gradeLevelDisplay.value = 'Grade 7';
 
             // Hide strand selection (only for Senior High)
             if (strandContainer) strandContainer.classList.add('hidden');
@@ -1557,11 +1560,9 @@
             option.textContent = 'Grade 11';
             gradeLevelSelect.appendChild(option);
 
-            // Auto-select Grade 11
+            // Set the value for the hidden select and display in the text input
             gradeLevelSelect.value = '11';
-
-            // Make grade level read-only by disabling the select
-            gradeLevelSelect.disabled = true;
+            gradeLevelDisplay.value = 'Grade 11';
 
             // Show strand selection
             if (strandContainer) strandContainer.classList.remove('hidden');
@@ -1573,8 +1574,8 @@
             defaultOption.textContent = 'Select Grade Level';
             gradeLevelSelect.appendChild(defaultOption);
 
-            // Enable grade level select
-            gradeLevelSelect.disabled = false;
+            // Clear the display
+            gradeLevelDisplay.value = '';
 
             // Hide strand selection
             if (strandContainer) strandContainer.classList.add('hidden');
