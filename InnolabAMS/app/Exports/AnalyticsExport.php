@@ -1,69 +1,56 @@
 <?php
 
-namespace App\Exports;
+namespace App\Http\Controllers\Api;
 
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\XLSX\Writer;
+use App\Http\Controllers\Controller;
+use App\Models\ApplicantInfo;
+use App\Models\LeadInfo;
+use App\Models\ApplicantScholarship;
+use Illuminate\Http\JsonResponse;
 
-class AnalyticsExport
+class DashboardAnalyticsController extends Controller
 {
-    private $data;
-
-    public function __construct(array $data)
+    public function index(): JsonResponse
     {
-        $this->data = $data;
+        $analytics = [
+            // Admissions Statistics
+            'newApplications' => ApplicantInfo::where('status', 'new')->count(),
+            'acceptedApplications' => ApplicantInfo::where('status', 'accepted')->count(),
+            'rejectedApplications' => ApplicantInfo::where('status', 'rejected')->count(),
+
+            // Inquiries Statistics
+            'newInquiries' => LeadInfo::where('inquiry_status', 'New')->count(),
+            'resolvedInquiries' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
+
+            // Scholarship Statistics
+            'scholarshipApplications' => ApplicantScholarship::count(),
+            'approvedScholarships' => ApplicantScholarship::where('status', 'approved')->count(),
+
+            // Monthly Trend Data (last 6 months)
+            'monthlyTrend' => $this->getMonthlyTrend(),
+
+            // Last Updated Timestamp
+            'lastUpdated' => now()->toIso8601String()
+        ];
+
+        return response()->json($analytics);
     }
 
-    public function export(string $filePath)
+    private function getMonthlyTrend(): array
     {
-        $writer = new Writer();
-        $writer->openToFile($filePath);
+        $months = collect(range(5, 0))->map(function($month) {
+            $date = now()->subMonths($month);
+            return [
+                'month' => $date->format('M'),
+                'count' => ApplicantInfo::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count()
+            ];
+        });
 
-        // Add header with style
-        $headerStyle = (new Style())->setFontBold();
-        $writer->addRow(Row::fromValues([
-            'Category',
-            'Metric',
-            'Count'
-        ], $headerStyle));
-
-        // Add Admissions data
-        foreach ($this->data['admissions'] as $status => $count) {
-            $writer->addRow(Row::fromValues([
-                'Admissions',
-                ucfirst($status),
-                $count
-            ]));
-        }
-
-        // Add Inquiries data
-        foreach ($this->data['inquiries'] as $status => $count) {
-            $writer->addRow(Row::fromValues([
-                'Inquiries',
-                ucfirst($status),
-                $count
-            ]));
-        }
-
-        // Add Scholarships data
-        foreach ($this->data['scholarships'] as $status => $count) {
-            $writer->addRow(Row::fromValues([
-                'Scholarships',
-                ucfirst($status),
-                $count
-            ]));
-        }
-
-        // Add Monthly Trend data
-        foreach (array_combine($this->data['monthlyTrend']['labels'], $this->data['monthlyTrend']['data']) as $month => $count) {
-            $writer->addRow(Row::fromValues([
-                'Monthly Trend',
-                $month,
-                $count
-            ]));
-        }
-
-        $writer->close();
+        return [
+            'labels' => $months->pluck('month')->toArray(),
+            'data' => $months->pluck('count')->toArray()
+        ];
     }
 }
