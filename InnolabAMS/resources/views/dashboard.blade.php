@@ -191,7 +191,7 @@
                     const response = await fetch('/dashboard/analytics');
                     const data = await response.json();
 
-                    // Update stats with proper key mapping
+                    // Update stats
                     this.stats = {
                         newApplications: data.admissions.new,
                         acceptedApplications: data.admissions.accepted,
@@ -200,7 +200,8 @@
                         resolvedInquiries: data.inquiries.resolved,
                         totalScholarships: data.scholarships.total,
                         approvedScholarships: data.scholarships.approved,
-                        monthlyTrend: data.monthlyTrend
+                        monthlyTrend: data.monthlyTrend,
+                        lastUpdated: data.lastUpdated
                     };
 
                     if (this.charts.admissions || this.charts.status) {
@@ -268,19 +269,26 @@
             formatDateTime(dateString) {
                 if (!dateString) return '-';
 
-                // Create a date object and format it for Asia/Manila timezone
-                const options = {
-                    timeZone: 'Asia/Manila',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: true
-                };
+                try {
+                    // Parse the date string and ensure it's treated as Manila/Singapore time
+                    const date = new Date(dateString + ' GMT+0800');
 
-                return new Date(dateString).toLocaleString('en-US', options);
+                    // Format the date
+                    const options = {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    };
+
+                    return date.toLocaleString('en-US', options);
+                } catch (error) {
+                    console.error('Date formatting error:', error);
+                    return dateString; // Return the original string if parsing fails
+                }
             }
         }
     }
