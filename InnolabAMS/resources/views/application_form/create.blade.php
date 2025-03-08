@@ -856,7 +856,7 @@
     }
 
     // Function to validate age based on Philippine educational system requirements
-    async function validateAge(birthDate, ageInput, errorContainer) {
+    async function validateAge(birthDate, ageInput, errorContainer, isApplicant = false) {
         const today = await getServerTime();
         const birth = new Date(birthDate);
 
@@ -885,18 +885,32 @@
             age--;
         }
 
-        // Validate minimum age (3 years for preschool admission consideration)
-        if (age < 3) {
-            if (errorContainer) {
-                errorContainer.innerHTML = 'Applicant must be at least 3 years old for school admission';
-                errorContainer.classList.remove('hidden');
+        // Different validation rules for applicant vs siblings
+        if (isApplicant) {
+            // Validate minimum age for applicant (12 years for Grade 7)
+            if (age < 12) {
+                if (errorContainer) {
+                    errorContainer.innerHTML = 'Applicant must be at least 12 years old for junior high school admission';
+                    errorContainer.classList.remove('hidden');
+                }
+                ageInput.value = age;
+                ageInput.classList.add('border-red-500');
+                return false;
             }
-            ageInput.value = age;
-            ageInput.classList.add('border-red-500');
-            return false;
+        } else {
+            // Validate minimum age for siblings (3 years)
+            if (age < 3) {
+                if (errorContainer) {
+                    errorContainer.innerHTML = 'Sibling must be at least 3 years old';
+                    errorContainer.classList.remove('hidden');
+                }
+                ageInput.value = age;
+                ageInput.classList.add('border-red-500');
+                return false;
+            }
         }
 
-        // Validate maximum reasonable age (30 years for school admission)
+        // Validate maximum reasonable age (30 years) for both applicant and siblings
         if (age > 30) {
             if (errorContainer) {
                 errorContainer.innerHTML = 'Please verify the date of birth - age exceeds typical school admission range';
@@ -952,7 +966,8 @@
         }
 
         if (birthDate) {
-            await validateAge(birthDate, ageInput, errorContainer);
+            // Pass isApplicant=true to apply stricter age validation for applicants
+            await validateAge(birthDate, ageInput, errorContainer, true);
         } else {
             ageInput.value = '';
             ageInput.classList.remove('border-red-500');
@@ -1002,7 +1017,8 @@
         }
 
         if (birthDate) {
-            await validateAge(birthDate, ageInput, errorContainer);
+            // Pass isApplicant=false to apply standard age validation for siblings
+            await validateAge(birthDate, ageInput, errorContainer, false);
         } else {
             ageInput.value = '';
             ageInput.classList.remove('border-red-500');
@@ -1023,8 +1039,8 @@
             document.getElementById('applicant_date_birth').parentElement.appendChild(errorContainer);
         }
 
-        // Validate applicant's date of birth
-        const isApplicantAgeValid = await validateAge(applicantBirthDate, ageInput, errorContainer);
+        // Validate applicant's date of birth (passing isApplicant=true)
+        const isApplicantAgeValid = await validateAge(applicantBirthDate, ageInput, errorContainer, true);
 
         // Validate siblings' dates of birth if not marked as only child
         const onlyChildCheckbox = document.getElementById('only-child');
@@ -1048,8 +1064,8 @@
                     dateInput.parentElement.appendChild(siblingErrorContainer);
                 }
 
-                // Validate sibling's date of birth
-                const isSiblingAgeValid = await validateAge(dateInput.value, siblingAgeInput, siblingErrorContainer);
+                // Validate sibling's date of birth (passing isApplicant=false)
+                const isSiblingAgeValid = await validateAge(dateInput.value, siblingAgeInput, siblingErrorContainer, false);
                 if (!isSiblingAgeValid) {
                     areSiblingAgesValid = false;
                 }
