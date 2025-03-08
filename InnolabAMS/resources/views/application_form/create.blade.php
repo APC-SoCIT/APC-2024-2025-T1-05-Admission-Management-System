@@ -843,9 +843,21 @@
         return options;
     }
 
-    // Function to calculate age based on birthdate
-    function calculateAge(birthDate) {
-        const today = new Date();
+    // Function to get server time
+    async function getServerTime() {
+        try {
+            const response = await fetch('/server-time');
+            const data = await response.json();
+            return new Date(data.current_time);
+        } catch (error) {
+            console.error("Error fetching server time:", error);
+            return new Date(); // Fallback to local time if server request fails
+        }
+    }
+
+    // Updated function to calculate age based on birthdate using server time
+    async function calculateAge(birthDate) {
+        const today = await getServerTime(); // Get server time instead of local time
         const birth = new Date(birthDate);
         let age = today.getFullYear() - birth.getFullYear();
         const monthDiff = today.getMonth() - birth.getMonth();
@@ -857,12 +869,12 @@
         return age;
     }
 
-    // Event listener for birthdate change
-    document.getElementById('applicant_date_birth').addEventListener('change', function() {
+    // Updated event listener for birthdate change
+    document.getElementById('applicant_date_birth').addEventListener('change', async function() {
         const ageInput = document.getElementById('age');
         const birthDate = this.value;
         if (birthDate) {
-            const age = calculateAge(birthDate);
+            const age = await calculateAge(birthDate);
             ageInput.value = age;
         } else {
             ageInput.value = '';
