@@ -105,7 +105,7 @@ class DashboardController extends Controller
 
             if ($format === 'pdf') {
                 $pdf = PDF::loadView('exports.analytics-pdf', ['analytics' => $data]);
-                return $pdf->download('analytics-report.pdf');
+                return $pdf->download('insights-report.pdf');
             }
 
             return response()->json(['error' => 'Unsupported format'], 400);
