@@ -44,12 +44,12 @@
         <div class="flex-grow">
             @if (Request::is('portal'))
                 <!-- Hero Welcome Section -->
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700">
+                <div class="bg-white">
                     <div class="p-8 max-w-5xl mx-auto">
-                        <h1 class="text-3xl font-bold mb-2 text-blue-100">
+                        <h1 class="text-3xl font-bold mb-2 text-gray-900">
                             {{ __('Welcome back, ') . Auth::user()->name }}! 👋
                         </h1>
-                        <p class="text-blue-100">Let's continue with your admission journey.</p>
+                        <p class="text-gray-600">Let's continue with your admission journey.</p>
                     </div>
                 </div>
 
