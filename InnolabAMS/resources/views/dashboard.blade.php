@@ -148,7 +148,7 @@
 
         <!-- Last Updated -->
         <div class="mt-4 text-right text-sm text-gray-600">
-            Last updated: <span x-text="stats.lastUpdated || 'Never'">-</span>
+            Last updated: <span x-text="stats.lastUpdated || 'Loading...'">-</span>
         </div>
     </div>
 </div>

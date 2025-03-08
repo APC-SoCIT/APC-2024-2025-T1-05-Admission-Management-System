@@ -70,7 +70,7 @@ class DashboardController extends Controller
     private function getMonthlyTrend(): array
     {
         $months = collect(range(5, 0))->map(function($month) {
-            $date = now()->subMonths($month);
+            $date = now()->timezone('Asia/Manila')->subMonths($month);
             return [
                 'month' => $date->format('M'),
                 'count' => ApplicantInfo::whereYear('created_at', $date->year)
@@ -92,7 +92,7 @@ class DashboardController extends Controller
             $format = $request->query('format', 'excel');
 
             if ($format === 'excel') {
-                $fileName = 'analytics_' . date('Y-m-d_His') . '.xlsx';
+                $fileName = 'analytics_' . now()->timezone('Asia/Manila')->format('Y-m-d_His') . '.xlsx';
                 $filePath = storage_path('app/public/' . $fileName);
 
                 $exporter = new AnalyticsExport($data);
@@ -175,6 +175,7 @@ class DashboardController extends Controller
             'inquiries' => $inquiryCounts,
             'scholarships' => $scholarshipCounts,
             'monthlyTrend' => $this->getMonthlyTrend(),
+            'lastUpdated' => now()->timezone('Asia/Manila')->format('Y-m-d H:i:s'),
         ];
     }
 }
