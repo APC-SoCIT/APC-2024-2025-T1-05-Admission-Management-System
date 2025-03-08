@@ -268,13 +268,25 @@
                 }
             },
             formatDateTime(dateString) {
-                if (!dateString) return '-';
+                if (!dateString) {
+                    return 'Loading...';  // Show loading state instead of 1970 date
+                }
 
                 try {
-                    // Parse the date string and ensure it's treated as Manila/Singapore time
-                    const date = new Date(dateString + ' GMT+0800');
+                    // Validate the date string first
+                    if (!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateString)) {
+                        throw new Error('Invalid date format');
+                    }
 
-                    // Format the date
+                    // Create a date object and format it according to Manila time
+                    const date = new Date(dateString.replace(' ', 'T')); // Convert to ISO format
+
+                    // Check if date is valid
+                    if (isNaN(date.getTime())) {
+                        throw new Error('Invalid date');
+                    }
+
+                    // Format options
                     const options = {
                         year: 'numeric',
                         month: 'long',
@@ -282,13 +294,14 @@
                         hour: '2-digit',
                         minute: '2-digit',
                         second: '2-digit',
-                        hour12: true
+                        hour12: true,
+                        timeZone: 'Asia/Manila'
                     };
 
-                    return date.toLocaleString('en-US', options);
+                    return date.toLocaleString('en-US', options) + ' (Manila Time)';
                 } catch (error) {
                     console.error('Date formatting error:', error);
-                    return dateString; // Return the original string if parsing fails
+                    return 'Unable to load timestamp';  // Better error message
                 }
             }
         }
