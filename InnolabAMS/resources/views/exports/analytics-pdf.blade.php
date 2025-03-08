@@ -37,7 +37,7 @@
 <body>
     <div class="report-header">
         <div class="report-title">Insights Report</div>
-        <div class="timestamp">Generated at: {{ now()->timezone('Asia/Manila')->format('Y-m-d H:i:s') }}</div>
+        <div class="timestamp">Generated at: {{ now()->timezone('Asia/Manila')->format('F j, Y g:i A') }}</div>
     </div>
 
     <!-- Admissions Section -->
