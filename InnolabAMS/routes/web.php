@@ -272,6 +272,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('admission.download-file');
 });
 
-
+Route::get('/server-time', function () {
+    return response()->json([
+        'current_time' => now()->toISOString()
+    ]);
+});
 
 require __DIR__ . '/auth.php';
