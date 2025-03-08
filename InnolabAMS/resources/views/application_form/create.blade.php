@@ -908,21 +908,13 @@
         siblingCount++;
     });
 
-    // Function to calculate sibling age
-    function calculateSiblingAge(dateInput) {
+    // Updated function to calculate sibling age
+    async function calculateSiblingAge(dateInput) {
         const ageInput = dateInput.parentNode.querySelector('input[name$="[age]"]');
         const birthDate = dateInput.value;
 
         if (birthDate) {
-            const today = new Date();
-            const birth = new Date(birthDate);
-            let age = today.getFullYear() - birth.getFullYear();
-            const monthDiff = today.getMonth() - birth.getMonth();
-
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-                age--;
-            }
-
+            const age = await calculateAge(birthDate);
             ageInput.value = age;
         } else {
             ageInput.value = '';
