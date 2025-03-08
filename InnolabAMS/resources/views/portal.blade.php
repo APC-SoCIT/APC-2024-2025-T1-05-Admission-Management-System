@@ -45,7 +45,7 @@
             @if (Request::is('portal'))
                 <!-- Hero Welcome Section -->
                 <div class="bg-white">
-                    <div class="p-8 max-w-5xl mx-auto">
+                    <div class="p-8">
                         <h1 class="text-3xl font-bold mb-2 text-gray-900">
                             {{ __('Welcome back, ') . Auth::user()->name }}! 👋
                         </h1>
