@@ -148,7 +148,7 @@
 
         <!-- Last Updated -->
         <div class="mt-4 text-right text-sm text-gray-600">
-            Last updated: <span x-text="formatDateTime(stats.lastUpdated)">-</span>
+            Last updated: <span x-text="new Date(stats.lastUpdated).toLocaleString()">-</span>
         </div>
     </div>
 </div>
@@ -169,8 +169,7 @@
                 monthlyTrend: {
                     labels: [],
                     data: []
-                },
-                lastUpdated: null
+                }
             },
             charts: {
                 admissions: null,
@@ -192,7 +191,7 @@
                     const response = await fetch('/dashboard/analytics');
                     const data = await response.json();
 
-                    // Update stats
+                    // Update stats with proper key mapping
                     this.stats = {
                         newApplications: data.admissions.new,
                         acceptedApplications: data.admissions.accepted,
@@ -201,8 +200,7 @@
                         resolvedInquiries: data.inquiries.resolved,
                         totalScholarships: data.scholarships.total,
                         approvedScholarships: data.scholarships.approved,
-                        monthlyTrend: data.monthlyTrend,
-                        lastUpdated: data.lastUpdated
+                        monthlyTrend: data.monthlyTrend
                     };
 
                     if (this.charts.admissions || this.charts.status) {
@@ -265,43 +263,6 @@
                         this.stats.rejectedApplications
                     ];
                     this.charts.status.update();
-                }
-            },
-            formatDateTime(dateString) {
-                if (!dateString) {
-                    return 'Loading...';  // Show loading state instead of 1970 date
-                }
-
-                try {
-                    // Validate the date string first
-                    if (!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateString)) {
-                        throw new Error('Invalid date format');
-                    }
-
-                    // Create a date object and format it according to Manila time
-                    const date = new Date(dateString.replace(' ', 'T')); // Convert to ISO format
-
-                    // Check if date is valid
-                    if (isNaN(date.getTime())) {
-                        throw new Error('Invalid date');
-                    }
-
-                    // Format options
-                    const options = {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: true,
-                        timeZone: 'Asia/Manila'
-                    };
-
-                    return date.toLocaleString('en-US', options) + ' (Manila Time)';
-                } catch (error) {
-                    console.error('Date formatting error:', error);
-                    return 'Unable to load timestamp';  // Better error message
                 }
             }
         }
