@@ -35,8 +35,8 @@ class DashboardAnalyticsController extends Controller
             // Monthly Trend Data (last 6 months)
             'monthlyTrend' => $this->getMonthlyTrend(),
 
-            // Last Updated Timestamp - Using Manila time format that JS can parse correctly
-            'lastUpdated' => now()->timezone('Asia/Manila')->format('Y-m-d H:i:s'),
+            // Last Updated Timestamp - Using Manila time with user-friendly format
+            'lastUpdated' => now()->timezone('Asia/Manila')->format('F j, Y g:i A'),
         ];
 
         return response()->json($analytics);
