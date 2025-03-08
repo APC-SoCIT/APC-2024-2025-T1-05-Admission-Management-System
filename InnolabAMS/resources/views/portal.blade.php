@@ -59,11 +59,40 @@
                         <h2 class="text-xl font-semibold text-gray-900 mb-6">Application Progress</h2>
                         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             @php
+                                $hasRequiredDocs = $applicant &&
+                                    $applicant->birth_certificate_path &&
+                                    $applicant->form_137_path &&
+                                    $applicant->form_138_path &&
+                                    $applicant->id_picture_path &&
+                                    $applicant->good_moral_path;
+
+                                $applicationFilled = $applicant &&
+                                    $applicant->applicant_surname &&
+                                    $applicant->applicant_given_name &&
+                                    $applicant->apply_program &&
+                                    $applicant->apply_grade_level;
+
                                 $steps = [
-                                    ['icon' => 'fa-solid fa-user-plus', 'title' => 'Create Account', 'done' => true],
-                                    ['icon' => 'fa-solid fa-file-lines', 'title' => 'Fill Application', 'done' => $applicant ? true : false],
-                                    ['icon' => 'fa-solid fa-file-arrow-up', 'title' => 'Submit Documents', 'done' => $applicant && $applicant->status != 'new'],
-                                    ['icon' => 'fa-solid fa-check-circle', 'title' => 'Complete', 'done' => $applicant && $applicant->status == 'accepted']
+                                    [
+                                        'icon' => 'fa-solid fa-user-plus',
+                                        'title' => 'Create Account',
+                                        'done' => true
+                                    ],
+                                    [
+                                        'icon' => 'fa-solid fa-file-lines',
+                                        'title' => 'Fill Application',
+                                        'done' => $applicationFilled
+                                    ],
+                                    [
+                                        'icon' => 'fa-solid fa-file-arrow-up',
+                                        'title' => 'Submit Documents',
+                                        'done' => $hasRequiredDocs
+                                    ],
+                                    [
+                                        'icon' => 'fa-solid fa-check-circle',
+                                        'title' => 'Complete',
+                                        'done' => $applicant && $applicant->status == 'accepted'
+                                    ]
                                 ];
                             @endphp
 
