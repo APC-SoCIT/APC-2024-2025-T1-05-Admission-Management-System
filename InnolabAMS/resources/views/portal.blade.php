@@ -120,7 +120,7 @@
                             <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
                             <div class="space-y-3">
                                 <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.application') }}"
-                                   class="flex items-center px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
+                                   class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
                                     <i class="fa-solid fa-arrow-right mr-3"></i>
                                     <span>{{ $currentStatus === 'complete' ? 'View Application' : 'Continue Application' }}</span>
                                 </a>
