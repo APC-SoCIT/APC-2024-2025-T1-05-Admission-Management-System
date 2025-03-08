@@ -7,7 +7,7 @@
         </div>
     </x-slot>
 
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen bg-gray-50">
         <!-- Fixed Sidebar - Now always visible -->
         <div class="w-72 bg-white shadow-lg border-r border-gray-200 flex-shrink-0 sticky top-0 h-screen overflow-y-auto">
             <div class="p-6">
@@ -41,86 +41,107 @@
         </div>
 
         <!-- Main Content Area -->
-        <div class="flex-grow bg-gray-50">
+        <div class="flex-grow">
             @if (Request::is('portal'))
-                <div class="p-8">
-                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
-                        <h1 class="text-2xl font-bold text-gray-900 mb-2">
+                <!-- Hero Welcome Section -->
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+                    <div class="p-8 max-w-5xl mx-auto">
+                        <h1 class="text-3xl font-bold mb-2">
                             {{ __('Welcome back, ') . Auth::user()->name }}! 👋
                         </h1>
-                        <p class="text-gray-600">Let's continue with your admission journey.</p>
+                        <p class="text-blue-100">Let's continue with your admission journey.</p>
+                    </div>
+                </div>
+
+                <div class="max-w-7xl mx-auto p-8">
+                    <!-- Application Progress Section -->
+                    <div class="mb-12">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-6">Application Progress</h2>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            @php
+                                $steps = [
+                                    ['icon' => 'fa-solid fa-user-plus', 'title' => 'Create Account', 'done' => true],
+                                    ['icon' => 'fa-solid fa-file-lines', 'title' => 'Fill Application', 'done' => $applicant ? true : false],
+                                    ['icon' => 'fa-solid fa-file-arrow-up', 'title' => 'Submit Documents', 'done' => $applicant && $applicant->status != 'new'],
+                                    ['icon' => 'fa-solid fa-check-circle', 'title' => 'Complete', 'done' => $applicant && $applicant->status == 'accepted']
+                                ];
+                            @endphp
+
+                            @foreach($steps as $step)
+                                <div class="bg-white rounded-lg p-6 border {{ $step['done'] ? 'border-green-200' : 'border-gray-200' }}">
+                                    <div class="flex items-center mb-4">
+                                        <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $step['done'] ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500' }}">
+                                            <i class="{{ $step['icon'] }}"></i>
+                                        </div>
+                                        <span class="ml-3 font-medium text-gray-900">{{ $step['title'] }}</span>
+                                    </div>
+                                    @if($step['done'])
+                                        <span class="text-sm text-green-600">
+                                            <i class="fa-solid fa-check mr-1"></i> Completed
+                                        </span>
+                                    @else
+                                        <span class="text-sm text-gray-500">Pending</span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
 
-                    <!-- Application Progress Cards -->
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Quick Actions & Status Section -->
+                    <div class="grid md:grid-cols-2 gap-6">
                         <!-- Application Status Card -->
-                        <div class="bg-white rounded-xl shadow-sm p-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="font-semibold text-gray-900">Application Status</h3>
-                                <i class="fa-solid fa-clipboard-check text-blue-500"></i>
-                            </div>
-                            <div class="space-y-3">
-                                @php
-                                    $statusColor = [
-                                        'new' => 'bg-blue-100 text-blue-800',
-                                        'pending' => 'bg-yellow-100 text-yellow-800',
-                                        'accepted' => 'bg-green-100 text-green-800',
-                                        'rejected' => 'bg-red-100 text-red-800'
-                                    ];
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Application Status</h3>
+                            @php
+                                $statusConfig = [
+                                    'new' => ['color' => 'blue', 'icon' => 'fa-file-lines'],
+                                    'pending' => ['color' => 'yellow', 'icon' => 'fa-clock'],
+                                    'accepted' => ['color' => 'green', 'icon' => 'fa-check-circle'],
+                                    'rejected' => ['color' => 'red', 'icon' => 'fa-times-circle']
+                                ];
 
-                                    // Default status is 'new' for fresh accounts
-                                    $status = 'new';
+                                $currentStatus = $applicant ? strtolower($applicant->status) : 'new';
+                                $config = $statusConfig[$currentStatus];
+                            @endphp
 
-                                    // If applicant info exists, use its status
-                                    if ($applicant) {
-                                        $status = strtolower($applicant->status);
-                                    }
-                                @endphp
-
-                                <div class="flex items-center space-x-2">
-                                    <span class="px-3 py-1 rounded-full text-sm font-medium {{ $statusColor[$status] }}">
-                                        {{ ucfirst($status) }}
-                                    </span>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-full bg-{{ $config['color'] }}-100 flex items-center justify-center">
+                                    <i class="fa-solid {{ $config['icon'] }} text-{{ $config['color'] }}-600 text-xl"></i>
                                 </div>
-                                <p class="text-sm text-gray-600">
-                                    @if($status === 'new')
-                                        Please complete your application form to proceed.
-                                    @elseif($status === 'pending')
-                                        Your application is being reviewed by our admissions team.
-                                    @elseif($status === 'accepted')
-                                        Congratulations! Your application has been accepted.
-                                    @else
-                                        Unfortunately, your application was not accepted.
-                                    @endif
-                                </p>
+                                <div>
+                                    <span class="block font-medium text-gray-900">{{ ucfirst($currentStatus) }}</span>
+                                    <span class="text-sm text-gray-600">Last updated: {{ $applicant ? $applicant->updated_at->diffForHumans() : 'Not started' }}</span>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Quick Actions Card -->
-                        <div class="bg-white rounded-xl shadow-sm p-6">
-                            <h3 class="font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
                             <div class="space-y-3">
                                 <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.application') }}"
-                                   class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                                    <i class="fa-solid fa-arrow-right mr-2"></i>
-                                    {{ $status === 'complete' ? 'View Application' : 'Continue Application' }}
+                                   class="flex items-center px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
+                                    <i class="fa-solid fa-arrow-right mr-3"></i>
+                                    <span>{{ $currentStatus === 'complete' ? 'View Application' : 'Continue Application' }}</span>
                                 </a>
                                 <a href="{{ route('scholarship.create') }}"
-                                   class="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                                    <i class="fa-solid fa-arrow-right mr-2"></i>
-                                    Apply for Scholarship
+                                   class="flex items-center px-4 py-3 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <i class="fa-solid fa-graduation-cap mr-3"></i>
+                                    <span>Apply for Scholarship</span>
                                 </a>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Help & Support Card -->
-                        <div class="bg-white rounded-xl shadow-sm p-6">
-                            <h3 class="font-semibold text-gray-900 mb-4">Need Help?</h3>
-                            <p class="text-sm text-gray-600 mb-4">
-                                Having trouble with your application? Our support team is here to help.
-                            </p>
+                    <!-- Help Section -->
+                    <div class="mt-6 bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Need Help?</h3>
+                                <p class="text-gray-600 mt-1">Having trouble with your application? Our support team is here to help.</p>
+                            </div>
                             <a href="mailto:innolabdevelopers@gmail.com"
-                               class="inline-flex items-center text-sm text-blue-600 hover:text-blue-700">
+                               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                 <i class="fa-solid fa-headset mr-2"></i>
                                 Contact Support
                             </a>
