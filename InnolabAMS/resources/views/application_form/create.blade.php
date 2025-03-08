@@ -63,10 +63,6 @@
                             <span class="ml-2">Transferee</span>
                         </label>
                         <label class="inline-flex items-center ml-6">
-                            <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
-                            <span class="ml-2">Existing Student</span>
-                        </label>
-                        <label class="inline-flex items-center ml-6">
                             <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
                             <span class="ml-2">Returning Student</span>
                         </label>
@@ -1523,6 +1519,111 @@
         areaCodeSelect.addEventListener('change', function() {
             telInput.value = this.value + ' ';
         });
+    });
+
+    // Function to handle program selection and grade level updates
+    function handleProgramSelection() {
+        const programSelect = document.getElementById('apply_program');
+        const gradeLevelSelect = document.getElementById('apply_grade_level');
+        const strandContainer = document.getElementById('strand-container');
+
+        if (!programSelect || !gradeLevelSelect) return;
+
+        // Clear existing options
+        gradeLevelSelect.innerHTML = '';
+
+        // Create default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select Grade Level';
+        gradeLevelSelect.appendChild(defaultOption);
+
+        // Set appropriate grade level based on program
+        if (programSelect.value === 'High School') {
+            // For High School, only Grade 7 is available
+            const option = document.createElement('option');
+            option.value = '7';
+            option.textContent = 'Grade 7';
+            option.selected = true;
+            gradeLevelSelect.appendChild(option);
+
+            // Make grade level read-only by disabling the select
+            gradeLevelSelect.disabled = true;
+
+            // Hide strand selection (only for Senior High)
+            if (strandContainer) strandContainer.classList.add('hidden');
+        }
+        else if (programSelect.value === 'Senior High School') {
+            // For Senior High School, only Grade 11 is available
+            const option = document.createElement('option');
+            option.value = '11';
+            option.textContent = 'Grade 11';
+            option.selected = true;
+            gradeLevelSelect.appendChild(option);
+
+            // Make grade level read-only by disabling the select
+            gradeLevelSelect.disabled = true;
+
+            // Show strand selection
+            if (strandContainer) strandContainer.classList.remove('hidden');
+        }
+        else {
+            // If no program selected, enable grade level
+            gradeLevelSelect.disabled = false;
+
+            // Hide strand selection
+            if (strandContainer) strandContainer.classList.add('hidden');
+        }
+    }
+
+    // Initialize student type options
+    function initializeStudentTypeOptions() {
+        const studentTypeSelect = document.getElementById('student_type');
+        if (!studentTypeSelect) return;
+
+        // Remove "Existing Student" option if it exists
+        for (let i = 0; i < studentTypeSelect.options.length; i++) {
+            if (studentTypeSelect.options[i].value === 'Existing Student') {
+                studentTypeSelect.remove(i);
+                break;
+            }
+        }
+    }
+
+    // Add initialization to the document ready event
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set up program dropdown with only High School and Senior High School
+        const programSelect = document.getElementById('apply_program');
+        if (programSelect) {
+            // Clear existing options
+            programSelect.innerHTML = '';
+
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select Program';
+            programSelect.appendChild(defaultOption);
+
+            // Add only High School and Senior High School options
+            const hsOption = document.createElement('option');
+            hsOption.value = 'High School';
+            hsOption.textContent = 'High School';
+            programSelect.appendChild(hsOption);
+
+            const shsOption = document.createElement('option');
+            shsOption.value = 'Senior High School';
+            shsOption.textContent = 'Senior High School';
+            programSelect.appendChild(shsOption);
+
+            // Add event listener
+            programSelect.addEventListener('change', handleProgramSelection);
+        }
+
+        // Initialize student type options
+        initializeStudentTypeOptions();
+
+        // Initial setup based on current program value
+        handleProgramSelection();
     });
 </script>
 @endpush
