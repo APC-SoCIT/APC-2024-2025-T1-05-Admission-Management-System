@@ -215,10 +215,10 @@
                 this.fetchAnalytics();
                 this.initCharts();
 
-                // Watch for filter changes
-                this.$watch('filters', () => {
-                    this.fetchAnalytics();
-                }, { deep: true });
+                // Set up watchers for filter changes
+                this.$watch('filters.dateRange', () => this.fetchAnalytics());
+                this.$watch('filters.status', () => this.fetchAnalytics());
+                this.$watch('filters.category', () => this.fetchAnalytics());
             },
 
             fetchAnalytics() {
@@ -235,7 +235,14 @@
                     this.showDatePicker = false;
                 }
 
-                fetch(`/dashboard/analytics?${new URLSearchParams(this.filters).toString()}`)
+                // Construct query parameters from filters
+                const params = new URLSearchParams();
+                params.append('dateRange', this.filters.dateRange);
+                params.append('status', this.filters.status);
+                params.append('category', this.filters.category);
+
+                // Make API request with filters
+                fetch(`/api/dashboard/analytics?${params.toString()}`)
                     .then(response => response.json())
                     .then(data => {
                         this.stats.newApplications = data.admissions.new;
@@ -248,7 +255,13 @@
                         this.stats.monthlyTrend = data.monthlyTrend;
                         this.stats.lastUpdated = data.lastUpdated;
 
-                        this.updateCharts();
+                        // Initialize or update charts
+                        if (!this.charts.admissions || !this.charts.status) {
+                            this.initCharts();
+                        } else {
+                            this.updateCharts();
+                        }
+
                         this.isLoading = false;
                     })
                     .catch(error => {
@@ -258,43 +271,64 @@
             },
 
             initCharts() {
-                this.charts.admissions = new Chart(
-                    document.getElementById('admissionsChart'),
-                    {
-                        type: 'line',
-                        data: {
-                            labels: this.stats.monthlyTrend.labels,
-                            datasets: [{
-                                label: 'Applications',
-                                data: this.stats.monthlyTrend.data,
-                                borderColor: 'rgb(59, 130, 246)',
-                                tension: 0.1
-                            }]
+                // Initialize the applications trend chart
+                const trendsCtx = document.getElementById('admissionsChart');
+                if (trendsCtx) {
+                    this.charts.admissions = new Chart(
+                        trendsCtx,
+                        {
+                            type: 'line',
+                            data: {
+                                labels: this.stats.monthlyTrend.labels,
+                                datasets: [{
+                                    label: 'Applications',
+                                    data: this.stats.monthlyTrend.data,
+                                    borderColor: 'rgb(59, 130, 246)',
+                                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                    tension: 0.3,
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            precision: 0
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    }
-                );
+                    );
+                }
 
-                this.charts.status = new Chart(
-                    document.getElementById('statusChart'),
-                    {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['New', 'Accepted', 'Rejected'],
-                            datasets: [{
-                                data: [
-                                    this.stats.newApplications,
-                                    this.stats.acceptedApplications,
-                                    this.stats.rejectedApplications
-                                ],
-                                backgroundColor: [
-                                    'rgb(234, 179, 8)',
-                                    'rgb(34, 197, 94)',
-                                    'rgb(239, 68, 68)'
-                                ]
-                            }]
+                // Initialize the status pie chart
+                const statusCtx = document.getElementById('statusChart');
+                if (statusCtx) {
+                    this.charts.status = new Chart(
+                        statusCtx,
+                        {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['New', 'Accepted', 'Rejected'],
+                                datasets: [{
+                                    data: [
+                                        this.stats.newApplications,
+                                        this.stats.acceptedApplications,
+                                        this.stats.rejectedApplications
+                                    ],
+                                    backgroundColor: [
+                                        'rgb(234, 179, 8)',
+                                        'rgb(34, 197, 94)',
+                                        'rgb(239, 68, 68)'
+                                    ]
+                                }]
+                            }
                         }
-                    }
-                );
+                    );
+                }
             },
             updateCharts() {
                 if (this.charts.admissions) {
