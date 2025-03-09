@@ -210,42 +210,36 @@ class DashboardController extends Controller
 
     public function exportAnalytics(Request $request)
     {
-        try {
-            // Get the same filters used in the dashboard
-            $filters = [
-                'dateRange' => $request->input('dateRange', 'all'),
-                'status' => $request->input('status', 'all'),
-                'category' => $request->input('category', 'all'),
-                'startDate' => $request->input('startDate'),
-                'endDate' => $request->input('endDate'),
-            ];
+        // Get the filter parameters
+        $filters = [
+            'dateRange' => $request->input('dateRange', 'all'),
+            'status' => $request->input('status', 'all'),
+            'category' => $request->input('category', 'all')
+        ];
 
-            // Get data with applied filters
-            $data = $this->getAnalyticsData($filters);
+        // Get the analytics data with filters applied
+        $analyticsController = new \App\Http\Controllers\Api\DashboardAnalyticsController();
+        $response = $analyticsController->index($request);
+        $analytics = json_decode($response->content(), true);
 
-            $format = $request->input('format', 'excel');
+        $format = $request->input('format', 'excel');
 
-            if ($format === 'excel') {
-                $fileName = 'analytics_' . now()->timezone('Asia/Manila')->format('Y-m-d_His') . '.xlsx';
-                $filePath = storage_path('app/public/' . $fileName);
+        if ($format === 'pdf') {
+            // Generate PDF
+            $pdf = PDF::loadView('exports.analytics-pdf', [
+                'analytics' => $analytics
+            ]);
 
-                $exporter = new AnalyticsExport($data);
-                $exporter->export($filePath);
+            return $pdf->download('dashboard-analytics-report.pdf');
+        } else {
+            // Generate Excel file
+            $tempFile = tempnam(sys_get_temp_dir(), 'analytics') . '.xlsx';
+            $export = new AnalyticsExport($analytics);
+            $export->export($tempFile);
 
-                return response()->download($filePath, $fileName, [
-                    'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                ])->deleteFileAfterSend();
-            }
-
-            if ($format === 'pdf') {
-                $pdf = PDF::loadView('exports.analytics-pdf', ['analytics' => $data]);
-                return $pdf->download('insights-report.pdf');
-            }
-
-            return response()->json(['error' => 'Unsupported format'], 400);
-        } catch (\Exception $e) {
-            Log::error('Export error: ' . $e->getMessage());
-            return back()->with('error', 'Failed to export analytics');
+            return response()->download($tempFile, 'dashboard-analytics-report.xlsx', [
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ])->deleteFileAfterSend(true);
         }
     }
 
