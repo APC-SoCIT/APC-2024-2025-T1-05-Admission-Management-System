@@ -82,6 +82,11 @@
                 </div>
             </div>
         </div>
+
+        <div x-show="isLoading" class="flex justify-center items-center h-12 mt-4">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <span class="ml-3 text-gray-600">Loading data...</span>
+        </div>
     </div>
 
     <!-- Statistics Cards -->
