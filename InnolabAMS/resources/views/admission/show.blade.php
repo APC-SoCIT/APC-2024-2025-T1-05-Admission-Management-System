@@ -234,7 +234,7 @@
             <table class="w-full">
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Complete Name:</td>
-                    <td class="px-4 py-2">{{ $applicant->emergency_contact_name }}</td>
+                    <td class="px-4 py-2">{{ $applicant->emergency_contact_first_name }} {{ $applicant->emergency_contact_middle_name }} {{ $applicant->emergency_contact_last_name }}</td>
                 </tr>
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Complete Address:</td>

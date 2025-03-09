@@ -266,7 +266,9 @@ class ApplicantInfoController extends Controller
                 'siblings.*.school_attended' => 'nullable|string|max:255',
 
                 // Emergency Contact
-                'emergency_contact_name' => 'nullable|string|max:255',
+                'emergency_contact_first_name' => 'nullable|string|max:255',
+                'emergency_contact_middle_name' => 'nullable|string|max:255',
+                'emergency_contact_last_name' => 'nullable|string|max:255',
                 'emergency_contact_address' => 'nullable|string|max:255',
                 'emergency_contact_tel' => 'nullable|string|max:20',
                 'emergency_contact_mobile' => 'nullable|string|max:20',

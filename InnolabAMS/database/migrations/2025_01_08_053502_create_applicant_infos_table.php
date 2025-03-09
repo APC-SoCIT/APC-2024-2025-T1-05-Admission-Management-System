@@ -66,7 +66,9 @@ return new class extends Migration
             $table->json('siblings')->nullable(); // Will store array of sibling info
 
             // Emergency Contact
-            $table->string('emergency_contact_name')->nullable();
+            $table->string('emergency_contact_first_name')->nullable();
+            $table->string('emergency_contact_middle_name')->nullable();
+            $table->string('emergency_contact_last_name')->nullable();
             $table->string('emergency_contact_address')->nullable();
             $table->string('emergency_contact_tel')->nullable();
             $table->string('emergency_contact_mobile')->nullable();
