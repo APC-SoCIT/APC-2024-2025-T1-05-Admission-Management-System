@@ -68,10 +68,6 @@
                 </tr>
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Student Type:</td>
-                    <td class="px-4 py-2" colspan="3">{{ $applicant->full_name }}</td>
-                </tr>
-                                <tr class="border-b">
-                    <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Student Type:</td>
                     <td class="px-4 py-2" colspan="3">{{ $applicant->student_type }}</td>
                 </tr>
             </table>
@@ -194,7 +190,7 @@
                                 @if(isset($applicant->siblings) && !empty($applicant->siblings))
                                     @foreach(json_decode($applicant->siblings) as $sibling)
                                         <tr class="border-b">
-                                            <td class="px-4 py-2 border-r">{{ $sibling->full_name }}</td>
+                                            <td class="px-4 py-2 border-r">{{ $sibling->given_name }} {{ $sibling->middle_name }} {{ $sibling->last_name }}</td>
                                             <td class="px-4 py-2 border-r">{{ $sibling->date_of_birth }}</td>
                                             <td class="px-4 py-2 border-r">{{ $sibling->age }}</td>
                                             <td class="px-4 py-2 border-r">{{ $sibling->grade_level }}</td>
@@ -238,7 +234,7 @@
             <table class="w-full">
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Complete Name:</td>
-                    <td class="px-4 py-2">{{ $applicant->emergency_contact_name }}</td>
+                    <td class="px-4 py-2">{{ $applicant->emergency_contact_first_name }} {{ $applicant->emergency_contact_middle_name }} {{ $applicant->emergency_contact_last_name }}</td>
                 </tr>
                 <tr class="border-b">
                     <td class="w-1/6 px-4 py-2 text-gray-600 border-r">Complete Address:</td>

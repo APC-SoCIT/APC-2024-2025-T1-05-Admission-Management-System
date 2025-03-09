@@ -21,9 +21,8 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Program <span class="text-red-500">*</span></label>
                         <div class="flex items-center">
-                            <select name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <select id="apply_program" name="apply_program" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 <option value="">Select Program</option>
-                                <option value="Elementary">Elementary</option>
                                 <option value="High School">High School</option>
                                 <option value="Senior High School">Senior High School</option>
                             </select>
@@ -33,13 +32,17 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Grade Level <span class="text-red-500">*</span></label>
                         <div class="flex items-center">
-                            <select name="apply_grade_level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <!-- Replace select with input for read-only display -->
+                            <input type="text" id="grade_level_display" class="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+
+                            <!-- Hidden select field that will still contain the actual value for form submission -->
+                            <select id="apply_grade_level" name="apply_grade_level" class="hidden" required>
                                 <option value="">Select Grade Level</option>
                             </select>
-                            <x-form-tooltip text="Select your intended grade level for enrollment" />
+                            <x-form-tooltip text="Grade level is automatically set based on your program selection" />
                         </div>
                     </div>
-                    <div id="strandContainer" style="display: none;">
+                    <div id="strandContainer" class="hidden">
                         <label class="block text-sm font-medium text-gray-700">Strand <span class="text-red-500">*</span></label>
                         <select name="apply_strand" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <option value="">Select Strand</option>
@@ -61,10 +64,6 @@
                         <label class="inline-flex items-center">
                             <input type="radio" name="student_type" value="Transferee" class="form-radio" required>
                             <span class="ml-2">Transferee</span>
-                        </label>
-                        <label class="inline-flex items-center ml-6">
-                            <input type="radio" name="student_type" value="Existing Student" class="form-radio" required>
-                            <span class="ml-2">Existing Student</span>
                         </label>
                         <label class="inline-flex items-center ml-6">
                             <input type="radio" name="student_type" value="Returning Student" class="form-radio" required>
@@ -124,11 +123,12 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Day/Month/Year</span>
+                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Month/Day/Year</span>
                         <div class="flex items-center">
                             <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
                         </div>
+                        <div class="date-error text-red-500 text-sm mt-1 hidden"></div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Age is automatically calculated based on the date of birth</span>
@@ -163,21 +163,48 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Contact Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Telephone Number</label> <span class="block text-sm font-medium text-gray-700">Format: (0X) XXXX-XXXX</span>
-                        <div class="flex items-center">
+                        <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
+                        <span class="block text-sm font-medium text-gray-700">Choose your area code and it will automatically format the number</span>
+                        <div class="flex items-center gap-2">
+                            <select name="area_code" id="tel_area_code" class="mt-1 w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="02">02</option>
+                                <option value="078">78</option>
+                                <option value="074">74</option>
+                                <option value="044">44</option>
+                                <option value="045">45</option>
+                                <option value="043">43</option>
+                                <option value="046">46</option>
+                                <option value="049">49</option>
+                                <option value="048">48</option>
+                                <option value="052">52</option>
+                                <option value="054">54</option>
+                                <option value="032">32</option>
+                                <option value="033">33</option>
+                                <option value="034">34</option>
+                                <option value="035">35</option>
+                                <option value="053">53</option>
+                                <option value="055">55</option>
+                                <option value="062">62</option>
+                                <option value="065">65</option>
+                                <option value="088">88</option>
+                                <option value="082">82</option>
+                                <option value="084">84</option>
+                                <option value="087">87</option>
+                                <option value="064">64</option>
+                                <option value="085">85</option>
+                                <option value="086">86</option>
+                                <option value="068">68</option>
+                            </select>
                             <input type="tel"
                                    name="applicant_tel_no"
+                                   id="applicant_tel_no"
                                    maxlength="15"
-                                   oninput="this.value = this.value.slice(0, 15)"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
                         <div class="flex items-center space-x-2">
-                            <div class="mt-1 w-20 px-3 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-500">
-                                +63
-                            </div>
                             <input type="tel"
                                    name="applicant_mobile_number"
                                    id="applicant_mobile_number"
@@ -279,7 +306,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Previous Program <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Bachelor of Science in Computer Science</span>
+                        <label class="block text-sm font-medium text-gray-700">Previous Program <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Elementary</span>
                         <div class="flex items-center">
                             <input type="text" name="previous_program" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter the program you previously studied" />
@@ -296,14 +323,14 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Awards/Honors</label> <span class="block text-sm font-medium text-gray-700">Example: Best in Mathematics, Dean's List, etc.</span>
+                        <label class="block text-sm font-medium text-gray-700">Awards/Honors</label> <span class="block text-sm font-medium text-gray-700">Example: Best in Mathematics, Best in Science, etc.</span>
                         <div class="flex items-center">
                             <input type="text" name="awards_honors" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter any awards or honors you received" />
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label> <span class="block text-sm font-medium text-gray-700">Example: 1.8</span>
+                        <label class="block text-sm font-medium text-gray-700">General Weighted Average (GWA)</label> <span class="block text-sm font-medium text-gray-700">Example: 90.50</span>
                         <div class="flex items-center">
                             <input type="text" name="gwa" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter your General Weighted Average (GWA) if applicable" />
@@ -342,13 +369,13 @@
                                 <x-form-tooltip text="Enter your father's last name" />
                             </div>
                         </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-                            <div class="flex items-center">
-                                <input type="text"
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
+                            <div class="flex items-center space-x-2">
+                                <input type="tel"
                                        name="father_contact"
-                                       maxlength="11"
-                                       placeholder="09xxxxxxxxx"
+                                       id="father_contact"
+                                       maxlength="12"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
@@ -380,13 +407,13 @@
                                 <x-form-tooltip text="Enter your mother's last name" />
                             </div>
                         </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-                            <div class="flex items-center">
-                                <input type="text"
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
+                            <div class="flex items-center space-x-2">
+                                <input type="tel"
                                        name="mother_contact"
-                                       maxlength="11"
-                                       placeholder="09xxxxxxxxx"
+                                       id="mother_contact"
+                                       maxlength="12"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
@@ -419,12 +446,12 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-                            <div class="flex items-center">
-                                <input type="text"
+                            <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
+                            <div class="flex items-center space-x-2">
+                                <input type="tel"
                                        name="guardian_contact_num"
-                                       maxlength="11"
-                                       placeholder="09xxxxxxxxx"
+                                       id="guardian_contact_num"
+                                       maxlength="12"
                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
                         </div>
@@ -446,7 +473,10 @@
 
                     <div id="siblings-container" class="mt-4">
                         <div class="sibling-entry grid grid-cols-5 gap-4 mb-4 relative">
-                            <input type="text" name="siblings[0][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="text" name="siblings[0][given_name]" placeholder="Given Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="text" name="siblings[0][middle_name]" placeholder="Middle Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input type="text" name="siblings[0][last_name]" placeholder="Last Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+
                             <input type="date" name="siblings[0][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <input type="number" name="siblings[0][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <select name="siblings[0][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -515,10 +545,20 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Complete Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan Dela Cruz</span>
-                        <div class="flex items-center">
-                            <input type="text" name="emergency_contact_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter the complete name of the emergency contact" />
+                        <label class="block text-sm font-medium text-gray-700">First Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan Dela Cruz</span>
+                        <div class="flex items-center mb-4">
+                            <input type="text" name="emergency_contact_first_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter the first name of the emergency contact" />
+                        </div>
+                        <label class="block text-sm font-medium text-gray-700">Middle Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan Dela Cruz</span>
+                        <div class="flex items-center mb-4">
+                            <input type="text" name="emergency_contact_middle_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter the middle name of the emergency contact" />
+                        </div>
+                        <label class="block text-sm font-medium text-gray-700">Last Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Dela Cruz</span>
+                        <div class="flex items-center mb-4">
+                            <input type="text" name="emergency_contact_last_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter the last name of the emergency contact" />
                         </div>
                     </div>
                     <div class="md:col-span-2">
@@ -533,22 +573,53 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <div class="flex items-center">
+                        <label class="block text-sm font-medium text-gray-700">Telephone Number</label>
+                        <span class="block text-sm font-medium text-gray-700">Choose your area code and it will automatically format the number</span>
+                        <div class="flex items-center gap-2">
+                            <select name="area_code" id="emergency_tel_area_code" class="mt-1 w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="02">02</option>
+                                <option value="078">78</option>
+                                <option value="074">74</option>
+                                <option value="044">44</option>
+                                <option value="045">45</option>
+                                <option value="043">43</option>
+                                <option value="046">46</option>
+                                <option value="049">49</option>
+                                <option value="048">48</option>
+                                <option value="052">52</option>
+                                <option value="054">54</option>
+                                <option value="032">32</option>
+                                <option value="033">33</option>
+                                <option value="034">34</option>
+                                <option value="035">35</option>
+                                <option value="053">53</option>
+                                <option value="055">55</option>
+                                <option value="062">62</option>
+                                <option value="065">65</option>
+                                <option value="088">88</option>
+                                <option value="082">82</option>
+                                <option value="084">84</option>
+                                <option value="087">87</option>
+                                <option value="064">64</option>
+                                <option value="085">85</option>
+                                <option value="086">86</option>
+                                <option value="068">68</option>
+                            </select>
                             <input type="tel"
                                    name="emergency_contact_tel"
-                                   maxlength="11"
-                                   placeholder="02 xxxx-xxxx"
+                                   id="emergency_contact_tel"
+                                   maxlength="15"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <input type="text"
+                        <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
+                        <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
+                        <div class="flex items-center mb-4">
+                            <input type="tel"
                                    name="emergency_contact_mobile"
-                                   maxlength="11"
-                                   placeholder="09xxxxxxxxx"
+                                   id="emergency_contact_mobile"
+                                   maxlength="12"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -816,10 +887,105 @@
         return options;
     }
 
-    // Function to calculate age based on birthdate
-    function calculateAge(birthDate) {
-        const today = new Date();
+    // Function to get server time
+    async function getServerTime() {
+        try {
+            const response = await fetch('/server-time');
+            const data = await response.json();
+            return new Date(data.current_time);
+        } catch (error) {
+            console.error("Error fetching server time:", error);
+            return new Date(); // Fallback to local time if server request fails
+        }
+    }
+
+    // Function to validate age based on Philippine educational system requirements
+    async function validateAge(birthDate, ageInput, errorContainer, isApplicant = false) {
+        const today = await getServerTime();
         const birth = new Date(birthDate);
+
+        // Clear existing error messages
+        if (errorContainer) {
+            errorContainer.innerHTML = '';
+            errorContainer.classList.add('hidden');
+        }
+
+        // Validate birth date is not in the future
+        if (birth > today) {
+            if (errorContainer) {
+                errorContainer.innerHTML = 'Date of birth cannot be in the future';
+                errorContainer.classList.remove('hidden');
+            }
+            ageInput.value = 'Invalid';
+            ageInput.classList.add('border-red-500');
+            return false;
+        }
+
+        // Calculate age
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        // Different validation rules for applicant vs siblings
+        if (isApplicant) {
+            // Validate minimum age for applicant (12 years for Grade 7)
+            if (age < 12) {
+                if (errorContainer) {
+                    errorContainer.innerHTML = 'Applicant must be at least 12 years old for junior high school admission';
+                    errorContainer.classList.remove('hidden');
+                }
+                ageInput.value = age;
+                ageInput.classList.add('border-red-500');
+                return false;
+            }
+        } else {
+            // For siblings, use more lenient validation (minimum 3 years old)
+            if (age < 3) {
+                if (errorContainer) {
+                    errorContainer.innerHTML = 'Sibling must be at least 3 years old';
+                    errorContainer.classList.remove('hidden');
+                }
+                ageInput.value = age;
+                ageInput.classList.add('border-red-500');
+                return false;
+            }
+        }
+
+        // Maximum age validation (30 years is reasonable for school)
+        if (age > 30) {
+            if (errorContainer) {
+                errorContainer.innerHTML = 'Age cannot exceed 30 years';
+                errorContainer.classList.remove('hidden');
+            }
+            ageInput.value = age;
+            ageInput.classList.add('border-red-500');
+            return false;
+        }
+
+        // Valid age
+        ageInput.value = age;
+        ageInput.classList.remove('border-red-500');
+        return true;
+    }
+
+    // Updated function to calculate age based on birthdate using server time
+    async function calculateAge(birthDate) {
+        const today = await getServerTime();
+        const birth = new Date(birthDate);
+
+        // Check if date is valid
+        if (isNaN(birth.getTime())) {
+            return 'Invalid';
+        }
+
+        // Check if birth date is in the future
+        if (birth > today) {
+            return 'Invalid';
+        }
+
         let age = today.getFullYear() - birth.getFullYear();
         const monthDiff = today.getMonth() - birth.getMonth();
 
@@ -830,15 +996,26 @@
         return age;
     }
 
-    // Event listener for birthdate change
-    document.getElementById('applicant_date_birth').addEventListener('change', function() {
+    // Updated event listener for birthdate change
+    document.getElementById('applicant_date_birth').addEventListener('change', async function() {
         const ageInput = document.getElementById('age');
         const birthDate = this.value;
+
+        // Find or create error container
+        let errorContainer = this.parentElement.querySelector('.date-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('p');
+            errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
+            this.parentElement.appendChild(errorContainer);
+        }
+
         if (birthDate) {
-            const age = calculateAge(birthDate);
-            ageInput.value = age;
+            // Pass isApplicant=true to apply stricter age validation for applicants
+            await validateAge(birthDate, ageInput, errorContainer, true);
         } else {
             ageInput.value = '';
+            ageInput.classList.remove('border-red-500');
+            errorContainer.classList.add('hidden');
         }
     });
 
@@ -849,7 +1026,9 @@
         const newEntry = document.createElement('div');
         newEntry.className = 'sibling-entry grid grid-cols-5 gap-4 mb-4 relative';
         newEntry.innerHTML = `
-            <input type="text" name="siblings[${siblingCount}][full_name]" placeholder="Full Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <input type="text" name="siblings[${siblingCount}][given_name]" placeholder="Given Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <input type="text" name="siblings[${siblingCount}][middle_name]" placeholder="Middle Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <input type="text" name="siblings[${siblingCount}][last_name]" placeholder="Last Name" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <input type="date" name="siblings[${siblingCount}][date_of_birth]" onchange="calculateSiblingAge(this)" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <input type="number" name="siblings[${siblingCount}][age]" placeholder="Age" readonly class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <select name="siblings[${siblingCount}][grade_level]" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -869,26 +1048,111 @@
         siblingCount++;
     });
 
-    // Function to calculate sibling age
-    function calculateSiblingAge(dateInput) {
-        const ageInput = dateInput.parentNode.querySelector('input[name$="[age]"]');
+    // Updated function to calculate and validate sibling age
+    async function calculateSiblingAge(dateInput) {
+        const siblingEntry = dateInput.closest('.sibling-entry');
+        const ageInput = siblingEntry.querySelector('input[name$="[age]"]');
         const birthDate = dateInput.value;
 
+        // Find or create error container
+        let errorContainer = siblingEntry.querySelector('.sibling-date-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('p');
+            errorContainer.className = 'sibling-date-error text-red-500 text-sm mt-1 hidden';
+            dateInput.parentElement.appendChild(errorContainer);
+        }
+
         if (birthDate) {
-            const today = new Date();
-            const birth = new Date(birthDate);
-            let age = today.getFullYear() - birth.getFullYear();
-            const monthDiff = today.getMonth() - birth.getMonth();
-
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-                age--;
-            }
-
-            ageInput.value = age;
+            // Pass isApplicant=false to apply standard age validation for siblings
+            await validateAge(birthDate, ageInput, errorContainer, false);
         } else {
             ageInput.value = '';
+            ageInput.classList.remove('border-red-500');
+            errorContainer.classList.add('hidden');
         }
     }
+
+    // Function to validate date of birth on form submission
+    async function validateDatesBeforeSubmit() {
+        const applicantBirthDate = document.getElementById('applicant_date_birth').value;
+        const ageInput = document.getElementById('age');
+
+        // Find or create error container for applicant
+        let errorContainer = document.getElementById('applicant_date_birth').parentElement.querySelector('.date-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('p');
+            errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
+            document.getElementById('applicant_date_birth').parentElement.appendChild(errorContainer);
+        }
+
+        // Validate applicant's date of birth (passing isApplicant=true)
+        const isApplicantAgeValid = await validateAge(applicantBirthDate, ageInput, errorContainer, true);
+
+        // Validate siblings' dates of birth if not marked as only child
+        const onlyChildCheckbox = document.getElementById('only-child');
+        let areSiblingAgesValid = true;
+
+        if (!onlyChildCheckbox.checked) {
+            const siblingDateInputs = document.querySelectorAll('input[name$="[date_of_birth]"]');
+
+            for (const dateInput of siblingDateInputs) {
+                const siblingEntry = dateInput.closest('.sibling-entry');
+                const siblingAgeInput = siblingEntry.querySelector('input[name$="[age]"]');
+
+                // Skip if no date entered
+                if (!dateInput.value) continue;
+
+                // Find or create error container for sibling
+                let siblingErrorContainer = siblingEntry.querySelector('.sibling-date-error');
+                if (!siblingErrorContainer) {
+                    siblingErrorContainer = document.createElement('p');
+                    siblingErrorContainer.className = 'sibling-date-error text-red-500 text-sm mt-1 hidden';
+                    dateInput.parentElement.appendChild(siblingErrorContainer);
+                }
+
+                // Validate sibling's date of birth (passing isApplicant=false)
+                const isSiblingAgeValid = await validateAge(dateInput.value, siblingAgeInput, siblingErrorContainer, false);
+                if (!isSiblingAgeValid) {
+                    areSiblingAgesValid = false;
+                }
+            }
+        }
+
+        return isApplicantAgeValid && areSiblingAgesValid;
+    }
+
+    // Add form submission validation for date of birth
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+
+        if (form) {
+            const originalSubmit = form.onsubmit;
+
+            form.onsubmit = async function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                // Validate dates of birth
+                const areDatesValid = await validateDatesBeforeSubmit();
+
+                if (!areDatesValid) {
+                    // Scroll to the first error message
+                    const firstError = document.querySelector('.date-error:not(.hidden), .sibling-date-error:not(.hidden)');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return false;
+                }
+
+                // If dates are valid, proceed with original submit handler or submit the form
+                if (originalSubmit) {
+                    return originalSubmit.call(form);
+                } else {
+                    form.submit();
+                }
+            };
+        }
+    });
 
     // Add the removeSibling function
     function removeSibling(button) {
@@ -990,56 +1254,6 @@
         }
     });
 
-    // Father's contact number validation
-    document.querySelector('input[name="father_contact"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
-
-        if (!isValid) {
-            this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
-                this.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
-            }
-        }
-
-        // Limit to 11 digits
-        if (this.value.length > 11) {
-            this.value = this.value.slice(0, 11);
-        }
-    });
-
-    // Mother's contact number validation
-    document.querySelector('input[name="mother_contact"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
-
-        if (!isValid) {
-            this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid contact number (numbers only)';
-                this.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
-            }
-        }
-
-        // Limit to 11 digits
-        if (this.value.length > 11) {
-            this.value = this.value.slice(0, 11);
-        }
-    });
-
     // Emergency contact telephone validation
     document.querySelector('input[name="emergency_contact_tel"]').addEventListener('input', function(e) {
         const isValid = /^[0-9]*$/.test(this.value);
@@ -1062,74 +1276,6 @@
         // Limit to 11 digits
         if (this.value.length > 11) {
             this.value = this.value.slice(0, 11);
-        }
-    });
-
-    // Emergency contact mobile validation
-    document.querySelector('input[name="emergency_contact_mobile"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
-
-        if (!isValid) {
-            this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid mobile number (numbers only)';
-                this.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
-            }
-        }
-
-        // Limit to 11 digits
-        if (this.value.length > 11) {
-            this.value = this.value.slice(0, 11);
-        }
-    });
-
-    // Function to validate numeric input
-    function validateNumericInput(event) {
-        const input = event.target;
-        const value = input.value;
-        const isValid = /^[0-9]*$/.test(value);
-
-        if (!isValid) {
-            input.classList.add('border-red-500');
-            // Only add error message if it doesn't exist
-            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter numbers only';
-                input.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            input.classList.remove('border-red-500');
-            // Remove error message if it exists
-            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
-                input.nextElementSibling.remove();
-            }
-        }
-
-        // Enforce maximum length of 11 digits
-        if (value.replace(/[^0-9]/g, '').length > 11) {
-            input.value = value.slice(0, value.length - 1);
-        }
-    }
-
-    // Add event listeners for contact number fields
-    const numericInputFields = [
-        'guardian_contact_num',
-        'emergency_contact_tel',
-        'emergency_contact_mobile'
-    ];
-
-    numericInputFields.forEach(fieldName => {
-        const input = document.querySelector(`input[name="${fieldName}"]`);
-        if (input) {
-            input.addEventListener('input', validateNumericInput);
         }
     });
 
@@ -1252,45 +1398,288 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        const mobileInput = document.getElementById('applicant_mobile_number');
+        // Array of input field IDs
+        const mobileFieldIds = [
+            'applicant_mobile_number',
+            'father_contact',
+            'mother_contact',
+            'guardian_contact_num',
+            'emergency_contact_mobile'
+        ];
 
-        mobileInput.addEventListener('input', function(e) {
+        // Function to format mobile number
+        function formatMobileNumber(value) {
             // Remove any non-digit characters
-            let value = this.value.replace(/\D/g, '');
+            let cleaned = value.replace(/\D/g, '');
 
             // Remove leading zero if present
-            if (value.startsWith('0')) {
-                value = value.substring(1);
+            if (cleaned.startsWith('0')) {
+                cleaned = cleaned.substring(1);
             }
 
+            // Limit to 10 digits
+            cleaned = cleaned.slice(0, 10);
+
             // Format with spaces
-            if (value.length > 0) {
+            if (cleaned.length > 0) {
                 let formattedNumber = '';
-                for (let i = 0; i < value.length; i++) {
+                for (let i = 0; i < cleaned.length; i++) {
                     if (i === 3 || i === 6) {
                         formattedNumber += ' ';
                     }
-                    formattedNumber += value[i];
+                    formattedNumber += cleaned[i];
                 }
-                this.value = formattedNumber;
+                return cleaned.length === 10 ? '+63 ' + formattedNumber : formattedNumber;
             }
+            return '';
+        }
 
-            // Limit to 10 digits (excluding spaces)
-            if (value.length > 10) {
-                value = value.slice(0, 10);
-                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+        // Apply formatting to each mobile input field
+        mobileFieldIds.forEach(fieldId => {
+            const inputField = document.getElementById(fieldId);
+            if (inputField) {
+                // Handle input event
+                inputField.addEventListener('input', function(e) {
+                    this.value = formatMobileNumber(this.value);
+                });
+
+                // Handle blur event
+                inputField.addEventListener('blur', function() {
+                    let value = this.value.replace(/\D/g, '');
+                    if (value.length === 10) {
+                        this.value = '+63 ' + value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+                    }
+                });
             }
         });
+    });
 
-        // Validate on blur
-        mobileInput.addEventListener('blur', function() {
-            let value = this.value.replace(/\D/g, '');
+    //telephone number formatting
+    document.addEventListener('DOMContentLoaded', function() {
+        const telInputs = [
+            { input: document.getElementById('applicant_tel_no'), select: document.getElementById('tel_area_code') },
+            { input: document.getElementById('emergency_contact_tel'), select: document.getElementById('emergency_tel_area_code') }
+        ];
 
-            if (value.length === 10) {
-                // Format with spaces for 10 digits
-                this.value = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+        function formatPhoneNumber(value, areaCode) {
+            // Remove all non-digit characters
+            let cleaned = value.replace(/\D/g, '');
+
+            // If value starts with area code, remove it to avoid duplication
+            if (cleaned.startsWith(areaCode)) {
+                cleaned = cleaned.substring(areaCode.length);
+            }
+
+            // Metro Manila (02) area code needs 8 digits
+            if (areaCode === '02') {
+                // Don't limit digits during input, only when formatting
+                if (cleaned.length > 4) {
+                    return areaCode + ' ' + cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
+                }
+                return areaCode + ' ' + cleaned;
+            } else {
+                // Other area codes - 7 digits
+                if (cleaned.length > 3) {
+                    return areaCode + ' ' + cleaned.slice(0, 3) + ' ' + cleaned.slice(3);
+                }
+                return areaCode + ' ' + cleaned;
+            }
+        }
+
+        telInputs.forEach(({ input, select }) => {
+            if (input && select) {
+                // Set appropriate maxlength based on area code
+                function updateMaxLength() {
+                    const areaCode = select.value;
+                    // For 02 (Metro Manila): 2 + 1 + 4 + 1 + 4 = 12 chars
+                    // For others: length of area code + 1 + 3 + 1 + 4 = area code length + 9
+                    const maxLength = (areaCode === '02') ? 12 : (areaCode.length + 9);
+                    input.setAttribute('maxlength', maxLength);
+                }
+
+                // Update maxlength immediately
+                updateMaxLength();
+
+                // Update when area code changes
+                select.addEventListener('change', function() {
+                    input.value = this.value + ' ';
+                    updateMaxLength();
+                });
+
+                input.addEventListener('input', function() {
+                    const areaCode = select.value;
+                    this.value = formatPhoneNumber(this.value, areaCode);
+                });
+
+                input.addEventListener('focus', function() {
+                    if (!this.value) {
+                        const areaCode = select.value;
+                        this.value = areaCode + ' ';
+                    }
+                });
+
+                // Clear error messages
+                input.addEventListener('input', function() {
+                    const errorMessage = this.parentNode.querySelector('.error-message');
+                    if (errorMessage) {
+                        errorMessage.remove();
+                    }
+                    this.classList.remove('border-red-500');
+                });
             }
         });
+    });
+
+    // Function to handle program selection and grade level updates
+    function handleProgramSelection() {
+        const programSelect = document.getElementById('apply_program');
+        const gradeLevelSelect = document.getElementById('apply_grade_level');
+        const gradeLevelDisplay = document.getElementById('grade_level_display');
+        const strandContainer = document.getElementById('strandContainer');
+
+        if (!programSelect || !gradeLevelSelect || !gradeLevelDisplay) return;
+
+        // Clear the hidden select
+        while (gradeLevelSelect.options.length > 0) {
+            gradeLevelSelect.remove(0);
+        }
+
+        // Set appropriate grade level based on program
+        if (programSelect.value === 'High School') {
+            // For High School, only Grade 7 is available
+            const option = document.createElement('option');
+            option.value = '7';
+            option.textContent = 'Grade 7';
+            gradeLevelSelect.appendChild(option);
+
+            // Set the value for the hidden select and display in the text input
+            gradeLevelSelect.value = '7';
+            gradeLevelDisplay.value = 'Grade 7';
+
+            // Hide strand selection (only for Senior High)
+            if (strandContainer) strandContainer.classList.add('hidden');
+        }
+        else if (programSelect.value === 'Senior High School') {
+            // For Senior High School, only Grade 11 is available
+            const option = document.createElement('option');
+            option.value = '11';
+            option.textContent = 'Grade 11';
+            gradeLevelSelect.appendChild(option);
+
+            // Set the value for the hidden select and display in the text input
+            gradeLevelSelect.value = '11';
+            gradeLevelDisplay.value = 'Grade 11';
+
+            // Show strand selection
+            if (strandContainer) strandContainer.classList.remove('hidden');
+        }
+        else {
+            // If no program selected, add a placeholder option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select Grade Level';
+            gradeLevelSelect.appendChild(defaultOption);
+
+            // Clear the display
+            gradeLevelDisplay.value = '';
+
+            // Hide strand selection
+            if (strandContainer) strandContainer.classList.add('hidden');
+        }
+    }
+
+    // Initialize student type options
+    function initializeStudentTypeOptions() {
+        const studentTypeSelect = document.getElementById('student_type');
+        if (!studentTypeSelect) return;
+
+        // Remove "Existing Student" option if it exists
+        for (let i = 0; i < studentTypeSelect.options.length; i++) {
+            if (studentTypeSelect.options[i].value === 'Existing Student') {
+                studentTypeSelect.remove(i);
+                break;
+            }
+        }
+    }
+
+    // Replace the program dropdown options
+    function replaceProgramOptions() {
+        const programSelect = document.getElementById('apply_program');
+        if (!programSelect) return;
+
+        // Clear all existing options
+        while (programSelect.options.length > 0) {
+            programSelect.remove(0);
+        }
+
+        // Add default option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Select Program';
+        programSelect.appendChild(defaultOption);
+
+        // Add only High School and Senior High School options
+        const hsOption = document.createElement('option');
+        hsOption.value = 'High School';
+        hsOption.textContent = 'High School';
+        programSelect.appendChild(hsOption);
+
+        const shsOption = document.createElement('option');
+        shsOption.value = 'Senior High School';
+        shsOption.textContent = 'Senior High School';
+        programSelect.appendChild(shsOption);
+    }
+
+    // Add initialization to the document ready event
+    document.addEventListener('DOMContentLoaded', function() {
+        // Replace program options with only High School and Senior High School
+        replaceProgramOptions();
+
+        // Set up event listener for program change
+        const programSelect = document.getElementById('apply_program');
+        if (programSelect) {
+            programSelect.addEventListener('change', handleProgramSelection);
+        }
+
+        // Initialize student type options
+        initializeStudentTypeOptions();
+
+        // Initial setup based on current program value
+        handleProgramSelection();
+    });
+
+    // Also check the maxlength attribute of the emergency_contact_tel field
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... existing code ...
+
+        // Update maxlength attribute based on area code selection
+        const emergencyTelAreaCode = document.getElementById('emergency_tel_area_code');
+        const emergencyContactTel = document.getElementById('emergency_contact_tel');
+
+        function updateMaxLength() {
+            if (emergencyTelAreaCode && emergencyContactTel) {
+                // Set maxlength to 15 to accommodate full formatted number
+                emergencyContactTel.maxlength = 15;
+            }
+        }
+
+        if (emergencyTelAreaCode) {
+            emergencyTelAreaCode.addEventListener('change', updateMaxLength);
+        }
+
+        // Set initial maxlength
+        updateMaxLength();
+
+        // Remove error message when input changes
+        if (emergencyContactTel) {
+            emergencyContactTel.addEventListener('input', function() {
+                const errorMessage = this.parentNode.querySelector('.error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+                this.classList.remove('border-red-500');
+            });
+        }
     });
 </script>
 @endpush

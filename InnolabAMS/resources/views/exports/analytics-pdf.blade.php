@@ -1,105 +1,133 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Analytics Report</title>
+    <meta charset="utf-8">
+    <title>Insights Report</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .section {
-            margin-bottom: 30px;
+            font-size: 12px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
         }
         th, td {
-            padding: 8px;
             border: 1px solid #ddd;
+            padding: 8px;
             text-align: left;
         }
         th {
-            background-color: #f5f5f5;
+            background-color: #f2f2f2;
         }
-        h1 {
-            color: #2d3748;
-            margin-bottom: 10px;
+        .report-header {
+            margin-bottom: 20px;
         }
-        h2 {
-            color: #4a5568;
-            margin-bottom: 15px;
+        .report-title {
+            font-size: 18px;
+            font-weight: bold;
         }
         .timestamp {
-            color: #718096;
+            margin-top: 5px;
             font-style: italic;
-            margin-bottom: 30px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <h1>Analytics Report</h1>
-    <div class="timestamp">Generated at: {{ now()->format('Y-m-d H:i:s') }}</div>
+    <div class="report-header">
+        <div class="report-title">Insights Report</div>
+        <div class="timestamp">Generated at: {{ now()->timezone('Asia/Manila')->format('F j, Y g:i A') }}</div>
+    </div>
 
-    <div class="section">
-        <h2>Admissions</h2>
-        <table>
+    <!-- Admissions Section -->
+    <h3>Admissions</h3>
+    <table>
+        <thead>
             <tr>
-                <th>New</th>
-                <th>Accepted</th>
-                <th>Rejected</th>
+                <th>Status</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>New</td>
+                <td>{{ $analytics['admissions']['new'] }}</td>
             </tr>
             <tr>
-                <td>{{ $analytics['admissions']['new'] }}</td>
+                <td>Accepted</td>
                 <td>{{ $analytics['admissions']['accepted'] }}</td>
+            </tr>
+            <tr>
+                <td>Rejected</td>
                 <td>{{ $analytics['admissions']['rejected'] }}</td>
             </tr>
-        </table>
-    </div>
+        </tbody>
+    </table>
 
-    <div class="section">
-        <h2>Inquiries</h2>
-        <table>
+    <!-- Inquiries Section -->
+    <h3>Inquiries</h3>
+    <table>
+        <thead>
             <tr>
-                <th>New</th>
-                <th>Resolved</th>
+                <th>Status</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>New</td>
+                <td>{{ $analytics['inquiries']['new'] }}</td>
             </tr>
             <tr>
-                <td>{{ $analytics['inquiries']['new'] }}</td>
+                <td>Resolved</td>
                 <td>{{ $analytics['inquiries']['resolved'] }}</td>
             </tr>
-        </table>
-    </div>
+        </tbody>
+    </table>
 
-    <div class="section">
-        <h2>Scholarships</h2>
-        <table>
+    <!-- Scholarships Section -->
+    <h3>Scholarships</h3>
+    <table>
+        <thead>
             <tr>
-                <th>Total</th>
-                <th>Approved</th>
+                <th>Status</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total</td>
+                <td>{{ $analytics['scholarships']['total'] }}</td>
             </tr>
             <tr>
-                <td>{{ $analytics['scholarships']['total'] }}</td>
+                <td>Approved</td>
                 <td>{{ $analytics['scholarships']['approved'] }}</td>
             </tr>
-        </table>
-    </div>
+        </tbody>
+    </table>
 
-    <div class="section">
-        <h2>Monthly Trend</h2>
-        <table>
+    <!-- Monthly Trend Section -->
+    <h3>Monthly Trend</h3>
+    <table>
+        <thead>
             <tr>
-                @foreach($analytics['monthlyTrend']['labels'] as $month)
-                    <th>{{ $month }}</th>
-                @endforeach
+                <th>Month</th>
+                <th>Applications</th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach(array_combine($analytics['monthlyTrend']['labels'], $analytics['monthlyTrend']['data']) as $month => $count)
             <tr>
-                @foreach($analytics['monthlyTrend']['data'] as $value)
-                    <td>{{ $value }}</td>
-                @endforeach
+                <td>{{ $month }}</td>
+                <td>{{ $count }}</td>
             </tr>
-        </table>
+            @endforeach
+        </tbody>
+    </table>
+
+    <div class="timestamp">
+        Last Updated: {{ $analytics['lastUpdated'] }}
     </div>
 </body>
 </html>

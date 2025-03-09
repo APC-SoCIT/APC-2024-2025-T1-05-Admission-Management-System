@@ -14,23 +14,29 @@ class DashboardAnalyticsController extends Controller
     {
         $analytics = [
             // Admissions Statistics
-            'newApplications' => ApplicantInfo::where('status', 'new')->count(),
-            'acceptedApplications' => ApplicantInfo::where('status', 'accepted')->count(),
-            'rejectedApplications' => ApplicantInfo::where('status', 'rejected')->count(),
+            'admissions' => [
+                'new' => ApplicantInfo::where('status', 'new')->count(),
+                'accepted' => ApplicantInfo::where('status', 'accepted')->count(),
+                'rejected' => ApplicantInfo::where('status', 'rejected')->count(),
+            ],
 
             // Inquiries Statistics
-            'newInquiries' => LeadInfo::where('inquiry_status', 'New')->count(),
-            'resolvedInquiries' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
+            'inquiries' => [
+                'new' => LeadInfo::where('inquiry_status', 'New')->count(),
+                'resolved' => LeadInfo::where('inquiry_status', 'Resolved')->count(),
+            ],
 
             // Scholarship Statistics
-            'scholarshipApplications' => ApplicantScholarship::count(),
-            'approvedScholarships' => ApplicantScholarship::where('status', 'approved')->count(),
+            'scholarships' => [
+                'total' => ApplicantScholarship::count(),
+                'approved' => ApplicantScholarship::where('status', 'approved')->count(),
+            ],
 
             // Monthly Trend Data (last 6 months)
             'monthlyTrend' => $this->getMonthlyTrend(),
 
-            // Last Updated Timestamp
-            'lastUpdated' => now()->toIso8601String()
+            // Last Updated Timestamp - Using Manila time with user-friendly format
+            'lastUpdated' => now()->timezone('Asia/Manila')->format('F j, Y g:i A'),
         ];
 
         return response()->json($analytics);
