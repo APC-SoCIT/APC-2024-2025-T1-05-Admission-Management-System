@@ -1109,11 +1109,11 @@
         siblingCount++;
     });
 
-    // Updated function to calculate and validate sibling age
+    // Updated function to calculate sibling age with mm/dd/yyyy format
     async function calculateSiblingAge(dateInput) {
         const siblingEntry = dateInput.closest('.sibling-entry');
         const ageInput = siblingEntry.querySelector('input[name$="[age]"]');
-        const birthDate = dateInput.value;
+        const birthDate = dateInput._flatpickr ? dateInput._flatpickr.selectedDates[0] : new Date(dateInput.value);
 
         // Find or create error container
         let errorContainer = siblingEntry.querySelector('.sibling-date-error');
@@ -1124,8 +1124,10 @@
         }
 
         if (birthDate) {
+            // Convert to ISO format for validation
+            const isoDate = birthDate.toISOString().split('T')[0];
             // Pass isApplicant=false to apply standard age validation for siblings
-            await validateAge(birthDate, ageInput, errorContainer, false);
+            await validateAge(isoDate, ageInput, errorContainer, false);
         } else {
             ageInput.value = '';
             ageInput.classList.remove('border-red-500');
