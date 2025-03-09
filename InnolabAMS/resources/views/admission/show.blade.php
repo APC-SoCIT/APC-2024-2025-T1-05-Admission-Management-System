@@ -190,7 +190,7 @@
                                 @if(isset($applicant->siblings) && !empty($applicant->siblings))
                                     @foreach(json_decode($applicant->siblings) as $sibling)
                                         <tr class="border-b">
-                                            <td class="px-4 py-2 border-r">{{ $sibling->full_name }}</td>
+                                            <td class="px-4 py-2 border-r">{{ $sibling->given_name }} {{ $sibling->middle_name }} {{ $sibling->last_name }}</td>
                                             <td class="px-4 py-2 border-r">{{ $sibling->date_of_birth }}</td>
                                             <td class="px-4 py-2 border-r">{{ $sibling->age }}</td>
                                             <td class="px-4 py-2 border-r">{{ $sibling->grade_level }}</td>
