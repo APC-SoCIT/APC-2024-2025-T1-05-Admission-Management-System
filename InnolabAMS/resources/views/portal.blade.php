@@ -20,15 +20,20 @@
                     </a>
 
                     @php
-                        $applicant = auth()->user()->applicantInfo;
+                        $user = auth()->user();
+                        $isApplicant = $user && strtolower($user->role) === 'applicant'; // Ensure role is properly checked
+                        $applicant = $isApplicant ? \App\Models\ApplicantInfo::where('user_id', $user->id)->first() : null;
+                        $applicationSubmitted = $applicant && $applicant->id; // Check if applicant record exists
                     @endphp
 
-                    <a href="{{ $applicant ? route('admission.show', $applicant->id) : route('form.application') }}"
-                       class="flex items-center px-4 py-3 rounded-lg transition-all duration-200
-                              {{ request()->routeIs('form.application') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
-                        <i class="fa-solid fa-file w-5 h-5"></i>
-                        <span class="ml-3 font-medium">{{ __('Application Form') }}</span>
-                    </a>
+                    @if($isApplicant)
+                        <a href="{{ $applicationSubmitted ? route('admission.show', $applicant->id) : route('form.application') }}"
+                        class="flex items-center px-4 py-3 rounded-lg transition-all duration-200
+                                {{ request()->routeIs('form.application') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
+                            <i class="fa-solid fa-file w-5 h-5"></i>
+                            <span class="ml-3 font-medium">{{ $applicationSubmitted ? __('View Submitted Form') : __('Application Form') }}</span>
+                        </a>
+                    @endif
 
                     <a href="{{ route('scholarship.create') }}"
                        class="flex items-center px-4 py-3 rounded-lg transition-all duration-200
