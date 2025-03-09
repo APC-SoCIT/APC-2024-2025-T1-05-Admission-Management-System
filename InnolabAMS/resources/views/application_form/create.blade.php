@@ -128,6 +128,7 @@
                             <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
                         </div>
+                        <div class="date-error text-red-500 text-sm mt-1 hidden"></div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Age <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Age is automatically calculated based on the date of birth</span>
