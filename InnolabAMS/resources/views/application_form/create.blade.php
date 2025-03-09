@@ -1,6 +1,11 @@
 @section('title', 'Portal | InnolabAMS')
 @extends('portal') <!-- Use the portal layout -->
 
+@push('styles')
+<!-- Add Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
+
 @section('content') <!-- Define the content section -->
 <div class="container mx-auto px-6 py-4">
     <div class="flex justify-between items-center mb-4">
@@ -126,13 +131,13 @@
                         <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
                         <span class="block text-sm font-medium text-gray-700">Month/Day/Year</span>
                         <div class="flex items-center">
-                            <input type="date"
+                            <input type="text"
                                    name="applicant_date_birth"
                                    id="applicant_date_birth"
                                    required
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                   placeholder="mm/dd/yyyy">
-                            <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
+                                   placeholder="mm/dd/yyyy"
+                                   class="datepicker mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your date of birth" />
                         </div>
                         <div class="date-error text-red-500 text-sm mt-1 hidden"></div>
                     </div>
@@ -731,7 +736,80 @@
 </div>
 
 @push('scripts')
+<!-- Add Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Flatpickr with US date format (mm/dd/yyyy)
+        flatpickr("#applicant_date_birth", {
+            dateFormat: "m/d/Y",
+            altInput: true,
+            altFormat: "m/d/Y",
+            maxDate: "today",
+            onChange: function(selectedDates, dateStr, instance) {
+                // Call the existing age calculation function when date changes
+                const ageInput = document.getElementById('age');
+                const birthDate = dateStr;
+
+                // Find or create error container
+                let errorContainer = instance.element.parentElement.querySelector('.date-error');
+                if (!errorContainer) {
+                    errorContainer = document.createElement('p');
+                    errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
+                    instance.element.parentElement.appendChild(errorContainer);
+                }
+
+                if (birthDate) {
+                    // Create a standardized date string for validation (YYYY-MM-DD)
+                    const parts = birthDate.split('/');
+                    if(parts.length === 3) {
+                        const standardDateStr = `${parts[2]}-${parts[0].padStart(2,'0')}-${parts[1].padStart(2,'0')}`;
+                        // Pass isApplicant=true to apply stricter age validation for applicants
+                        validateAge(standardDateStr, ageInput, errorContainer, true);
+                    }
+                } else {
+                    ageInput.value = '';
+                    ageInput.classList.remove('border-red-500');
+                    errorContainer.classList.add('hidden');
+                }
+            }
+        });
+
+        // Update sibling date pickers too
+        document.querySelectorAll('input[name$="[date_of_birth]"]').forEach(input => {
+            if (input.id !== 'applicant_date_birth') {
+                flatpickr(input, {
+                    dateFormat: "m/d/Y",
+                    altInput: true,
+                    altFormat: "m/d/Y",
+                    maxDate: "today",
+                    onChange: function(selectedDates, dateStr, instance) {
+                        // Call the existing sibling age calculation when date changes
+                        calculateSiblingAge(instance.element);
+                    }
+                });
+            }
+        });
+
+        // Add event listener to initialize new sibling date pickers when added
+        document.getElementById('add-sibling').addEventListener('click', function() {
+            // Use setTimeout to ensure the DOM is updated before selecting the new elements
+            setTimeout(() => {
+                document.querySelectorAll('input[name$="[date_of_birth]"]:not(.flatpickr-input)').forEach(input => {
+                    flatpickr(input, {
+                        dateFormat: "m/d/Y",
+                        altInput: true,
+                        altFormat: "m/d/Y",
+                        maxDate: "today",
+                        onChange: function(selectedDates, dateStr, instance) {
+                            calculateSiblingAge(instance.element);
+                        }
+                    });
+                });
+            }, 100);
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const onlyChildCheckbox = document.getElementById('only-child');
         const siblingsContainer = document.getElementById('siblings-container');
@@ -1001,29 +1079,6 @@
 
         return age;
     }
-
-    // Updated event listener for birthdate change
-    document.getElementById('applicant_date_birth').addEventListener('change', async function() {
-        const ageInput = document.getElementById('age');
-        const birthDate = this.value;
-
-        // Find or create error container
-        let errorContainer = this.parentElement.querySelector('.date-error');
-        if (!errorContainer) {
-            errorContainer = document.createElement('p');
-            errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
-            this.parentElement.appendChild(errorContainer);
-        }
-
-        if (birthDate) {
-            // Pass isApplicant=true to apply stricter age validation for applicants
-            await validateAge(birthDate, ageInput, errorContainer, true);
-        } else {
-            ageInput.value = '';
-            ageInput.classList.remove('border-red-500');
-            errorContainer.classList.add('hidden');
-        }
-    });
 
     // Sibling entries handling
     let siblingCount = 1;
