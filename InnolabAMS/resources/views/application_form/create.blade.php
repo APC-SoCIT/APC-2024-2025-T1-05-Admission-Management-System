@@ -890,6 +890,7 @@
             // Validate minimum age for applicant (12 years for Grade 7)
             if (age < 12) {
                 if (errorContainer) {
+                    errorMessage.className = 'error-message text-red-500 text-sm mt-1';
                     errorContainer.innerHTML = 'Applicant must be at least 12 years old for junior high school admission';
                     errorContainer.classList.remove('hidden');
                 }
