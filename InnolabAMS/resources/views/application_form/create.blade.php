@@ -1462,23 +1462,23 @@
         ];
 
         function formatPhoneNumber(value, areaCode) {
-            let cleaned = value.replace(/\D/g, ''); // Remove all non-digit characters
+            // Remove all non-digit characters
+            let cleaned = value.replace(/\D/g, '');
 
+            // If value starts with area code, remove it to avoid duplication
             if (cleaned.startsWith(areaCode)) {
                 cleaned = cleaned.substring(areaCode.length);
             }
 
-            // Fix for Metro Manila (02) area code - needs 8 digits
+            // Metro Manila (02) area code needs 8 digits
             if (areaCode === '02') {
-                // Allow exactly 8 digits for 02 area code
-                cleaned = cleaned.slice(0, 8);
+                // Don't limit digits during input, only when formatting
                 if (cleaned.length > 4) {
                     return areaCode + ' ' + cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
                 }
                 return areaCode + ' ' + cleaned;
             } else {
-                // Other area codes need 7 digits
-                cleaned = cleaned.slice(0, 7);
+                // Other area codes - 7 digits
                 if (cleaned.length > 3) {
                     return areaCode + ' ' + cleaned.slice(0, 3) + ' ' + cleaned.slice(3);
                 }
@@ -1488,13 +1488,27 @@
 
         telInputs.forEach(({ input, select }) => {
             if (input && select) {
+                // Set appropriate maxlength based on area code
+                function updateMaxLength() {
+                    const areaCode = select.value;
+                    // For 02 (Metro Manila): 2 + 1 + 4 + 1 + 4 = 12 chars
+                    // For others: length of area code + 1 + 3 + 1 + 4 = area code length + 9
+                    const maxLength = (areaCode === '02') ? 12 : (areaCode.length + 9);
+                    input.setAttribute('maxlength', maxLength);
+                }
+
+                // Update maxlength immediately
+                updateMaxLength();
+
+                // Update when area code changes
+                select.addEventListener('change', function() {
+                    input.value = this.value + ' ';
+                    updateMaxLength();
+                });
+
                 input.addEventListener('input', function() {
                     const areaCode = select.value;
                     this.value = formatPhoneNumber(this.value, areaCode);
-                });
-
-                select.addEventListener('change', function() {
-                    input.value = this.value + ' ';
                 });
 
                 input.addEventListener('focus', function() {
@@ -1502,6 +1516,15 @@
                         const areaCode = select.value;
                         this.value = areaCode + ' ';
                     }
+                });
+
+                // Clear error messages
+                input.addEventListener('input', function() {
+                    const errorMessage = this.parentNode.querySelector('.error-message');
+                    if (errorMessage) {
+                        errorMessage.remove();
+                    }
+                    this.classList.remove('border-red-500');
                 });
             }
         });
