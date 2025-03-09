@@ -37,6 +37,26 @@
                         <option value="month">This Month</option>
                         <option value="custom">Custom Range</option>
                     </select>
+
+                    <!-- Custom Date Range Picker (shown only when custom is selected) -->
+                    <div x-show="showDatePicker" class="mt-3 grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Start Date</label>
+                            <input
+                                type="date"
+                                x-model="filters.startDate"
+                                class="mt-1 block w-full rounded-md border-gray-300"
+                                @change="fetchAnalytics()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">End Date</label>
+                            <input
+                                type="date"
+                                x-model="filters.endDate"
+                                class="mt-1 block w-full rounded-md border-gray-300"
+                                @change="fetchAnalytics()">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Status Filter -->
