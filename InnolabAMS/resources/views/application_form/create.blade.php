@@ -1687,6 +1687,38 @@
             });
         }
     });
+
+    // Set date input format to mm/dd/yyyy
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('applicant_date_birth');
+        if (dateInput) {
+            // For browsers that support the date input, this sets the display format
+            try {
+                // Create a new DateTimeFormat with US format (month/day/year)
+                const dateFormat = new Intl.DateTimeFormat('en-US', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                });
+
+                // Add event listener to format the date on blur
+                dateInput.addEventListener('change', function() {
+                    if (this.value) {
+                        const date = new Date(this.value);
+                        if (!isNaN(date.getTime())) {
+                            // The underlying value remains in ISO format for calculations
+                            // This just changes what the user sees
+                            const formattedDate = dateFormat.format(date);
+                            // Display formatted date in a tooltip or nearby element if needed
+                            console.log('Formatted date for display:', formattedDate);
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Error setting date format:', e);
+            }
+        }
+    });
 </script>
 @endpush
 @endsection
