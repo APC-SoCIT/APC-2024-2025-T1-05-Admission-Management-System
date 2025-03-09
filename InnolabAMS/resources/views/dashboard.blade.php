@@ -6,7 +6,7 @@
     <div class="max-w-7xl mx-auto px-4 mb-6">
         <div class="flex justify-end space-x-4">
             <button
-                @click="exportData('excel')"
+                @click="window.location.href='{{ route('dashboard.export', ['format' => 'excel']) }}'"
                 class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors duration-150">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -15,7 +15,7 @@
             </button>
 
             <button
-                @click="exportData('pdf')"
+                @click="window.location.href='{{ route('dashboard.export', ['format' => 'pdf']) }}'"
                 class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors duration-150">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -37,26 +37,6 @@
                         <option value="month">This Month</option>
                         <option value="custom">Custom Range</option>
                     </select>
-
-                    <!-- Custom Date Range Picker (shown only when custom is selected) -->
-                    <div x-show="showDatePicker" class="mt-3 grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Start Date</label>
-                            <input
-                                type="date"
-                                x-model="filters.startDate"
-                                class="mt-1 block w-full rounded-md border-gray-300"
-                                @change="fetchAnalytics()">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">End Date</label>
-                            <input
-                                type="date"
-                                x-model="filters.endDate"
-                                class="mt-1 block w-full rounded-md border-gray-300"
-                                @change="fetchAnalytics()">
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Status Filter -->
@@ -81,12 +61,6 @@
                     </select>
                 </div>
             </div>
-        </div>
-
-        <!-- Add this below the filter controls -->
-        <div x-show="isLoading" class="flex justify-center items-center py-4 my-4">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <span class="ml-3 text-gray-600">Loading data...</span>
         </div>
     </div>
 
@@ -184,13 +158,6 @@
 <script>
     function analyticsData() {
         return {
-            filters: {
-                dateRange: 'all',
-                status: 'all',
-                category: 'all',
-                startDate: null,
-                endDate: null
-            },
             stats: {
                 newApplications: 0,
                 acceptedApplications: 0,
@@ -199,137 +166,90 @@
                 resolvedInquiries: 0,
                 totalScholarships: 0,
                 approvedScholarships: 0,
+                lastUpdated: null,
                 monthlyTrend: {
                     labels: [],
                     data: []
-                },
-                lastUpdated: ''
+                }
             },
             charts: {
                 admissions: null,
                 status: null
             },
-            isLoading: false,
-            showDatePicker: false,
-
-            initData() {
-                this.fetchAnalytics();
+            filters: {
+                dateRange: 'all',
+                status: 'all',
+                category: 'all'
+            },
+            async initData() {
+                await this.refreshData();
                 this.initCharts();
-
-                // Set up watchers for filter changes
-                this.$watch('filters.dateRange', () => this.fetchAnalytics());
-                this.$watch('filters.status', () => this.fetchAnalytics());
-                this.$watch('filters.category', () => this.fetchAnalytics());
+                // Set up periodic refresh every 30 seconds
+                setInterval(() => this.refreshData(), 30000);
             },
+            async refreshData() {
+                try {
+                    const response = await fetch('/dashboard/analytics');
+                    const data = await response.json();
 
-            fetchAnalytics() {
-                this.isLoading = true;
+                    // Update stats with proper key mapping
+                    this.stats = {
+                        newApplications: data.admissions.new,
+                        acceptedApplications: data.admissions.accepted,
+                        rejectedApplications: data.admissions.rejected,
+                        newInquiries: data.inquiries.new,
+                        resolvedInquiries: data.inquiries.resolved,
+                        totalScholarships: data.scholarships.total,
+                        approvedScholarships: data.scholarships.approved,
+                        lastUpdated: data.lastUpdated,
+                        monthlyTrend: data.monthlyTrend
+                    };
 
-                // Show date picker for custom range
-                if (this.filters.dateRange === 'custom') {
-                    this.showDatePicker = true;
-                    // Only proceed if both dates are selected
-                    if (!this.filters.startDate || !this.filters.endDate) {
-                        return;
+                    if (this.charts.admissions || this.charts.status) {
+                        this.updateCharts();
                     }
-                } else {
-                    this.showDatePicker = false;
+                } catch (error) {
+                    console.error('Failed to refresh data:', error);
                 }
-
-                // Construct query parameters from filters
-                const params = new URLSearchParams();
-                params.append('dateRange', this.filters.dateRange);
-                params.append('status', this.filters.status);
-                params.append('category', this.filters.category);
-
-                // Make API request with filters
-                fetch(`/api/dashboard/analytics?${params.toString()}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        this.stats.newApplications = data.admissions.new;
-                        this.stats.acceptedApplications = data.admissions.accepted;
-                        this.stats.rejectedApplications = data.admissions.rejected;
-                        this.stats.newInquiries = data.inquiries.new;
-                        this.stats.resolvedInquiries = data.inquiries.resolved;
-                        this.stats.totalScholarships = data.scholarships.total;
-                        this.stats.approvedScholarships = data.scholarships.approved;
-                        this.stats.monthlyTrend = data.monthlyTrend;
-                        this.stats.lastUpdated = data.lastUpdated;
-
-                        // Initialize or update charts
-                        if (!this.charts.admissions || !this.charts.status) {
-                            this.initCharts();
-                        } else {
-                            this.updateCharts();
-                        }
-
-                        this.isLoading = false;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching analytics:', error);
-                        this.isLoading = false;
-                    });
             },
-
             initCharts() {
-                // Initialize the applications trend chart
-                const trendsCtx = document.getElementById('admissionsChart');
-                if (trendsCtx) {
-                    this.charts.admissions = new Chart(
-                        trendsCtx,
-                        {
-                            type: 'line',
-                            data: {
-                                labels: this.stats.monthlyTrend.labels,
-                                datasets: [{
-                                    label: 'Applications',
-                                    data: this.stats.monthlyTrend.data,
-                                    borderColor: 'rgb(59, 130, 246)',
-                                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                    tension: 0.3,
-                                    fill: true
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: {
-                                            precision: 0
-                                        }
-                                    }
-                                }
-                            }
+                this.charts.admissions = new Chart(
+                    document.getElementById('admissionsChart'),
+                    {
+                        type: 'line',
+                        data: {
+                            labels: this.stats.monthlyTrend.labels,
+                            datasets: [{
+                                label: 'Applications',
+                                data: this.stats.monthlyTrend.data,
+                                borderColor: 'rgb(59, 130, 246)',
+                                tension: 0.1
+                            }]
                         }
-                    );
-                }
+                    }
+                );
 
-                // Initialize the status pie chart
-                const statusCtx = document.getElementById('statusChart');
-                if (statusCtx) {
-                    this.charts.status = new Chart(
-                        statusCtx,
-                        {
-                            type: 'doughnut',
-                            data: {
-                                labels: ['New', 'Accepted', 'Rejected'],
-                                datasets: [{
-                                    data: [
-                                        this.stats.newApplications,
-                                        this.stats.acceptedApplications,
-                                        this.stats.rejectedApplications
-                                    ],
-                                    backgroundColor: [
-                                        'rgb(234, 179, 8)',
-                                        'rgb(34, 197, 94)',
-                                        'rgb(239, 68, 68)'
-                                    ]
-                                }]
-                            }
+                this.charts.status = new Chart(
+                    document.getElementById('statusChart'),
+                    {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['New', 'Accepted', 'Rejected'],
+                            datasets: [{
+                                data: [
+                                    this.stats.newApplications,
+                                    this.stats.acceptedApplications,
+                                    this.stats.rejectedApplications
+                                ],
+                                backgroundColor: [
+                                    'rgb(234, 179, 8)',
+                                    'rgb(34, 197, 94)',
+                                    'rgb(239, 68, 68)'
+                                ]
+                            }]
                         }
-                    );
-                }
+                    }
+                );
             },
             updateCharts() {
                 if (this.charts.admissions) {
@@ -346,14 +266,6 @@
                     ];
                     this.charts.status.update();
                 }
-            },
-            exportData(format) {
-                const filterParams = new URLSearchParams({
-                    ...this.filters,
-                    format: format
-                }).toString();
-
-                window.location.href = `{{ route('dashboard.export') }}?${filterParams}`;
             }
         }
     }
