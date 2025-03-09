@@ -278,4 +278,9 @@ Route::get('/server-time', function () {
     ]);
 });
 
+// API route for dashboard analytics
+Route::get('/api/dashboard/analytics', [App\Http\Controllers\Api\DashboardAnalyticsController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('api.dashboard.analytics');
+
 require __DIR__ . '/auth.php';
