@@ -1,11 +1,6 @@
 @section('title', 'Portal | InnolabAMS')
 @extends('portal') <!-- Use the portal layout -->
 
-@push('styles')
-<!-- Add Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-@endpush
-
 @section('content') <!-- Define the content section -->
 <div class="container mx-auto px-6 py-4">
     <div class="flex justify-between items-center mb-4">
@@ -128,16 +123,10 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
-                        <span class="block text-sm font-medium text-gray-700">Month/Day/Year</span>
+                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Month/Day/Year</span>
                         <div class="flex items-center">
-                            <input type="text"
-                                   name="applicant_date_birth"
-                                   id="applicant_date_birth"
-                                   required
-                                   placeholder="mm/dd/yyyy"
-                                   class="datepicker mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <x-form-tooltip text="Enter your date of birth" />
+                            <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
                         </div>
                         <div class="date-error text-red-500 text-sm mt-1 hidden"></div>
                     </div>
@@ -736,80 +725,7 @@
 </div>
 
 @push('scripts')
-<!-- Add Flatpickr JS -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Flatpickr with US date format (mm/dd/yyyy)
-        flatpickr("#applicant_date_birth", {
-            dateFormat: "m/d/Y",
-            altInput: true,
-            altFormat: "m/d/Y",
-            maxDate: "today",
-            onChange: function(selectedDates, dateStr, instance) {
-                // Call the existing age calculation function when date changes
-                const ageInput = document.getElementById('age');
-                const birthDate = dateStr;
-
-                // Find or create error container
-                let errorContainer = instance.element.parentElement.querySelector('.date-error');
-                if (!errorContainer) {
-                    errorContainer = document.createElement('p');
-                    errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
-                    instance.element.parentElement.appendChild(errorContainer);
-                }
-
-                if (birthDate) {
-                    // Create a standardized date string for validation (YYYY-MM-DD)
-                    const parts = birthDate.split('/');
-                    if(parts.length === 3) {
-                        const standardDateStr = `${parts[2]}-${parts[0].padStart(2,'0')}-${parts[1].padStart(2,'0')}`;
-                        // Pass isApplicant=true to apply stricter age validation for applicants
-                        validateAge(standardDateStr, ageInput, errorContainer, true);
-                    }
-                } else {
-                    ageInput.value = '';
-                    ageInput.classList.remove('border-red-500');
-                    errorContainer.classList.add('hidden');
-                }
-            }
-        });
-
-        // Update sibling date pickers too
-        document.querySelectorAll('input[name$="[date_of_birth]"]').forEach(input => {
-            if (input.id !== 'applicant_date_birth') {
-                flatpickr(input, {
-                    dateFormat: "m/d/Y",
-                    altInput: true,
-                    altFormat: "m/d/Y",
-                    maxDate: "today",
-                    onChange: function(selectedDates, dateStr, instance) {
-                        // Call the existing sibling age calculation when date changes
-                        calculateSiblingAge(instance.element);
-                    }
-                });
-            }
-        });
-
-        // Add event listener to initialize new sibling date pickers when added
-        document.getElementById('add-sibling').addEventListener('click', function() {
-            // Use setTimeout to ensure the DOM is updated before selecting the new elements
-            setTimeout(() => {
-                document.querySelectorAll('input[name$="[date_of_birth]"]:not(.flatpickr-input)').forEach(input => {
-                    flatpickr(input, {
-                        dateFormat: "m/d/Y",
-                        altInput: true,
-                        altFormat: "m/d/Y",
-                        maxDate: "today",
-                        onChange: function(selectedDates, dateStr, instance) {
-                            calculateSiblingAge(instance.element);
-                        }
-                    });
-                });
-            }, 100);
-        });
-    });
-
     document.addEventListener('DOMContentLoaded', function() {
         const onlyChildCheckbox = document.getElementById('only-child');
         const siblingsContainer = document.getElementById('siblings-container');
@@ -1080,6 +996,29 @@
         return age;
     }
 
+    // Updated event listener for birthdate change
+    document.getElementById('applicant_date_birth').addEventListener('change', async function() {
+        const ageInput = document.getElementById('age');
+        const birthDate = this.value;
+
+        // Find or create error container
+        let errorContainer = this.parentElement.querySelector('.date-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('p');
+            errorContainer.className = 'date-error text-red-500 text-sm mt-1 hidden';
+            this.parentElement.appendChild(errorContainer);
+        }
+
+        if (birthDate) {
+            // Pass isApplicant=true to apply stricter age validation for applicants
+            await validateAge(birthDate, ageInput, errorContainer, true);
+        } else {
+            ageInput.value = '';
+            ageInput.classList.remove('border-red-500');
+            errorContainer.classList.add('hidden');
+        }
+    });
+
     // Sibling entries handling
     let siblingCount = 1;
     document.getElementById('add-sibling').addEventListener('click', function() {
@@ -1109,11 +1048,11 @@
         siblingCount++;
     });
 
-    // Updated function to calculate sibling age with mm/dd/yyyy format
+    // Updated function to calculate and validate sibling age
     async function calculateSiblingAge(dateInput) {
         const siblingEntry = dateInput.closest('.sibling-entry');
         const ageInput = siblingEntry.querySelector('input[name$="[age]"]');
-        const birthDate = dateInput._flatpickr ? dateInput._flatpickr.selectedDates[0] : new Date(dateInput.value);
+        const birthDate = dateInput.value;
 
         // Find or create error container
         let errorContainer = siblingEntry.querySelector('.sibling-date-error');
@@ -1124,10 +1063,8 @@
         }
 
         if (birthDate) {
-            // Convert to ISO format for validation
-            const isoDate = birthDate.toISOString().split('T')[0];
             // Pass isApplicant=false to apply standard age validation for siblings
-            await validateAge(isoDate, ageInput, errorContainer, false);
+            await validateAge(birthDate, ageInput, errorContainer, false);
         } else {
             ageInput.value = '';
             ageInput.classList.remove('border-red-500');
@@ -1742,56 +1679,6 @@
                 }
                 this.classList.remove('border-red-500');
             });
-        }
-    });
-
-    // Set date input format to mm/dd/yyyy
-    document.addEventListener('DOMContentLoaded', function() {
-        const dateInput = document.getElementById('applicant_date_birth');
-        if (dateInput) {
-            // For browsers that support the date input, this sets the display format
-            try {
-                // Create a new DateTimeFormat with US format (month/day/year)
-                const dateFormat = new Intl.DateTimeFormat('en-US', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                });
-
-                // Add event listener to format the date on blur
-                dateInput.addEventListener('change', function() {
-                    if (this.value) {
-                        const date = new Date(this.value);
-                        if (!isNaN(date.getTime())) {
-                            // The underlying value remains in ISO format for calculations
-                            // This just changes what the user sees
-                            const formattedDate = dateFormat.format(date);
-                            // Display formatted date in a tooltip or nearby element if needed
-                            console.log('Formatted date for display:', formattedDate);
-                        }
-                    }
-                });
-            } catch (e) {
-                console.error('Error setting date format:', e);
-            }
-        }
-    });
-
-    // Update the placeholder text for date input
-    document.addEventListener('DOMContentLoaded', function() {
-        const dateInput = document.getElementById('applicant_date_birth');
-        if (dateInput) {
-            // Change the placeholder to mm/dd/yyyy format
-            if (dateInput.type !== 'date') {
-                // For browsers that don't support date input type
-                dateInput.placeholder = 'mm/dd/yyyy';
-            }
-
-            // If there's a text field that displays the date format
-            const dateFormatText = dateInput.closest('div').querySelector('span.block');
-            if (dateFormatText) {
-                dateFormatText.textContent = 'Month/Day/Year';
-            }
         }
     });
 </script>
