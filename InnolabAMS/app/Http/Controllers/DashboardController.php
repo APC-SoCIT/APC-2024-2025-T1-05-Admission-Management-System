@@ -14,7 +14,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -44,202 +43,75 @@ class DashboardController extends Controller
 
     public function getAnalytics(Request $request): JsonResponse
     {
-        try {
-            // Get filter parameters
-            $dateRange = $request->input('dateRange', 'all');
-            $status = $request->input('status', 'all');
-            $category = $request->input('category', 'all');
+        $dateRange = $request->input('dateRange', 'all');
+        $status = $request->input('status', 'all');
+        $category = $request->input('category', 'all');
 
-            // Apply date filter
-            $query = ApplicantInfo::query();
-            $inquiryQuery = LeadInfo::query();
-            $scholarshipQuery = DB::table('applicant_scholarships');
+        $query = ApplicantInfo::query();
 
-            // Apply date range filter
-            switch ($dateRange) {
-                case 'today':
-                    $query->whereDate('created_at', Carbon::today());
-                    $inquiryQuery->whereDate('created_at', Carbon::today());
-                    $scholarshipQuery->whereDate('created_at', Carbon::today());
-                    break;
-                case 'week':
-                    $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-                    $inquiryQuery->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-                    $scholarshipQuery->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-                    break;
-                case 'month':
-                    $query->whereMonth('created_at', Carbon::now()->month)
-                         ->whereYear('created_at', Carbon::now()->year);
-                    $inquiryQuery->whereMonth('created_at', Carbon::now()->month)
-                         ->whereYear('created_at', Carbon::now()->year);
-                    $scholarshipQuery->whereMonth('created_at', Carbon::now()->month)
-                         ->whereYear('created_at', Carbon::now()->year);
-                    break;
-                case 'custom':
-                    $startDate = $request->input('startDate');
-                    $endDate = $request->input('endDate');
-                    if ($startDate && $endDate) {
-                        $query->whereBetween('created_at', [$startDate, $endDate]);
-                        $inquiryQuery->whereBetween('created_at', [$startDate, $endDate]);
-                        $scholarshipQuery->whereBetween('created_at', [$startDate, $endDate]);
-                    }
-                    break;
-            }
-
-            // Apply status filter (only if specific status is selected)
-            if ($status !== 'all') {
-                $query->where('status', $status);
-            }
-
-            // Get counts based on filtered queries
-            $admissionCounts = [
-                'new' => ($category === 'all' || $category === 'admissions') ?
-                            $query->where('status', 'new')->count() : 0,
-                'accepted' => ($category === 'all' || $category === 'admissions') ?
-                            $query->where('status', 'accepted')->count() : 0,
-                'rejected' => ($category === 'all' || $category === 'admissions') ?
-                            $query->where('status', 'rejected')->count() : 0,
-            ];
-
-            $inquiryCounts = [
-                'new' => ($category === 'all' || $category === 'inquiries') ?
-                            $inquiryQuery->where('inquiry_status', 'New')->count() : 0,
-                'resolved' => ($category === 'all' || $category === 'inquiries') ?
-                            $inquiryQuery->where('inquiry_status', 'Responded')->count() : 0,
-            ];
-
-            $scholarshipCounts = [
-                'total' => ($category === 'all' || $category === 'scholarships') ?
-                            $scholarshipQuery->count() : 0,
-                'approved' => ($category === 'all' || $category === 'scholarships') ?
-                            $scholarshipQuery->where('status', 'approved')->count() : 0,
-            ];
-
-            // Get monthly trend data with filters applied
-            $monthlyTrend = $this->getMonthlyTrend($dateRange, $status, $category);
-
-            return response()->json([
-                'admissions' => $admissionCounts,
-                'inquiries' => $inquiryCounts,
-                'scholarships' => $scholarshipCounts,
-                'monthlyTrend' => $monthlyTrend,
-                'lastUpdated' => now()->timezone('Asia/Manila')->format('F j, Y g:i A'),
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Analytics error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to load analytics'], 500);
+        // Apply date filter
+        if ($dateRange !== 'all') {
+            $query->when($dateRange === 'today', fn($q) => $q->whereDate('created_at', today()))
+                 ->when($dateRange === 'week', fn($q) => $q->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]))
+                 ->when($dateRange === 'month', fn($q) => $q->whereMonth('created_at', now()->month));
         }
+
+        // Apply status filter
+        if ($status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        // Get filtered data
+        $data = $this->getAnalyticsData($query, $category);
+
+        return response()->json($data);
     }
 
-    private function getMonthlyTrend($dateRange = 'all', $status = 'all', $category = 'all')
+    private function getMonthlyTrend(): array
     {
-        try {
-            // Base query
-            $query = ApplicantInfo::query();
-
-            // Apply status filter if needed
-            if ($status !== 'all') {
-                $query->where('status', $status);
-            }
-
-            // Determine date range for the trend data
-            $startDate = Carbon::now()->subMonths(5)->startOfMonth();
-            $endDate = Carbon::now()->endOfMonth();
-
-            if ($dateRange === 'month') {
-                // For month filter, show daily trend within current month
-                $startDate = Carbon::now()->startOfMonth();
-                $endDate = Carbon::now()->endOfMonth();
-                $groupBy = 'day';
-                $format = 'j'; // Day of month without leading zeros
-            } else if ($dateRange === 'week') {
-                // For week filter, show daily trend within current week
-                $startDate = Carbon::now()->startOfWeek();
-                $endDate = Carbon::now()->endOfWeek();
-                $groupBy = 'day';
-                $format = 'D'; // Short day name (Mon, Tue)
-            } else {
-                // Default: show monthly trend
-                $groupBy = 'month';
-                $format = 'M Y'; // Short month name + year
-            }
-
-            // Get application counts by time period
-            $trends = $query->whereBetween('created_at', [$startDate, $endDate])
-                ->select(DB::raw("DATE_FORMAT(created_at, '%$format') as period"),
-                         DB::raw('COUNT(*) as count'))
-                ->groupBy('period')
-                ->orderBy('created_at')
-                ->get()
-                ->pluck('count', 'period')
-                ->toArray();
-
-            // Generate all periods in range (fills in zeros for missing periods)
-            $allPeriods = [];
-            $currentDate = clone $startDate;
-            while ($currentDate <= $endDate) {
-                $periodKey = $currentDate->format($format);
-                if (!isset($allPeriods[$periodKey])) {
-                    $allPeriods[$periodKey] = 0;
-                }
-
-                if ($groupBy === 'day') {
-                    $currentDate->addDay();
-                } else {
-                    $currentDate->addMonth();
-                }
-            }
-
-            // Merge actual data with all periods
-            foreach ($trends as $period => $count) {
-                $allPeriods[$period] = $count;
-            }
-
+        $months = collect(range(5, 0))->map(function($month) {
+            $date = now()->timezone('Asia/Manila')->subMonths($month);
             return [
-                'labels' => array_keys($allPeriods),
-                'data' => array_values($allPeriods)
+                'month' => $date->format('M'),
+                'count' => ApplicantInfo::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count()
             ];
-        } catch (\Exception $e) {
-            Log::error('Monthly trend error: ' . $e->getMessage());
-            return [
-                'labels' => [],
-                'data' => []
-            ];
-        }
+        });
+
+        return [
+            'labels' => $months->pluck('month')->toArray(),
+            'data' => $months->pluck('count')->toArray()
+        ];
     }
 
     public function exportAnalytics(Request $request)
     {
-        // Get the filter parameters
-        $filters = [
-            'dateRange' => $request->input('dateRange', 'all'),
-            'status' => $request->input('status', 'all'),
-            'category' => $request->input('category', 'all')
-        ];
+        try {
+            $data = $this->getAnalyticsData();
+            $format = $request->query('format', 'excel');
 
-        // Get the analytics data with filters applied
-        $analyticsController = new \App\Http\Controllers\Api\DashboardAnalyticsController();
-        $response = $analyticsController->index($request);
-        $analytics = json_decode($response->content(), true);
+            if ($format === 'excel') {
+                $fileName = 'analytics_' . now()->timezone('Asia/Manila')->format('Y-m-d_His') . '.xlsx';
+                $filePath = storage_path('app/public/' . $fileName);
 
-        $format = $request->input('format', 'excel');
+                $exporter = new AnalyticsExport($data);
+                $exporter->export($filePath);
 
-        if ($format === 'pdf') {
-            // Generate PDF
-            $pdf = PDF::loadView('exports.analytics-pdf', [
-                'analytics' => $analytics
-            ]);
+                return response()->download($filePath, $fileName, [
+                    'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                ])->deleteFileAfterSend();
+            }
 
-            return $pdf->download('dashboard-analytics-report.pdf');
-        } else {
-            // Generate Excel file
-            $tempFile = tempnam(sys_get_temp_dir(), 'analytics') . '.xlsx';
-            $export = new AnalyticsExport($analytics);
-            $export->export($tempFile);
+            if ($format === 'pdf') {
+                $pdf = PDF::loadView('exports.analytics-pdf', ['analytics' => $data]);
+                return $pdf->download('insights-report.pdf');
+            }
 
-            return response()->download($tempFile, 'dashboard-analytics-report.xlsx', [
-                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            ])->deleteFileAfterSend(true);
+            return response()->json(['error' => 'Unsupported format'], 400);
+        } catch (\Exception $e) {
+            Log::error('Export error: ' . $e->getMessage());
+            return back()->with('error', 'Failed to export analytics');
         }
     }
 
@@ -274,7 +146,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function getAnalyticsData($filters)
+    private function getAnalyticsData($query = null, $category = 'all'): array
     {
         // Add debug logging for raw database queries
         \DB::enableQueryLog();
