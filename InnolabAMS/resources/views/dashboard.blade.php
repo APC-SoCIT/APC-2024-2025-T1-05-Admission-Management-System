@@ -158,6 +158,13 @@
 <script>
     function analyticsData() {
         return {
+            filters: {
+                dateRange: 'all',
+                status: 'all',
+                category: 'all',
+                startDate: null,
+                endDate: null
+            },
             stats: {
                 newApplications: 0,
                 acceptedApplications: 0,
@@ -166,52 +173,65 @@
                 resolvedInquiries: 0,
                 totalScholarships: 0,
                 approvedScholarships: 0,
-                lastUpdated: null,
                 monthlyTrend: {
                     labels: [],
                     data: []
-                }
+                },
+                lastUpdated: ''
             },
             charts: {
                 admissions: null,
                 status: null
             },
-            filters: {
-                dateRange: 'all',
-                status: 'all',
-                category: 'all'
-            },
-            async initData() {
-                await this.refreshData();
+            isLoading: false,
+            showDatePicker: false,
+
+            initData() {
+                this.fetchAnalytics();
                 this.initCharts();
-                // Set up periodic refresh every 30 seconds
-                setInterval(() => this.refreshData(), 30000);
+
+                // Watch for filter changes
+                this.$watch('filters', () => {
+                    this.fetchAnalytics();
+                }, { deep: true });
             },
-            async refreshData() {
-                try {
-                    const response = await fetch('/dashboard/analytics');
-                    const data = await response.json();
 
-                    // Update stats with proper key mapping
-                    this.stats = {
-                        newApplications: data.admissions.new,
-                        acceptedApplications: data.admissions.accepted,
-                        rejectedApplications: data.admissions.rejected,
-                        newInquiries: data.inquiries.new,
-                        resolvedInquiries: data.inquiries.resolved,
-                        totalScholarships: data.scholarships.total,
-                        approvedScholarships: data.scholarships.approved,
-                        lastUpdated: data.lastUpdated,
-                        monthlyTrend: data.monthlyTrend
-                    };
+            fetchAnalytics() {
+                this.isLoading = true;
 
-                    if (this.charts.admissions || this.charts.status) {
-                        this.updateCharts();
+                // Show date picker for custom range
+                if (this.filters.dateRange === 'custom') {
+                    this.showDatePicker = true;
+                    // Only proceed if both dates are selected
+                    if (!this.filters.startDate || !this.filters.endDate) {
+                        return;
                     }
-                } catch (error) {
-                    console.error('Failed to refresh data:', error);
+                } else {
+                    this.showDatePicker = false;
                 }
+
+                fetch(`/dashboard/analytics?${new URLSearchParams(this.filters).toString()}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.stats.newApplications = data.admissions.new;
+                        this.stats.acceptedApplications = data.admissions.accepted;
+                        this.stats.rejectedApplications = data.admissions.rejected;
+                        this.stats.newInquiries = data.inquiries.new;
+                        this.stats.resolvedInquiries = data.inquiries.resolved;
+                        this.stats.totalScholarships = data.scholarships.total;
+                        this.stats.approvedScholarships = data.scholarships.approved;
+                        this.stats.monthlyTrend = data.monthlyTrend;
+                        this.stats.lastUpdated = data.lastUpdated;
+
+                        this.updateCharts();
+                        this.isLoading = false;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching analytics:', error);
+                        this.isLoading = false;
+                    });
             },
+
             initCharts() {
                 this.charts.admissions = new Chart(
                     document.getElementById('admissionsChart'),
