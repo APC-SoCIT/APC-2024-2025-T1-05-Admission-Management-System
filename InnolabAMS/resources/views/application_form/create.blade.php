@@ -1278,7 +1278,7 @@
             this.value = this.value.slice(0, 11);
         }
     });
-    
+
     // File input validation
     const fileInputs = document.querySelectorAll('input[type="file"]');
 
@@ -1468,13 +1468,16 @@
                 cleaned = cleaned.substring(areaCode.length);
             }
 
+            // Fix for Metro Manila (02) area code - needs 8 digits
             if (areaCode === '02') {
+                // Allow exactly 8 digits for 02 area code
                 cleaned = cleaned.slice(0, 8);
                 if (cleaned.length > 4) {
                     return areaCode + ' ' + cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
                 }
                 return areaCode + ' ' + cleaned;
             } else {
+                // Other area codes need 7 digits
                 cleaned = cleaned.slice(0, 7);
                 if (cleaned.length > 3) {
                     return areaCode + ' ' + cleaned.slice(0, 3) + ' ' + cleaned.slice(3);
@@ -1620,6 +1623,40 @@
 
         // Initial setup based on current program value
         handleProgramSelection();
+    });
+
+    // Also check the maxlength attribute of the emergency_contact_tel field
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... existing code ...
+
+        // Update maxlength attribute based on area code selection
+        const emergencyTelAreaCode = document.getElementById('emergency_tel_area_code');
+        const emergencyContactTel = document.getElementById('emergency_contact_tel');
+
+        function updateMaxLength() {
+            if (emergencyTelAreaCode && emergencyContactTel) {
+                // Set maxlength to 15 to accommodate full formatted number
+                emergencyContactTel.maxlength = 15;
+            }
+        }
+
+        if (emergencyTelAreaCode) {
+            emergencyTelAreaCode.addEventListener('change', updateMaxLength);
+        }
+
+        // Set initial maxlength
+        updateMaxLength();
+
+        // Remove error message when input changes
+        if (emergencyContactTel) {
+            emergencyContactTel.addEventListener('input', function() {
+                const errorMessage = this.parentNode.querySelector('.error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+                this.classList.remove('border-red-500');
+            });
+        }
     });
 </script>
 @endpush
