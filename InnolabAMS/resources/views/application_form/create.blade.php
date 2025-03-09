@@ -898,7 +898,7 @@
                 return false;
             }
         } else {
-            // Validate minimum age for siblings (3 years)
+            // For siblings, use more lenient validation (minimum 3 years old)
             if (age < 3) {
                 if (errorContainer) {
                     errorContainer.innerHTML = 'Sibling must be at least 3 years old';
@@ -910,10 +910,10 @@
             }
         }
 
-        // Validate maximum reasonable age (30 years) for both applicant and siblings
+        // Maximum age validation (30 years is reasonable for school)
         if (age > 30) {
             if (errorContainer) {
-                errorContainer.innerHTML = 'Please verify the date of birth - age exceeds typical school admission range';
+                errorContainer.innerHTML = 'Age cannot exceed 30 years';
                 errorContainer.classList.remove('hidden');
             }
             ageInput.value = age;
