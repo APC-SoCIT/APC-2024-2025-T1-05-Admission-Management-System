@@ -600,12 +600,13 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <input type="text"
+                        <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
+                        <div class="flex items-center space-x-2">
+                            <input type="tel"
                                    name="emergency_contact_mobile"
-                                   maxlength="11"
-                                   placeholder="09xxxxxxxxx"
+                                   id="emergency_contact_mobile"
+                                   required
+                                   maxlength="12"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
