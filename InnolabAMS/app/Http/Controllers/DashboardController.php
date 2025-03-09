@@ -211,8 +211,19 @@ class DashboardController extends Controller
     public function exportAnalytics(Request $request)
     {
         try {
-            $data = $this->getAnalyticsData();
-            $format = $request->query('format', 'excel');
+            // Get the same filters used in the dashboard
+            $filters = [
+                'dateRange' => $request->input('dateRange', 'all'),
+                'status' => $request->input('status', 'all'),
+                'category' => $request->input('category', 'all'),
+                'startDate' => $request->input('startDate'),
+                'endDate' => $request->input('endDate'),
+            ];
+
+            // Get data with applied filters
+            $data = $this->getAnalyticsData($filters);
+
+            $format = $request->input('format', 'excel');
 
             if ($format === 'excel') {
                 $fileName = 'analytics_' . now()->timezone('Asia/Manila')->format('Y-m-d_His') . '.xlsx';
@@ -269,7 +280,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function getAnalyticsData($query = null, $category = 'all'): array
+    private function getAnalyticsData($filters)
     {
         // Add debug logging for raw database queries
         \DB::enableQueryLog();
