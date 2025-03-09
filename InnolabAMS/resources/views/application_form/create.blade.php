@@ -1454,7 +1454,7 @@
         });
     });
 
-    //telephone number formatting with strict Philippine standards
+    //telephone number formatting
     document.addEventListener('DOMContentLoaded', function() {
         const telInputs = [
             { input: document.getElementById('applicant_tel_no'), select: document.getElementById('tel_area_code') },
@@ -1470,21 +1470,15 @@
                 cleaned = cleaned.substring(areaCode.length);
             }
 
-            // For Metro Manila (02): 02 XXXX XXXX (8 digits after area code)
+            // Metro Manila (02) area code needs 8 digits
             if (areaCode === '02') {
-                // Limit to 8 digits (excluding area code)
-                cleaned = cleaned.slice(0, 8);
-
+                // Don't limit digits during input, only when formatting
                 if (cleaned.length > 4) {
                     return areaCode + ' ' + cleaned.slice(0, 4) + ' ' + cleaned.slice(4);
                 }
                 return areaCode + ' ' + cleaned;
-            }
-            // For other area codes: 0XX XXX XXXX (7 digits after area code)
-            else {
-                // Limit to 7 digits (excluding area code)
-                cleaned = cleaned.slice(0, 7);
-
+            } else {
+                // Other area codes - 7 digits
                 if (cleaned.length > 3) {
                     return areaCode + ' ' + cleaned.slice(0, 3) + ' ' + cleaned.slice(3);
                 }
@@ -1494,11 +1488,11 @@
 
         telInputs.forEach(({ input, select }) => {
             if (input && select) {
-                // Set correct maxlength based on area code
+                // Set appropriate maxlength based on area code
                 function updateMaxLength() {
                     const areaCode = select.value;
-                    // For 02 (Metro Manila): format is "02 XXXX XXXX" = 12 chars (2 + 1 + 4 + 1 + 4)
-                    // For others (e.g., 045): format is "045 XXX XXXX" = 13 chars (3 + 1 + 3 + 1 + 4)
+                    // For 02 (Metro Manila): 2 + 1 + 4 + 1 + 4 = 12 chars
+                    // For others: length of area code + 1 + 3 + 1 + 4 = area code length + 9
                     const maxLength = (areaCode === '02') ? 12 : (areaCode.length + 9);
                     input.setAttribute('maxlength', maxLength);
                 }
@@ -1514,36 +1508,13 @@
 
                 input.addEventListener('input', function() {
                     const areaCode = select.value;
-                    const formatted = formatPhoneNumber(this.value, areaCode);
-
-                    // Only update if the value has changed to prevent cursor jumping
-                    if (this.value !== formatted) {
-                        // Store cursor position
-                        const cursorPos = this.selectionStart;
-                        const oldValue = this.value;
-
-                        this.value = formatted;
-
-                        // Adjust cursor position if needed
-                        if (cursorPos !== null) {
-                            // Calculate new cursor position based on changes in formatting
-                            const newCursorPos = Math.min(
-                                cursorPos + (formatted.length - oldValue.length),
-                                formatted.length
-                            );
-                            this.setSelectionRange(newCursorPos, newCursorPos);
-                        }
-                    }
+                    this.value = formatPhoneNumber(this.value, areaCode);
                 });
 
                 input.addEventListener('focus', function() {
                     if (!this.value) {
                         const areaCode = select.value;
                         this.value = areaCode + ' ';
-
-                        // Place cursor at the end
-                        const end = this.value.length;
-                        this.setSelectionRange(end, end);
                     }
                 });
 
