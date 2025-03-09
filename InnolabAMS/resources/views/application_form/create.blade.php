@@ -1456,7 +1456,6 @@
             'father_contact',
             'mother_contact',
             'guardian_contact_num',
-            'emergency_contact_mobile'
         ];
 
         // Function to format mobile number
