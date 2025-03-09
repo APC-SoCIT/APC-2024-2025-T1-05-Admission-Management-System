@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Day/Month/Year</span>
+                        <label class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Month/Day/Year</span>
                         <div class="flex items-center">
                             <input type="date" name="applicant_date_birth" id="applicant_date_birth" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter your birth date as shown on your birth certificate" />
@@ -574,21 +574,18 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tel. No.</label>
-                        <div class="flex items-center">
-                            <input type="tel"
-                                   name="emergency_contact_tel"
-                                   maxlength="11"
-                                   placeholder="02 xxxx-xxxx"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="flex items-center mb-4">
+                            <input type="tel" name="emergency_contact_tel" maxlength="11" placeholder="02 xxxx-xxxx" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mobile No. <span class="text-red-500">*</span></label>
-                        <div class="flex items-center">
-                            <input type="text"
+                        <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
+                        <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
+                        <div class="flex items-center mb-4">
+                            <input type="tel"
                                    name="emergency_contact_mobile"
-                                   maxlength="11"
-                                   placeholder="09xxxxxxxxx"
+                                   id="emergency_contact_mobile"
+                                   maxlength="12"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
@@ -1247,74 +1244,7 @@
             this.value = this.value.slice(0, 11);
         }
     });
-
-    // Emergency contact mobile validation
-    document.querySelector('input[name="emergency_contact_mobile"]').addEventListener('input', function(e) {
-        const isValid = /^[0-9]*$/.test(this.value);
-
-        if (!isValid) {
-            this.classList.add('border-red-500');
-            if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter a valid mobile number (numbers only)';
-                this.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            this.classList.remove('border-red-500');
-            if (this.nextElementSibling && this.nextElementSibling.classList.contains('error-message')) {
-                this.nextElementSibling.remove();
-            }
-        }
-
-        // Limit to 11 digits
-        if (this.value.length > 11) {
-            this.value = this.value.slice(0, 11);
-        }
-    });
-
-    // Function to validate numeric input
-    function validateNumericInput(event) {
-        const input = event.target;
-        const value = input.value;
-        const isValid = /^[0-9]*$/.test(value);
-
-        if (!isValid) {
-            input.classList.add('border-red-500');
-            // Only add error message if it doesn't exist
-            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
-                const errorMessage = document.createElement('span');
-                errorMessage.className = 'error-message text-red-500 text-sm';
-                errorMessage.textContent = 'Please enter numbers only';
-                input.parentNode.appendChild(errorMessage);
-            }
-        } else {
-            input.classList.remove('border-red-500');
-            // Remove error message if it exists
-            if (input.nextElementSibling && input.nextElementSibling.classList.contains('error-message')) {
-                input.nextElementSibling.remove();
-            }
-        }
-
-        // Enforce maximum length of 11 digits
-        if (value.replace(/[^0-9]/g, '').length > 11) {
-            input.value = value.slice(0, value.length - 1);
-        }
-    }
-
-    // Add event listeners for contact number fields
-    const numericInputFields = [
-        'emergency_contact_tel',
-        'emergency_contact_mobile'
-    ];
-
-    numericInputFields.forEach(fieldName => {
-        const input = document.querySelector(`input[name="${fieldName}"]`);
-        if (input) {
-            input.addEventListener('input', validateNumericInput);
-        }
-    });
-
+    
     // File input validation
     const fileInputs = document.querySelectorAll('input[type="file"]');
 
@@ -1439,7 +1369,8 @@
             'applicant_mobile_number',
             'father_contact',
             'mother_contact',
-            'guardian_contact_num'
+            'guardian_contact_num',
+            'emergency_contact_mobile'
         ];
 
         // Function to format mobile number
