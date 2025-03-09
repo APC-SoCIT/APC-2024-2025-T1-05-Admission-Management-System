@@ -1488,27 +1488,43 @@
 
         telInputs.forEach(({ input, select }) => {
             if (input && select) {
-                // Set appropriate maxlength based on area code
-                function updateMaxLength() {
+                // Set maxlength to a generous value - this is critical
+                input.setAttribute('maxlength', '20');
+
+                // Handle input with a slight delay to avoid interrupting typing
+                let inputTimeout;
+                input.addEventListener('input', function(e) {
+                    // Clear any existing timeout
+                    clearTimeout(inputTimeout);
+
+                    // Get current cursor position
+                    const cursorPos = this.selectionStart;
+                    const oldValue = this.value;
                     const areaCode = select.value;
-                    // For 02 (Metro Manila): 2 + 1 + 4 + 1 + 4 = 12 chars
-                    // For others: length of area code + 1 + 3 + 1 + 4 = area code length + 9
-                    const maxLength = (areaCode === '02') ? 12 : (areaCode.length + 9);
-                    input.setAttribute('maxlength', maxLength);
-                }
 
-                // Update maxlength immediately
-                updateMaxLength();
+                    // Set a short timeout to allow full input before formatting
+                    inputTimeout = setTimeout(() => {
+                        // Apply formatting
+                        this.value = formatPhoneNumber(this.value, areaCode);
 
-                // Update when area code changes
-                select.addEventListener('change', function() {
-                    input.value = this.value + ' ';
-                    updateMaxLength();
+                        // Try to preserve cursor position intelligently
+                        if (oldValue.length < this.value.length) {
+                            this.setSelectionRange(cursorPos + 1, cursorPos + 1);
+                        } else {
+                            this.setSelectionRange(cursorPos, cursorPos);
+                        }
+
+                        // Clear any error messages
+                        const errorMessage = this.parentNode.querySelector('.error-message');
+                        if (errorMessage) {
+                            errorMessage.remove();
+                        }
+                        this.classList.remove('border-red-500');
+                    }, 10);
                 });
 
-                input.addEventListener('input', function() {
-                    const areaCode = select.value;
-                    this.value = formatPhoneNumber(this.value, areaCode);
+                select.addEventListener('change', function() {
+                    input.value = this.value + ' ';
                 });
 
                 input.addEventListener('focus', function() {
@@ -1516,15 +1532,6 @@
                         const areaCode = select.value;
                         this.value = areaCode + ' ';
                     }
-                });
-
-                // Clear error messages
-                input.addEventListener('input', function() {
-                    const errorMessage = this.parentNode.querySelector('.error-message');
-                    if (errorMessage) {
-                        errorMessage.remove();
-                    }
-                    this.classList.remove('border-red-500');
                 });
             }
         });
