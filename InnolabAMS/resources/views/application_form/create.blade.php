@@ -1719,6 +1719,24 @@
             }
         }
     });
+
+    // Update the placeholder text for date input
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('applicant_date_birth');
+        if (dateInput) {
+            // Change the placeholder to mm/dd/yyyy format
+            if (dateInput.type !== 'date') {
+                // For browsers that don't support date input type
+                dateInput.placeholder = 'mm/dd/yyyy';
+            }
+
+            // If there's a text field that displays the date format
+            const dateFormatText = dateInput.closest('div').querySelector('span.block');
+            if (dateFormatText) {
+                dateFormatText.textContent = 'Month/Day/Year';
+            }
+        }
+    });
 </script>
 @endpush
 @endsection
