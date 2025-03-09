@@ -1083,49 +1083,6 @@
             const originalSubmit = form.onsubmit;
 
             form.onsubmit = async function(event) {
-
-                 // Add observer to watch for error messages and move them
-                const dobField = document.getElementById('applicant_date_birth');
-                const dobErrorContainer = document.getElementById('dob-error-container');
-
-                if (dobField && dobErrorContainer) {
-                // Create a MutationObserver to watch for error messages being added
-                const observer = new MutationObserver(function(mutations) {
-                // Check for error message in parent element
-                const errorMessage = dobField.parentElement.parentElement.querySelector('.date-error');
-                if (errorMessage && !errorMessage.classList.contains('hidden')) {
-                    // Copy the error message text to our container below the field
-                    dobErrorContainer.textContent = errorMessage.textContent;
-                    // Hide the original error to avoid duplication
-                    errorMessage.classList.add('hidden');
-                } else {
-                    // Clear our error container if the original error is hidden
-                    dobErrorContainer.textContent = '';
-                }
-            });
-
-                // Start observing changes to the parent element and its descendants
-                observer.observe(dobField.parentElement.parentElement, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['class']
-            });
-
-                // Also update display when date changes
-                dobField.addEventListener('change', function() {
-                // Short timeout to allow the existing validation to run first
-                setTimeout(function() {
-                    const errorMessage = dobField.parentElement.parentElement.querySelector('.date-error');
-                    if (errorMessage && !errorMessage.classList.contains('hidden')) {
-                        dobErrorContainer.textContent = errorMessage.textContent;
-                        errorMessage.classList.add('hidden');
-                    } else {
-                        dobErrorContainer.textContent = '';
-                    }
-                }, 100);
-            });
-
                 // Prevent default form submission
                 event.preventDefault();
 
