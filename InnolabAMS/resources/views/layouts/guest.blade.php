@@ -71,7 +71,10 @@
     </style>
 </head>
 
-<body class="font-sans antialiased bg-gray-100 text-black" x-data="{ userType: null, showHelp: false }">
+<body class="font-sans antialiased bg-gray-100 text-black" x-data="{
+    userType: window.location.pathname.includes('/register') ? 'apply' : null,
+    showHelp: false
+}">
     <div class="min-h-screen flex flex-col bg-school">
         <!-- Welcome Header -->
         <div class="flex items-center p-4 ml-4">
