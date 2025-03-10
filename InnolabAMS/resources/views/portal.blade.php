@@ -24,6 +24,49 @@
                         $isApplicant = $user && strtolower($user->role) === 'applicant'; // Ensure role is properly checked
                         $applicant = $isApplicant ? \App\Models\ApplicantInfo::where('user_id', $user->id)->first() : null;
                         $applicationSubmitted = $applicant && $applicant->id; // Check if applicant record exists
+
+                        // Adjust document check based on student type
+                        $isTransferee = $applicant && $applicant->student_type === 'Transferee';
+
+                        $hasRequiredDocs = $applicant &&
+                            $applicant->birth_certificate_path &&
+                            $applicant->form_138_path &&
+                            $applicant->id_picture_path &&
+                            $applicant->good_moral_path;
+
+                        // Only check for form_137_path if applicant is a Transferee
+                        if ($isTransferee) {
+                            $hasRequiredDocs = $hasRequiredDocs && $applicant->form_137_path;
+                        }
+
+                        $applicationFilled = $applicant &&
+                            $applicant->applicant_surname &&
+                            $applicant->applicant_given_name &&
+                            $applicant->apply_program &&
+                            $applicant->apply_grade_level;
+
+                        $steps = [
+                            [
+                                'icon' => 'fa-solid fa-user-plus',
+                                'title' => 'Create Account',
+                                'done' => true
+                            ],
+                            [
+                                'icon' => 'fa-solid fa-file-lines',
+                                'title' => 'Fill Application',
+                                'done' => $applicationFilled
+                            ],
+                            [
+                                'icon' => 'fa-solid fa-file-arrow-up',
+                                'title' => 'Submit Documents',
+                                'done' => $hasRequiredDocs
+                            ],
+                            [
+                                'icon' => 'fa-solid fa-check-circle',
+                                'title' => 'Complete',
+                                'done' => $applicant && $applicant->status == 'accepted'
+                            ]
+                        ];
                     @endphp
 
                     @if($isApplicant)
@@ -63,44 +106,6 @@
                     <div class="mb-12">
                         <h2 class="text-xl font-semibold text-gray-900 mb-6">Application Progress</h2>
                         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            @php
-                                $hasRequiredDocs = $applicant &&
-                                    $applicant->birth_certificate_path &&
-                                    $applicant->form_137_path &&
-                                    $applicant->form_138_path &&
-                                    $applicant->id_picture_path &&
-                                    $applicant->good_moral_path;
-
-                                $applicationFilled = $applicant &&
-                                    $applicant->applicant_surname &&
-                                    $applicant->applicant_given_name &&
-                                    $applicant->apply_program &&
-                                    $applicant->apply_grade_level;
-
-                                $steps = [
-                                    [
-                                        'icon' => 'fa-solid fa-user-plus',
-                                        'title' => 'Create Account',
-                                        'done' => true
-                                    ],
-                                    [
-                                        'icon' => 'fa-solid fa-file-lines',
-                                        'title' => 'Fill Application',
-                                        'done' => $applicationFilled
-                                    ],
-                                    [
-                                        'icon' => 'fa-solid fa-file-arrow-up',
-                                        'title' => 'Submit Documents',
-                                        'done' => $hasRequiredDocs
-                                    ],
-                                    [
-                                        'icon' => 'fa-solid fa-check-circle',
-                                        'title' => 'Complete',
-                                        'done' => $applicant && $applicant->status == 'accepted'
-                                    ]
-                                ];
-                            @endphp
-
                             @foreach($steps as $step)
                                 <div class="bg-white rounded-lg p-6 border {{ $step['done'] ? 'border-green-200' : 'border-gray-200' }}">
                                     <div class="flex items-center mb-4">
