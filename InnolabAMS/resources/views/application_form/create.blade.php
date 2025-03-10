@@ -201,6 +201,11 @@
                                    maxlength="15"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
+                        <!-- Add checkbox for no telephone number -->
+                        <div class="mt-2">
+                            <input type="checkbox" id="no-telephone" name="no_telephone" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label for="no-telephone" class="ml-2 text-sm text-gray-600">No telephone number/Not applicable</label>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Format: XXX XXX XXXX (Philippine number only)</span>
@@ -611,6 +616,11 @@
                                    maxlength="15"
                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
+                        <!-- Add checkbox for no emergency telephone number -->
+                        <div class="mt-2">
+                            <input type="checkbox" id="no-emergency-telephone" name="no_emergency_telephone" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label for="no-emergency-telephone" class="ml-2 text-sm text-gray-600">No telephone number/Not applicable</label>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
@@ -772,6 +782,40 @@
                 emergencyContactAddressInput.value = `${applicantAddressFields.street}, ${applicantAddressFields.barangay}, ${applicantAddressFields.city}, ${applicantAddressFields.province}`;
             } else {
                 emergencyContactAddressInput.value = '';
+            }
+        });
+
+        // Handle no-telephone checkbox
+        const noTelephoneCheckbox = document.getElementById('no-telephone');
+        const telAreaCodeSelect = document.getElementById('tel_area_code');
+        const telNumberInput = document.getElementById('applicant_tel_no');
+
+        noTelephoneCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                telAreaCodeSelect.disabled = true;
+                telNumberInput.disabled = true;
+                telNumberInput.value = 'N/A';
+            } else {
+                telAreaCodeSelect.disabled = false;
+                telNumberInput.disabled = false;
+                telNumberInput.value = '';
+            }
+        });
+
+        // Handle no-emergency-telephone checkbox
+        const noEmergencyTelephoneCheckbox = document.getElementById('no-emergency-telephone');
+        const emergencyTelAreaCodeSelect = document.getElementById('emergency_tel_area_code');
+        const emergencyTelNumberInput = document.getElementById('emergency_contact_tel');
+
+        noEmergencyTelephoneCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                emergencyTelAreaCodeSelect.disabled = true;
+                emergencyTelNumberInput.disabled = true;
+                emergencyTelNumberInput.value = 'N/A';
+            } else {
+                emergencyTelAreaCodeSelect.disabled = false;
+                emergencyTelNumberInput.disabled = false;
+                emergencyTelNumberInput.value = '';
             }
         });
     });
