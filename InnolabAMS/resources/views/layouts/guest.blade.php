@@ -157,7 +157,7 @@
                     </a>
                 </p>
                 <p class="text-sm text-white font-medium mt-2">
-                    Copyright © 2025. All rights reserved.Developed by Innolab
+                    Copyright © 2025. All rights reserved. Developed by Innolab
                 </p>
             </div>
         </footer>
