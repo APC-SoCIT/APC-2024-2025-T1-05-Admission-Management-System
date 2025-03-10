@@ -204,7 +204,7 @@
                         <!-- Add checkbox for no telephone number -->
                         <div class="mt-2">
                             <input type="checkbox" id="no-telephone" name="no_telephone" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <label for="no-telephone" class="ml-2 text-sm text-gray-600">No telephone number/Not applicable</label>
+                            <label for="no-telephone" class="ml-2 text-sm text-gray-600">Check if you don't have a telephone number</label>
                         </div>
                     </div>
                     <div>
@@ -619,7 +619,7 @@
                         <!-- Add checkbox for no emergency telephone number -->
                         <div class="mt-2">
                             <input type="checkbox" id="no-emergency-telephone" name="no_emergency_telephone" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <label for="no-emergency-telephone" class="ml-2 text-sm text-gray-600">No telephone number/Not applicable</label>
+                            <label for="no-emergency-telephone" class="ml-2 text-sm text-gray-600">Check if you don't have an emergency telephone number</label>
                         </div>
                     </div>
                     <div>
