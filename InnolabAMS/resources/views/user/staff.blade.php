@@ -63,7 +63,7 @@
         </nav>
     </div>
 
-    <!-- Table Section-->
+    <!-- Table Section -->
     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200" id="usersTable">
             <thead class="bg-gray-50">
@@ -77,17 +77,18 @@
                 </tr>
             </thead>
             <tbody id="userTable">
-                @forelse ($users as $user)
+                @forelse ($staffUsers as $staff)
+
                     <tr>
-                        <td class="w-1/12 py-2 px-4 border-b text-center">{{ $user->id }}</td>
-                        <td class="w-2/12 py-2 px-4 border-b text-center">{{ $user->name }}</td>
-                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $user->email }}</td>
-                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $user->role }}</td>
+                        <td class="w-1/12 py-2 px-4 border-b text-center">{{ $staff->id }}</td>
+                        <td class="w-2/12 py-2 px-4 border-b text-center">{{ $staff->name }}</td>
+                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $staff->email }}</td>
+                        <td class="w-3/12 py-2 px-4 border-b text-center">{{ $staff->role }}</td>
                         <td class="w-3/12 py-2 px-4 border-b text-center">
-                            {{ $user->created_at->format('Y-m-d H:i:s') }}
+                            {{ $staff->created_at->format('Y-m-d H:i:s') }}
                         </td>
                         <td class="w-1/12 py-2 px-4 border-b text-center">
-                            <button class="text-red-600 py-1 px-2 rounded delete-button" data-id="{{ $user->id }}">
+                            <button class="text-red-600 py-1 px-2 rounded delete-button" data-id="{{ $staff->id }}">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </td>
@@ -104,24 +105,22 @@
         </table>
     </div>
 
-    <div class="mt-4">
-        {{ $users->links() }}
-    </div>
 
     <!-- Pagination Section -->
     <div class="flex items-center justify-between mt-4">
         <div class="text-sm text-gray-700">
-            Showing {{ $users->firstItem() ?? 0 }} to {{ $users->lastItem() ?? 0 }} of {{ $users->total() }} applications
+            Showing {{ $staffUsers->firstItem() ?? 0 }} to {{ $staffUsers->lastItem() ?? 0 }} of {{ $staffUsers->total() }}
+            applications
         </div>
         <div class="flex space-x-2">
-            @if($users->previousPageUrl())
-                <a href="{{ $users->previousPageUrl() }}" class="px-3 py-1 rounded bg-gray-200 text-gray-700">Previous</a>
+            @if($staffUsers->previousPageUrl())
+                <a href="{{ $staffUsers->previousPageUrl() }}" class="px-3 py-1 rounded bg-gray-200 text-gray-700">Previous</a>
             @endif
 
-            <span class="px-3 py-1 rounded bg-blue-500 text-white">{{ $users->currentPage() }}</span>
+            <span class="px-3 py-1 rounded bg-blue-500 text-white">{{ $staffUsers->currentPage() }}</span>
 
-            @if($users->hasMorePages())
-                <a href="{{ $users->nextPageUrl() }}" class="px-3 py-1 rounded bg-gray-200 text-gray-700">Next</a>
+            @if($staffUsers->hasMorePages())
+                <a href="{{ $staffUsers->nextPageUrl() }}" class="px-3 py-1 rounded bg-gray-200 text-gray-700">Next</a>
             @endif
         </div>
     </div>

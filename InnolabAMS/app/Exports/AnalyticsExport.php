@@ -28,6 +28,16 @@ class AnalyticsExport
             'Count'
         ], $headerStyle));
 
+        // Add generation timestamp with Manila timezone
+        $writer->addRow(Row::fromValues([
+            'Report Information',
+            'Generated at',
+            now()->timezone('Asia/Manila')->format('F j, Y g:i A')
+        ]));
+
+        // Add empty row as separator
+        $writer->addRow(Row::fromValues(['', '', '']));
+
         // Add Admissions data
         foreach ($this->data['admissions'] as $status => $count) {
             $writer->addRow(Row::fromValues([

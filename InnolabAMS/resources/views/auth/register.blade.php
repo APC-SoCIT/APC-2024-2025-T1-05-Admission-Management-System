@@ -1,16 +1,41 @@
 <x-guest-layout>
-    <h1 class="text-2xl font-bold text-black mb-4 text-center">Register</h1>
+    <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" class="!text-black">
-                {{ __('Name') }} <span class="text-red-500">*</span>
-            </x-input-label>
-            <x-text-input id="name" class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded"
-                type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- First Name -->
+            <div class="md:col-span-2">
+                <x-input-label for="first_name" class="!text-black">
+                    {{ __('First Name') }} <span class="text-red-500">*</span>
+                </x-input-label>
+                <x-text-input id="first_name"
+                    class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded" type="text"
+                    name="first_name" :value="old('first_name')" required autofocus />
+                <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+            </div>
+
+            <!-- Middle Name -->
+            <div class="md:col-span-1">
+                <x-input-label for="middle_name" class="!text-black">
+                    {{ __('Middle Name') }} <span class="text-red-500">*</span>
+                </x-input-label>
+                <x-text-input id="middle_name"
+                    class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded" type="text"
+                    name="middle_name" :value="old('middle_name')" required />
+                <x-input-error :messages="$errors->get('middle_name')" class="mt-2" />
+            </div>
+
+            <!-- Last Name -->
+            <div class="md:col-span-1">
+                <x-input-label for="last_name" class="!text-black">
+                    {{ __('Last Name') }} <span class="text-red-500">*</span>
+                </x-input-label>
+                <x-text-input id="last_name"
+                    class="block mt-1 w-full !bg-white !text-black border border-gray-300 rounded" type="text"
+                    name="last_name" :value="old('last_name')" required />
+                <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+            </div>
         </div>
 
         <!-- Email Address -->
@@ -59,12 +84,16 @@
         </div>
 
         <div class="flex items-center justify-between mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            <a class="flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
                 href="{{ route('login') }}">
+                <i class="fas fa-arrow-left mr-2"></i>
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button class="ms-4 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800
+                       transition-all duration-200 ease-in-out transform hover:scale-105" x-data=""
+                @click="$el.classList.add('opacity-75'); $el.innerHTML='Processing...'">
+                <i class="fas fa-user-plus mr-2"></i>
                 {{ __('Register') }}
             </x-primary-button>
         </div>

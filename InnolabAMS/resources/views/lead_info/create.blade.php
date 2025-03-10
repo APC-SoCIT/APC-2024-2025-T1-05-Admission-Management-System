@@ -10,17 +10,17 @@
 
             <div class="form-group">
                 <label>First Name <span class="required">*</span></label>
-                <input type="text" name="lead_given_name">
+                <input type="text" placeholder="Juan" name="lead_given_name">
             </div>
 
             <div class="form-group">
                 <label>Last Name <span class="required">*</span></label>
-                <input type="text" name="lead_surname">
+                <input type="text" placeholder="Dela Cruz" name="lead_surname">
             </div>
 
             <div class="form-group">
                 <label>Middle Name</label>
-                <input type="text" name="lead_middle_name">
+                <input type="text" placeholder="Ponce" name="lead_middle_name">
             </div>
 
             <div class="form-group">
@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <label>City <span class="required">*</span></label>
-                <input type="text" name="lead_address_city">
+                <input type="text" placeholder="Manila" name="lead_address_city">
             </div>
 
             <!-- Updated Inquiry Details -->

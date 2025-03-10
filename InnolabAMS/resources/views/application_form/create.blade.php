@@ -1,5 +1,5 @@
-@extends('application') <!-- Use the application layout -->
-@section('title', 'Add Applicant | InnolabAMS')
+@section('title', 'Portal | InnolabAMS')
+@extends('portal') <!-- Use the portal layout -->
 
 @section('content') <!-- Define the content section -->
 <div class="container mx-auto px-6 py-4">

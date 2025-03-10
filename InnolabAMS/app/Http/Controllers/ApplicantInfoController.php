@@ -201,10 +201,10 @@ class ApplicantInfoController extends Controller
         }
     }
 
-    //Personal Information Form
-    public function showPersonalInfoForm()
+    //Change method name from showPersonalInfoForm to showApplicationForm
+    public function showApplicationForm()
     {
-        return view('personal_information.create');
+        return view('application_form.create');
     }
 
     public function storeForm(Request $request)
@@ -257,14 +257,18 @@ class ApplicantInfoController extends Controller
                 'guardian_surname' => 'nullable|string|max:255',
                 'guardian_contact_num' => 'nullable|string|max:255',
                 'siblings' => 'nullable|array',
-                'siblings.*.full_name' => 'nullable|string|max:255',
+                'siblings.*.given_name' => 'nullable|string|max:255',
+                'siblings.*.middle_name' => 'nullable|string|max:255',
+                'siblings.*.last_name' => 'nullable|string|max:255',
                 'siblings.*.date_of_birth' => 'nullable|date',
                 'siblings.*.age' => 'nullable|numeric|min:0|max:100',
                 'siblings.*.grade_level' => 'nullable|string|max:255',
                 'siblings.*.school_attended' => 'nullable|string|max:255',
 
                 // Emergency Contact
-                'emergency_contact_name' => 'nullable|string|max:255',
+                'emergency_contact_first_name' => 'nullable|string|max:255',
+                'emergency_contact_middle_name' => 'nullable|string|max:255',
+                'emergency_contact_last_name' => 'nullable|string|max:255',
                 'emergency_contact_address' => 'nullable|string|max:255',
                 'emergency_contact_tel' => 'nullable|string|max:20',
                 'emergency_contact_mobile' => 'nullable|string|max:20',

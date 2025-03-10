@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('applicant_barangay', 255);
             $table->string('applicant_nationality', 255);
             $table->string('applicant_religion', 255)->nullable();
-            $table->string('applicant_mobile_number', 12);
+            $table->string('applicant_mobile_number', 20);
             $table->string('applicant_email', 255)->nullable();
             $table->string('applicant_photo', 255)->nullable();
 
@@ -66,7 +66,9 @@ return new class extends Migration
             $table->json('siblings')->nullable(); // Will store array of sibling info
 
             // Emergency Contact
-            $table->string('emergency_contact_name')->nullable();
+            $table->string('emergency_contact_first_name')->nullable();
+            $table->string('emergency_contact_middle_name')->nullable();
+            $table->string('emergency_contact_last_name')->nullable();
             $table->string('emergency_contact_address')->nullable();
             $table->string('emergency_contact_tel')->nullable();
             $table->string('emergency_contact_mobile')->nullable();
