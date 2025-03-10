@@ -71,11 +71,7 @@
     </style>
 </head>
 
-<body class="font-sans antialiased bg-gray-100 text-black"
-    x-data="{
-        userType: '{{ request()->is('register') ? 'apply' : null }}',
-        showHelp: false
-    }">
+<body class="font-sans antialiased bg-gray-100 text-black" x-data="{ userType: null, showHelp: false }">
     <div class="min-h-screen flex flex-col bg-school">
         <!-- Welcome Header -->
         <div class="flex items-center p-4 ml-4">
@@ -141,17 +137,7 @@
                             </ul>
                         </div>
 
-                        <div class="flex items-center justify-between mt-4">
-                            <a class="flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
-                                href="{{ route('register') }}">
-                                <i class="fas fa-user-plus mr-2"></i>
-                                {{ __('Register') }}
-                            </a>
-
-                            <x-primary-button>
-                                {{ __('Log in') }}
-                            </x-primary-button>
-                        </div>
+                        {{ $slot }}
                     </div>
                 </div>
             </div>
