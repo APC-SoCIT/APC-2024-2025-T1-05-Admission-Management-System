@@ -313,7 +313,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Year of Graduation <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 2024</span>
+                        <label class="block text-sm font-medium text-gray-700">Year Graduated <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: 2024</span>
                         <div class="flex items-center">
                             <input type="text"
                                    name="year_of_graduation"
