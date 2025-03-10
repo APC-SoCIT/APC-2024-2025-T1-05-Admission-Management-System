@@ -141,7 +141,17 @@
                             </ul>
                         </div>
 
-                        {{ $slot }}
+                        <div class="flex items-center justify-between mt-4">
+                            <a class="flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
+                                href="{{ route('register') }}">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                {{ __('Register') }}
+                            </a>
+
+                            <x-primary-button>
+                                {{ __('Log in') }}
+                            </x-primary-button>
+                        </div>
                     </div>
                 </div>
             </div>
