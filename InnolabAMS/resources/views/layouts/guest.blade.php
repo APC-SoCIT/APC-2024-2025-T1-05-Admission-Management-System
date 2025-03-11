@@ -343,7 +343,7 @@
                 <h2 class="text-2xl font-bold text-center mb-6">About Innolab Developers</h2>
                 <p class="text-center mb-8">Meet the team behind the SRCCMSTHS Admissions Management System</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                     <!-- Developer 1 -->
                     <div class="text-center">
                         <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
@@ -370,9 +370,11 @@
                         <h3 class="font-bold text-lg">Mike Johnson</h3>
                         <p class="text-gray-600">Backend Developer</p>
                     </div>
+                </div>
 
+                <div class="flex justify-center mb-8">
                     <!-- Developer 4 -->
-                    <div class="text-center">
+                    <div class="text-center" style="max-width: 200px;">
                         <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
                             <img src="{{ asset('/static/images/dev4.jpg') }}" alt="Developer 4" class="w-full h-full object-cover">
                         </div>
