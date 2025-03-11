@@ -278,8 +278,5 @@ Route::get('/server-time', function () {
     ]);
 });
 
-Route::get('/my-application', [ApplicantInfoController::class, 'viewMyApplication'])
-    ->middleware(['auth', 'role:Applicant'])
-    ->name('my-application.show');
 
 require __DIR__ . '/auth.php';
