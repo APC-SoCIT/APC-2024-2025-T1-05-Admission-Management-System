@@ -9,7 +9,7 @@
     <title>{{ config('app.name', 'SRCCMSTHS') }}</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('/static/images/srccmsths_favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('/static/images/innolab_favicon.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -186,7 +186,7 @@
                     <div class="flex justify-between h-16">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 flex items-center">
-                                <img class="block h-8 w-auto" src="{{ asset('/static/images/srccmsths_logo.png') }}" alt="SRCCMSTHS">
+                                <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-10 h-10">
                                 <span class="ml-2 text-xl font-bold text-blue-600">SRCCMSTHS</span>
                             </div>
                         </div>
@@ -296,7 +296,7 @@
                 <div class="landing-container">
                     <div class="flex flex-col md:flex-row justify-between items-center">
                         <div class="flex items-center mb-4 md:mb-0">
-                            <img src="{{ asset('/static/images/srccmsths_logo.png') }}" alt="Logo" class="w-10 h-10">
+                            <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-10 h-10">
                             <div class="ml-2">
                                 <span class="text-xl font-bold">SRCCMSTHS</span>
                             </div>
