@@ -165,25 +165,9 @@ class ApplicantInfoController extends Controller
         return view('admission.create');
     }
 
-    /**
-     * Updated show method with proper authorization
-     */
     public function show($id)
     {
         $applicant = ApplicantInfo::findOrFail($id);
-
-        // Security check - only allow admin/staff or the application owner
-        if (!auth()->user()->hasRole(['Admin', 'Staff']) &&
-            $applicant->user_id !== auth()->id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        // Determine which view to use based on user role
-        if (auth()->user()->hasRole('Applicant')) {
-            return view('applicant.view-application', compact('applicant'));
-        }
-
-        // Admin/Staff view
         return view('admission.show', compact('applicant'));
     }
 
@@ -415,19 +399,6 @@ class ApplicantInfoController extends Controller
     {
         $applicant = \App\Models\ApplicantInfo::where('user_id', auth()->id())->first();
         return view('some.view', compact('applicant'));
-    }
-
-    /**
-     * Show the applicant's own application form
-     * This is a secure endpoint specifically for applicants to view their submission
-     */
-    public function viewMyApplication()
-    {
-        // Get the logged-in user's application
-        $applicant = ApplicantInfo::where('user_id', auth()->id())->firstOrFail();
-
-        // Pass to a dedicated view for applicants
-        return view('applicant.view-application', compact('applicant'));
     }
 
 }
