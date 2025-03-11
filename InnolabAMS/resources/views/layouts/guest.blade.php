@@ -118,7 +118,7 @@
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                     <!-- Back Button -->
                     <div class="p-4 border-b">
-                        <button @click="userType = null"
+                        <button @click="window.location.pathname.includes('/forgot-password') ? window.location.href = '/login' : userType = null"
                             class="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
                             <i class="fas fa-arrow-left mr-2"></i>
                             <span>Back to options</span>
