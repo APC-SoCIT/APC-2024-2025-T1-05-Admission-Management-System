@@ -376,7 +376,9 @@
                         <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
                             <img src="{{ asset('/static/images/dev4.jpg') }}" alt="Developer 4" class="w-full h-full object-cover">
                         </div>
-
+                        <h3 class="font-bold text-lg">John Doe</h3>
+                        <p class="text-gray-600">Backend Developer</p>
+                    </div>
                 </div>
 
                 <div class="mt-8 text-center">
