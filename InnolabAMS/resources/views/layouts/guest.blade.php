@@ -72,7 +72,7 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100 text-black" x-data="{
-    userType: window.location.pathname.includes('/register') ? 'apply' : null,
+    userType: window.location.pathname.includes('/register') || window.location.pathname.includes('/login') ? 'apply' : null,
     showHelp: false
 }">
     <div class="min-h-screen flex flex-col bg-school">
