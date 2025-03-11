@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'InnolabAMS') }}</title>
+    <title>{{ config('app.name', 'SRCCMSTHS') }}</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('/static/images/innolab_favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('/static/images/srccmsths_favicon.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -70,7 +70,22 @@
             z-index: 10;
         }
 
-        /* New styles for the updated landing page */
+        /* Process Steps */
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background-color: #e6f0ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        /* Feature Cards */
         .feature-card {
             background: #f8fafc;
             border-radius: 8px;
@@ -86,7 +101,7 @@
 
         .feature-icon {
             font-size: 2rem;
-            color: #3b82f6;
+            color: #2563eb;
             margin-bottom: 1rem;
         }
 
@@ -171,8 +186,8 @@
                     <div class="flex justify-between h-16">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 flex items-center">
-                                <img class="block h-8 w-auto" src="{{ asset('/static/images/innolab_logo4.png') }}" alt="InnolabAMS">
-                                <span class="ml-2 text-xl font-bold text-blue-600">InnolabAMS</span>
+                                <img class="block h-8 w-auto" src="{{ asset('/static/images/srccmsths_logo.png') }}" alt="SRCCMSTHS">
+                                <span class="ml-2 text-xl font-bold text-blue-600">SRCCMSTHS</span>
                             </div>
                         </div>
                         <div class="flex items-center space-x-4">
@@ -187,77 +202,90 @@
             <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-16">
                 <div class="landing-container">
                     <div class="max-w-3xl">
-                        <h1 class="text-4xl font-bold mb-4">Streamlined School Admissions Management</h1>
-                        <p class="text-xl mb-8">InnolabAMS provides a comprehensive, cloud-based solution for elementary and junior high school admission processes, helping institutions transform their enrollment experience.</p>
+                        <h1 class="text-4xl font-bold mb-4">SRCCMSTHS Online Admissions</h1>
+                        <p class="text-xl mb-8">Senator Renato "Compañero" Cayetano Memorial Science and Technology High School welcomes applicants for the upcoming school year. Apply online through our streamlined admissions process.</p>
                         <div class="flex space-x-4">
                             <a href="{{ route('register') }}" class="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-md font-medium flex items-center">
                                 <i class="fas fa-file-alt mr-2"></i> Apply Now
                             </a>
                             <a href="{{ route('lead_info.create') }}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-md font-medium flex items-center">
-                                <i class="fas fa-info-circle mr-2"></i> Inquire
+                                <i class="fas fa-info-circle mr-2"></i> Send Inquiry
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Features Section -->
+            <!-- Admissions Process Section -->
+            <div class="py-16 bg-white">
+                <div class="landing-container">
+                    <h2 class="text-3xl font-bold text-center mb-6">Admissions Process</h2>
+                    <p class="text-center text-gray-600 mb-12">Follow these steps to apply to SRCCMSTHS</p>
+
+                    <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Step 1 -->
+                        <div class="feature-card">
+                            <div class="step-circle">1</div>
+                            <h3 class="text-xl font-semibold mb-2">Create an Account</h3>
+                            <p class="text-gray-600">Register in our admissions portal to start your application</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="feature-card">
+                            <div class="step-circle">2</div>
+                            <h3 class="text-xl font-semibold mb-2">Complete Application</h3>
+                            <p class="text-gray-600">Fill out all required information and upload necessary documents</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="feature-card">
+                            <div class="step-circle">3</div>
+                            <h3 class="text-xl font-semibold mb-2">Track Application</h3>
+                            <p class="text-gray-600">Monitor your application status and respond to any requests</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Apply Section -->
             <div class="py-16 bg-gray-50">
                 <div class="landing-container">
-                    <h2 class="text-3xl font-bold text-center mb-12">Why Choose InnolabAMS?</h2>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <h2 class="text-3xl font-bold text-center mb-12">Why Apply to SRCCMSTHS?</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                         <!-- Feature 1 -->
                         <div class="feature-card">
                             <div class="feature-icon">
-                                <i class="fas fa-clipboard-list"></i>
+                                <i class="fas fa-book"></i>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Streamlined Applications</h3>
-                            <p class="text-gray-600">Simplify the admission process with our intuitive online application portal.</p>
+                            <h3 class="text-xl font-semibold mb-2">Academic Excellence</h3>
+                            <p class="text-gray-600">Recognized as a Best Performing School in DepEd TAPAT Secondary Level</p>
                         </div>
 
                         <!-- Feature 2 -->
                         <div class="feature-card">
                             <div class="feature-icon">
-                                <i class="fas fa-chart-line"></i>
+                                <i class="fas fa-award"></i>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Insightful Analytics</h3>
-                            <p class="text-gray-600">Gain valuable insights with real-time admission data and visualization.</p>
+                            <h3 class="text-xl font-semibold mb-2">Award-Winning Programs</h3>
+                            <p class="text-gray-600">Multiple awards for Brigada Eskwela and other educational initiatives</p>
                         </div>
 
                         <!-- Feature 3 -->
                         <div class="feature-card">
                             <div class="feature-icon">
-                                <i class="fas fa-shield-alt"></i>
+                                <i class="fas fa-clock"></i>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Secure & Compliant</h3>
-                            <p class="text-gray-600">Rest easy with DepEd-compliant processes and robust data security.</p>
+                            <h3 class="text-xl font-semibold mb-2">Efficient Process</h3>
+                            <p class="text-gray-600">Our online system streamlines the entire application experience</p>
                         </div>
 
                         <!-- Feature 4 -->
                         <div class="feature-card">
                             <div class="feature-icon">
-                                <i class="fas fa-calendar-alt"></i>
+                                <i class="fas fa-file-alt"></i>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Efficient Scheduling</h3>
-                            <p class="text-gray-600">Manage admission periods, deadlines, and appointments seamlessly.</p>
-                        </div>
-
-                        <!-- Feature 5 -->
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2">Improved Communication</h3>
-                            <p class="text-gray-600">Enhance applicant engagement with automated updates and notifications.</p>
-                        </div>
-
-                        <!-- Feature 6 -->
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-file-import"></i>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2">Document Management</h3>
-                            <p class="text-gray-600">Easily upload, organize, and manage applicant documents in one place.</p>
+                            <h3 class="text-xl font-semibold mb-2">Paperless Submissions</h3>
+                            <p class="text-gray-600">Upload all your documents digitally, no need for physical copies</p>
                         </div>
                     </div>
                 </div>
@@ -268,9 +296,9 @@
                 <div class="landing-container">
                     <div class="flex flex-col md:flex-row justify-between items-center">
                         <div class="flex items-center mb-4 md:mb-0">
-                            <img src="{{ asset('/static/images/innolab_logo4.png') }}" alt="Logo" class="w-10 h-10">
+                            <img src="{{ asset('/static/images/srccmsths_logo.png') }}" alt="Logo" class="w-10 h-10">
                             <div class="ml-2">
-                                <span class="text-xl font-bold">InnolabAMS</span>
+                                <span class="text-xl font-bold">SRCCMSTHS</span>
                             </div>
                         </div>
                         <p class="text-sm">
