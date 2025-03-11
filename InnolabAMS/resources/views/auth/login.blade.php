@@ -39,7 +39,7 @@
             <!-- Register Link -->
             @if (Route::has('register'))
             <a href="{{ route('register') }}" class="underline text-sm text-black hover:text-indigo-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Register') }}
+                {{ __('Don\'t have an account? Register') }}
             </a>
             @endif
 
