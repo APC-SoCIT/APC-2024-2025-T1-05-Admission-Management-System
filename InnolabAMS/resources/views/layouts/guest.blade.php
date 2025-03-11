@@ -294,24 +294,22 @@
             <!-- Footer -->
             <footer class="bg-gray-900 text-white py-8 mt-auto">
                 <div class="landing-container">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-6">
-                        <!-- Logo and School Name -->
-                        <div class="flex items-center justify-center md:justify-start">
-                            <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-12 h-12">
-                            <div class="ml-3">
-                                <span class="text-xl font-bold">SRCCMSTHS</span>
-                            </div>
+                    <!-- Logo and School Name -->
+                    <div class="flex justify-center items-center mb-6">
+                        <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-12 h-12">
+                        <div class="ml-3">
+                            <span class="text-xl font-bold">SRCCMSTHS</span>
                         </div>
+                    </div>
 
-                        <!-- Support Contact -->
-                        <div class="text-center md:text-right md:col-span-2">
-                            <p class="text-sm">
-                                Having technical issues? Contact our support team at
-                                <a href="mailto:innolabdevelopers@gmail.com" class="text-blue-300 hover:text-blue-100 underline">
-                                    innolabdevelopers@gmail.com
-                                </a>
-                            </p>
-                        </div>
+                    <!-- Support Contact -->
+                    <div class="text-center mb-6">
+                        <p class="text-sm">
+                            Having technical issues? Contact our support team at
+                            <a href="mailto:innolabdevelopers@gmail.com" class="text-blue-300 hover:text-blue-100 underline">
+                                innolabdevelopers@gmail.com
+                            </a>
+                        </p>
                     </div>
 
                     <div class="border-t border-gray-800 pt-6 text-center">
