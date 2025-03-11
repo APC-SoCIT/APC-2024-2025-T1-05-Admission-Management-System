@@ -294,22 +294,30 @@
             <!-- Footer -->
             <footer class="bg-gray-900 text-white py-8 mt-auto">
                 <div class="landing-container">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <div class="flex items-center mb-4 md:mb-0">
-                            <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-10 h-10">
-                            <div class="ml-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-6">
+                        <!-- Logo and School Name -->
+                        <div class="flex items-center justify-center md:justify-start">
+                            <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-12 h-12">
+                            <div class="ml-3">
                                 <span class="text-xl font-bold">SRCCMSTHS</span>
                             </div>
                         </div>
-                        <p class="text-sm">
-                            Having technical issues? Contact our support team at
-                            <a href="mailto:innolabdevelopers@gmail.com" class="text-blue-300 hover:text-blue-100 underline">
-                                innolabdevelopers@gmail.com
-                            </a>
-                        </p>
+
+                        <!-- Support Contact -->
+                        <div class="text-center md:text-right md:col-span-2">
+                            <p class="text-sm">
+                                Having technical issues? Contact our support team at
+                                <a href="mailto:innolabdevelopers@gmail.com" class="text-blue-300 hover:text-blue-100 underline">
+                                    innolabdevelopers@gmail.com
+                                </a>
+                            </p>
+                        </div>
                     </div>
-                    <div class="border-t border-gray-800 mt-6 pt-6 text-center">
-                        <p class="text-sm">Copyright © 2025. All rights reserved. Developed by Innolab</p>
+
+                    <div class="border-t border-gray-800 pt-6 text-center">
+                        <p class="text-sm">Copyright © 2025. All rights reserved. Developed by
+                            <a href="#" onclick="openAboutModal()" class="text-blue-300 hover:text-blue-100 underline">Innolab</a>
+                        </p>
                     </div>
                 </div>
             </footer>
@@ -330,6 +338,54 @@
         </div>
     </div>
 
+    <!-- About Us Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <div class="prose max-w-none">
+                <h2 class="text-2xl font-bold text-center mb-6">About Innolab Developers</h2>
+                <p class="text-center mb-8">Meet the team behind the SRCCMSTHS Admissions Management System</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Developer 1 -->
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="{{ asset('/static/images/dev1.jpg') }}" alt="Developer 1" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-bold text-lg">John Doe</h3>
+                        <p class="text-gray-600">Lead Developer</p>
+                    </div>
+
+                    <!-- Developer 2 -->
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="{{ asset('/static/images/dev2.jpg') }}" alt="Developer 2" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-bold text-lg">Jane Smith</h3>
+                        <p class="text-gray-600">UI/UX Designer</p>
+                    </div>
+
+                    <!-- Developer 3 -->
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="{{ asset('/static/images/dev3.jpg') }}" alt="Developer 3" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-bold text-lg">Mike Johnson</h3>
+                        <p class="text-gray-600">Backend Developer</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <p>Founded in 2022, Innolab is a team of passionate developers committed to creating innovative solutions for educational institutions. Our mission is to streamline administrative processes and enhance the student experience through technology.</p>
+                </div>
+            </div>
+            <div class="flex justify-end mt-4">
+                <x-danger-button onclick="closeAboutModal()">
+                    Close
+                </x-danger-button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openPrivacyPolicy() {
             document.getElementById('privacyModal').style.display = 'flex';
@@ -337,6 +393,14 @@
 
         function closePrivacyPolicy() {
             document.getElementById('privacyModal').style.display = 'none';
+        }
+
+        function openAboutModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
         }
     </script>
 </body>
