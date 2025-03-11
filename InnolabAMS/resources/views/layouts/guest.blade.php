@@ -375,7 +375,7 @@
                 </div>
 
                 <div class="mt-8 text-center">
-                    <p>Founded in 2022, Innolab is a team of passionate developers committed to creating innovative solutions for educational institutions. Our mission is to streamline administrative processes and enhance the student experience through technology.</p>
+                    <p>Founded in 2024, Innolab is a team of 4 passionate developers committed to creating innovative solutions for educational institutions. Our mission is to streamline administrative processes and enhance the student experience through technology.</p>
                 </div>
             </div>
             <div class="flex justify-end mt-4">
