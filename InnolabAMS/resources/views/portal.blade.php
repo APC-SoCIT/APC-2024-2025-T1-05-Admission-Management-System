@@ -70,9 +70,9 @@
                     @endphp
 
                     @if($isApplicant)
-                        <a href="{{ $applicationSubmitted ? route('my-application.show') : route('form.application') }}"
+                        <a href="{{ $applicationSubmitted ? route('admission.show', $applicant->id) : route('form.application') }}"
                         class="flex items-center px-4 py-3 rounded-lg transition-all duration-200
-                                {{ request()->routeIs('form.application') || request()->routeIs('my-application.show') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
+                                {{ request()->routeIs('form.application') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                             <i class="fa-solid fa-file w-5 h-5"></i>
                             <span class="ml-3 font-medium">{{ $applicationSubmitted ? __('View Submitted Form') : __('Application Form') }}</span>
                         </a>
