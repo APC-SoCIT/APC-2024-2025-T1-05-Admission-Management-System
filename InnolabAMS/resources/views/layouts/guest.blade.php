@@ -38,6 +38,7 @@
             background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
+            z-index: 50;
         }
 
         .modal-content {
@@ -68,6 +69,45 @@
             position: relative;
             z-index: 10;
         }
+
+        /* New styles for the updated landing page */
+        .feature-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .landing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 
@@ -76,49 +116,21 @@
               window.location.pathname.includes('/login') ||
               window.location.pathname.includes('/forgot-password') ||
               window.location.pathname.includes('/reset-password') ? 'apply' : null,
-    showHelp: false
+    showHelp: false,
+    showAuthModal: window.location.pathname.includes('/register') ||
+                   window.location.pathname.includes('/login') ||
+                   window.location.pathname.includes('/forgot-password') ||
+                   window.location.pathname.includes('/reset-password')
 }">
-    <div class="min-h-screen flex flex-col bg-school">
-        <!-- Welcome Header -->
-        <div class="flex items-center p-4 ml-4">
-            <img src="{{ asset('/static/images/innolab_logo4.png') }}" alt="Logo" class="w-16 h-16">
-            <div class="ml-4">
-                <h1 class="text-2xl font-bold text-white">Welcome to InnolabAMS</h1>
-                <p class="text-white/90">Your innovation solution partner.</p>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col items-center justify-center p-4 pb-32">
-            <!-- User Type Selection -->
-            <div x-show="!userType" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-90"
-                x-transition:enter-end="opacity-100 transform scale-100" class="w-full max-w-md mb-6">
-                <div class="flex justify-center space-x-4">
-                    <button @click="userType = 'apply'"
-                        class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
-                        <i class="fas fa-file-alt text-4xl mb-3 text-blue-600"></i>
-                        <span class="font-medium text-lg">Apply Now</span>
-                        <span class="text-sm text-gray-500">Start your admission process</span>
-                    </button>
-
-                    <a href="{{ route('lead_info.create') }}"
-                        class="flex flex-col items-center p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50 transition-all w-48">
-                        <i class="fas fa-info-circle text-4xl mb-3 text-blue-600"></i>
-                        <span class="font-medium text-lg">Inquire</span>
-                        <span class="text-sm text-center text-gray-500">Learn more about admission</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Login/Register Form Container -->
-            <div x-show="userType === 'apply'" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-90"
-                x-transition:enter-end="opacity-100 transform scale-100" class="w-full sm:max-w-md">
+    <!-- Split the UI flow based on whether we're on an auth page or not -->
+    <template x-if="showAuthModal">
+        <!-- Auth Modal Container -->
+        <div class="auth-container">
+            <div class="w-full sm:max-w-md">
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                     <!-- Back Button -->
                     <div class="p-4 border-b">
-                        <button @click="window.location.pathname.includes('/forgot-password') ? window.location.href = '/login' : userType = null"
+                        <button @click="window.location.pathname.includes('/forgot-password') ? window.location.href = '/login' : window.location.href = '/'"
                             class="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
                             <i class="fas fa-arrow-left mr-2"></i>
                             <span>Back to options</span>
@@ -148,23 +160,133 @@
                 </div>
             </div>
         </div>
+    </template>
 
+    <template x-if="!showAuthModal">
+        <!-- Main Landing Page -->
+        <div class="min-h-screen flex flex-col">
+            <!-- Navigation Bar -->
+            <header class="bg-white shadow-sm">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 flex items-center">
+                                <img class="block h-8 w-auto" src="{{ asset('/static/images/innolab_logo4.png') }}" alt="InnolabAMS">
+                                <span class="ml-2 text-xl font-bold text-blue-600">InnolabAMS</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600">Sign In</a>
+                            <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-        <!-- Footer -->
-        <footer class="bg-gray-900/70 backdrop-blur-md py-4">
-            <div class="container mx-auto px-4 text-center">
-                <p class="text-sm text-white font-medium">
-                    Having technical issues? Contact our support team at
-                    <a href="mailto:innolabdevelopers@gmail.com" class="text-white hover:text-blue-100 underline">
-                        innolabdevelopers@gmail.com
-                    </a>
-                </p>
-                <p class="text-sm text-white font-medium mt-2">
-                    Copyright © 2025. All rights reserved. Developed by Innolab
-                </p>
+            <!-- Hero Section -->
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-16">
+                <div class="landing-container">
+                    <div class="max-w-3xl">
+                        <h1 class="text-4xl font-bold mb-4">Streamlined School Admissions Management</h1>
+                        <p class="text-xl mb-8">InnolabAMS provides a comprehensive, cloud-based solution for elementary and junior high school admission processes, helping institutions transform their enrollment experience.</p>
+                        <div class="flex space-x-4">
+                            <a href="{{ route('register') }}" class="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-md font-medium flex items-center">
+                                <i class="fas fa-file-alt mr-2"></i> Apply Now
+                            </a>
+                            <a href="{{ route('lead_info.create') }}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-md font-medium flex items-center">
+                                <i class="fas fa-info-circle mr-2"></i> Inquire
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </footer>
-    </div>
+
+            <!-- Features Section -->
+            <div class="py-16 bg-gray-50">
+                <div class="landing-container">
+                    <h2 class="text-3xl font-bold text-center mb-12">Why Choose InnolabAMS?</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Feature 1 -->
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Streamlined Applications</h3>
+                            <p class="text-gray-600">Simplify the admission process with our intuitive online application portal.</p>
+                        </div>
+
+                        <!-- Feature 2 -->
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Insightful Analytics</h3>
+                            <p class="text-gray-600">Gain valuable insights with real-time admission data and visualization.</p>
+                        </div>
+
+                        <!-- Feature 3 -->
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Secure & Compliant</h3>
+                            <p class="text-gray-600">Rest easy with DepEd-compliant processes and robust data security.</p>
+                        </div>
+
+                        <!-- Feature 4 -->
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Efficient Scheduling</h3>
+                            <p class="text-gray-600">Manage admission periods, deadlines, and appointments seamlessly.</p>
+                        </div>
+
+                        <!-- Feature 5 -->
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Improved Communication</h3>
+                            <p class="text-gray-600">Enhance applicant engagement with automated updates and notifications.</p>
+                        </div>
+
+                        <!-- Feature 6 -->
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-import"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Document Management</h3>
+                            <p class="text-gray-600">Easily upload, organize, and manage applicant documents in one place.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="bg-gray-900 text-white py-8 mt-auto">
+                <div class="landing-container">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="flex items-center mb-4 md:mb-0">
+                            <img src="{{ asset('/static/images/innolab_logo4.png') }}" alt="Logo" class="w-10 h-10">
+                            <div class="ml-2">
+                                <span class="text-xl font-bold">InnolabAMS</span>
+                            </div>
+                        </div>
+                        <p class="text-sm">
+                            Having technical issues? Contact our support team at
+                            <a href="mailto:innolabdevelopers@gmail.com" class="text-blue-300 hover:text-blue-100 underline">
+                                innolabdevelopers@gmail.com
+                            </a>
+                        </p>
+                    </div>
+                    <div class="border-t border-gray-800 mt-6 pt-6 text-center">
+                        <p class="text-sm">Copyright © 2025. All rights reserved. Developed by Innolab</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </template>
 
     <!-- Data Privacy Modal -->
     <div id="privacyModal" class="modal">
