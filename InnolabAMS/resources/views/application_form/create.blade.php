@@ -550,7 +550,7 @@
                 <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Emergency Contact</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">First Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Example: Juan Dela Cruz</span>
+                        <label class="block text-sm font-medium text-gray-700">First Name <span class="text-red-500">*</span></label> <span class="block text-sm font-medium text-gray-700">Juan</span>
                         <div class="flex items-center mb-4">
                             <input type="text" name="emergency_contact_first_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             <x-form-tooltip text="Enter the first name of the emergency contact" />
