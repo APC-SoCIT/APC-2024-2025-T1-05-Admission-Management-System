@@ -191,8 +191,8 @@
                             </div>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600">Sign In</a>
-                            <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">Register</a>
+                            <a href="{{ route('login') }}" class="px-5 py-2 rounded-md font-medium text-gray-700 hover:text-white hover:bg-blue-600 transition-colors duration-200">Sign In</a>
+                            <a href="{{ route('register') }}" class="bg-blue-600 text-white px-5 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors duration-200">Register</a>
                         </div>
                     </div>
                 </div>
