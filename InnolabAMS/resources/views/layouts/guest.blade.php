@@ -126,7 +126,7 @@
     </style>
 </head>
 
-<body class="font-sans antialiased bg-gray-100 text-black" x-data="{
+<body class="font-sans antialiased text-black" x-data="{
     userType: window.location.pathname.includes('/register') ||
               window.location.pathname.includes('/login') ||
               window.location.pathname.includes('/forgot-password') ||
@@ -137,11 +137,9 @@
                    window.location.pathname.includes('/forgot-password') ||
                    window.location.pathname.includes('/reset-password')
 }">
-    <!-- Split the UI flow based on whether we're on an auth page or not -->
     <template x-if="showAuthModal">
-        <!-- Auth Modal Container -->
-        <div class="auth-container bg-school">
-            <div class="w-full sm:max-w-md">
+        <div class="auth-container bg-school bg-cover bg-center">
+            <div class="w-full sm:max-w-md px-4">
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                     <!-- Back Button -->
                     <div class="p-4 border-b">
