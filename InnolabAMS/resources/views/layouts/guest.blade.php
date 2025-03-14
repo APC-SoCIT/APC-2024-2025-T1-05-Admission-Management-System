@@ -148,7 +148,7 @@
                         <button @click="window.location.pathname.includes('/forgot-password') ? window.location.href = '/login' : window.location.href = '/'"
                             class="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
                             <i class="fas fa-arrow-left mr-2"></i>
-                            <span>Back to options</span>
+                            <span>Back</span>
                         </button>
                     </div>
 
