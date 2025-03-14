@@ -140,7 +140,7 @@
     <!-- Split the UI flow based on whether we're on an auth page or not -->
     <template x-if="showAuthModal">
         <!-- Auth Modal Container -->
-        <div class="auth-container">
+        <div class="auth-container bg-school">
             <div class="w-full sm:max-w-md">
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                     <!-- Back Button -->
