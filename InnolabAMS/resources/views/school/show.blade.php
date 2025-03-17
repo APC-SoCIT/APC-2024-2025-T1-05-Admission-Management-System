@@ -34,7 +34,25 @@
                 <!-- Navigation items on right -->
                 <div class="flex items-center">
                     <a href="/" class="px-3 text-gray-700 hover:text-blue-600">Home</a>
-                    <a href="{{ route('school.show') }}" class="px-3 text-gray-700 hover:text-blue-600">Our School</a>
+
+                    <!-- Our School -->
+                    <div class="relative px-3" x-data="{ open: false }">
+                        <button @click="open = !open" @click.away="open = false"
+                                class="text-gray-700 hover:text-blue-600 flex items-center">
+                            Our School
+                            <svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="open" class="absolute z-10 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg py-1">
+                            <a href="{{ route('school.show') }}" class="block px-4 py-2 hover:bg-gray-100">About Our School</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">History</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Mission and Vision</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">DepEd Philosophy</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Student Handbook</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Office of School Head</a>
+                        </div>
+                    </div>
 
                     <!-- Admissions Dropdown -->
                     <div class="relative px-3" x-data="{ open: false }">
@@ -114,16 +132,115 @@
             </div>
 
             <div class="border-t border-gray-800 pt-6 text-center">
-                <p class="text-sm">Copyright © 2025. All rights reserved. Developed by Innolab</p>
+                <p class="text-sm">Copyright © 2025. All rights reserved. Developed by
+                    <a href="#" onclick="openAboutModal()" class="text-blue-300 hover:text-blue-100 underline">Innolab</a>
+                </p>
             </div>
         </div>
     </footer>
 
+    <!-- About Us Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <div class="prose max-w-none">
+                <h2 class="text-2xl font-bold text-center mb-6">About Innolab Developers</h2>
+                <p class="text-center mb-8">Meet the team behind the SRCCMSTHS Admissions Management System</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <!-- Developer 1 -->
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="{{ asset('/static/images/dev1.jpg') }}" alt="Developer 1" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-bold text-lg">John Doe</h3>
+                        <p class="text-gray-600">Lead Developer</p>
+                    </div>
+
+                    <!-- Developer 2 -->
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="{{ asset('/static/images/dev2.jpg') }}" alt="Developer 2" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-bold text-lg">Jane Smith</h3>
+                        <p class="text-gray-600">UI/UX Designer</p>
+                    </div>
+
+                    <!-- Developer 3 -->
+                    <div class="text-center">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="{{ asset('/static/images/dev3.jpg') }}" alt="Developer 3" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-bold text-lg">Mike Johnson</h3>
+                        <p class="text-gray-600">Backend Developer</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center mb-8">
+                    <!-- Developer 4 -->
+                    <div class="text-center" style="max-width: 200px;">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
+                            <img src="{{ asset('/static/images/dev4.jpg') }}" alt="Developer 4" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-bold text-lg">John Doe</h3>
+                        <p class="text-gray-600">Backend Developer</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <p>Founded in 2024, Innolab is a team of 4 passionate developers committed to creating innovative solutions for educational institutions. Our mission is to streamline administrative processes and enhance the student experience through technology.</p>
+                </div>
+            </div>
+            <div class="flex justify-end mt-4">
+                <button onclick="closeAboutModal()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // For About Modal
+        function openAboutModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+
         // Make sure Alpine.js is available for the dropdowns
         document.addEventListener('alpine:init', () => {
             // Initialize any Alpine.js data if needed
         });
     </script>
+
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 900px;
+            height: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+    </style>
 </body>
 </html>
