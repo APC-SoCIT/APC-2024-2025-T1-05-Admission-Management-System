@@ -153,7 +153,7 @@
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "{{ route('login') }}";
+                    window.location.href = "/";
                 }
             });
         </script>
