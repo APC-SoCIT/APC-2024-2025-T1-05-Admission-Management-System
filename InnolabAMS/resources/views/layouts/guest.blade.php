@@ -388,7 +388,7 @@
             </div>
 
             <!-- Footer -->
-            <footer class="bg-gray-900 text-white py-8 mt-auto">
+            <footer class="bg-gray-950 text-white py-8 mt-auto" style="background-color: #111827;">
                 <div class="landing-container">
                     <!-- Logo and School Name -->
                     <div class="flex justify-center items-center mb-6">
