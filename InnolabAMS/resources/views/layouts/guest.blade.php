@@ -190,7 +190,6 @@
                         </div>
                         <div class="flex items-center space-x-4">
                             <a href="{{ route('login') }}" class="px-5 py-2 rounded-md font-medium text-gray-700 hover:text-white hover:bg-blue-600 transition-colors duration-200">Sign In</a>
-                            <a href="{{ route('register') }}" class="px-5 py-2 rounded-md font-medium text-gray-700 hover:text-white hover:bg-blue-600 transition-colors duration-200">Register</a>
                         </div>
                     </div>
                 </div>
