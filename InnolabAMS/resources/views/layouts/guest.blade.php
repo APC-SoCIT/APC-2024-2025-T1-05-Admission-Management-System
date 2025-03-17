@@ -248,13 +248,13 @@
             </header>
 
             <!-- Hero Section -->
-            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-16">
+            <div class="bg-school text-white py-16">
                 <div class="landing-container">
                     <div class="max-w-3xl">
                         <h1 class="text-4xl font-bold mb-4">SRCCMSTHS Online Admissions</h1>
                         <p class="text-xl mb-8">Senator Renato "Compañero" Cayetano Memorial Science and Technology High School welcomes applicants for the upcoming school year. Apply online through our streamlined admissions process.</p>
                         <div class="flex space-x-4">
-                            <a href="{{ route('register') }}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-md font-medium flex items-center">
+                            <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium flex items-center">
                                 <i class="fas fa-info-circle mr-2"></i> Apply Now
                             </a>
                             <a href="{{ route('lead_info.create') }}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-md font-medium flex items-center">
