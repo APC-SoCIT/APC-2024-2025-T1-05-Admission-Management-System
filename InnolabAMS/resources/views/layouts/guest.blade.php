@@ -182,67 +182,68 @@
     <template x-if="!showAuthModal">
         <!-- Main Landing Page -->
         <div class="min-h-screen flex flex-col">
-            <!-- Simplified Navigation Bar - All in one row -->
+            <!-- Adjusted Navigation Bar -->
             <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto">
-                    <div class="flex items-center justify-between px-4 py-3">
-                        <!-- Logo and Navigation in one row -->
-                        <div class="flex items-center space-x-4">
-                            <!-- Logo -->
+                <div class="container mx-auto px-4">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- Logo on left -->
+                        <div class="flex items-center">
                             <a href="/" class="flex items-center">
                                 <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="SRCCMSTHS Logo" class="h-10 w-10">
                                 <span class="ml-2 text-xl font-bold text-blue-600">SRCCMSTHS</span>
                             </a>
-
-                            <!-- All navigation items in one row -->
-                            <nav class="flex items-center space-x-1">
-                                <a href="/" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Home</a>
-
-                                <!-- Our School Dropdown -->
-                                <div class="relative" x-data="{ open: false }">
-                                    <button @click="open = !open" @click.away="open = false"
-                                            class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded flex items-center">
-                                        Our School
-                                        <svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                    </button>
-                                    <div x-show="open" class="absolute z-10 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg py-1">
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">About Us</a>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">History</a>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Vision & Mission</a>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Administration</a>
-                                    </div>
-                                </div>
-
-                                <!-- Admissions Dropdown -->
-                                <div class="relative" x-data="{ open: false }">
-                                    <button @click="open = !open" @click.away="open = false"
-                                            class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded flex items-center">
-                                        Admissions
-                                        <svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                    </button>
-                                    <div x-show="open" class="absolute z-10 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg py-1">
-                                        <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100">Apply Now</a>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Requirements</a>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Process</a>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">FAQs</a>
-                                    </div>
-                                </div>
-
-                                <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">News</a>
-                                <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Facilities</a>
-                                <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Clubs</a>
-                                <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Faculty and Admin</a>
-                            </nav>
                         </div>
 
-                        <!-- Sign In Button -->
-                        <a href="{{ route('login') }}" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">
-                            Sign In
-                        </a>
+                        <!-- Navigation items on right -->
+                        <div class="flex items-center space-x-6">
+                            <!-- Main nav items -->
+                            <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+
+                            <!-- Our School Dropdown -->
+                            <div class="relative" x-data="{ open: false }">
+                                <button @click="open = !open" @click.away="open = false"
+                                        class="text-gray-700 hover:text-blue-600 flex items-center">
+                                    Our School
+                                    <svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div x-show="open" class="absolute z-10 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg py-1">
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">About Us</a>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">History</a>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Vision & Mission</a>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Administration</a>
+                                </div>
+                            </div>
+
+                            <!-- Admissions Dropdown -->
+                            <div class="relative" x-data="{ open: false }">
+                                <button @click="open = !open" @click.away="open = false"
+                                        class="text-gray-700 hover:text-blue-600 flex items-center">
+                                    Admissions
+                                    <svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div x-show="open" class="absolute z-10 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg py-1">
+                                    <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100">Apply Now</a>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Requirements</a>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Process</a>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">FAQs</a>
+                                </div>
+                            </div>
+
+                            <a href="#" class="text-gray-700 hover:text-blue-600">News</a>
+                            <a href="#" class="text-gray-700 hover:text-blue-600">Facilities</a>
+                            <a href="#" class="text-gray-700 hover:text-blue-600">Clubs</a>
+                            <a href="#" class="text-gray-700 hover:text-blue-600">Faculty and Admin</a>
+                            <a href="{{ route('lead_info.create') }}" class="text-gray-700 hover:text-blue-600">Inquiry</a>
+
+                            <!-- Sign In Button -->
+                            <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                                Sign In
+                            </a>
+                        </div>
                     </div>
                 </div>
             </header>
