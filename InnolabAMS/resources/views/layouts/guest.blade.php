@@ -372,7 +372,7 @@
             </div>
 
             <!-- Footer -->
-            <footer class="bg-gray-900 text-white py-8 mt-auto">
+            <footer class="border-t border-gray-800 pt-6 text-center">
                 <div class="landing-container">
                     <!-- Logo and School Name -->
                     <div class="flex justify-center items-center mb-6">
