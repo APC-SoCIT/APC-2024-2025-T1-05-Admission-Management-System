@@ -122,7 +122,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url("{{ asset('static/images/srccmsths-bg-1.jpg') }}") !important;
+            background-image: url("{{ asset('static/images/school-background-srccmsths.jpg') }}") !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
