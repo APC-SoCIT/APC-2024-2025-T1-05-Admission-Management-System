@@ -122,6 +122,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-image: url("{{ asset('static/images/srccmsths-bg-1.jpg') }}") !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
         }
     </style>
 </head>
@@ -132,10 +136,7 @@
               window.location.pathname.includes('/forgot-password') ||
               window.location.pathname.includes('/reset-password') ? 'apply' : null,
     showHelp: false,
-    showAuthModal: window.location.pathname.includes('/register') ||
-                   window.location.pathname.includes('/login') ||
-                   window.location.pathname.includes('/forgot-password') ||
-                   window.location.pathname.includes('/reset-password')
+    showAuthModal: true  // Force this to true for testing
 }">
     <template x-if="showAuthModal">
         <div class="auth-container bg-school bg-cover bg-center">
