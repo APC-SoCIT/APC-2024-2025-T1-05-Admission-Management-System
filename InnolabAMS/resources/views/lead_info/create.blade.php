@@ -97,19 +97,19 @@
             <div class="form-group mt-4">
                 <label>How did you learn about us?</label>
                 <div class="flex flex-col mt-2">
-                    <label class="inline-flex items-center">
+                    <label class="inline-flex items-center mb-2">
                         <input type="checkbox" name="source[]" value="Social Media"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded">
                         <span class="ms-2 text-gray-700">Social Media</span>
                     </label>
-                    <label class="inline-flex items-center">
+                    <label class="inline-flex items-center mb-2">
                         <input type="checkbox" name="source[]" value="Website"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded">
                         <span class="ms-2 text-gray-700">Website</span>
                     </label>
-                    <label class="inline-flex items-center">
+                    <label class="inline-flex items-center mb-2">
                         <input type="checkbox" name="source[]" value="Referral"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded">
                         <span class="ms-2 text-gray-700">Referral</span>
                     </label>
                 </div>
