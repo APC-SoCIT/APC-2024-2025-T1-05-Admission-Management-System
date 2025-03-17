@@ -136,7 +136,10 @@
               window.location.pathname.includes('/forgot-password') ||
               window.location.pathname.includes('/reset-password') ? 'apply' : null,
     showHelp: false,
-    showAuthModal: true  // Force this to true for testing
+    showAuthModal: window.location.pathname.includes('/register') ||
+                  window.location.pathname.includes('/login') ||
+                  window.location.pathname.includes('/forgot-password') ||
+                  window.location.pathname.includes('/reset-password')
 }">
     <template x-if="showAuthModal">
         <div class="auth-container bg-school bg-cover bg-center">
