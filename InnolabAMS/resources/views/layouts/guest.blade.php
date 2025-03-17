@@ -20,11 +20,59 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        .bg-school {
-            background-image: url("{{ asset('static/images/school-background-srccmsths.jpg') }}");
+        /* Landing page background */
+        .bg-landing {
+            background-image: url("{{ asset('static/images/srccmsths-bg-1.jpg') }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+        }
+
+        /* Auth pages background (Sign In, Register, Forgot Password) */
+        .auth-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("{{ asset('static/images/school-background-srccmsths.jpg') }}") !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+
+        /* Inquiry form background */
+        .inquiry-bg {
+            background-image: url("{{ asset('static/images/COVER4.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Overlay for better text readability */
+        .bg-overlay {
+            position: relative;
+        }
+
+        .bg-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 40, 0.6);
+            z-index: 1;
+        }
+
+        .bg-overlay > * {
+            position: relative;
+            z-index: 2;
         }
 
         /* Data Privacy Modal */
@@ -110,23 +158,6 @@
             margin: 0 auto;
             padding: 2rem;
         }
-
-        .auth-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 40;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url("{{ asset('static/images/school-background-srccmsths.jpg') }}") !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-        }
     </style>
 </head>
 
@@ -142,7 +173,7 @@
                   window.location.pathname.includes('/reset-password')
 }">
     <template x-if="showAuthModal">
-        <div class="auth-container bg-school bg-cover bg-center">
+        <div class="auth-container bg-landing bg-cover bg-center">
             <div class="w-full sm:max-w-md px-4">
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                     <!-- Back Button -->
@@ -247,14 +278,14 @@
                 </div>
             </header>
 
-            <!-- Hero Section -->
-            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-16">
+            <!-- Hero Section with srccmsths-bg-1.jpg -->
+            <div class="bg-landing bg-overlay text-white py-16">
                 <div class="landing-container">
                     <div class="max-w-3xl">
                         <h1 class="text-4xl font-bold mb-4">SRCCMSTHS Online Admissions</h1>
                         <p class="text-xl mb-8">Senator Renato "Compañero" Cayetano Memorial Science and Technology High School welcomes applicants for the upcoming school year. Apply online through our streamlined admissions process.</p>
                         <div class="flex space-x-4">
-                            <a href="{{ route('register') }}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-md font-medium flex items-center">
+                            <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium flex items-center">
                                 <i class="fas fa-info-circle mr-2"></i> Apply Now
                             </a>
                             <a href="{{ route('lead_info.create') }}" class="bg-transparent border border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-md font-medium flex items-center">
