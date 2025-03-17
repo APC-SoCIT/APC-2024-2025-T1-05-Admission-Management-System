@@ -241,7 +241,7 @@
                         </div>
 
                         <!-- Sign In Button -->
-                        <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                        <a href="{{ route('login') }}" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">
                             Sign In
                         </a>
                     </div>
