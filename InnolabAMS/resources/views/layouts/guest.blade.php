@@ -254,7 +254,7 @@
                                     </svg>
                                 </button>
                                 <div x-show="open" class="absolute z-10 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg py-1">
-                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">About Us</a>
+                                    <a href="{{ route('school.show') }}" class="block px-4 py-2 hover:bg-gray-100">About Our School</a>
                                     <a href="#" class="block px-4 py-2 hover:bg-gray-100">History</a>
                                     <a href="#" class="block px-4 py-2 hover:bg-gray-100">Vision & Mission</a>
                                     <a href="#" class="block px-4 py-2 hover:bg-gray-100">Administration</a>

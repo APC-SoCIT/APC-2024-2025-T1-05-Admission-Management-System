@@ -11,6 +11,7 @@ use App\Http\Controllers\AdditionalInfoController;
 use App\Http\Controllers\LeadInfoController;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\SchoolController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -278,5 +279,6 @@ Route::get('/server-time', function () {
     ]);
 });
 
+Route::get('/our-school', [SchoolController::class, 'showSchoolInfo'])->name('school.show');
 
 require __DIR__ . '/auth.php';
