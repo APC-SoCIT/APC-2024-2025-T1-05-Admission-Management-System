@@ -84,22 +84,6 @@
 </head>
 
 <body>
-    <header class="bg-white shadow-sm mb-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-10 h-10">
-                        <span class="ml-2 text-xl font-bold text-blue-600">SRCCMSTHS</span>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="/" class="px-5 py-2 rounded-md font-medium text-gray-700 hover:text-white hover:bg-blue-600 transition-colors duration-200">Home</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <main>
         @yield('content')
     </main>
