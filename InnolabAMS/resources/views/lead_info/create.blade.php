@@ -3,6 +3,16 @@
 @section('content')
 
     <div class="container">
+        <!-- Back button -->
+        <div class="flex justify-start mb-4">
+            <a href="/" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Home
+            </a>
+        </div>
+
         <h1 class="text-2xl font-bold">Inquiry Form</h1>
 
         <form action="{{ route('lead_info.store') }}" method="POST">
