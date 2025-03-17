@@ -35,7 +35,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
             z-index: 40;
             display: flex;
             justify-content: center;
@@ -44,6 +43,22 @@
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 0;
+        }
+
+        .auth-container > * {
+            position: relative;
+            z-index: 1;
         }
 
         /* Inquiry form background */
