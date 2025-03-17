@@ -59,6 +59,16 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Fix for checkbox appearance */
+        .form-group input[type="checkbox"] {
+            width: auto;
+            height: 1rem;
+            width: 1rem;
+            border: 1px solid #D1D5DB;
+            appearance: auto; /* This ensures the native checkbox appearance */
+            -webkit-appearance: checkbox; /* For Safari */
+        }
+
         .required {
             color: #EF4444;
         }
