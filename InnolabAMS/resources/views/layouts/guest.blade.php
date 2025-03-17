@@ -244,22 +244,8 @@
                         <div class="flex items-center">
                             <a href="/" class="px-3 text-gray-700 hover:text-blue-600">Home</a>
 
-                            <!-- Our School Dropdown -->
-                            <div class="relative px-3" x-data="{ open: false }">
-                                <button @click="open = !open" @click.away="open = false"
-                                        class="text-gray-700 hover:text-blue-600 flex items-center">
-                                    Our School
-                                    <svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </button>
-                                <div x-show="open" class="absolute z-10 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg py-1">
-                                    <a href="{{ route('school.show') }}" class="block px-4 py-2 hover:bg-gray-100">About Our School</a>
-                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">History</a>
-                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Vision & Mission</a>
-                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Administration</a>
-                                </div>
-                            </div>
+                            <!-- Our School-->
+                            <a href="{{ route('school.show') }}" class="px-3 text-gray-700 hover:text-blue-600">Our School</a>
 
                             <!-- Admissions Dropdown -->
                             <div class="relative px-3" x-data="{ open: false }">
@@ -282,7 +268,6 @@
                             <a href="#" class="px-3 text-gray-700 hover:text-blue-600">Facilities</a>
                             <a href="#" class="px-3 text-gray-700 hover:text-blue-600">Clubs</a>
                             <a href="#" class="px-3 text-gray-700 hover:text-blue-600">Faculty and Admin</a>
-                            <a href="{{ route('lead_info.create') }}" class="px-3 text-gray-700 hover:text-blue-600">Inquiry</a>
 
                             <!-- Sign In Button -->
                             <a href="{{ route('login') }}" class="ml-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
