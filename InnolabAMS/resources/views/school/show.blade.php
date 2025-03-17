@@ -94,7 +94,7 @@
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-8 mt-auto">
-        <div class="landing-container">
+        <div class="container mx-auto px-4">
             <!-- Logo and School Name -->
             <div class="flex justify-center items-center mb-6">
                 <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="Logo" class="w-12 h-12">
@@ -114,102 +114,16 @@
             </div>
 
             <div class="border-t border-gray-800 pt-6 text-center">
-                <p class="text-sm">Copyright © 2025. All rights reserved. Developed by
-                    <a href="#" onclick="openAboutModal()" class="text-blue-300 hover:text-blue-100 underline">Innolab</a>
-                </p>
+                <p class="text-sm">Copyright © 2025. All rights reserved. Developed by Innolab</p>
             </div>
         </div>
     </footer>
 
-    <!-- Data Privacy Modal -->
-    <div id="privacyModal" class="modal">
-        <div class="modal-content">
-            <div class="prose max-w-none">
-                {!! Str::markdown(file_get_contents(resource_path('markdown/policy.md'))) !!}
-            </div>
-            <div class="flex justify-end mt-4">
-                <x-danger-button onclick="closePrivacyPolicy()">
-                    Close
-                </x-danger-button>
-            </div>
-        </div>
-    </div>
-
-    <!-- About Us Modal -->
-    <div id="aboutModal" class="modal">
-        <div class="modal-content">
-            <div class="prose max-w-none">
-                <h2 class="text-2xl font-bold text-center mb-6">About Innolab Developers</h2>
-                <p class="text-center mb-8">Meet the team behind the SRCCMSTHS Admissions Management System</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                    <!-- Developer 1 -->
-                    <div class="text-center">
-                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
-                            <img src="{{ asset('/static/images/dev1.jpg') }}" alt="Developer 1" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="font-bold text-lg">John Doe</h3>
-                        <p class="text-gray-600">Lead Developer</p>
-                    </div>
-
-                    <!-- Developer 2 -->
-                    <div class="text-center">
-                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
-                            <img src="{{ asset('/static/images/dev2.jpg') }}" alt="Developer 2" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="font-bold text-lg">Jane Smith</h3>
-                        <p class="text-gray-600">UI/UX Designer</p>
-                    </div>
-
-                    <!-- Developer 3 -->
-                    <div class="text-center">
-                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
-                            <img src="{{ asset('/static/images/dev3.jpg') }}" alt="Developer 3" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="font-bold text-lg">Mike Johnson</h3>
-                        <p class="text-gray-600">Backend Developer</p>
-                    </div>
-                </div>
-
-                <div class="flex justify-center mb-8">
-                    <!-- Developer 4 -->
-                    <div class="text-center" style="max-width: 200px;">
-                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-4">
-                            <img src="{{ asset('/static/images/dev4.jpg') }}" alt="Developer 4" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="font-bold text-lg">John Doe</h3>
-                        <p class="text-gray-600">Backend Developer</p>
-                    </div>
-                </div>
-
-                <div class="mt-8 text-center">
-                    <p>Founded in 2024, Innolab is a team of 4 passionate developers committed to creating innovative solutions for educational institutions. Our mission is to streamline administrative processes and enhance the student experience through technology.</p>
-                </div>
-            </div>
-            <div class="flex justify-end mt-4">
-                <x-danger-button onclick="closeAboutModal()">
-                    Close
-                </x-danger-button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        function openPrivacyPolicy() {
-            document.getElementById('privacyModal').style.display = 'flex';
-        }
-
-        function closePrivacyPolicy() {
-            document.getElementById('privacyModal').style.display = 'none';
-        }
-
-        function openAboutModal() {
-            document.getElementById('aboutModal').style.display = 'flex';
-        }
-
-        function closeAboutModal() {
-            document.getElementById('aboutModal').style.display = 'none';
-        }
+        // Make sure Alpine.js is available for the dropdowns
+        document.addEventListener('alpine:init', () => {
+            // Initialize any Alpine.js data if needed
+        });
     </script>
 </body>
 </html>
