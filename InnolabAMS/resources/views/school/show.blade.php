@@ -73,7 +73,7 @@
             <h1 class="text-4xl font-bold text-blue-600 text-center mb-16">OUR SCHOOL</h1>
 
             <div class="flex justify-center mb-16">
-                <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="SRCCMSTHS Logo" class="h-48">
+                <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="SRCCMSTHS Logo" class="h-32">
             </div>
 
             <div class="max-w-4xl mx-auto">
