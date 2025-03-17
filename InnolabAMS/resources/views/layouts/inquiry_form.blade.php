@@ -24,7 +24,7 @@
 
     <style>
         body {
-            background-image: url("{{ asset('static/images/school-background-srccmsths.jpg') }}") !important;
+            background-image: url("{{ asset('static/images/COVER4.png') }}") !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
