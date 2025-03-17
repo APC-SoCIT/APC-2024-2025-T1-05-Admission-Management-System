@@ -236,7 +236,6 @@
                                 <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Facilities</a>
                                 <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Clubs</a>
                                 <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Faculty and Admin</a>
-                                <a href="{{ route('lead_info.create') }}" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Inquiry</a>
                             </nav>
                         </div>
 
