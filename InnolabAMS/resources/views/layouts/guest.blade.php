@@ -21,7 +21,7 @@
 
     <style>
         .bg-school {
-            background-image: url("{{ asset('static/images/srccmsths-bg-1.jpg') }}");
+            background-image: url("{{ asset('static/images/school-background-srccmsths.jpg') }}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
