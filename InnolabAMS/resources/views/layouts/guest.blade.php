@@ -182,33 +182,20 @@
     <template x-if="!showAuthModal">
         <!-- Main Landing Page -->
         <div class="min-h-screen flex flex-col">
-            <!-- Main Navigation Bar -->
+            <!-- Simplified Navigation Bar - All in one row -->
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto">
-                    <!-- Logo and School Name -->
-                    <div class="flex justify-between items-center py-3 px-4">
-                        <div class="flex items-center">
+                    <div class="flex items-center justify-between px-4 py-3">
+                        <!-- Logo and Navigation in one row -->
+                        <div class="flex items-center space-x-4">
+                            <!-- Logo -->
                             <a href="/" class="flex items-center">
-                                <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="SRCCMSTHS Logo" class="h-12 w-12">
+                                <img src="{{ asset('/static/images/srccmsths-logo.png') }}" alt="SRCCMSTHS Logo" class="h-10 w-10">
                                 <span class="ml-2 text-xl font-bold text-blue-600">SRCCMSTHS</span>
                             </a>
-                        </div>
 
-                        <!-- Mobile menu button -->
-                        <div class="lg:hidden">
-                            <button type="button" class="text-gray-700 hover:text-gray-900"
-                                    x-data="{}" @click="$dispatch('toggle-mobile-menu')">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Desktop Navigation Menu - Always Visible -->
-                    <nav class="hidden lg:block border-t border-gray-200">
-                        <div class="flex justify-between items-center py-2 px-4">
-                            <div class="flex space-x-1">
+                            <!-- All navigation items in one row -->
+                            <nav class="flex items-center space-x-1">
                                 <a href="/" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Home</a>
 
                                 <!-- Our School Dropdown -->
@@ -250,60 +237,14 @@
                                 <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Clubs</a>
                                 <a href="#" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Faculty and Admin</a>
                                 <a href="{{ route('lead_info.create') }}" class="px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors rounded">Inquiry</a>
-                            </div>
-
-                            <!-- Sign In Button -->
-                            <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
-                                Sign In
-                            </a>
-                        </div>
-                    </nav>
-                </div>
-
-                <!-- Mobile Navigation Menu - Hidden by Default -->
-                <div class="lg:hidden" x-data="{ open: false }" @toggle-mobile-menu.window="open = !open" x-show="open" style="display: none;">
-                    <nav class="bg-gray-100 py-2 px-4 space-y-1">
-                        <a href="/" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Home</a>
-
-                        <!-- Mobile Our School Menu -->
-                        <div x-data="{ open: false }">
-                            <button @click="open = !open" class="w-full text-left px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded flex justify-between items-center">
-                                Our School
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-                            <div x-show="open" class="pl-4 space-y-1">
-                                <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">About Us</a>
-                                <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">History</a>
-                                <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Vision & Mission</a>
-                                <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Administration</a>
-                            </div>
+                            </nav>
                         </div>
 
-                        <!-- Mobile Admissions Menu -->
-                        <div x-data="{ open: false }">
-                            <button @click="open = !open" class="w-full text-left px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded flex justify-between items-center">
-                                Admissions
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-                            <div x-show="open" class="pl-4 space-y-1">
-                                <a href="{{ route('register') }}" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Apply Now</a>
-                                <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Requirements</a>
-                                <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Process</a>
-                                <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">FAQs</a>
-                            </div>
-                        </div>
-
-                        <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">News</a>
-                        <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Facilities</a>
-                        <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Clubs</a>
-                        <a href="#" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Faculty and Admin</a>
-                        <a href="{{ route('lead_info.create') }}" class="block px-3 py-2 text-gray-700 hover:bg-blue-600 hover:text-white rounded">Inquiry</a>
-                        <a href="{{ route('login') }}" class="block px-3 py-2 mt-2 bg-blue-600 text-white rounded hover:bg-blue-700">Sign In</a>
-                    </nav>
+                        <!-- Sign In Button -->
+                        <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            Sign In
+                        </a>
+                    </div>
                 </div>
             </header>
 
