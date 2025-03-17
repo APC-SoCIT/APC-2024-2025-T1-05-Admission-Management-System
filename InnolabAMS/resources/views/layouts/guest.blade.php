@@ -194,13 +194,12 @@
                             </a>
                         </div>
 
-                        <!-- Navigation items on right -->
-                        <div class="flex items-center space-x-6">
-                            <!-- Main nav items -->
-                            <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                        <!-- Navigation items on right with proper spacing -->
+                        <div class="flex items-center">
+                            <a href="/" class="px-3 text-gray-700 hover:text-blue-600">Home</a>
 
                             <!-- Our School Dropdown -->
-                            <div class="relative" x-data="{ open: false }">
+                            <div class="relative px-3" x-data="{ open: false }">
                                 <button @click="open = !open" @click.away="open = false"
                                         class="text-gray-700 hover:text-blue-600 flex items-center">
                                     Our School
@@ -217,7 +216,7 @@
                             </div>
 
                             <!-- Admissions Dropdown -->
-                            <div class="relative" x-data="{ open: false }">
+                            <div class="relative px-3" x-data="{ open: false }">
                                 <button @click="open = !open" @click.away="open = false"
                                         class="text-gray-700 hover:text-blue-600 flex items-center">
                                     Admissions
@@ -233,14 +232,14 @@
                                 </div>
                             </div>
 
-                            <a href="#" class="text-gray-700 hover:text-blue-600">News</a>
-                            <a href="#" class="text-gray-700 hover:text-blue-600">Facilities</a>
-                            <a href="#" class="text-gray-700 hover:text-blue-600">Clubs</a>
-                            <a href="#" class="text-gray-700 hover:text-blue-600">Faculty and Admin</a>
-                            <a href="{{ route('lead_info.create') }}" class="text-gray-700 hover:text-blue-600">Inquiry</a>
+                            <a href="#" class="px-3 text-gray-700 hover:text-blue-600">News</a>
+                            <a href="#" class="px-3 text-gray-700 hover:text-blue-600">Facilities</a>
+                            <a href="#" class="px-3 text-gray-700 hover:text-blue-600">Clubs</a>
+                            <a href="#" class="px-3 text-gray-700 hover:text-blue-600">Faculty and Admin</a>
+                            <a href="{{ route('lead_info.create') }}" class="px-3 text-gray-700 hover:text-blue-600">Inquiry</a>
 
                             <!-- Sign In Button -->
-                            <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            <a href="{{ route('login') }}" class="ml-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
                                 Sign In
                             </a>
                         </div>
