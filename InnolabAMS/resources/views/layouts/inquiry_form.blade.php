@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'InnolabAMS') }}</title>
+    <title>{{ config('app.name', 'SRCCMSTHS') }} - Inquiry Form</title>
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('/static/images/innolab_favicon.png') }}" type="image/x-icon">
@@ -18,190 +18,88 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            background-image: url("{{ asset('static/images/COVER4.png') }}") !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: 700px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Fix for checkbox appearance */
+        .form-group input[type="checkbox"] {
+            width: auto;
+            height: 1rem;
+            width: 1rem;
+            border: 1px solid #D1D5DB;
+            appearance: auto; /* This ensures the native checkbox appearance */
+            -webkit-appearance: checkbox; /* For Safari */
+        }
+
+        .required {
+            color: #EF4444;
+        }
+
+        /* SweetAlert2 custom styling */
+        .swal2-confirm-blue {
+            background-color: #2563EB !important;
+            color: white !important;
+            border-radius: 0.375rem !important;
+            padding: 0.5rem 1rem !important;
+        }
+    </style>
 </head>
 
-<style>
-
-
-    .header {
-        display: flex;
-        align-items: center;
-        background-color: #007bff;
-        padding: 20px;
-        color: #fff;
-    }
-
-    .header img {
-        width: 50px;
-        height: 50px;
-        margin-right: 20px;
-        border-radius: 50%;
-    }
-
-    .header-content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .header-content h1 {
-        margin: 0;
-        font-size: 24px;
-    }
-
-    .header-content p {
-        margin: 5px 0 0;
-        font-size: 14px;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: 50px auto;
-        background: #fff;
-        padding: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #555;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    select,
-    textarea {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-
-    textarea {
-        resize: none;
-    }
-
-    .form-group small {
-        color: #e74c3c;
-        font-size: 0.9em;
-    }
-
-
-
-    .checkbox-group {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-
-    input[type="checkbox"] {
-        margin: 0;
-        width: 16px;
-        height: 16px;
-    }
-
-    /* Data Privacy Modal */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        width: 80%;
-        max-width: 900px;
-        height: auto;
-        max-height: 90vh;
-        overflow-y: auto;
-        padding: 20px;
-    }
-
-    .modal-content div {
-        text-align: left;
-        line-height: 1.8;
-        padding: 25px;
-    }
-
-    .modal button {
-        background-color: red;
-        color: white;
-        margin-top: 10px;
-        width: auto;
-    }
-
-    .required {
-        color: red;
-        font-weight: bold;
-    }
-
-    .modal-content div {
-        text-align: left !important;
-    }
-    .swal2-confirm-blue {
-        background-color:rgb(2, 103, 219) !important;
-        border-color: none !important;
-        color: white !important;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-    }
-</style>
-
-
-</head>
-
-<body class="bg-gray-100">
-
-    <div class="flex justify-center mt-10">
-        <a href="{{ route('login') }}">
-            <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-        </a>
-    </div>
-    <div>
-        <!-- Content -->
-        <div>
-            @yield('content')
-        </div>
-    </div>
+<body>
+    <main>
+        @yield('content')
+    </main>
 
     <!-- Data Privacy Modal -->
-    <div id="privacyModal" class="modal">
-        <div class="modal-content">
+    <div id="privacyModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 50;">
+        <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); width: 80%; max-width: 900px; height: auto; max-height: 90vh; overflow-y: auto; padding: 20px;">
             <div class="prose max-w-none">
                 {!! Str::markdown(file_get_contents(resource_path('markdown/policy.md'))) !!}
             </div>
             <div class="flex justify-end mt-4">
-                <x-danger-button onclick="closePrivacyPolicy()">
+                <button onclick="closePrivacyPolicy()" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     Close
-                </x-danger-button>
+                </button>
             </div>
         </div>
-        </>
     </div>
 
     <script>
@@ -212,31 +110,23 @@
         function closePrivacyPolicy() {
             document.getElementById('privacyModal').style.display = 'none';
         }
-    </script>
 
-
-    <script>
+        // Show/hide other skills field based on selection
         document.addEventListener('DOMContentLoaded', function() {
             const skillsDropdown = document.getElementById('skills_lead');
             const otherSkillsContainer = document.getElementById('other_skills_container');
 
-            skillsDropdown.addEventListener('change', function() {
-                if (this.value === 'Others') {
-                    otherSkillsContainer.style.display = 'block';
-                } else {
-                    otherSkillsContainer.style.display = 'none';
-                }
-            });
-        });
-
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const submitButton = this.querySelector('button[type="submit"], input[type="submit"]');
-            submitButton.disabled = true;
-            // Optionally, change the button text
-            submitButton.innerText = 'Submitting...';
+            if(skillsDropdown && otherSkillsContainer) {
+                skillsDropdown.addEventListener('change', function() {
+                    if(this.value === 'Others') {
+                        otherSkillsContainer.style.display = 'block';
+                    } else {
+                        otherSkillsContainer.style.display = 'none';
+                    }
+                });
+            }
         });
     </script>
-
 </body>
 
 </html>

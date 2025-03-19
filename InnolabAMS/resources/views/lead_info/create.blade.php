@@ -3,6 +3,16 @@
 @section('content')
 
     <div class="container">
+        <!-- Back button -->
+        <div class="flex justify-start mb-4">
+            <a href="/" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-0 active:bg-blue-600 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Home
+            </a>
+        </div>
+
         <h1 class="text-2xl font-bold">Inquiry Form</h1>
 
         <form action="{{ route('lead_info.store') }}" method="POST">
@@ -97,19 +107,19 @@
             <div class="form-group mt-4">
                 <label>How did you learn about us?</label>
                 <div class="flex flex-col mt-2">
-                    <label class="inline-flex items-center">
+                    <label class="inline-flex items-center mb-2">
                         <input type="checkbox" name="source[]" value="Social Media"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded">
                         <span class="ms-2 text-gray-700">Social Media</span>
                     </label>
-                    <label class="inline-flex items-center">
+                    <label class="inline-flex items-center mb-2">
                         <input type="checkbox" name="source[]" value="Website"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded">
                         <span class="ms-2 text-gray-700">Website</span>
                     </label>
-                    <label class="inline-flex items-center">
+                    <label class="inline-flex items-center mb-2">
                         <input type="checkbox" name="source[]" value="Referral"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded">
                         <span class="ms-2 text-gray-700">Referral</span>
                     </label>
                 </div>
@@ -153,7 +163,7 @@
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "{{ route('login') }}";
+                    window.location.href = "/";
                 }
             });
         </script>
